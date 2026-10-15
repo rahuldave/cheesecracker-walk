@@ -1,0 +1,167 @@
+---
+title: "2 The API server"
+---
+
+<!-- Made by the walk skill's render.py from the facts of the walk. Do not edit it by hand: run just walk-update again. -->
+
+**Read the tutorial.** [Build it yourself](../build/step-02.qmd) is the other way to read this part.
+
+```bash
+just setup
+```
+
+The Cheese App talks to its server over HTTP. FastAPI turns Python functions into the answers of HTTP requests, and
+uvicorn is the server that runs a FastAPI app. We write an app that answers two requests, and run it on this machine.
+
+[The code before this part](https://github.com/rahuldave/cheesecracker/tree/e86e0c3d10bbe9409674f1c65ce4afdc38e7f76f). [The code after it](https://github.com/rahuldave/cheesecracker/tree/8ac2a5642843003cfb2e619e459088265071ac18).
+
+## 2.1 FastAPI, and uvicorn to serve it {#step-02.1}
+
+The server needs FastAPI and uvicorn to run, so they are dependencies of the project itself, and not of a group.
+
+This change came from running `uv add fastapi uvicorn`.
+
+The command adds both packages to `dependencies` in `pyproject.toml`, and writes their versions into `uv.lock`.
+
+```bash
+uv run uvicorn --version
+```
+
+uvicorn prints its version, and the version of Python that runs it.
+
+### What changed {#step-02.1-what-changed-182c57}
+
+- <a id="step-02.1-pyproject.toml-5d07e7"></a>`pyproject.toml`: FastAPI and uvicorn, the dependencies of the server. 4 lines added, 1 removed. It comes from `uv add fastapi uvicorn`. [The file](https://github.com/rahuldave/cheesecracker/blob/18dd9dfb1c9597e50a8b404a6cb6379c1c149320/pyproject.toml).
+  - look at `"fastapi>=0.143.2",`
+- <a id="step-02.1-uv.lock-8356d8"></a>`uv.lock`: the exact versions of FastAPI, uvicorn, and the packages that they need. 263 lines added. It comes from `uv add fastapi uvicorn`. [The file](https://github.com/rahuldave/cheesecracker/blob/18dd9dfb1c9597e50a8b404a6cb6379c1c149320/uv.lock).
+
+<details><summary>The diff of <code>pyproject.toml</code></summary>
+
+```diff
+@@ -4,7 +4,10 @@ version = "0.1.0"
+ description = "The Cheese App's API server, with its tests, its checks and its Docker images"
+ readme = "README.md"
+ requires-python = ">=3.12"
+-dependencies = []
++dependencies = [
++    "fastapi>=0.143.2",
++    "uvicorn>=0.54.0",
++]
+ 
+ [tool.uv]
+ # The project is an application, not a library: uv installs its dependencies, and not the project itself
+```
+
+</details>
+
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/18dd9dfb1c9597e50a8b404a6cb6379c1c149320). [The code after it](https://github.com/rahuldave/cheesecracker/tree/18dd9dfb1c9597e50a8b404a6cb6379c1c149320).
+
+## 2.2 the API server, with / and /health {#step-02.2}
+
+The app needs a first answer, and a way to tell that it runs. `service.py` makes the FastAPI app, and answers two
+requests. The request `/` gets a welcome, and `/health` gets the status of the server.
+
+A patch to [`src/api-service/api/service.py`](#step-02.2-src-api-service-api-service.py-1e1e71).
+
+The new file `src/api-service/api/service.py` makes `app`, with a title and a version. The CORS middleware lets a web
+page from any address call the server. After the comment `# Routes`, `get_index()` answers `/`, and `health_check()`
+answers `/health`.
+
+```bash
+uv run --directory src/api-service python -c "from api.service import app; print([r.path for r in app.routes])"
+```
+
+Python prints the routes of the app. The last two are `/` and `/health`. FastAPI adds the first four, for its
+documentation pages.
+
+### What changed {#step-02.2-what-changed-182c57}
+
+- <a id="step-02.2-src-api-service-api-service.py-1e1e71"></a>`src/api-service/api/service.py`: the FastAPI app, its CORS middleware, and the routes `/` and `/health`. New, 29 lines. [The file](https://github.com/rahuldave/cheesecracker/blob/acee14f7dff43d6c5b76234b3a016985d74c60d2/src/api-service/api/service.py).
+  - look at `return {"status": "healthy"}`
+
+<details><summary>The diff of <code>src/api-service/api/service.py</code></summary>
+
+```diff
+@@ -0,0 +1,29 @@
++"""
++Cheese App API Service
++"""
++
++from fastapi import FastAPI
++from starlette.middleware.cors import CORSMiddleware
++
++# Setup FastAPI app
++app = FastAPI(title="Cheese API Server", description="API Server for Cheese App", version="v1")
++
++# Enable CORSMiddleware
++app.add_middleware(
++    CORSMiddleware,
++    allow_credentials=False,
++    allow_origins=["*"],
++    allow_methods=["*"],
++    allow_headers=["*"],
++)
++
++
++# Routes
++@app.get("/")
++async def get_index():
++    return {"message": "Welcome to the Cheese App CI/CD Tutorial!"}
++
++
++@app.get("/health")
++async def health_check():
++    return {"status": "healthy"}
+```
+
+</details>
+
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/acee14f7dff43d6c5b76234b3a016985d74c60d2). [The code after it](https://github.com/rahuldave/cheesecracker/tree/acee14f7dff43d6c5b76234b3a016985d74c60d2).
+
+## 2.3 just serve runs the server on this machine {#step-02.3}
+
+The app does nothing until a server runs it. The recipe `serve` runs uvicorn at port 9000. `--app-dir` tells uvicorn
+where the package `api` is, and `--reload` restarts the server when a file of the code changes.
+
+A patch to [`justfile`](#step-02.3-justfile-424f0b).
+
+The recipe `serve`, at the end of the `justfile`, runs `uvicorn api.service:app` at port 9000 of every address of this
+machine. `api.service:app` names the object `app` in the module `api.service`.
+
+The server runs until you stop it, so it gets a terminal of its own. Leave it running.
+
+```bash
+# in a second terminal
+just serve
+```
+
+In another terminal, ask the server for its health.
+
+```bash
+curl -s localhost:9000/health
+```
+
+The server answers `{"status":"healthy"}`. Open `http://localhost:9000/docs` in a browser to see the pages that
+FastAPI makes for each route.
+
+### What changed {#step-02.3-what-changed-182c57}
+
+- <a id="step-02.3-justfile-424f0b"></a>`justfile`: the recipe `serve`. 4 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/8ac2a5642843003cfb2e619e459088265071ac18/justfile).
+  - look at `uv run uvicorn api.service:app --app-dir src/api-service --host 0.0.0.0 --port 9000 --reload`
+
+<details><summary>The diff of <code>justfile</code></summary>
+
+```diff
+@@ -14,3 +14,7 @@ setup:
+ # Run the tests. Extra arguments go to pytest: just test tests/unit
+ test *args:
+     uv run pytest "$@"
++
++# Run the server on this machine, at http://localhost:9000. It restarts when a file of the code changes
++serve:
++    uv run uvicorn api.service:app --app-dir src/api-service --host 0.0.0.0 --port 9000 --reload
+```
+
+</details>
+
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/8ac2a5642843003cfb2e619e459088265071ac18). [The code after it](https://github.com/rahuldave/cheesecracker/tree/8ac2a5642843003cfb2e619e459088265071ac18).

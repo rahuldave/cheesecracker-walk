@@ -1,0 +1,23 @@
+# The walks of the cheesecracker class. The walks show and do are the same tutorial: the tagged steps of
+# cheesecracker, and the moves between them. They differ only in the mode they start in. The Do/Watch switch
+# changes it at any time. Every path is read from this folder.
+
+[[walk]]
+id = "show"
+title = "cheesecracker, one change at a time"
+description = "Watch an API server and its project grow, one change at a time: unit, integration and system tests, coverage, ruff, pre-commit, and a run image and a dev image in Docker."
+kind = "tutorial"
+folder = "walks/tutorial"
+intro = "walks/tutorial/intro.md"
+loose = ["pyproject.toml", "uv.lock"]   # compared by the names of the packages: a later uv add writes newer versions
+moves = "watch"                         # Show checks out the commit of each move: for the projector
+
+[[walk]]
+id = "do"
+title = "cheesecracker, built by hand"
+description = "Build the API server yourself, one change at a time, from the text. Each change ends with a command that shows what it did."
+kind = "tutorial"
+folder = "walks/tutorial"
+intro = "walks/tutorial/intro.md"
+loose = ["pyproject.toml", "uv.lock"]
+moves = "do"                            # the learner makes each move from the text

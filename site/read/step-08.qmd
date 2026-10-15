@@ -1,0 +1,156 @@
+---
+title: "8 System tests"
+---
+
+<!-- Made by the walk skill's render.py from the facts of the walk. Do not edit it by hand: run just walk-update again. -->
+
+**Read the tutorial.** [Build it yourself](../build/step-08.qmd) is the other way to read this part.
+
+```bash
+just setup
+```
+
+The integration tests call the app in the same process as the tests. They cannot tell whether the image starts, or
+whether the server answers on its port. A system test sends real HTTP requests to the running server, as the Cheese
+App does. Here the server is the run image, our deployment.
+
+[The code before this part](https://github.com/rahuldave/cheesecracker/tree/fef4a5302b176458216aa960487c1662a1e9f795). [The code after it](https://github.com/rahuldave/cheesecracker/tree/d0082e00de28a4ffad591fa0035f7d83d15f6a04).
+
+## 8.1 requests, for tests that send real HTTP requests {#step-08.1}
+
+The system tests send their requests with the package requests. It is a tool of the tests, so it goes into the group
+`test`.
+
+This change came from running `uv add --group test requests`.
+
+```bash
+uv run python -c "import requests; print(requests.__version__)"
+```
+
+Python prints the version of requests.
+
+### What changed {#step-08.1-what-changed-182c57}
+
+- <a id="step-08.1-pyproject.toml-5d07e7"></a>`pyproject.toml`: requests, in the group `test`. 1 line added. It comes from `uv add --group test requests`. [The file](https://github.com/rahuldave/cheesecracker/blob/a3868e0a2fdec755cffc4c13d7cfcfd2262ee6c6/pyproject.toml).
+  - look at `"requests>=2.34.2",`
+- <a id="step-08.1-uv.lock-8356d8"></a>`uv.lock`: the exact versions of requests, and of the packages that it needs. 166 lines added. It comes from `uv add --group test requests`. [The file](https://github.com/rahuldave/cheesecracker/blob/a3868e0a2fdec755cffc4c13d7cfcfd2262ee6c6/uv.lock).
+
+<details><summary>The diff of <code>pyproject.toml</code></summary>
+
+```diff
+@@ -25,6 +25,7 @@ test = [
+     "pytest>=9.1.1",
+     "pytest-asyncio>=1.4.0",
+     "pytest-cov>=7.1.0",
++    "requests>=2.34.2",
+ ]
+ 
+ [tool.pytest.ini_options]
+```
+
+</details>
+
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/a3868e0a2fdec755cffc4c13d7cfcfd2262ee6c6). [The code after it](https://github.com/rahuldave/cheesecracker/tree/a3868e0a2fdec755cffc4c13d7cfcfd2262ee6c6).
+
+## 8.2 system tests, against the server in Docker {#step-08.2}
+
+Five system tests send requests to `localhost:9000`. Four of them need a server there, and skip when none answers. The
+fifth imports the app, and needs no server.
+
+A patch to [`tests/system/test_system_api.py`](#step-08.2-tests-system-test_system_api.py-780a11).
+
+The new file `tests/system/test_system_api.py` sets `API_BASE_URL` to `http://localhost:9000`. `is_api_running()` asks
+for `/health`. The decorator `@pytest.mark.skipif` skips the class `TestAPIEndpoints` when no server answers. The
+class `TestAPIWithoutServer` imports the app.
+
+The server of `just docker-serve` must still run. Run the system tests against it.
+
+```bash
+uv run pytest tests/system -v
+```
+
+pytest prints `5 passed`. The four tests of `TestAPIEndpoints` sent their requests to the server in Docker.
+
+### What changed {#step-08.2-what-changed-182c57}
+
+- <a id="step-08.2-tests-system-test_system_api.py-780a11"></a>`tests/system/test_system_api.py`: five system tests, through real HTTP requests to `localhost:9000`. New, 69 lines. [The file](https://github.com/rahuldave/cheesecracker/blob/d0082e00de28a4ffad591fa0035f7d83d15f6a04/tests/system/test_system_api.py).
+  - look at `@pytest.mark.skipif(not is_api_running(), reason="API not running at localhost:9000")`
+
+<details><summary>The diff of <code>tests/system/test_system_api.py</code></summary>
+
+```diff
+@@ -0,0 +1,69 @@
++"""
++System tests of the API server
++Send real HTTP requests to the server at localhost:9000, the deployment
++"""
++
++import pytest
++import requests
++
++
++# Base URL for the API (assumes API is running)
++API_BASE_URL = "http://localhost:9000"
++
++
++def is_api_running():
++    """Check if API is accessible"""
++    try:
++        response = requests.get(f"{API_BASE_URL}/health", timeout=2)
++        return response.status_code == 200
++    except requests.RequestException:
++        return False
++
++
++@pytest.mark.skipif(not is_api_running(), reason="API not running at localhost:9000")
++class TestAPIEndpoints:
++    """System tests of the endpoints, through the running server"""
++
++    def test_root_endpoint(self):
++        """Test the root endpoint returns welcome message"""
++        response = requests.get(f"{API_BASE_URL}/")
++        assert response.status_code == 200
++        data = response.json()
++        assert "message" in data
++        assert "Cheese App" in data["message"]
++
++    def test_health_check(self):
++        """Test health check endpoint"""
++        response = requests.get(f"{API_BASE_URL}/health")
++        assert response.status_code == 200
++        data = response.json()
++        assert data["status"] == "healthy"
++
++    def test_euclidean_distance_endpoint_default(self):
++        """Test euclidean_distance endpoint with default values"""
++        response = requests.get(f"{API_BASE_URL}/euclidean_distance/")
++        assert response.status_code == 200
++        data = response.json()
++        assert "distance" in data
++        assert data["x"] == 1.0
++        assert data["y"] == 2.0
++        assert data["distance"] == pytest.approx(2.236, rel=0.01)
++
++    def test_euclidean_distance_endpoint_custom_values(self):
++        """Test euclidean_distance endpoint with custom values (3, 4)"""
++        response = requests.get(f"{API_BASE_URL}/euclidean_distance/?x=3&y=4")
++        assert response.status_code == 200
++        data = response.json()
++        assert data["distance"] == pytest.approx(5.0)
++
++
++# Standalone tests that don't require running API
++class TestAPIWithoutServer:
++    """Tests that can run without a live server"""
++
++    def test_api_structure(self):
++        """Test that we can import the API module"""
++        from api.service import app
++
++        assert app.title == "Cheese API Server"
++        assert app.version == "v1"
+```
+
+</details>
+
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/d0082e00de28a4ffad591fa0035f7d83d15f6a04). [The code after it](https://github.com/rahuldave/cheesecracker/tree/d0082e00de28a4ffad591fa0035f7d83d15f6a04).

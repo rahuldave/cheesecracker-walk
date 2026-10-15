@@ -1,0 +1,126 @@
+---
+title: "4 Coverage"
+---
+
+<!-- Made by the walk skill's render.py from the facts of the walk. Do not edit it by hand: run just walk-update again. -->
+
+**Build it yourself.** [Read the tutorial](../read/step-04.qmd) is the other way to read this part.
+
+If you start at this part, make your clone as **Get the project** says, and then run this command. It puts in your clone the files that this part starts from. A file that the project deleted before this part stays, so delete it if `git check` lists it:
+
+```bash
+git rm -rq --cached --ignore-unmatch -- :/ && git restore --source 6cc53ab584dd --staged --worktree -- :/
+```
+
+```bash
+just setup
+```
+
+Twenty-one tests pass, and we still do not know which lines of the app they run. Coverage counts the lines of the
+package `api` that run during the tests, and lists the lines that no test ran.
+
+[The code before this part](https://github.com/rahuldave/cheesecracker/tree/6cc53ab584dd820f401d0dcb51f95877538f996c). [The code after it](https://github.com/rahuldave/cheesecracker/tree/c6cded7960c6db2cd396d279a68856e4b097bd3c).
+
+## 4.1 pytest-cov, to measure what the tests run {#step-04.1}
+
+pytest-cov adds the option `--cov` to pytest. It is a tool of the tests, so it goes into the group `test`.
+
+```bash
+uv add --group test pytest-cov
+```
+
+The check runs the unit tests alone, with coverage of the package `api`.
+
+```bash
+uv run pytest tests/unit --cov=api -q
+```
+
+The table shows `utils.py` at 100% and `service.py` at 0%. The unit tests call `power()`, and never the app.
+
+Check your files against this move. The command prints nothing when they match, and otherwise shows what differs:
+
+```bash
+git check 50f2f82f0d43
+```
+
+If you are stuck, this command puts the files of this move in place of yours. A file that you made yourself stays:
+
+```bash
+git restore --source 6cc53ab584dd --staged -- :/ && git restore --source 50f2f82f0d43 --staged --worktree -- :/
+```
+
+### What changed {#step-04.1-what-changed-182c57}
+
+- <a id="step-04.1-pyproject.toml-5d07e7"></a>`pyproject.toml`: pytest-cov, in the group `test`. 1 line added. It comes from `uv add --group test pytest-cov`. [The file](https://github.com/rahuldave/cheesecracker/blob/50f2f82f0d43aa073fc82f7631390f3d435f13f7/pyproject.toml).
+  - look at `"pytest-cov>=7.1.0",`
+- <a id="step-04.1-uv.lock-8356d8"></a>`uv.lock`: the exact versions of pytest-cov, and of coverage, which it uses. 115 lines added. It comes from `uv add --group test pytest-cov`. [The file](https://github.com/rahuldave/cheesecracker/blob/50f2f82f0d43aa073fc82f7631390f3d435f13f7/uv.lock).
+
+<details><summary>The diff that <code>uv add --group test pytest-cov</code> makes in <code>pyproject.toml</code></summary>
+
+```diff
+@@ -20,6 +20,7 @@ test = [
+     "httpx2>=2.13.1",
+     "pytest>=9.1.1",
+     "pytest-asyncio>=1.4.0",
++    "pytest-cov>=7.1.0",
+ ]
+ 
+ [tool.pytest.ini_options]
+```
+
+</details>
+
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/50f2f82f0d43aa073fc82f7631390f3d435f13f7). [The code after it](https://github.com/rahuldave/cheesecracker/tree/50f2f82f0d43aa073fc82f7631390f3d435f13f7).
+
+## 4.2 just cov shows which lines the tests run {#step-04.2}
+
+The recipe `cov` runs every test with coverage, and adds the column `Missing`, with the numbers of the lines that no
+test ran.
+
+Apply the patch to [`justfile`](#step-04.2-justfile-424f0b), from the top of the project:
+
+```bash
+curl -fsSL https://github.com/rahuldave/cheesecracker/commit/c6cded7960c6db2cd396d279a68856e4b097bd3c.diff | git apply --include=justfile
+```
+
+Read the recipe `cov` at the end of the `justfile`.
+
+```bash
+just cov -q
+```
+
+The total is 95%. `service.py` misses line 31, the answer of `/health`, because no test asks for it.
+
+Check your files against this move. The command prints nothing when they match, and otherwise shows what differs:
+
+```bash
+git check c6cded7960c6
+```
+
+If you are stuck, this command puts the files of this move in place of yours. A file that you made yourself stays:
+
+```bash
+git restore --source 50f2f82f0d43 --staged -- :/ && git restore --source c6cded7960c6 --staged --worktree -- :/
+```
+
+### What changed {#step-04.2-what-changed-182c57}
+
+- <a id="step-04.2-justfile-424f0b"></a>`justfile`: the recipe `cov`. 4 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/c6cded7960c6db2cd396d279a68856e4b097bd3c/justfile).
+  - look at `uv run pytest --cov=api --cov-report=term-missing "$@"`
+
+<details open><summary>The patch to <code>justfile</code></summary>
+
+```diff
+@@ -18,3 +18,7 @@ test *args:
+ # Run the server on this machine, at http://localhost:9000. It restarts when a file of the code changes
+ serve:
+     uv run uvicorn api.service:app --app-dir src/api-service --host 0.0.0.0 --port 9000 --reload
++
++# Run the tests, and show which lines of the package api they ran. Extra arguments go to pytest: just cov tests/unit
++cov *args:
++    uv run pytest --cov=api --cov-report=term-missing "$@"
+```
+
+</details>
+
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/c6cded7960c6db2cd396d279a68856e4b097bd3c). [The code after it](https://github.com/rahuldave/cheesecracker/tree/c6cded7960c6db2cd396d279a68856e4b097bd3c).

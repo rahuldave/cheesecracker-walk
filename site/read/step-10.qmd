@@ -1,0 +1,95 @@
+---
+title: "10 A new endpoint"
+---
+
+<!-- Made by the walk skill's render.py from the facts of the walk. Do not edit it by hand: run just walk-update again. -->
+
+**Read the tutorial.** [Build it yourself](../build/step-10.qmd) is the other way to read this part.
+
+```bash
+just setup
+```
+
+The Cheese App needs to add two numbers. The endpoint `/add/` takes `x` and `y`, and returns their sum. An integration
+test calls it. Then every check of the project runs again, on this machine, in the dev image, and against a new run
+image.
+
+A patch to [`src/api-service/api/service.py`](#step-10-src-api-service-api-service.py-1e1e71).
+
+A patch to [`tests/integration/test_api.py`](#step-10-tests-integration-test_api.py-596674).
+
+`add_numbers()`, at the end of `service.py`, answers `/add/` with `{"result": x + y}`. `test_add_endpoint()`, at the
+end of `test_api.py`, asks for `/add/?x=10&y=20`, and expects 30.
+
+```bash
+just check
+```
+
+The checks pass on this machine. The integration tests are now eleven.
+
+```bash
+just docker-test
+```
+
+The same checks pass in the dev image.
+
+The run image still has the old code, because an image is built once and does not change. Build it again, stop the old
+server with Ctrl-C, and run the new one.
+
+```bash
+just docker-build run
+# in a second terminal
+just docker-serve
+curl -s "localhost:9000/add/?x=10&y=20"
+```
+
+The server in Docker answers `{"result":30.0}`.
+
+```bash
+uv run pytest tests/system -q
+```
+
+The system tests print `5 passed` against the new run image.
+
+## What changed {#step-10-what-changed-182c57}
+
+- <a id="step-10-src-api-service-api-service.py-1e1e71"></a>`src/api-service/api/service.py`: the endpoint `/add/`. 6 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/20887d935c37a6de9b0acfe902dacb15588dd5c0/src/api-service/api/service.py).
+  - look at `return {"result": x + y}`
+- <a id="step-10-tests-integration-test_api.py-596674"></a>`tests/integration/test_api.py`: the test of `/add/`. 6 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/20887d935c37a6de9b0acfe902dacb15588dd5c0/tests/integration/test_api.py).
+  - look at `response = client.get("/add/?x=10&y=20")`
+
+<details><summary>The diff of <code>src/api-service/api/service.py</code></summary>
+
+```diff
+@@ -44,3 +44,9 @@ async def calculate_euclidean_distance(x: float = 1, y: float = 2):
+         "distance": result,
+         "message": "This is a very long line that exceeds 120 characters blah",
+     }
++
++
++@app.get("/add/")
++async def add_numbers(x: float = 0, y: float = 0):
++    """Add two numbers"""
++    return {"result": x + y}
+```
+
+</details>
+
+<details><summary>The diff of <code>tests/integration/test_api.py</code></summary>
+
+```diff
+@@ -87,3 +87,9 @@ async def test_api_health_check():
+     assert response.status_code == 200
+     # API should respond quickly
+     assert response.elapsed.total_seconds() < 1 if hasattr(response, "elapsed") else True
++
++
++def test_add_endpoint():
++    response = client.get("/add/?x=10&y=20")
++    assert response.status_code == 200
++    assert response.json()["result"] == 30
+```
+
+</details>
+
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/compare/365a077828f17f964bb47d90ed35a940c101098c...20887d935c37a6de9b0acfe902dacb15588dd5c0). [The code after it](https://github.com/rahuldave/cheesecracker/tree/20887d935c37a6de9b0acfe902dacb15588dd5c0).

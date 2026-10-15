@@ -1,0 +1,13 @@
+# The slides of the tutorial, one or more for each part. Every path is read from this folder.
+[slides]
+step-00 = ["cheesecracker.md#1"]
+step-01 = ["cheesecracker.md#2"]
+step-02 = ["cheesecracker.md#3"]
+step-03 = ["cheesecracker.md#4"]
+step-04 = ["cheesecracker.md#5"]
+step-05 = ["cheesecracker.md#6"]
+step-06 = ["cheesecracker.md#7"]
+step-07 = ["cheesecracker.md#8"]
+step-08 = ["cheesecracker.md#9"]
+step-09 = ["cheesecracker.md#10"]
+step-10 = ["cheesecracker.md#11"]

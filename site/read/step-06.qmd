@@ -1,0 +1,151 @@
+---
+title: "6 Checks before every commit"
+---
+
+<!-- Made by the walk skill's render.py from the facts of the walk. Do not edit it by hand: run just walk-update again. -->
+
+**Read the tutorial.** [Build it yourself](../build/step-06.qmd) is the other way to read this part.
+
+```bash
+just setup
+```
+
+`just check` works only when someone runs it. pre-commit runs checks before every `git commit`, and stops the commit
+when a check fails. The checks are in `.pre-commit-config.yaml`.
+
+[The code before this part](https://github.com/rahuldave/cheesecracker/tree/56a13525d9d3380d8190d2b029073d641e8ef3db). [The code after it](https://github.com/rahuldave/cheesecracker/tree/f6c2619eaa2b721a8bf6e830cced882b22770041).
+
+## 6.1 pre-commit, in the group lint {#step-06.1}
+
+pre-commit checks the code, and the server does not need it to run. So it goes into the group `lint`, with ruff.
+
+This change came from running `uv add --group lint pre-commit`.
+
+```bash
+uv run pre-commit --version
+```
+
+uv prints the version of pre-commit.
+
+### What changed {#step-06.1-what-changed-182c57}
+
+- <a id="step-06.1-pyproject.toml-5d07e7"></a>`pyproject.toml`: pre-commit, in the group `lint`. 1 line added. It comes from `uv add --group lint pre-commit`. [The file](https://github.com/rahuldave/cheesecracker/blob/ee12a45b7d6b32be63e845737f71631fbcedf4aa/pyproject.toml).
+  - look at `"pre-commit>=4.7.0",`
+- <a id="step-06.1-uv.lock-8356d8"></a>`uv.lock`: the exact versions of pre-commit, and of the packages that it needs. 149 lines added, 1 removed. It comes from `uv add --group lint pre-commit`. [The file](https://github.com/rahuldave/cheesecracker/blob/ee12a45b7d6b32be63e845737f71631fbcedf4aa/uv.lock).
+
+<details><summary>The diff of <code>pyproject.toml</code></summary>
+
+```diff
+@@ -17,6 +17,7 @@ default-groups = "all"
+ 
+ [dependency-groups]
+ lint = [
++    "pre-commit>=4.7.0",
+     "ruff>=0.17.1",
+ ]
+ test = [
+```
+
+</details>
+
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/ee12a45b7d6b32be63e845737f71631fbcedf4aa). [The code after it](https://github.com/rahuldave/cheesecracker/tree/ee12a45b7d6b32be63e845737f71631fbcedf4aa).
+
+## 6.2 the checks that run before every commit {#step-06.2}
+
+pre-commit needs a list of checks. `.pre-commit-config.yaml` names two repositories of checks. The first,
+pre-commit-hooks, checks any file. The second, ruff-pre-commit, runs ruff's linter and formatter with the settings of
+`pyproject.toml`.
+
+A patch to [`.pre-commit-config.yaml`](#step-06.2-.pre-commit-config.yaml-e7d14d).
+
+The new file `.pre-commit-config.yaml` names pre-commit-hooks at `v6.0.0`, with seven checks of any file, such as
+`trailing-whitespace` and `detect-private-key`. Then it names ruff-pre-commit at `v0.17.1`, with `ruff-check` and
+`ruff-format`.
+
+pre-commit checks only the files that git knows, and a file that you made and did not commit is not one of them. So
+the command names every file of the folder that git does not ignore. The first run downloads the checks, which
+takes a minute.
+
+```bash
+uv run pre-commit run --files $(git ls-files --cached --others --exclude-standard)
+```
+
+pre-commit prints a line for each check. `check json` says `Skipped`, because the project has no JSON file. Every
+other check says `Passed`.
+
+### What changed {#step-06.2-what-changed-182c57}
+
+- <a id="step-06.2-.pre-commit-config.yaml-e7d14d"></a>`.pre-commit-config.yaml`: the checks that run before every commit. New, 22 lines. [The file](https://github.com/rahuldave/cheesecracker/blob/20a744c7e7faa41aac234d64bee6c2eea717e1da/.pre-commit-config.yaml).
+  - look at `- id: ruff-check`
+
+<details><summary>The diff of <code>.pre-commit-config.yaml</code></summary>
+
+```diff
+@@ -0,0 +1,22 @@
++# The checks that run before every commit. `just hook` installs them as a git hook.
++# Run them on every file: uv run pre-commit run --all-files
++repos:
++  # Checks of any file
++  - repo: https://github.com/pre-commit/pre-commit-hooks
++    rev: v6.0.0
++    hooks:
++      - id: trailing-whitespace
++      - id: end-of-file-fixer
++      - id: check-yaml
++      - id: check-added-large-files
++        args: ["--maxkb=1000"]
++      - id: check-json
++      - id: check-merge-conflict
++      - id: detect-private-key
++
++  # ruff, with the settings in pyproject.toml: the linter, then the formatter
++  - repo: https://github.com/astral-sh/ruff-pre-commit
++    rev: v0.17.1
++    hooks:
++      - id: ruff-check
++      - id: ruff-format
+```
+
+</details>
+
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/20a744c7e7faa41aac234d64bee6c2eea717e1da). [The code after it](https://github.com/rahuldave/cheesecracker/tree/20a744c7e7faa41aac234d64bee6c2eea717e1da).
+
+## 6.3 just hook installs the checks as a git hook {#step-06.3}
+
+pre-commit runs before every commit only after it installs a hook in `.git/hooks/`. `just setup` never changes git,
+so the hook has a recipe of its own, `hook`. You run it once in each clone.
+
+A patch to [`justfile`](#step-06.3-justfile-424f0b).
+
+The recipe `hook`, after the recipe `setup`, runs `uv run pre-commit install`.
+
+```bash
+just hook
+```
+
+pre-commit prints `pre-commit installed at .git/hooks/pre-commit`. From now on, `git commit` runs the checks first.
+
+### What changed {#step-06.3-what-changed-182c57}
+
+- <a id="step-06.3-justfile-424f0b"></a>`justfile`: the recipe `hook`. 4 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/f6c2619eaa2b721a8bf6e830cced882b22770041/justfile).
+  - look at `uv run pre-commit install`
+
+<details><summary>The diff of <code>justfile</code></summary>
+
+```diff
+@@ -11,6 +11,10 @@ default:
+ setup:
+     uv sync --locked
+ 
++# Install the git hook: the checks of .pre-commit-config.yaml before every commit. Once per clone
++hook:
++    uv run pre-commit install
++
+ # Run the tests. Extra arguments go to pytest: just test tests/unit
+ test *args:
+     uv run pytest "$@"
+```
+
+</details>
+
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/f6c2619eaa2b721a8bf6e830cced882b22770041). [The code after it](https://github.com/rahuldave/cheesecracker/tree/f6c2619eaa2b721a8bf6e830cced882b22770041).

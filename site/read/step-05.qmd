@@ -1,0 +1,421 @@
+---
+title: "5 The formatter and the linter"
+---
+
+<!-- Made by the walk skill's render.py from the facts of the walk. Do not edit it by hand: run just walk-update again. -->
+
+**Read the tutorial.** [Build it yourself](../build/step-05.qmd) is the other way to read this part.
+
+```bash
+just setup
+```
+
+Code that works can still be hard to read, and a reader can miss a bug in it. A formatter writes the code in one
+layout. A linter checks the code against rules, such as "no import that nothing uses". ruff is both, and it has the
+rules of flake8.
+
+[The code before this part](https://github.com/rahuldave/cheesecracker/tree/c6cded7960c6db2cd396d279a68856e4b097bd3c). [The code after it](https://github.com/rahuldave/cheesecracker/tree/56a13525d9d3380d8190d2b029073d641e8ef3db).
+
+## 5.1 a change in a hurry: the code still works, and reads worse {#step-05.1}
+
+A change made in a hurry leaves code that works and reads badly. The change adds an import that nothing uses, and takes
+out spaces and blank lines. It also makes one line 187 characters long, and adds a function that nothing calls.
+
+A patch to [`src/api-service/api/service.py`](#step-05.1-src-api-service-api-service.py-1e1e71).
+
+A patch to [`src/api-service/api/utils.py`](#step-05.1-src-api-service-api-utils.py-18f1f8).
+
+`service.py` now imports `os`, which nothing uses. `/health` follows `/` with no blank line. The line
+`z=power(x,2)+power(y,2)` has no spaces, and the `return` at the end is 187 characters long. `utils.py` has a missing
+space, three blank lines, and `unused_function()`.
+
+```bash
+just test -q
+```
+
+pytest still prints `21 passed`. The tests check what the code does, not how it reads.
+
+### What changed {#step-05.1-what-changed-182c57}
+
+- <a id="step-05.1-src-api-service-api-service.py-1e1e71"></a>`src/api-service/api/service.py`: an import that nothing uses, missing spaces and blank lines, and a long line. 3 lines added, 5 removed. [The file](https://github.com/rahuldave/cheesecracker/blob/3d685aa15a0d5ecf909c39887d082fccc11087d1/src/api-service/api/service.py).
+  - look at `z=power(x,2)+power(y,2)`
+- <a id="step-05.1-src-api-service-api-utils.py-18f1f8"></a>`src/api-service/api/utils.py`: a missing space, extra blank lines, and a function that nothing calls. 6 lines added, 1 removed. [The file](https://github.com/rahuldave/cheesecracker/blob/3d685aa15a0d5ecf909c39887d082fccc11087d1/src/api-service/api/utils.py).
+  - look at `def unused_function():`
+
+<details><summary>The diff of <code>src/api-service/api/service.py</code></summary>
+
+```diff
+@@ -5,6 +5,7 @@ Cheese App API Service
+ from fastapi import FastAPI
+ from starlette.middleware.cors import CORSMiddleware
+ import math
++import os
+ from api.utils import power
+ 
+ # Setup FastAPI app
+@@ -19,13 +20,10 @@ app.add_middleware(
+     allow_headers=["*"],
+ )
+ 
+-
+ # Routes
+ @app.get("/")
+ async def get_index():
+     return {"message": "Welcome to the Cheese App CI/CD Tutorial!"}
+-
+-
+ @app.get("/health")
+ async def health_check():
+     return {"status": "healthy"}
+@@ -36,6 +34,6 @@ async def calculate_euclidean_distance(x: float = 1, y: float = 2):
+     """Calculate the Euclidean distance from origin: sqrt(x^2 + y^2)
+     Returns the distance of a point (x, y) from the origin (0, 0)
+     """
+-    z = power(x, 2) + power(y, 2)
++    z=power(x,2)+power(y,2)
+     result = math.sqrt(z)
+-    return {"x": x, "y": y, "distance": result}
++    return {"x": x, "y": y, "distance": result, "message": "This is a very long line that exceeds 120 characters and Black will complain about it so we need to fix this formatting issue"}
+```
+
+</details>
+
+<details><summary>The diff of <code>src/api-service/api/utils.py</code></summary>
+
+```diff
+@@ -4,6 +4,11 @@ Used by the Cheese App API Service
+ """
+ 
+ 
+-def power(base, exponent):
++def power(base,exponent):
+     """Calculate base raised to the power of exponent"""
+     return base**exponent
++
++
++
++def unused_function():
++    pass
+```
+
+</details>
+
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/3d685aa15a0d5ecf909c39887d082fccc11087d1). [The code after it](https://github.com/rahuldave/cheesecracker/tree/3d685aa15a0d5ecf909c39887d082fccc11087d1).
+
+## 5.2 ruff, the formatter and the linter, in the group lint {#step-05.2}
+
+ruff checks the code, and the server does not need it to run. So ruff goes into a group of its own, `lint`.
+
+This change came from running `uv add --group lint ruff`.
+
+```bash
+uv run ruff --version
+```
+
+uv prints the version of ruff, `ruff 0.17.1` on the day of the class.
+
+### What changed {#step-05.2-what-changed-182c57}
+
+- <a id="step-05.2-pyproject.toml-5d07e7"></a>`pyproject.toml`: ruff, in the group `lint`. 3 lines added. It comes from `uv add --group lint ruff`. [The file](https://github.com/rahuldave/cheesecracker/blob/b62c42863146fff1835f5b087f935a730d550f89/pyproject.toml).
+  - look at `"ruff>=0.17.1",`
+- <a id="step-05.2-uv.lock-8356d8"></a>`uv.lock`: the exact version of ruff. 29 lines added. It comes from `uv add --group lint ruff`. [The file](https://github.com/rahuldave/cheesecracker/blob/b62c42863146fff1835f5b087f935a730d550f89/uv.lock).
+
+<details><summary>The diff of <code>pyproject.toml</code></summary>
+
+```diff
+@@ -16,6 +16,9 @@ package = false
+ default-groups = "all"
+ 
+ [dependency-groups]
++lint = [
++    "ruff>=0.17.1",
++]
+ test = [
+     "httpx2>=2.13.1",
+     "pytest>=9.1.1",
+```
+
+</details>
+
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/b62c42863146fff1835f5b087f935a730d550f89). [The code after it](https://github.com/rahuldave/cheesecracker/tree/b62c42863146fff1835f5b087f935a730d550f89).
+
+## 5.3 ruff's settings: lines of 120 characters, and flake8's rules {#step-05.3}
+
+By default, ruff allows lines of up to 88 characters, and this project allows 120. Its default rules also leave out
+some rules of flake8. Two tables in `pyproject.toml` set both.
+
+A patch to [`pyproject.toml`](#step-05.3-pyproject.toml-5d07e7).
+
+`[tool.ruff]` sets `line-length = 120`, for the formatter and the linter. `[tool.ruff.lint]` selects the rules `E`, `W`
+and `F`. They are the errors and warnings of pycodestyle, and the rules of pyflakes, which flake8 checks.
+
+```bash
+uv run ruff check
+```
+
+ruff finds 2 errors, and fails. `F401` is the import of `os`, which nothing uses. `E501` is the line of 187
+characters. ruff says that it can fix the first one.
+
+```bash
+uv run ruff format --check
+```
+
+ruff says `2 files would be reformatted`, and fails. `--check` changes no file.
+
+### What changed {#step-05.3-what-changed-182c57}
+
+- <a id="step-05.3-pyproject.toml-5d07e7"></a>`pyproject.toml`: the settings of ruff, the length of a line and the rules of the linter. 8 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/b24ec768b50d48684fef4992b332c9d70f8af45b/pyproject.toml).
+  - look at `select = ["E", "W", "F"]`
+
+<details><summary>The diff of <code>pyproject.toml</code></summary>
+
+```diff
+@@ -30,3 +30,11 @@ test = [
+ # The tests are in tests/, and import the package api from src/api-service/
+ testpaths = ["tests"]
+ pythonpath = ["src/api-service"]
++
++[tool.ruff]
++# The longest line, for the formatter and the linter
++line-length = 120
++
++[tool.ruff.lint]
++# The rules that flake8 checks: pycodestyle's errors (E) and warnings (W), and pyflakes (F)
++select = ["E", "W", "F"]
+```
+
+</details>
+
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/b24ec768b50d48684fef4992b332c9d70f8af45b). [The code after it](https://github.com/rahuldave/cheesecracker/tree/b24ec768b50d48684fef4992b332c9d70f8af45b).
+
+## 5.4 just fmt and just lint run ruff {#step-05.4}
+
+Two recipes give the formatter and the linter short names. Each passes on to ruff any words that you type after it.
+
+A patch to [`justfile`](#step-05.4-justfile-424f0b).
+
+The recipe `fmt` runs `uv run ruff format`, and `lint` runs `uv run ruff check`. So `just fmt --check` checks the
+layout, and `just lint --fix` fixes what ruff can fix.
+
+```bash
+just fmt --check
+```
+
+The recipe fails as `ruff format --check` did, with `2 files would be reformatted`.
+
+### What changed {#step-05.4-what-changed-182c57}
+
+- <a id="step-05.4-justfile-424f0b"></a>`justfile`: the recipes `fmt` and `lint`. 8 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/b7faca476ae42677c92f582c0a7bf1a6d48a9adb/justfile).
+  - look at `uv run ruff check "$@"`
+
+<details><summary>The diff of <code>justfile</code></summary>
+
+```diff
+@@ -22,3 +22,11 @@ serve:
+ # Run the tests, and show which lines of the package api they ran. Extra arguments go to pytest: just cov tests/unit
+ cov *args:
+     uv run pytest --cov=api --cov-report=term-missing "$@"
++
++# Format the code, one way. Extra arguments go to ruff: just fmt --check, just fmt --diff
++fmt *args:
++    uv run ruff format "$@"
++
++# Check the code against the rules in pyproject.toml. Extra arguments go to ruff: just lint --fix
++lint *args:
++    uv run ruff check "$@"
+```
+
+</details>
+
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/b7faca476ae42677c92f582c0a7bf1a6d48a9adb). [The code after it](https://github.com/rahuldave/cheesecracker/tree/b7faca476ae42677c92f582c0a7bf1a6d48a9adb).
+
+## 5.5 the formatter fixes the spaces, the blank lines and the line breaks {#step-05.5}
+
+The formatter writes every file in one layout, so nobody fixes spaces by hand.
+
+This change came from running `just fmt`.
+
+ruff prints `2 files reformatted`. In `service.py`, `z=power(x,2)+power(y,2)` now has its spaces, and two blank lines
+separate the routes. The long `return` now spreads its dictionary over six lines, one key on each line. In `utils.py`, the blank lines are two.
+
+```bash
+just fmt --check
+```
+
+ruff prints `6 files already formatted`.
+
+### What changed {#step-05.5-what-changed-182c57}
+
+- <a id="step-05.5-src-api-service-api-service.py-1e1e71"></a>`src/api-service/api/service.py`: the spaces, the blank lines, and the long `return` on six lines. 10 lines added, 2 removed. It comes from `just fmt`. [The file](https://github.com/rahuldave/cheesecracker/blob/0b947e39deb164c74a75486ca2f17a65bb933305/src/api-service/api/service.py).
+  - look at `z = power(x, 2) + power(y, 2)`
+- <a id="step-05.5-src-api-service-api-utils.py-18f1f8"></a>`src/api-service/api/utils.py`: the space after the comma, and two blank lines before `unused_function()`. 1 line added, 2 removed. It comes from `just fmt`. [The file](https://github.com/rahuldave/cheesecracker/blob/0b947e39deb164c74a75486ca2f17a65bb933305/src/api-service/api/utils.py).
+  - look at `def power(base, exponent):`
+
+<details><summary>The diff of <code>src/api-service/api/service.py</code></summary>
+
+```diff
+@@ -20,10 +20,13 @@ app.add_middleware(
+     allow_headers=["*"],
+ )
+ 
++
+ # Routes
+ @app.get("/")
+ async def get_index():
+     return {"message": "Welcome to the Cheese App CI/CD Tutorial!"}
++
++
+ @app.get("/health")
+ async def health_check():
+     return {"status": "healthy"}
+@@ -34,6 +37,11 @@ async def calculate_euclidean_distance(x: float = 1, y: float = 2):
+     """Calculate the Euclidean distance from origin: sqrt(x^2 + y^2)
+     Returns the distance of a point (x, y) from the origin (0, 0)
+     """
+-    z=power(x,2)+power(y,2)
++    z = power(x, 2) + power(y, 2)
+     result = math.sqrt(z)
+-    return {"x": x, "y": y, "distance": result, "message": "This is a very long line that exceeds 120 characters and Black will complain about it so we need to fix this formatting issue"}
++    return {
++        "x": x,
++        "y": y,
++        "distance": result,
++        "message": "This is a very long line that exceeds 120 characters and Black will complain about it so we need to fix this formatting issue",
++    }
+```
+
+</details>
+
+<details><summary>The diff of <code>src/api-service/api/utils.py</code></summary>
+
+```diff
+@@ -4,11 +4,10 @@ Used by the Cheese App API Service
+ """
+ 
+ 
+-def power(base,exponent):
++def power(base, exponent):
+     """Calculate base raised to the power of exponent"""
+     return base**exponent
+ 
+ 
+-
+ def unused_function():
+     pass
+```
+
+</details>
+
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/0b947e39deb164c74a75486ca2f17a65bb933305). [The code after it](https://github.com/rahuldave/cheesecracker/tree/0b947e39deb164c74a75486ca2f17a65bb933305).
+
+## 5.6 the linter removes the import that nothing uses {#step-05.6}
+
+ruff can remove an import that nothing uses, because the change cannot alter what the code does. The linter still fails
+after the fix, because one error is left. `|| true` makes the command count as a success all the same.
+
+This change came from running `just lint --fix || true`.
+
+ruff removes the line `import os` from `service.py`, and still reports the long line.
+
+```bash
+just lint
+```
+
+ruff finds 1 error, `E501`, and fails. The line of the message is 147 characters long, and no tool can shorten words.
+
+### What changed {#step-05.6-what-changed-182c57}
+
+- <a id="step-05.6-src-api-service-api-service.py-1e1e71"></a>`src/api-service/api/service.py`: the import of `os`, removed. 0 lines added, 1 removed. It comes from `just lint --fix || true`. [The file](https://github.com/rahuldave/cheesecracker/blob/e80057d7bc3d2fafb164827f68741ff9fe989911/src/api-service/api/service.py).
+
+<details><summary>The diff of <code>src/api-service/api/service.py</code></summary>
+
+```diff
+@@ -5,7 +5,6 @@ Cheese App API Service
+ from fastapi import FastAPI
+ from starlette.middleware.cors import CORSMiddleware
+ import math
+-import os
+ from api.utils import power
+ 
+ # Setup FastAPI app
+```
+
+</details>
+
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/e80057d7bc3d2fafb164827f68741ff9fe989911). [The code after it](https://github.com/rahuldave/cheesecracker/tree/e80057d7bc3d2fafb164827f68741ff9fe989911).
+
+## 5.7 a shorter line, by hand {#step-05.7}
+
+A long message is a choice of words, so a person has to shorten it. The new message is short enough for one line.
+
+A patch to [`src/api-service/api/service.py`](#step-05.7-src-api-service-api-service.py-1e1e71).
+
+The value of `"message"` in the `return` of `calculate_euclidean_distance()` is now shorter than 120 characters.
+
+```bash
+just lint
+```
+
+ruff prints `All checks passed!`. Note that ruff never reports `unused_function()`. No rule of `E`, `W` or `F` looks for
+a function that nothing calls.
+
+### What changed {#step-05.7-what-changed-182c57}
+
+- <a id="step-05.7-src-api-service-api-service.py-1e1e71"></a>`src/api-service/api/service.py`: a shorter message. 1 line added, 1 removed. [The file](https://github.com/rahuldave/cheesecracker/blob/b8f5794bb9f399c8e37c853fd985669d1706bf8f/src/api-service/api/service.py).
+  - look at `"message": "This is a very long line that exceeds 120 characters blah",`
+
+<details><summary>The diff of <code>src/api-service/api/service.py</code></summary>
+
+```diff
+@@ -42,5 +42,5 @@ async def calculate_euclidean_distance(x: float = 1, y: float = 2):
+         "x": x,
+         "y": y,
+         "distance": result,
+-        "message": "This is a very long line that exceeds 120 characters and Black will complain about it so we need to fix this formatting issue",
++        "message": "This is a very long line that exceeds 120 characters blah",
+     }
+```
+
+</details>
+
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/b8f5794bb9f399c8e37c853fd985669d1706bf8f). [The code after it](https://github.com/rahuldave/cheesecracker/tree/b8f5794bb9f399c8e37c853fd985669d1706bf8f).
+
+## 5.8 just check runs every check {#step-05.8}
+
+The layout, the rules and the tests each have a recipe now. The recipe `check` runs all three, and stops at the
+first that fails.
+
+A patch to [`justfile`](#step-05.8-justfile-424f0b).
+
+The recipe `check`, at the end of the `justfile`, runs `just fmt --check`, `just lint` and `just test -q`, in that
+order.
+
+```bash
+just check
+```
+
+just prints each command, and the last line is `21 passed`.
+
+### What changed {#step-05.8-what-changed-182c57}
+
+- <a id="step-05.8-justfile-424f0b"></a>`justfile`: the recipe `check`. 6 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/56a13525d9d3380d8190d2b029073d641e8ef3db/justfile).
+  - look at `just fmt --check`
+
+<details><summary>The diff of <code>justfile</code></summary>
+
+```diff
+@@ -30,3 +30,9 @@ fmt *args:
+ # Check the code against the rules in pyproject.toml. Extra arguments go to ruff: just lint --fix
+ lint *args:
+     uv run ruff check "$@"
++
++# Everything a commit must pass: the format, the lint and the tests
++check:
++    just fmt --check
++    just lint
++    just test -q
+```
+
+</details>
+
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/56a13525d9d3380d8190d2b029073d641e8ef3db). [The code after it](https://github.com/rahuldave/cheesecracker/tree/56a13525d9d3380d8190d2b029073d641e8ef3db).

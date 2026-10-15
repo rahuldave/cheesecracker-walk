@@ -1,0 +1,177 @@
+---
+title: "9 The dev image"
+---
+
+<!-- Made by the walk skill's render.py from the facts of the walk. Do not edit it by hand: run just walk-update again. -->
+
+**Build it yourself.** [Read the tutorial](../read/step-09.qmd) is the other way to read this part.
+
+If you start at this part, make your clone as **Get the project** says, and then run this command. It puts in your clone the files that this part starts from. A file that the project deleted before this part stays, so delete it if `git check` lists it:
+
+```bash
+git rm -rq --cached --ignore-unmatch -- :/ && git restore --source d0082e00de28 --staged --worktree -- :/
+```
+
+```bash
+just setup
+```
+
+The checks run on this machine. Another person, or a CI service, runs them on another system, with other versions of
+the tools. The dev image holds the whole project with every group of dependencies, and uv, just and git. So the
+checks run in the same Linux, anywhere Docker runs.
+
+[The code before this part](https://github.com/rahuldave/cheesecracker/tree/d0082e00de28a4ffad591fa0035f7d83d15f6a04). [The code after it](https://github.com/rahuldave/cheesecracker/tree/365a077828f17f964bb47d90ed35a940c101098c).
+
+## 9.1 the dev image, to work on the project in Linux {#step-09.1}
+
+The dev image is a fourth stage of the `Dockerfile`, `dev`. It takes uv from the stage `uv`, and nothing from the
+run image.
+
+Apply the patch to [`Dockerfile`](#step-09.1-Dockerfile-6651dd), from the top of the project:
+
+```bash
+curl -fsSL https://github.com/rahuldave/cheesecracker/commit/4df0b7818255a35a80bfd7e3bac8d375a9160446.diff | git apply --include=Dockerfile
+```
+
+Apply the patch. Read the new lines at the top of the file, then the stage `dev` at the end. Read its line `RUN uv
+tool install`, and its line `RUN uv sync --locked`, which installs every group.
+
+```bash
+docker build --target dev --tag cheesecracker-dev .
+```
+
+The last line names the image `cheesecracker-dev`.
+
+```bash
+docker image ls cheesecracker-dev
+```
+
+The image is about 353 MB, twice the run image, because it has every tool.
+
+Check your files against this move. The command prints nothing when they match, and otherwise shows what differs:
+
+```bash
+git check 4df0b7818255
+```
+
+If you are stuck, this command puts the files of this move in place of yours. A file that you made yourself stays:
+
+```bash
+git restore --source d0082e00de28 --staged -- :/ && git restore --source 4df0b7818255 --staged --worktree -- :/
+```
+
+### What changed {#step-09.1-what-changed-182c57}
+
+- <a id="step-09.1-Dockerfile-6651dd"></a>`Dockerfile`: the stage `dev`, and its lines in the comment at the top. 26 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/4df0b7818255a35a80bfd7e3bac8d375a9160446/Dockerfile).
+  - look at `FROM python:3.12-slim-bookworm AS dev`
+
+<details open><summary>The patch to <code>Dockerfile</code></summary>
+
+```diff
+@@ -2,6 +2,8 @@
+ #
+ #   docker build --target run --tag cheesecracker-run .
+ #       the production image: Python, the dependencies of the server and its code. It starts the server
++#   docker build --target dev --tag cheesecracker-dev .
++#       the development image: every dependency group, uv, just and git. It starts a shell
+ #
+ # The environment lives in /opt/venv, never in the project folder.
+ 
+@@ -32,3 +34,27 @@ USER app
+ EXPOSE 9000
+ # Four workers, and no restart on a change: the server as it runs in production
+ CMD ["uvicorn", "api.service:app", "--host", "0.0.0.0", "--port", "9000", "--workers", "4"]
++
++# The dev image: the whole project with every dependency group, and uv, just and git to work in it
++FROM python:3.12-slim-bookworm AS dev
++# hadolint ignore=DL3008
++RUN apt-get update \
++    && apt-get install --yes --no-install-recommends ca-certificates curl git \
++    && rm -rf /var/lib/apt/lists/*
++COPY --from=uv /uv /uvx /usr/local/bin/
++ENV UV_PROJECT_ENVIRONMENT=/opt/venv \
++    UV_PYTHON_DOWNLOADS=never \
++    UV_LINK_MODE=copy \
++    UV_NO_CACHE=1 \
++    UV_TOOL_BIN_DIR=/usr/local/bin \
++    PATH=/opt/venv/bin:$PATH \
++    PYTHONUNBUFFERED=1
++# just, as a wheel from PyPI. git refuses a folder that another user owns, and a mounted folder
++# belongs to the user of the host, so every folder is safe
++RUN uv tool install "rust-just==1.50.0" \
++    && git config --system --add safe.directory '*'
++WORKDIR /work
++COPY pyproject.toml uv.lock .python-version ./
++RUN uv sync --locked
++COPY . .
++CMD ["bash"]
+```
+
+</details>
+
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/4df0b7818255a35a80bfd7e3bac8d375a9160446). [The code after it](https://github.com/rahuldave/cheesecracker/tree/4df0b7818255a35a80bfd7e3bac8d375a9160446).
+
+## 9.2 just docker-shell and just docker-test {#step-09.2}
+
+Two recipes run the dev image with this folder mounted at `/work`. An edit here shows in there at once, so the image
+needs no rebuild after a change of the code. `docker-shell` opens a shell in the image. `docker-test` runs the recipe
+that you name in the image, or `just check` if you name none.
+
+Apply the patch to [`justfile`](#step-09.2-justfile-424f0b), from the top of the project:
+
+```bash
+curl -fsSL https://github.com/rahuldave/cheesecracker/commit/365a077828f17f964bb47d90ed35a940c101098c.diff | git apply --include=justfile
+```
+
+Read the recipes `docker-shell` and `docker-test` at the end of the `justfile`.
+
+```bash
+just docker-test
+```
+
+`just check` runs in Linux. The last line is `22 passed, 4 skipped`. The four system tests skip, because inside the
+container `localhost:9000` is the container itself, and no server answers there.
+
+```bash
+just docker-test test tests/unit -q
+```
+
+The eleven unit tests pass in Linux.
+
+Check your files against this move. The command prints nothing when they match, and otherwise shows what differs:
+
+```bash
+git check 365a077828f1
+```
+
+If you are stuck, this command puts the files of this move in place of yours. A file that you made yourself stays:
+
+```bash
+git restore --source 4df0b7818255 --staged -- :/ && git restore --source 365a077828f1 --staged --worktree -- :/
+```
+
+### What changed {#step-09.2-what-changed-182c57}
+
+- <a id="step-09.2-justfile-424f0b"></a>`justfile`: the recipes `docker-shell` and `docker-test`. 8 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/365a077828f17f964bb47d90ed35a940c101098c/justfile).
+  - look at `docker run --rm -v "$PWD":/work cheesecracker-dev just "${@:-check}"`
+
+<details open><summary>The patch to <code>justfile</code></summary>
+
+```diff
+@@ -48,3 +48,11 @@ docker-build kind:
+ # Run the server in the run image, at http://localhost:9000, as it runs in production. Ctrl-C stops it
+ docker-serve:
+     docker run --rm --name cheesecracker-run -p 9000:9000 cheesecracker-run
++
++# A shell in the dev image, with this folder mounted at /work: an edit here shows in there at once
++docker-shell:
++    docker run --rm -it -v "$PWD":/work cheesecracker-dev
++
++# Run a recipe in the dev image, with this folder mounted at /work. Alone, just check: just docker-test test tests/unit
++docker-test *args:
++    docker run --rm -v "$PWD":/work cheesecracker-dev just "${@:-check}"
+```
+
+</details>
+
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/365a077828f17f964bb47d90ed35a940c101098c). [The code after it](https://github.com/rahuldave/cheesecracker/tree/365a077828f17f964bb47d90ed35a940c101098c).
