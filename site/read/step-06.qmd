@@ -62,8 +62,8 @@ The new file `.pre-commit-config.yaml` names pre-commit-hooks at `v6.0.0`, with 
 `trailing-whitespace` and `detect-private-key`. Then it names ruff-pre-commit at `v0.17.1`, with `ruff-check` and
 `ruff-format`.
 
-pre-commit checks the files that git tracks, the files of the last commit. The first run downloads the checks, which
-takes a minute.
+pre-commit checks the files that git tracks, as they are in your folder. It skips a file that git does not track yet.
+The first run downloads the checks, which takes a minute.
 
 ```bash
 uv run pre-commit run --all-files

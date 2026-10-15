@@ -613,16 +613,17 @@ The new file `.pre-commit-config.yaml` names pre-commit-hooks at `v6.0.0`, with 
 `ruff-format`.
 :::
 
-pre-commit checks the files that git tracks, the files of the last commit. The first run downloads the checks, which
-takes a minute.
+pre-commit checks the files that git tracks, as they are in your folder. It skips a file that git does not track yet.
+The first run downloads the checks, which takes a minute.
 
 $ uv run pre-commit run --all-files
 
 pre-commit prints a line for each check, `Passed` or `Skipped`.
 
 ::: do
-Your new files are not in a commit yet. So `check yaml` and `ruff check` say `(no files to check)Skipped`, and they
-check your files at your next `git commit`. `check json` says `Skipped` too, because the project has no JSON file.
+`.pre-commit-config.yaml` is new, and git does not track it yet. So `check yaml` says `(no files to check)Skipped`.
+`ruff check` and `ruff format` check the Python files, and say `Passed`. `check json` says `Skipped`, because the
+project has no JSON file.
 :::
 
 ::: watch
