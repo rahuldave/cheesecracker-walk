@@ -1,0 +1,59 @@
+# The website of the walk: on every push to main, smalldocs builds site/, and GitHub Pages publishes it. The site of
+# each other walk, from sites/ID, goes at ID/ under it. The walk skill's walk-update writes site/ and sites/ from the
+# notes. In the repository's settings on GitHub, under Pages, set the source to GitHub Actions once.
+name: Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write  # to publish the site
+  id-token: write  # to prove to Pages that this workflow is the one publishing
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    outputs:
+      pages: ${{ steps.site.outputs.pages }}
+    steps:
+      - uses: actions/checkout@v7
+      # A class with a toc.toml has pages; a walk repository without them has nothing to publish
+      - id: site
+        run: |
+          if [ -f site/_smalldocs.yml ]; then echo "pages=yes" >> "$GITHUB_OUTPUT"; else echo "pages=no" >> "$GITHUB_OUTPUT"; fi
+      - if: steps.site.outputs.pages == 'yes'
+        uses: astral-sh/setup-uv@v10.2.0
+      - if: steps.site.outputs.pages == 'yes'
+        run: |
+          uvx --from 'smalldocs>=0.1.5' smalldocs render site
+          for other in sites/*/; do
+            [ -d "$other" ] || continue  # no other walk: the glob stays as written
+            id=$(basename "$other")
+            uvx --from 'smalldocs>=0.1.5' smalldocs render "sites/$id"
+            mkdir -p "site/_site/$id"
+            cp -R "sites/$id/_site/." "site/_site/$id/"
+          done
+      - if: steps.site.outputs.pages == 'yes'
+        uses: actions/configure-pages@v6
+      - if: steps.site.outputs.pages == 'yes'
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: site/_site
+
+  deploy:
+    needs: build
+    if: needs.build.outputs.pages == 'yes'
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v5

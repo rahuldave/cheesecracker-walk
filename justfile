@@ -1,0 +1,94 @@
+# The walk through cheesecracker: replay the class with timewalk. Run `just` to see the list.
+#
+# This file names the project and the upstream owner here. `just setup` clones the project into repo/, and
+# timewalk puts its replay copy in worktree/. Both folders are in .gitignore. The walk is walk.md and slides/, or
+# several walks, listed in toc.toml.
+
+project := "cheesecracker"
+upstream := "rahuldave"
+# timewalk is not pinned: each run fetches the newest. TIMEWALK names another source, a working copy say
+timewalk := env("TIMEWALK", "git+https://github.com/rahuldave/timewalk")
+
+# Recipes get their arguments as "$1", "$@": a word with a space or a quote stays one word
+set positional-arguments
+
+[private]
+default:
+    @just --list --unsorted
+
+# Open the walk: the steps, the files, the terminals and the notes. just present ID opens another walk. Prints the address to open
+present *args: setup
+    #!/usr/bin/env bash
+    set -euo pipefail
+    if [ -f toc.toml ]; then
+        source=(--toc toc.toml)
+        # A first word that is not an option is the id of a walk
+        if [ $# -gt 0 ] && [ "${1#-}" = "$1" ]; then source+=(--walk "$1"); shift; fi
+    else
+        if [ $# -gt 0 ] && [ "${1#-}" = "$1" ]; then echo "present: this repository has one walk" >&2; exit 1; fi
+        source=(--notes walk.md)
+        if [ -f slides/slides.toml ]; then source+=(--slides slides/slides.toml); fi
+    fi
+    uvx --refresh-package timewalk --from {{ quote(timewalk) }} timewalk repo --replay worktree "${source[@]}" "$@"
+
+# Clone the project into repo/: your own fork if you have one, or else the upstream. Then fetch the tags of the steps
+setup url="":
+    #!/usr/bin/env bash
+    set -euo pipefail
+    export GIT_TERMINAL_PROMPT=0
+    upstream_url="https://github.com/{{ upstream }}/{{ project }}.git"
+    fresh=0
+    if [ ! -d repo/.git ]; then
+        fresh=1
+        url="$1"
+        if [ -z "$url" ]; then
+            url="$upstream_url"
+            owner="$(git remote get-url origin 2>/dev/null | sed -nE 's#.*github\.com[:/]([^/]+)/.*#\1#p')"
+            mine="https://github.com/$owner/{{ project }}.git"
+            if [ -n "$owner" ] && [ "$owner" != "{{ upstream }}" ] && git ls-remote --exit-code "$mine" HEAD >/dev/null 2>&1; then
+                url="$mine"
+            fi
+        fi
+        echo "setup: cloning $url into repo/"
+        git clone --quiet "$url" repo || { echo "setup: could not clone $url. Check the network, and run just setup again" >&2; exit 1; }
+    fi
+    if ! git -C repo remote get-url upstream >/dev/null 2>&1; then
+        git -C repo remote add upstream "$upstream_url"
+    fi
+    # With no network, a repo/ that is already here keeps the tags it has, and just present still opens it
+    if ! git -C repo fetch --quiet --tags --force upstream; then
+        if [ "$fresh" = 1 ]; then echo "setup: could not fetch the tags of the steps from GitHub. Check the network, and run just setup again" >&2; exit 1; fi
+        echo "setup: could not fetch from GitHub; using the tags you have" >&2
+    fi
+    echo "setup: repo/ is $(git -C repo remote get-url origin), with $(git -C repo tag -l 'step-*' | wc -l | tr -d ' ') steps from {{ upstream }}/{{ project }}"
+
+# Make build/walk.pdf, or build/walk-ID.pdf for just pdf ID: the slides, one page each. BRAND=DIR gives it a brand
+pdf id="":
+    #!/usr/bin/env bash
+    set -euo pipefail
+    # The notes are for the step browser, `just present`, and are not in the PDF. A brand is a folder with a brand.toml, a
+    # logo and fonts. Without BRAND, the PDF has no brand
+    id="$1" name=walk
+    if [ -f toc.toml ]; then
+        source=(--toc toc.toml)
+        if [ -n "$id" ]; then source+=(--walk "$id"); name="walk-$id"; fi
+        # A walk with no slides manifest has no PDF. Say so here, as timewalk-pdf asks for a manifest instead
+        uv run --no-project --quiet --python '>=3.11' python - "$id" <<'EOF'
+    import pathlib, sys, tomllib
+    walks = tomllib.loads(pathlib.Path("toc.toml").read_text(encoding="utf-8")).get("walk", [])
+    wanted = sys.argv[1] or (walks[0].get("id") if walks else None)
+    walk = next((walk for walk in walks if walk.get("id") == wanted), None)
+    folder = walk and walk.get("folder")
+    slides = walk and (walk.get("slides") or (folder and f"{folder}/slides/slides.toml"))
+    if walk and not (slides and pathlib.Path(slides).is_file()):
+        sys.exit(f"pdf: walk {wanted} has no slides, so it has no PDF. Its notes are for the step browser: just present {sys.argv[1]}".rstrip())
+    EOF
+    else
+        test -z "$id" || { echo "pdf: this repository has one walk" >&2; exit 1; }
+        test -f slides/slides.toml || { echo "pdf: this walk has no slides; the notes are for the step browser: just present" >&2; exit 1; }
+        source=(slides/slides.toml --notes walk.md --title "{{ project }}")
+    fi
+    mkdir -p build
+    brand=()
+    if [ -n "${BRAND:-}" ]; then test -e "$BRAND" || { echo "pdf: BRAND=$BRAND does not exist" >&2; exit 1; }; brand=(--brand "$BRAND"); fi
+    uvx --refresh-package timewalk --from {{ quote(timewalk) }} timewalk-pdf "${source[@]}" ${brand[@]+"${brand[@]}"} -o "build/$name.pdf"
