@@ -1490,16 +1490,17 @@ The new file `.pre-commit-config.yaml` names pre-commit-hooks at `v6.0.0`, with 
 `trailing-whitespace` and `detect-private-key`. Then it names ruff-pre-commit at `v0.17.1`, with `ruff-check` and
 `ruff-format`.
 
-pre-commit checks only the files that git knows, and a file that you made and did not commit is not one of them. So
-the command names every file of the folder that git does not ignore. The first run downloads the checks, which
+pre-commit checks the files that git tracks, the files of the last commit. The first run downloads the checks, which
 takes a minute.
 
 ```bash
-uv run pre-commit run --files $(git ls-files --cached --others --exclude-standard)
+uv run pre-commit run --all-files
 ```
 
-pre-commit prints a line for each check. `check json` says `Skipped`, because the project has no JSON file. Every
-other check says `Passed`.
+pre-commit prints a line for each check, `Passed` or `Skipped`.
+
+Every file of the project is in a commit here. `check json` says `Skipped`, because the project has no JSON file.
+Every other check says `Passed`.
 
 #### What changed
 

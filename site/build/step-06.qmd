@@ -85,16 +85,17 @@ curl -fsSL https://github.com/rahuldave/cheesecracker/commit/20a744c7e7faa41aac2
 Apply the patch, and read the two entries under `repos`. Each has an address, a version after `rev`, and its checks
 under `hooks`.
 
-pre-commit checks only the files that git knows, and a file that you made and did not commit is not one of them. So
-the command names every file of the folder that git does not ignore. The first run downloads the checks, which
+pre-commit checks the files that git tracks, the files of the last commit. The first run downloads the checks, which
 takes a minute.
 
 ```bash
-uv run pre-commit run --files $(git ls-files --cached --others --exclude-standard)
+uv run pre-commit run --all-files
 ```
 
-pre-commit prints a line for each check. `check json` says `Skipped`, because the project has no JSON file. Every
-other check says `Passed`.
+pre-commit prints a line for each check, `Passed` or `Skipped`.
+
+Your new files are not in a commit yet. So `check yaml` and `ruff check` say `(no files to check)Skipped`, and they
+check your files at your next `git commit`. `check json` says `Skipped` too, because the project has no JSON file.
 
 Check your files against this move. The command prints nothing when they match, and otherwise shows what differs:
 
