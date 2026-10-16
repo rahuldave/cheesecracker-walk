@@ -6,6 +6,8 @@ title: "5.2 to 5.4 ruff, the formatter and the linter"
 
 **Build it yourself.** [Read the tutorial](../read/step-05.2-to-step-05.4.qmd) is the other way to read this part.
 
+This walk goes through [rahuldave/cheesecracker](https://github.com/rahuldave/cheesecracker) on GitHub. This part starts from the code at `f77650600c11`, partway through `step-05`. [The code before this part](https://github.com/rahuldave/cheesecracker/tree/f77650600c1176caa9aaee86e6cddfccc43fc69c){.btn .btn-sm .btn-primary}
+
 If you start at this part, make your clone as **Get the project** says, and then run this command. It puts in your clone the files that this part starts from. A file that the project deleted before this part stays, so delete it if `git check` lists it:
 
 ```bash
@@ -19,8 +21,6 @@ just setup
 ruff goes into a dependency group of its own, `lint`. Its settings allow lines of up to 120 characters, and check the
 rules that flake8, an older linter, checks. Two recipes run it. `just fmt` runs the formatter, and `just lint` runs the
 linter.
-
-[The code before this part](https://github.com/rahuldave/cheesecracker/tree/f77650600c1176caa9aaee86e6cddfccc43fc69c). [The code after it](https://github.com/rahuldave/cheesecracker/tree/b947593e84b71486902b3ff1c7f9e1458b70e3f7).
 
 ## 5.2 ruff, the formatter and the linter, in the group lint {#step-05.2}
 
@@ -50,9 +50,9 @@ git restore --source f77650600c11 --staged -- :/ && git restore --source 9662828
 
 ### What changed {#step-05.2-what-changed-182c57}
 
-- <a id="step-05.2-pyproject.toml-5d07e7"></a>`pyproject.toml`: ruff, in the group `lint`. 3 lines added. It comes from `uv add --group lint ruff`. [The file](https://github.com/rahuldave/cheesecracker/blob/9662828462ba2a21ca04a79c412e83ac070767f6/pyproject.toml).
+- <a id="step-05.2-pyproject.toml-5d07e7"></a>`pyproject.toml`: ruff, in the group `lint`. 3 lines added. It comes from `uv add --group lint ruff`. [The file](https://github.com/rahuldave/cheesecracker/blob/9662828462ba2a21ca04a79c412e83ac070767f6/pyproject.toml){.btn .btn-sm .btn-secondary}
   - look at `"ruff>=0.17.1",`
-- <a id="step-05.2-uv.lock-8356d8"></a>`uv.lock`: the exact version of ruff. 29 lines added. It comes from `uv add --group lint ruff`. [The file](https://github.com/rahuldave/cheesecracker/blob/9662828462ba2a21ca04a79c412e83ac070767f6/uv.lock).
+- <a id="step-05.2-uv.lock-8356d8"></a>`uv.lock`: the exact version of ruff. 29 lines added. It comes from `uv add --group lint ruff`. [The file](https://github.com/rahuldave/cheesecracker/blob/9662828462ba2a21ca04a79c412e83ac070767f6/uv.lock){.btn .btn-sm .btn-secondary}
 
 <details><summary>The diff that <code>uv add --group lint ruff</code> makes in <code>pyproject.toml</code></summary>
 
@@ -71,7 +71,7 @@ git restore --source f77650600c11 --staged -- :/ && git restore --source 9662828
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/9662828462ba2a21ca04a79c412e83ac070767f6). [The code after it](https://github.com/rahuldave/cheesecracker/tree/9662828462ba2a21ca04a79c412e83ac070767f6).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/9662828462ba2a21ca04a79c412e83ac070767f6){.btn .btn-sm .btn-secondary} [The code after it](https://github.com/rahuldave/cheesecracker/tree/9662828462ba2a21ca04a79c412e83ac070767f6){.btn .btn-sm .btn-primary}
 
 ## 5.3 ruff's settings: lines of 120 characters, and flake8's rules {#step-05.3}
 
@@ -136,7 +136,7 @@ git restore --source 9662828462ba --staged -- :/ && git restore --source 7c1670f
 
 ### What changed {#step-05.3-what-changed-182c57}
 
-- <a id="step-05.3-pyproject.toml-5d07e7"></a>`pyproject.toml`: the settings of ruff, the length of a line and the rules of the linter. 8 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/7c1670fd52a0f62f414f31d415d10f2efb5a8405/pyproject.toml).
+- <a id="step-05.3-pyproject.toml-5d07e7"></a>`pyproject.toml`: the settings of ruff, the length of a line and the rules of the linter. 8 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/7c1670fd52a0f62f414f31d415d10f2efb5a8405/pyproject.toml){.btn .btn-sm .btn-secondary}
   - look at `select = ["E", "W", "F"]`
 
 <details open><summary>The patch to <code>pyproject.toml</code></summary>
@@ -158,7 +158,7 @@ git restore --source 9662828462ba --staged -- :/ && git restore --source 7c1670f
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/7c1670fd52a0f62f414f31d415d10f2efb5a8405). [The code after it](https://github.com/rahuldave/cheesecracker/tree/7c1670fd52a0f62f414f31d415d10f2efb5a8405).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/7c1670fd52a0f62f414f31d415d10f2efb5a8405){.btn .btn-sm .btn-secondary} [The code after it](https://github.com/rahuldave/cheesecracker/tree/7c1670fd52a0f62f414f31d415d10f2efb5a8405){.btn .btn-sm .btn-primary}
 
 ## 5.4 just fmt and just lint run ruff {#step-05.4}
 
@@ -192,7 +192,7 @@ git restore --source 7c1670fd52a0 --staged -- :/ && git restore --source b947593
 
 ### What changed {#step-05.4-what-changed-182c57}
 
-- <a id="step-05.4-justfile-424f0b"></a>`justfile`: the recipes `fmt` and `lint`. 8 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/b947593e84b71486902b3ff1c7f9e1458b70e3f7/justfile).
+- <a id="step-05.4-justfile-424f0b"></a>`justfile`: the recipes `fmt` and `lint`. 8 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/b947593e84b71486902b3ff1c7f9e1458b70e3f7/justfile){.btn .btn-sm .btn-secondary}
   - look at `uv run ruff check "$@"`
 
 <details open><summary>The patch to <code>justfile</code></summary>
@@ -214,4 +214,6 @@ git restore --source 7c1670fd52a0 --staged -- :/ && git restore --source b947593
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/b947593e84b71486902b3ff1c7f9e1458b70e3f7). [The code after it](https://github.com/rahuldave/cheesecracker/tree/b947593e84b71486902b3ff1c7f9e1458b70e3f7).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/b947593e84b71486902b3ff1c7f9e1458b70e3f7){.btn .btn-sm .btn-secondary} [The code after it](https://github.com/rahuldave/cheesecracker/tree/b947593e84b71486902b3ff1c7f9e1458b70e3f7){.btn .btn-sm .btn-primary}
+
+This part ends at the code at `b947593e84b7`, partway through `step-05`. [The code after this part](https://github.com/rahuldave/cheesecracker/tree/b947593e84b71486902b3ff1c7f9e1458b70e3f7){.btn .btn-sm .btn-primary}

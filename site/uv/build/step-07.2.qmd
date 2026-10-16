@@ -6,6 +6,8 @@ title: "7.2 The run image installs no group"
 
 **Build it yourself.** [Read the tutorial](../read/step-07.2.qmd) is the other way to read this part.
 
+This walk goes through [rahuldave/cheesecracker](https://github.com/rahuldave/cheesecracker) on GitHub. This part starts from the code at `2a28a5c704d6`, partway through `step-07`. [The code before this part](https://github.com/rahuldave/cheesecracker/tree/2a28a5c704d6d9ed8200aeb8962aa01e5c2ac552){.btn .btn-sm .btn-primary}
+
 This part does not start where the part before it ends, because the walk skips some changes. This command puts the files that this part starts from in place of yours. Run it, and then go on:
 
 ```bash
@@ -24,8 +26,6 @@ just setup
 
 The whole tutorial then writes the checks of pre-commit, and `.dockerignore`. The run image is the server as it runs
 in production. It needs the dependencies of the project, and no group.
-
-[The code before this part](https://github.com/rahuldave/cheesecracker/tree/2a28a5c704d6d9ed8200aeb8962aa01e5c2ac552). [The code after it](https://github.com/rahuldave/cheesecracker/tree/0acb4556f724cd94e4a71ab4fff739a974413fc0).
 
 ## 7.2 the run image, the server as it runs in production {#step-07.2}
 
@@ -68,7 +68,7 @@ git restore --source 2a28a5c704d6 --staged -- :/ && git restore --source 0acb455
 
 ### What changed {#step-07.2-what-changed-182c57}
 
-- <a id="step-07.2-Dockerfile-6651dd"></a>`Dockerfile`: the stages `uv`, `build` and `run`. New, 34 lines. [The file](https://github.com/rahuldave/cheesecracker/blob/0acb4556f724cd94e4a71ab4fff739a974413fc0/Dockerfile).
+- <a id="step-07.2-Dockerfile-6651dd"></a>`Dockerfile`: the stages `uv`, `build` and `run`. New, 34 lines. [The file](https://github.com/rahuldave/cheesecracker/blob/0acb4556f724cd94e4a71ab4fff739a974413fc0/Dockerfile){.btn .btn-sm .btn-secondary}
   - look at `RUN uv sync --locked --no-default-groups`
 
 <details open><summary>The patch to <code>Dockerfile</code></summary>
@@ -113,4 +113,6 @@ git restore --source 2a28a5c704d6 --staged -- :/ && git restore --source 0acb455
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/0acb4556f724cd94e4a71ab4fff739a974413fc0). [The code after it](https://github.com/rahuldave/cheesecracker/tree/0acb4556f724cd94e4a71ab4fff739a974413fc0).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/0acb4556f724cd94e4a71ab4fff739a974413fc0){.btn .btn-sm .btn-secondary} [The code after it](https://github.com/rahuldave/cheesecracker/tree/0acb4556f724cd94e4a71ab4fff739a974413fc0){.btn .btn-sm .btn-primary}
+
+This part ends at the code at `0acb4556f724`, partway through `step-07`. [The code after this part](https://github.com/rahuldave/cheesecracker/tree/0acb4556f724cd94e4a71ab4fff739a974413fc0){.btn .btn-sm .btn-primary}

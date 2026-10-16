@@ -6,14 +6,23 @@ title: "3.2 More tools for the tests"
 
 **Read the tutorial.** [Build it yourself](../build/step-03.2.qmd) is the other way to read this part.
 
+This walk goes through [rahuldave/cheesecracker](https://github.com/rahuldave/cheesecracker) on GitHub. This part starts from the code at `e576e7bb9e55`, partway through `step-03`. [The code before this part](https://github.com/rahuldave/cheesecracker/tree/e576e7bb9e550b1a572a764b15f8d0bfde229d97){.btn .btn-sm .btn-primary}
+
+To look at this code on your machine, run these commands. The first one makes a clone, if this folder has none:
+
+```bash
+[ -d cheesecracker ] || git clone https://github.com/rahuldave/cheesecracker
+cd cheesecracker
+git fetch --quiet --tags --force origin
+git switch --detach e576e7bb9e55
+```
+
 ```bash
 just setup
 ```
 
 The whole tutorial then writes the app, the recipes `just serve` and `just stop`, and an endpoint that computes a
 distance. The integration tests need two more packages, and they go into the group `test`.
-
-[The code before this part](https://github.com/rahuldave/cheesecracker/tree/e576e7bb9e550b1a572a764b15f8d0bfde229d97). [The code after it](https://github.com/rahuldave/cheesecracker/tree/3c75ffb1a089431a2455a69e9bcb3ec0302224f0).
 
 ## 3.2 httpx2 and pytest-asyncio, for tests of the app {#step-03.2}
 
@@ -32,9 +41,9 @@ pytest still prints `11 passed`. The new packages change no test.
 
 ### What changed {#step-03.2-what-changed-182c57}
 
-- <a id="step-03.2-pyproject.toml-5d07e7"></a>`pyproject.toml`: httpx2 and pytest-asyncio, in the group `test`. 2 lines added. It comes from `uv add --group test httpx2 pytest-asyncio`. [The file](https://github.com/rahuldave/cheesecracker/blob/3c75ffb1a089431a2455a69e9bcb3ec0302224f0/pyproject.toml).
+- <a id="step-03.2-pyproject.toml-5d07e7"></a>`pyproject.toml`: httpx2 and pytest-asyncio, in the group `test`. 2 lines added. It comes from `uv add --group test httpx2 pytest-asyncio`. [The file](https://github.com/rahuldave/cheesecracker/blob/3c75ffb1a089431a2455a69e9bcb3ec0302224f0/pyproject.toml){.btn .btn-sm .btn-secondary}
   - look at `"httpx2>=2.13.1",`
-- <a id="step-03.2-uv.lock-8356d8"></a>`uv.lock`: the exact versions of httpx2, pytest-asyncio, and the packages that they need. 68 lines added, 1 removed. It comes from `uv add --group test httpx2 pytest-asyncio`. [The file](https://github.com/rahuldave/cheesecracker/blob/3c75ffb1a089431a2455a69e9bcb3ec0302224f0/uv.lock).
+- <a id="step-03.2-uv.lock-8356d8"></a>`uv.lock`: the exact versions of httpx2, pytest-asyncio, and the packages that they need. 68 lines added, 1 removed. It comes from `uv add --group test httpx2 pytest-asyncio`. [The file](https://github.com/rahuldave/cheesecracker/blob/3c75ffb1a089431a2455a69e9bcb3ec0302224f0/uv.lock){.btn .btn-sm .btn-secondary}
 
 <details><summary>The diff of <code>pyproject.toml</code></summary>
 
@@ -53,4 +62,6 @@ pytest still prints `11 passed`. The new packages change no test.
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/3c75ffb1a089431a2455a69e9bcb3ec0302224f0). [The code after it](https://github.com/rahuldave/cheesecracker/tree/3c75ffb1a089431a2455a69e9bcb3ec0302224f0).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/3c75ffb1a089431a2455a69e9bcb3ec0302224f0){.btn .btn-sm .btn-secondary} [The code after it](https://github.com/rahuldave/cheesecracker/tree/3c75ffb1a089431a2455a69e9bcb3ec0302224f0){.btn .btn-sm .btn-primary}
+
+This part ends at the code at `3c75ffb1a089`, partway through `step-03`. [The code after this part](https://github.com/rahuldave/cheesecracker/tree/3c75ffb1a089431a2455a69e9bcb3ec0302224f0){.btn .btn-sm .btn-primary}

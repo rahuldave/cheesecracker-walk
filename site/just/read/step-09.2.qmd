@@ -6,6 +6,17 @@ title: "9.2 just docker-shell and just docker-test"
 
 **Read the tutorial.** [Build it yourself](../build/step-09.2.qmd) is the other way to read this part.
 
+This walk goes through [rahuldave/cheesecracker](https://github.com/rahuldave/cheesecracker) on GitHub. This part starts from the code at `ccf62d330f28`, partway through `step-09`. [The code before this part](https://github.com/rahuldave/cheesecracker/tree/ccf62d330f28c6eec4c0b993e1a71e2c11a8b5af){.btn .btn-sm .btn-primary}
+
+To look at this code on your machine, run these commands. The first one makes a clone, if this folder has none:
+
+```bash
+[ -d cheesecracker ] || git clone https://github.com/rahuldave/cheesecracker
+cd cheesecracker
+git fetch --quiet --tags --force origin
+git switch --detach ccf62d330f28
+```
+
 ```bash
 just setup
 just docker-build dev
@@ -13,8 +24,6 @@ just docker-build dev
 
 The whole tutorial then adds the dev image to the `Dockerfile`. Two recipes run it, with the folder of the project
 mounted inside.
-
-[The code before this part](https://github.com/rahuldave/cheesecracker/tree/ccf62d330f28c6eec4c0b993e1a71e2c11a8b5af). [The code after it](https://github.com/rahuldave/cheesecracker/tree/0701e9244ab2384538eda4d623e1d047ff3f8258).
 
 ## 9.2 just docker-shell and just docker-test {#step-09.2}
 
@@ -42,7 +51,7 @@ The eleven unit tests pass in Linux.
 
 ### What changed {#step-09.2-what-changed-182c57}
 
-- <a id="step-09.2-justfile-424f0b"></a>`justfile`: the recipes `docker-shell` and `docker-test`. 8 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/0701e9244ab2384538eda4d623e1d047ff3f8258/justfile).
+- <a id="step-09.2-justfile-424f0b"></a>`justfile`: the recipes `docker-shell` and `docker-test`. 8 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/0701e9244ab2384538eda4d623e1d047ff3f8258/justfile){.btn .btn-sm .btn-secondary}
   - look at `docker run --rm -v "$PWD":/work cheesecracker-dev just "${@:-check}"`
 
 <details><summary>The diff of <code>justfile</code></summary>
@@ -64,4 +73,6 @@ The eleven unit tests pass in Linux.
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/0701e9244ab2384538eda4d623e1d047ff3f8258). [The code after it](https://github.com/rahuldave/cheesecracker/tree/0701e9244ab2384538eda4d623e1d047ff3f8258).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/0701e9244ab2384538eda4d623e1d047ff3f8258){.btn .btn-sm .btn-secondary} [The code after it](https://github.com/rahuldave/cheesecracker/tree/step-09){.btn .btn-sm .btn-primary}
+
+This part ends at the code at `step-09`. [The code after this part](https://github.com/rahuldave/cheesecracker/tree/step-09){.btn .btn-sm .btn-primary}

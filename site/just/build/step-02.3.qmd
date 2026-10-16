@@ -6,6 +6,8 @@ title: "2.3 just serve and just stop"
 
 **Build it yourself.** [Read the tutorial](../read/step-02.3.qmd) is the other way to read this part.
 
+This walk goes through [rahuldave/cheesecracker](https://github.com/rahuldave/cheesecracker) on GitHub. This part starts from the code at `acee14f7dff4`, partway through `step-02`. [The code before this part](https://github.com/rahuldave/cheesecracker/tree/acee14f7dff43d6c5b76234b3a016985d74c60d2){.btn .btn-sm .btn-primary}
+
 This part does not start where the part before it ends, because the walk skips some changes. This command puts the files that this part starts from in place of yours. Run it, and then go on:
 
 ```bash
@@ -23,8 +25,6 @@ just setup
 ```
 
 The whole tutorial then adds FastAPI and uvicorn, and writes the app. Two recipes start the server and stop it.
-
-[The code before this part](https://github.com/rahuldave/cheesecracker/tree/acee14f7dff43d6c5b76234b3a016985d74c60d2). [The code after it](https://github.com/rahuldave/cheesecracker/tree/69c3bf65c78cf8e96bf8f9ea1dde29279db1351a).
 
 ## 2.3 just serve and just stop, the server on this machine {#step-02.3}
 
@@ -85,9 +85,9 @@ git restore --source acee14f7dff4 --staged -- :/ && git restore --source 69c3bf6
 
 ### What changed {#step-02.3-what-changed-182c57}
 
-- <a id="step-02.3-.gitignore-a5cc29"></a>`.gitignore`: the log of the server and the number of its process. 4 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/69c3bf65c78cf8e96bf8f9ea1dde29279db1351a/.gitignore).
+- <a id="step-02.3-.gitignore-a5cc29"></a>`.gitignore`: the log of the server and the number of its process. 4 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/69c3bf65c78cf8e96bf8f9ea1dde29279db1351a/.gitignore){.btn .btn-sm .btn-secondary}
   - look at `.serve.pid`
-- <a id="step-02.3-justfile-424f0b"></a>`justfile`: the recipes `serve` and `stop`. 26 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/69c3bf65c78cf8e96bf8f9ea1dde29279db1351a/justfile).
+- <a id="step-02.3-justfile-424f0b"></a>`justfile`: the recipes `serve` and `stop`. 26 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/69c3bf65c78cf8e96bf8f9ea1dde29279db1351a/justfile){.btn .btn-sm .btn-secondary}
   - look at `uv run uvicorn api.service:app --app-dir src/api-service --host 0.0.0.0 --port 9000 --reload > .serve.log 2>&1 &`
 
 <details open><summary>The patch to <code>.gitignore</code></summary>
@@ -145,4 +145,6 @@ git restore --source acee14f7dff4 --staged -- :/ && git restore --source 69c3bf6
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/69c3bf65c78cf8e96bf8f9ea1dde29279db1351a). [The code after it](https://github.com/rahuldave/cheesecracker/tree/69c3bf65c78cf8e96bf8f9ea1dde29279db1351a).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/69c3bf65c78cf8e96bf8f9ea1dde29279db1351a){.btn .btn-sm .btn-secondary} [The code after it](https://github.com/rahuldave/cheesecracker/tree/step-02){.btn .btn-sm .btn-primary}
+
+This part ends at the code at `step-02`. [The code after this part](https://github.com/rahuldave/cheesecracker/tree/step-02){.btn .btn-sm .btn-primary}

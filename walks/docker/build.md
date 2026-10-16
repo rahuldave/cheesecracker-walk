@@ -141,13 +141,13 @@ git config alias.check '!f() { i="$(git rev-parse --git-path check-index)" && { 
 
 ## 7.1 What docker build leaves out
 
+This walk goes through [rahuldave/cheesecracker](https://github.com/rahuldave/cheesecracker) on GitHub. This part starts from the code at `step-06`. [The code before this part](https://github.com/rahuldave/cheesecracker/tree/step-06)
+
 ```bash
 just setup
 ```
 
 Our first file for Docker, `.dockerignore`, lists the files that never go into an image.
-
-[The code before this part](https://github.com/rahuldave/cheesecracker/tree/57ec2e24ecd4946823edbfad27bc2296f80e3847). [The code after it](https://github.com/rahuldave/cheesecracker/tree/2a28a5c704d6d9ed8200aeb8962aa01e5c2ac552).
 
 ### 7.1 what docker build leaves out
 
@@ -205,9 +205,13 @@ git restore --source 57ec2e24ecd4 --staged -- :/ && git restore --source 2a28a5c
 
 [This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/2a28a5c704d6d9ed8200aeb8962aa01e5c2ac552). [The code after it](https://github.com/rahuldave/cheesecracker/tree/2a28a5c704d6d9ed8200aeb8962aa01e5c2ac552).
 
+This part ends at the code at `2a28a5c704d6`, partway through `step-07`. [The code after this part](https://github.com/rahuldave/cheesecracker/tree/2a28a5c704d6d9ed8200aeb8962aa01e5c2ac552)
+
 <a id="step-07.2-to-step-07.3"></a>
 
 ## 7.2 to 7.3 The run image
+
+This walk goes through [rahuldave/cheesecracker](https://github.com/rahuldave/cheesecracker) on GitHub. This part starts from the code at `2a28a5c704d6`, partway through `step-07`. [The code before this part](https://github.com/rahuldave/cheesecracker/tree/2a28a5c704d6d9ed8200aeb8962aa01e5c2ac552)
 
 ```bash
 just setup
@@ -215,8 +219,6 @@ just setup
 
 The run image holds Python, the dependencies of the server and its code, and starts the server. Three recipes build
 it, start it and stop it.
-
-[The code before this part](https://github.com/rahuldave/cheesecracker/tree/2a28a5c704d6d9ed8200aeb8962aa01e5c2ac552). [The code after it](https://github.com/rahuldave/cheesecracker/tree/d444e0387d256c62024581e98f59d670cbc93296).
 
 <a id="step-07.2"></a>
 
@@ -403,11 +405,15 @@ git restore --source 0acb4556f724 --staged -- :/ && git restore --source d444e03
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/d444e0387d256c62024581e98f59d670cbc93296). [The code after it](https://github.com/rahuldave/cheesecracker/tree/d444e0387d256c62024581e98f59d670cbc93296).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/d444e0387d256c62024581e98f59d670cbc93296). [The code after it](https://github.com/rahuldave/cheesecracker/tree/step-07).
+
+This part ends at the code at `step-07`. [The code after this part](https://github.com/rahuldave/cheesecracker/tree/step-07)
 
 <a id="step-08"></a>
 
 ## 8 System tests, against the run image
+
+This walk goes through [rahuldave/cheesecracker](https://github.com/rahuldave/cheesecracker) on GitHub. This part starts from the code at `step-07`. [The code before this part](https://github.com/rahuldave/cheesecracker/tree/step-07)
 
 A system test sends real HTTP requests to a running server, as a user of the app does. The run image is our
 deployment, so the system tests send their requests to the server in it.
@@ -419,8 +425,6 @@ just setup
 The integration tests call the app in the same process as the tests. They cannot tell whether the image starts, or
 whether the server answers on its port. A system test sends real HTTP requests to the running server, as the Cheese
 App does. Here the server is the run image, our deployment, which `just docker-serve` starts.
-
-[The code before this part](https://github.com/rahuldave/cheesecracker/tree/d444e0387d256c62024581e98f59d670cbc93296). [The code after it](https://github.com/rahuldave/cheesecracker/tree/277d54eebce4a1727ed3d8a5c46570ca4a95f75d).
 
 <a id="step-08.1"></a>
 
@@ -743,11 +747,15 @@ git restore --source 19813cf32d08 --staged -- :/ && git restore --source 277d54e
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/277d54eebce4a1727ed3d8a5c46570ca4a95f75d). [The code after it](https://github.com/rahuldave/cheesecracker/tree/277d54eebce4a1727ed3d8a5c46570ca4a95f75d).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/277d54eebce4a1727ed3d8a5c46570ca4a95f75d). [The code after it](https://github.com/rahuldave/cheesecracker/tree/step-08).
+
+This part ends at the code at `step-08`. [The code after this part](https://github.com/rahuldave/cheesecracker/tree/step-08)
 
 <a id="step-09"></a>
 
 ## 9 The dev image
+
+This walk goes through [rahuldave/cheesecracker](https://github.com/rahuldave/cheesecracker) on GitHub. This part starts from the code at `step-08`. [The code before this part](https://github.com/rahuldave/cheesecracker/tree/step-08)
 
 The dev image runs the checks in Linux, anywhere Docker runs.
 
@@ -758,8 +766,6 @@ just setup
 The checks run on this machine. Another person, or a CI service, runs them on another system, with other versions of
 the tools. The dev image holds the whole project with every group of dependencies, and uv, just and git. So the
 checks run in the same Linux, anywhere Docker runs.
-
-[The code before this part](https://github.com/rahuldave/cheesecracker/tree/277d54eebce4a1727ed3d8a5c46570ca4a95f75d). [The code after it](https://github.com/rahuldave/cheesecracker/tree/0701e9244ab2384538eda4d623e1d047ff3f8258).
 
 <a id="step-09.1"></a>
 
@@ -917,11 +923,15 @@ git restore --source ccf62d330f28 --staged -- :/ && git restore --source 0701e92
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/0701e9244ab2384538eda4d623e1d047ff3f8258). [The code after it](https://github.com/rahuldave/cheesecracker/tree/0701e9244ab2384538eda4d623e1d047ff3f8258).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/0701e9244ab2384538eda4d623e1d047ff3f8258). [The code after it](https://github.com/rahuldave/cheesecracker/tree/step-09).
+
+This part ends at the code at `step-09`. [The code after this part](https://github.com/rahuldave/cheesecracker/tree/step-09)
 
 <a id="step-10"></a>
 
 ## 10 A change, through both images
+
+This walk goes through [rahuldave/cheesecracker](https://github.com/rahuldave/cheesecracker) on GitHub. This part starts from the code at `step-09`. [The code before this part](https://github.com/rahuldave/cheesecracker/tree/step-09)
 
 A change of the code goes through both images. The dev image checks it, and the run image has to be built again.
 
@@ -1034,4 +1044,6 @@ git restore --source 0701e9244ab2 --staged -- :/ && git restore --source e706255
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/compare/0701e9244ab2384538eda4d623e1d047ff3f8258...e706255d9c0fee3b6fded40376e7ac8829d1654a). [The code after it](https://github.com/rahuldave/cheesecracker/tree/e706255d9c0fee3b6fded40376e7ac8829d1654a).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/compare/0701e9244ab2384538eda4d623e1d047ff3f8258...e706255d9c0fee3b6fded40376e7ac8829d1654a).
+
+This part ends at the code at `step-10`. [The code after this part](https://github.com/rahuldave/cheesecracker/tree/step-10)

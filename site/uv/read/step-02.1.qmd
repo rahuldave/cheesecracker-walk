@@ -6,6 +6,17 @@ title: "2.1 The dependencies of the server"
 
 **Read the tutorial.** [Build it yourself](../build/step-02.1.qmd) is the other way to read this part.
 
+This walk goes through [rahuldave/cheesecracker](https://github.com/rahuldave/cheesecracker) on GitHub. This part starts from the code at `step-01`. [The code before this part](https://github.com/rahuldave/cheesecracker/tree/step-01){.btn .btn-sm .btn-primary}
+
+To look at this code on your machine, run these commands. The first one makes a clone, if this folder has none:
+
+```bash
+[ -d cheesecracker ] || git clone https://github.com/rahuldave/cheesecracker
+cd cheesecracker
+git fetch --quiet --tags --force origin
+git switch --detach step-01
+```
+
 ```bash
 just setup
 ```
@@ -13,8 +24,6 @@ just setup
 The whole tutorial then tells pytest where the tests are, adds eleven unit tests of `power()`, and the recipe
 `just test`. Next comes the server, which needs FastAPI to build it and uvicorn to run it. They are dependencies of the project itself, and of no
 group.
-
-[The code before this part](https://github.com/rahuldave/cheesecracker/tree/e86e0c3d10bbe9409674f1c65ce4afdc38e7f76f). [The code after it](https://github.com/rahuldave/cheesecracker/tree/18dd9dfb1c9597e50a8b404a6cb6379c1c149320).
 
 ## 2.1 FastAPI, and uvicorn to serve it {#step-02.1}
 
@@ -32,9 +41,9 @@ uvicorn prints its version, and the version of Python that runs it.
 
 ### What changed {#step-02.1-what-changed-182c57}
 
-- <a id="step-02.1-pyproject.toml-5d07e7"></a>`pyproject.toml`: FastAPI and uvicorn, the dependencies of the server. 4 lines added, 1 removed. It comes from `uv add fastapi uvicorn`. [The file](https://github.com/rahuldave/cheesecracker/blob/18dd9dfb1c9597e50a8b404a6cb6379c1c149320/pyproject.toml).
+- <a id="step-02.1-pyproject.toml-5d07e7"></a>`pyproject.toml`: FastAPI and uvicorn, the dependencies of the server. 4 lines added, 1 removed. It comes from `uv add fastapi uvicorn`. [The file](https://github.com/rahuldave/cheesecracker/blob/18dd9dfb1c9597e50a8b404a6cb6379c1c149320/pyproject.toml){.btn .btn-sm .btn-secondary}
   - look at `"fastapi>=0.143.2",`
-- <a id="step-02.1-uv.lock-8356d8"></a>`uv.lock`: the exact versions of FastAPI, uvicorn, and the packages that they need. 263 lines added. It comes from `uv add fastapi uvicorn`. [The file](https://github.com/rahuldave/cheesecracker/blob/18dd9dfb1c9597e50a8b404a6cb6379c1c149320/uv.lock).
+- <a id="step-02.1-uv.lock-8356d8"></a>`uv.lock`: the exact versions of FastAPI, uvicorn, and the packages that they need. 263 lines added. It comes from `uv add fastapi uvicorn`. [The file](https://github.com/rahuldave/cheesecracker/blob/18dd9dfb1c9597e50a8b404a6cb6379c1c149320/uv.lock){.btn .btn-sm .btn-secondary}
 
 <details><summary>The diff of <code>pyproject.toml</code></summary>
 
@@ -55,4 +64,6 @@ uvicorn prints its version, and the version of Python that runs it.
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/18dd9dfb1c9597e50a8b404a6cb6379c1c149320). [The code after it](https://github.com/rahuldave/cheesecracker/tree/18dd9dfb1c9597e50a8b404a6cb6379c1c149320).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/18dd9dfb1c9597e50a8b404a6cb6379c1c149320){.btn .btn-sm .btn-secondary} [The code after it](https://github.com/rahuldave/cheesecracker/tree/18dd9dfb1c9597e50a8b404a6cb6379c1c149320){.btn .btn-sm .btn-primary}
+
+This part ends at the code at `18dd9dfb1c95`, partway through `step-02`. [The code after this part](https://github.com/rahuldave/cheesecracker/tree/18dd9dfb1c9597e50a8b404a6cb6379c1c149320){.btn .btn-sm .btn-primary}

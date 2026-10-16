@@ -6,14 +6,23 @@ title: "1.2 A group for the tests"
 
 **Read the tutorial.** [Build it yourself](../build/step-01.2.qmd) is the other way to read this part.
 
+This walk goes through [rahuldave/cheesecracker](https://github.com/rahuldave/cheesecracker) on GitHub. This part starts from the code at `bb1701fd54ba`, partway through `step-01`. [The code before this part](https://github.com/rahuldave/cheesecracker/tree/bb1701fd54ba7c6aa9bd971c6651f34439f004d6){.btn .btn-sm .btn-primary}
+
+To look at this code on your machine, run these commands. The first one makes a clone, if this folder has none:
+
+```bash
+[ -d cheesecracker ] || git clone https://github.com/rahuldave/cheesecracker
+cd cheesecracker
+git fetch --quiet --tags --force origin
+git switch --detach bb1701fd54ba
+```
+
 ```bash
 just setup
 ```
 
 The whole tutorial first writes the function `power()`, in `src/api-service/api/utils.py`. Its tests need pytest, and
 the server never does. So pytest goes into a group of its own.
-
-[The code before this part](https://github.com/rahuldave/cheesecracker/tree/bb1701fd54ba7c6aa9bd971c6651f34439f004d6). [The code after it](https://github.com/rahuldave/cheesecracker/tree/fc8c3bce83604277393460c4eb243d176d51905c).
 
 ## 1.2 pytest, in the dependency group test {#step-01.2}
 
@@ -34,9 +43,9 @@ uv prints the version of pytest, `pytest 9.1.1` on the day of the class.
 
 ### What changed {#step-01.2-what-changed-182c57}
 
-- <a id="step-01.2-pyproject.toml-5d07e7"></a>`pyproject.toml`: pytest, in the group `test`. 5 lines added. It comes from `uv add --group test pytest`. [The file](https://github.com/rahuldave/cheesecracker/blob/fc8c3bce83604277393460c4eb243d176d51905c/pyproject.toml).
+- <a id="step-01.2-pyproject.toml-5d07e7"></a>`pyproject.toml`: pytest, in the group `test`. 5 lines added. It comes from `uv add --group test pytest`. [The file](https://github.com/rahuldave/cheesecracker/blob/fc8c3bce83604277393460c4eb243d176d51905c/pyproject.toml){.btn .btn-sm .btn-secondary}
   - look at `"pytest>=9.1.1",`
-- <a id="step-01.2-uv.lock-8356d8"></a>`uv.lock`: the exact version of pytest, and of the packages that it needs. 71 lines added. It comes from `uv add --group test pytest`. [The file](https://github.com/rahuldave/cheesecracker/blob/fc8c3bce83604277393460c4eb243d176d51905c/uv.lock).
+- <a id="step-01.2-uv.lock-8356d8"></a>`uv.lock`: the exact version of pytest, and of the packages that it needs. 71 lines added. It comes from `uv add --group test pytest`. [The file](https://github.com/rahuldave/cheesecracker/blob/fc8c3bce83604277393460c4eb243d176d51905c/uv.lock){.btn .btn-sm .btn-secondary}
 
 <details><summary>The diff of <code>pyproject.toml</code></summary>
 
@@ -54,4 +63,6 @@ uv prints the version of pytest, `pytest 9.1.1` on the day of the class.
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/fc8c3bce83604277393460c4eb243d176d51905c). [The code after it](https://github.com/rahuldave/cheesecracker/tree/fc8c3bce83604277393460c4eb243d176d51905c).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/fc8c3bce83604277393460c4eb243d176d51905c){.btn .btn-sm .btn-secondary} [The code after it](https://github.com/rahuldave/cheesecracker/tree/fc8c3bce83604277393460c4eb243d176d51905c){.btn .btn-sm .btn-primary}
+
+This part ends at the code at `fc8c3bce8360`, partway through `step-01`. [The code after this part](https://github.com/rahuldave/cheesecracker/tree/fc8c3bce83604277393460c4eb243d176d51905c){.btn .btn-sm .btn-primary}

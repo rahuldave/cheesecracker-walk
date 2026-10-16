@@ -6,6 +6,8 @@ title: "7 The server in Docker"
 
 **Build it yourself.** [Read the tutorial](../read/step-07.qmd) is the other way to read this part.
 
+This walk goes through [rahuldave/cheesecracker](https://github.com/rahuldave/cheesecracker) on GitHub. This part starts from the code at `step-06`. [The code before this part](https://github.com/rahuldave/cheesecracker/tree/step-06){.btn .btn-sm .btn-primary}
+
 If you start at this part, make your clone as **Get the project** says, and then run this command. It puts in your clone the files that this part starts from. A file that the project deleted before this part stays, so delete it if `git check` lists it:
 
 ```bash
@@ -19,8 +21,6 @@ just setup
 The server runs on this machine, with its `.venv` and this version of macOS or Linux. Production is another machine,
 such as a server on Google Cloud. A Docker image holds the server with everything it needs, so it runs the same on
 any machine with Docker. The run image is the image that production runs, our deployment.
-
-[The code before this part](https://github.com/rahuldave/cheesecracker/tree/57ec2e24ecd4946823edbfad27bc2296f80e3847). [The code after it](https://github.com/rahuldave/cheesecracker/tree/d444e0387d256c62024581e98f59d670cbc93296).
 
 ## 7.1 what docker build leaves out {#step-07.1}
 
@@ -55,7 +55,7 @@ git restore --source 57ec2e24ecd4 --staged -- :/ && git restore --source 2a28a5c
 
 ### What changed {#step-07.1-what-changed-182c57}
 
-- <a id="step-07.1-.dockerignore-05a721"></a>`.dockerignore`: what `docker build` never sends to Docker. New, 10 lines. [The file](https://github.com/rahuldave/cheesecracker/blob/2a28a5c704d6d9ed8200aeb8962aa01e5c2ac552/.dockerignore).
+- <a id="step-07.1-.dockerignore-05a721"></a>`.dockerignore`: what `docker build` never sends to Docker. New, 10 lines. [The file](https://github.com/rahuldave/cheesecracker/blob/2a28a5c704d6d9ed8200aeb8962aa01e5c2ac552/.dockerignore){.btn .btn-sm .btn-secondary}
   - look at `.venv/`
 
 <details open><summary>The patch to <code>.dockerignore</code></summary>
@@ -76,7 +76,7 @@ git restore --source 57ec2e24ecd4 --staged -- :/ && git restore --source 2a28a5c
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/2a28a5c704d6d9ed8200aeb8962aa01e5c2ac552). [The code after it](https://github.com/rahuldave/cheesecracker/tree/2a28a5c704d6d9ed8200aeb8962aa01e5c2ac552).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/2a28a5c704d6d9ed8200aeb8962aa01e5c2ac552){.btn .btn-sm .btn-secondary} [The code after it](https://github.com/rahuldave/cheesecracker/tree/2a28a5c704d6d9ed8200aeb8962aa01e5c2ac552){.btn .btn-sm .btn-primary}
 
 ## 7.2 the run image, the server as it runs in production {#step-07.2}
 
@@ -119,7 +119,7 @@ git restore --source 2a28a5c704d6 --staged -- :/ && git restore --source 0acb455
 
 ### What changed {#step-07.2-what-changed-182c57}
 
-- <a id="step-07.2-Dockerfile-6651dd"></a>`Dockerfile`: the stages `uv`, `build` and `run`. New, 34 lines. [The file](https://github.com/rahuldave/cheesecracker/blob/0acb4556f724cd94e4a71ab4fff739a974413fc0/Dockerfile).
+- <a id="step-07.2-Dockerfile-6651dd"></a>`Dockerfile`: the stages `uv`, `build` and `run`. New, 34 lines. [The file](https://github.com/rahuldave/cheesecracker/blob/0acb4556f724cd94e4a71ab4fff739a974413fc0/Dockerfile){.btn .btn-sm .btn-secondary}
   - look at `RUN uv sync --locked --no-default-groups`
 
 <details open><summary>The patch to <code>Dockerfile</code></summary>
@@ -164,7 +164,7 @@ git restore --source 2a28a5c704d6 --staged -- :/ && git restore --source 0acb455
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/0acb4556f724cd94e4a71ab4fff739a974413fc0). [The code after it](https://github.com/rahuldave/cheesecracker/tree/0acb4556f724cd94e4a71ab4fff739a974413fc0).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/0acb4556f724cd94e4a71ab4fff739a974413fc0){.btn .btn-sm .btn-secondary} [The code after it](https://github.com/rahuldave/cheesecracker/tree/0acb4556f724cd94e4a71ab4fff739a974413fc0){.btn .btn-sm .btn-primary}
 
 ## 7.3 just docker-build, just docker-serve and just docker-stop {#step-07.3}
 
@@ -225,7 +225,7 @@ git restore --source 0acb4556f724 --staged -- :/ && git restore --source d444e03
 
 ### What changed {#step-07.3-what-changed-182c57}
 
-- <a id="step-07.3-justfile-424f0b"></a>`justfile`: the recipes `docker-build`, `docker-serve` and `docker-stop`. 20 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/d444e0387d256c62024581e98f59d670cbc93296/justfile).
+- <a id="step-07.3-justfile-424f0b"></a>`justfile`: the recipes `docker-build`, `docker-serve` and `docker-stop`. 20 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/d444e0387d256c62024581e98f59d670cbc93296/justfile){.btn .btn-sm .btn-secondary}
   - look at `docker run --rm --detach --name cheesecracker-run --publish 9000:9000 cheesecracker-run > /dev/null || exit 1`
 
 <details open><summary>The patch to <code>justfile</code></summary>
@@ -259,4 +259,6 @@ git restore --source 0acb4556f724 --staged -- :/ && git restore --source d444e03
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/d444e0387d256c62024581e98f59d670cbc93296). [The code after it](https://github.com/rahuldave/cheesecracker/tree/d444e0387d256c62024581e98f59d670cbc93296).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/d444e0387d256c62024581e98f59d670cbc93296){.btn .btn-sm .btn-secondary} [The code after it](https://github.com/rahuldave/cheesecracker/tree/step-07){.btn .btn-sm .btn-primary}
+
+This part ends at the code at `step-07`. [The code after this part](https://github.com/rahuldave/cheesecracker/tree/step-07){.btn .btn-sm .btn-primary}

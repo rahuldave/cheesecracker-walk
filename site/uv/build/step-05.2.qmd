@@ -6,6 +6,8 @@ title: "5.2 A second group, for the checks"
 
 **Build it yourself.** [Read the tutorial](../read/step-05.2.qmd) is the other way to read this part.
 
+This walk goes through [rahuldave/cheesecracker](https://github.com/rahuldave/cheesecracker) on GitHub. This part starts from the code at `f77650600c11`, partway through `step-05`. [The code before this part](https://github.com/rahuldave/cheesecracker/tree/f77650600c1176caa9aaee86e6cddfccc43fc69c){.btn .btn-sm .btn-primary}
+
 This part does not start where the part before it ends, because the walk skips some changes. This command puts the files that this part starts from in place of yours. Run it, and then go on:
 
 ```bash
@@ -24,8 +26,6 @@ just setup
 
 The whole tutorial then adds the recipe `just cov`, and a change made in a hurry. ruff checks the code, and the server
 does not need it. So ruff starts a second group, `lint`.
-
-[The code before this part](https://github.com/rahuldave/cheesecracker/tree/f77650600c1176caa9aaee86e6cddfccc43fc69c). [The code after it](https://github.com/rahuldave/cheesecracker/tree/9662828462ba2a21ca04a79c412e83ac070767f6).
 
 ## 5.2 ruff, the formatter and the linter, in the group lint {#step-05.2}
 
@@ -55,9 +55,9 @@ git restore --source f77650600c11 --staged -- :/ && git restore --source 9662828
 
 ### What changed {#step-05.2-what-changed-182c57}
 
-- <a id="step-05.2-pyproject.toml-5d07e7"></a>`pyproject.toml`: ruff, in the group `lint`. 3 lines added. It comes from `uv add --group lint ruff`. [The file](https://github.com/rahuldave/cheesecracker/blob/9662828462ba2a21ca04a79c412e83ac070767f6/pyproject.toml).
+- <a id="step-05.2-pyproject.toml-5d07e7"></a>`pyproject.toml`: ruff, in the group `lint`. 3 lines added. It comes from `uv add --group lint ruff`. [The file](https://github.com/rahuldave/cheesecracker/blob/9662828462ba2a21ca04a79c412e83ac070767f6/pyproject.toml){.btn .btn-sm .btn-secondary}
   - look at `"ruff>=0.17.1",`
-- <a id="step-05.2-uv.lock-8356d8"></a>`uv.lock`: the exact version of ruff. 29 lines added. It comes from `uv add --group lint ruff`. [The file](https://github.com/rahuldave/cheesecracker/blob/9662828462ba2a21ca04a79c412e83ac070767f6/uv.lock).
+- <a id="step-05.2-uv.lock-8356d8"></a>`uv.lock`: the exact version of ruff. 29 lines added. It comes from `uv add --group lint ruff`. [The file](https://github.com/rahuldave/cheesecracker/blob/9662828462ba2a21ca04a79c412e83ac070767f6/uv.lock){.btn .btn-sm .btn-secondary}
 
 <details><summary>The diff that <code>uv add --group lint ruff</code> makes in <code>pyproject.toml</code></summary>
 
@@ -76,4 +76,6 @@ git restore --source f77650600c11 --staged -- :/ && git restore --source 9662828
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/9662828462ba2a21ca04a79c412e83ac070767f6). [The code after it](https://github.com/rahuldave/cheesecracker/tree/9662828462ba2a21ca04a79c412e83ac070767f6).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/9662828462ba2a21ca04a79c412e83ac070767f6){.btn .btn-sm .btn-secondary} [The code after it](https://github.com/rahuldave/cheesecracker/tree/9662828462ba2a21ca04a79c412e83ac070767f6){.btn .btn-sm .btn-primary}
+
+This part ends at the code at `9662828462ba`, partway through `step-05`. [The code after this part](https://github.com/rahuldave/cheesecracker/tree/9662828462ba2a21ca04a79c412e83ac070767f6){.btn .btn-sm .btn-primary}

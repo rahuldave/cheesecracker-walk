@@ -6,13 +6,22 @@ title: "7.1 What docker build leaves out"
 
 **Read the tutorial.** [Build it yourself](../build/step-07.1.qmd) is the other way to read this part.
 
+This walk goes through [rahuldave/cheesecracker](https://github.com/rahuldave/cheesecracker) on GitHub. This part starts from the code at `step-06`. [The code before this part](https://github.com/rahuldave/cheesecracker/tree/step-06){.btn .btn-sm .btn-primary}
+
+To look at this code on your machine, run these commands. The first one makes a clone, if this folder has none:
+
+```bash
+[ -d cheesecracker ] || git clone https://github.com/rahuldave/cheesecracker
+cd cheesecracker
+git fetch --quiet --tags --force origin
+git switch --detach step-06
+```
+
 ```bash
 just setup
 ```
 
 Our first file for Docker, `.dockerignore`, lists the files that never go into an image.
-
-[The code before this part](https://github.com/rahuldave/cheesecracker/tree/57ec2e24ecd4946823edbfad27bc2296f80e3847). [The code after it](https://github.com/rahuldave/cheesecracker/tree/2a28a5c704d6d9ed8200aeb8962aa01e5c2ac552).
 
 ## 7.1 what docker build leaves out {#step-07.1}
 
@@ -31,7 +40,7 @@ cat .dockerignore
 
 ### What changed {#step-07.1-what-changed-182c57}
 
-- <a id="step-07.1-.dockerignore-05a721"></a>`.dockerignore`: what `docker build` never sends to Docker. New, 10 lines. [The file](https://github.com/rahuldave/cheesecracker/blob/2a28a5c704d6d9ed8200aeb8962aa01e5c2ac552/.dockerignore).
+- <a id="step-07.1-.dockerignore-05a721"></a>`.dockerignore`: what `docker build` never sends to Docker. New, 10 lines. [The file](https://github.com/rahuldave/cheesecracker/blob/2a28a5c704d6d9ed8200aeb8962aa01e5c2ac552/.dockerignore){.btn .btn-sm .btn-secondary}
   - look at `.venv/`
 
 <details><summary>The diff of <code>.dockerignore</code></summary>
@@ -52,4 +61,6 @@ cat .dockerignore
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/2a28a5c704d6d9ed8200aeb8962aa01e5c2ac552). [The code after it](https://github.com/rahuldave/cheesecracker/tree/2a28a5c704d6d9ed8200aeb8962aa01e5c2ac552).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/2a28a5c704d6d9ed8200aeb8962aa01e5c2ac552){.btn .btn-sm .btn-secondary} [The code after it](https://github.com/rahuldave/cheesecracker/tree/2a28a5c704d6d9ed8200aeb8962aa01e5c2ac552){.btn .btn-sm .btn-primary}
+
+This part ends at the code at `2a28a5c704d6`, partway through `step-07`. [The code after this part](https://github.com/rahuldave/cheesecracker/tree/2a28a5c704d6d9ed8200aeb8962aa01e5c2ac552){.btn .btn-sm .btn-primary}

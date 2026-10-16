@@ -6,14 +6,23 @@ title: "4.1 One more tool for the tests"
 
 **Read the tutorial.** [Build it yourself](../build/step-04.1.qmd) is the other way to read this part.
 
+This walk goes through [rahuldave/cheesecracker](https://github.com/rahuldave/cheesecracker) on GitHub. This part starts from the code at `step-03`. [The code before this part](https://github.com/rahuldave/cheesecracker/tree/step-03){.btn .btn-sm .btn-primary}
+
+To look at this code on your machine, run these commands. The first one makes a clone, if this folder has none:
+
+```bash
+[ -d cheesecracker ] || git clone https://github.com/rahuldave/cheesecracker
+cd cheesecracker
+git fetch --quiet --tags --force origin
+git switch --detach step-03
+```
+
 ```bash
 just setup
 ```
 
 The whole tutorial then adds ten integration tests. The package pytest-cov measures which lines of the code the tests
 run, and it goes into the group `test`.
-
-[The code before this part](https://github.com/rahuldave/cheesecracker/tree/5862780b44d2f4ec87088c971dec57f23c11139e). [The code after it](https://github.com/rahuldave/cheesecracker/tree/54de20e8055ec62726d8956cac3a944433dc404c).
 
 ## 4.1 pytest-cov, to measure what the tests run {#step-04.1}
 
@@ -31,9 +40,9 @@ The table shows `utils.py` at 100% and `service.py` at 0%. The unit tests call `
 
 ### What changed {#step-04.1-what-changed-182c57}
 
-- <a id="step-04.1-pyproject.toml-5d07e7"></a>`pyproject.toml`: pytest-cov, in the group `test`. 1 line added. It comes from `uv add --group test pytest-cov`. [The file](https://github.com/rahuldave/cheesecracker/blob/54de20e8055ec62726d8956cac3a944433dc404c/pyproject.toml).
+- <a id="step-04.1-pyproject.toml-5d07e7"></a>`pyproject.toml`: pytest-cov, in the group `test`. 1 line added. It comes from `uv add --group test pytest-cov`. [The file](https://github.com/rahuldave/cheesecracker/blob/54de20e8055ec62726d8956cac3a944433dc404c/pyproject.toml){.btn .btn-sm .btn-secondary}
   - look at `"pytest-cov>=7.1.0",`
-- <a id="step-04.1-uv.lock-8356d8"></a>`uv.lock`: the exact versions of pytest-cov, and of coverage, which it uses. 115 lines added. It comes from `uv add --group test pytest-cov`. [The file](https://github.com/rahuldave/cheesecracker/blob/54de20e8055ec62726d8956cac3a944433dc404c/uv.lock).
+- <a id="step-04.1-uv.lock-8356d8"></a>`uv.lock`: the exact versions of pytest-cov, and of coverage, which it uses. 115 lines added. It comes from `uv add --group test pytest-cov`. [The file](https://github.com/rahuldave/cheesecracker/blob/54de20e8055ec62726d8956cac3a944433dc404c/uv.lock){.btn .btn-sm .btn-secondary}
 
 <details><summary>The diff of <code>pyproject.toml</code></summary>
 
@@ -50,4 +59,6 @@ The table shows `utils.py` at 100% and `service.py` at 0%. The unit tests call `
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/54de20e8055ec62726d8956cac3a944433dc404c). [The code after it](https://github.com/rahuldave/cheesecracker/tree/54de20e8055ec62726d8956cac3a944433dc404c).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/54de20e8055ec62726d8956cac3a944433dc404c){.btn .btn-sm .btn-secondary} [The code after it](https://github.com/rahuldave/cheesecracker/tree/54de20e8055ec62726d8956cac3a944433dc404c){.btn .btn-sm .btn-primary}
+
+This part ends at the code at `54de20e8055e`, partway through `step-04`. [The code after this part](https://github.com/rahuldave/cheesecracker/tree/54de20e8055ec62726d8956cac3a944433dc404c){.btn .btn-sm .btn-primary}

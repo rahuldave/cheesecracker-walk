@@ -151,6 +151,8 @@ git config alias.check '!f() { i="$(git rev-parse --git-path check-index)" && { 
 
 ## 0 Where we start
 
+This walk goes through [rahuldave/cheesecracker](https://github.com/rahuldave/cheesecracker) on GitHub. This part is where the project starts, at `step-00`. [The code of this part](https://github.com/rahuldave/cheesecracker/tree/step-00)
+
 ```bash
 just setup
 ```
@@ -301,11 +303,13 @@ git rm -rq --cached --ignore-unmatch -- :/ && git restore --source cf50a6ef5045 
 
 </details>
 
-[The code](https://github.com/rahuldave/cheesecracker/tree/cf50a6ef5045e08ca727aeaffdb710fad2cae096).
+This part ends at the code at `step-00`. [The code after this part](https://github.com/rahuldave/cheesecracker/tree/step-00)
 
 <a id="step-01"></a>
 
 ## 1 power(), and its unit tests
+
+This walk goes through [rahuldave/cheesecracker](https://github.com/rahuldave/cheesecracker) on GitHub. This part starts from the code at `step-00`. [The code before this part](https://github.com/rahuldave/cheesecracker/tree/step-00)
 
 ```bash
 just setup
@@ -314,8 +318,6 @@ just setup
 The server will compute distances, and it needs a function that raises a number to a power. We write the function
 first, and tests that call it alone. A unit test calls one function, with no server and no network, so it runs in
 milliseconds.
-
-[The code before this part](https://github.com/rahuldave/cheesecracker/tree/cf50a6ef5045e08ca727aeaffdb710fad2cae096). [The code after it](https://github.com/rahuldave/cheesecracker/tree/e86e0c3d10bbe9409674f1c65ce4afdc38e7f76f).
 
 <a id="step-01.1"></a>
 
@@ -724,11 +726,15 @@ git restore --source cbc98b162671 --staged -- :/ && git restore --source e86e0c3
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/e86e0c3d10bbe9409674f1c65ce4afdc38e7f76f). [The code after it](https://github.com/rahuldave/cheesecracker/tree/e86e0c3d10bbe9409674f1c65ce4afdc38e7f76f).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/e86e0c3d10bbe9409674f1c65ce4afdc38e7f76f). [The code after it](https://github.com/rahuldave/cheesecracker/tree/step-01).
+
+This part ends at the code at `step-01`. [The code after this part](https://github.com/rahuldave/cheesecracker/tree/step-01)
 
 <a id="step-02"></a>
 
 ## 2 The API server
+
+This walk goes through [rahuldave/cheesecracker](https://github.com/rahuldave/cheesecracker) on GitHub. This part starts from the code at `step-01`. [The code before this part](https://github.com/rahuldave/cheesecracker/tree/step-01)
 
 ```bash
 just setup
@@ -736,8 +742,6 @@ just setup
 
 The Cheese App talks to its server over HTTP. FastAPI turns Python functions into the answers of HTTP requests, and
 uvicorn is the server that runs a FastAPI app. We write an app that answers two requests, and run it on this machine.
-
-[The code before this part](https://github.com/rahuldave/cheesecracker/tree/e86e0c3d10bbe9409674f1c65ce4afdc38e7f76f). [The code after it](https://github.com/rahuldave/cheesecracker/tree/69c3bf65c78cf8e96bf8f9ea1dde29279db1351a).
 
 <a id="step-02.1"></a>
 
@@ -996,11 +1000,15 @@ git restore --source acee14f7dff4 --staged -- :/ && git restore --source 69c3bf6
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/69c3bf65c78cf8e96bf8f9ea1dde29279db1351a). [The code after it](https://github.com/rahuldave/cheesecracker/tree/69c3bf65c78cf8e96bf8f9ea1dde29279db1351a).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/69c3bf65c78cf8e96bf8f9ea1dde29279db1351a). [The code after it](https://github.com/rahuldave/cheesecracker/tree/step-02).
+
+This part ends at the code at `step-02`. [The code after this part](https://github.com/rahuldave/cheesecracker/tree/step-02)
 
 <a id="step-03"></a>
 
 ## 3 The distance endpoint, and integration tests
+
+This walk goes through [rahuldave/cheesecracker](https://github.com/rahuldave/cheesecracker) on GitHub. This part starts from the code at `step-02`. [The code before this part](https://github.com/rahuldave/cheesecracker/tree/step-02)
 
 ```bash
 just setup
@@ -1009,8 +1017,6 @@ just setup
 The app needs an endpoint that does some work, and tests that call it. The endpoint computes the distance of a point
 from the origin with `power()`. An integration test sends requests to the app and checks the answers, with no server
 and no network.
-
-[The code before this part](https://github.com/rahuldave/cheesecracker/tree/69c3bf65c78cf8e96bf8f9ea1dde29279db1351a). [The code after it](https://github.com/rahuldave/cheesecracker/tree/5862780b44d2f4ec87088c971dec57f23c11139e).
 
 <a id="step-03.1"></a>
 
@@ -1284,11 +1290,15 @@ git restore --source 3c75ffb1a089 --staged -- :/ && git restore --source 5862780
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/5862780b44d2f4ec87088c971dec57f23c11139e). [The code after it](https://github.com/rahuldave/cheesecracker/tree/5862780b44d2f4ec87088c971dec57f23c11139e).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/5862780b44d2f4ec87088c971dec57f23c11139e). [The code after it](https://github.com/rahuldave/cheesecracker/tree/step-03).
+
+This part ends at the code at `step-03`. [The code after this part](https://github.com/rahuldave/cheesecracker/tree/step-03)
 
 <a id="step-04"></a>
 
 ## 4 Coverage
+
+This walk goes through [rahuldave/cheesecracker](https://github.com/rahuldave/cheesecracker) on GitHub. This part starts from the code at `step-03`. [The code before this part](https://github.com/rahuldave/cheesecracker/tree/step-03)
 
 ```bash
 just setup
@@ -1296,8 +1306,6 @@ just setup
 
 Twenty-one tests pass, and we still do not know which lines of the app they run. Coverage counts the lines of the
 package `api` that run during the tests, and lists the lines that no test ran.
-
-[The code before this part](https://github.com/rahuldave/cheesecracker/tree/5862780b44d2f4ec87088c971dec57f23c11139e). [The code after it](https://github.com/rahuldave/cheesecracker/tree/bfb9c783c67c31254ce8136784738c0f2fc17fb5).
 
 <a id="step-04.1"></a>
 
@@ -1405,11 +1413,15 @@ git restore --source 54de20e8055e --staged -- :/ && git restore --source bfb9c78
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/bfb9c783c67c31254ce8136784738c0f2fc17fb5). [The code after it](https://github.com/rahuldave/cheesecracker/tree/bfb9c783c67c31254ce8136784738c0f2fc17fb5).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/bfb9c783c67c31254ce8136784738c0f2fc17fb5). [The code after it](https://github.com/rahuldave/cheesecracker/tree/step-04).
+
+This part ends at the code at `step-04`. [The code after this part](https://github.com/rahuldave/cheesecracker/tree/step-04)
 
 <a id="step-05"></a>
 
 ## 5 The formatter and the linter
+
+This walk goes through [rahuldave/cheesecracker](https://github.com/rahuldave/cheesecracker) on GitHub. This part starts from the code at `step-04`. [The code before this part](https://github.com/rahuldave/cheesecracker/tree/step-04)
 
 ```bash
 just setup
@@ -1418,8 +1430,6 @@ just setup
 Code that works can still be hard to read, and a reader can miss a bug in it. A formatter writes the code in one
 layout. A linter checks the code against rules, such as "no import that nothing uses". ruff is both, and it has the
 rules of flake8.
-
-[The code before this part](https://github.com/rahuldave/cheesecracker/tree/bfb9c783c67c31254ce8136784738c0f2fc17fb5). [The code after it](https://github.com/rahuldave/cheesecracker/tree/e89e0cfa991257757c887f687087a9c77c093e20).
 
 <a id="step-05.1"></a>
 
@@ -1984,11 +1994,15 @@ git restore --source 693a713a458d --staged -- :/ && git restore --source e89e0cf
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/e89e0cfa991257757c887f687087a9c77c093e20). [The code after it](https://github.com/rahuldave/cheesecracker/tree/e89e0cfa991257757c887f687087a9c77c093e20).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/e89e0cfa991257757c887f687087a9c77c093e20). [The code after it](https://github.com/rahuldave/cheesecracker/tree/step-05).
+
+This part ends at the code at `step-05`. [The code after this part](https://github.com/rahuldave/cheesecracker/tree/step-05)
 
 <a id="step-06"></a>
 
 ## 6 Checks before every commit
+
+This walk goes through [rahuldave/cheesecracker](https://github.com/rahuldave/cheesecracker) on GitHub. This part starts from the code at `step-05`. [The code before this part](https://github.com/rahuldave/cheesecracker/tree/step-05)
 
 ```bash
 just setup
@@ -1996,8 +2010,6 @@ just setup
 
 `just check` works only when someone runs it. pre-commit runs checks before every `git commit`, and stops the commit
 when a check fails. The checks are in `.pre-commit-config.yaml`.
-
-[The code before this part](https://github.com/rahuldave/cheesecracker/tree/e89e0cfa991257757c887f687087a9c77c093e20). [The code after it](https://github.com/rahuldave/cheesecracker/tree/57ec2e24ecd4946823edbfad27bc2296f80e3847).
 
 <a id="step-06.1"></a>
 
@@ -2187,11 +2199,15 @@ git restore --source 009d77653ead --staged -- :/ && git restore --source 57ec2e2
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/57ec2e24ecd4946823edbfad27bc2296f80e3847). [The code after it](https://github.com/rahuldave/cheesecracker/tree/57ec2e24ecd4946823edbfad27bc2296f80e3847).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/57ec2e24ecd4946823edbfad27bc2296f80e3847). [The code after it](https://github.com/rahuldave/cheesecracker/tree/step-06).
+
+This part ends at the code at `step-06`. [The code after this part](https://github.com/rahuldave/cheesecracker/tree/step-06)
 
 <a id="step-07"></a>
 
 ## 7 The server in Docker
+
+This walk goes through [rahuldave/cheesecracker](https://github.com/rahuldave/cheesecracker) on GitHub. This part starts from the code at `step-06`. [The code before this part](https://github.com/rahuldave/cheesecracker/tree/step-06)
 
 ```bash
 just setup
@@ -2200,8 +2216,6 @@ just setup
 The server runs on this machine, with its `.venv` and this version of macOS or Linux. Production is another machine,
 such as a server on Google Cloud. A Docker image holds the server with everything it needs, so it runs the same on
 any machine with Docker. The run image is the image that production runs, our deployment.
-
-[The code before this part](https://github.com/rahuldave/cheesecracker/tree/57ec2e24ecd4946823edbfad27bc2296f80e3847). [The code after it](https://github.com/rahuldave/cheesecracker/tree/d444e0387d256c62024581e98f59d670cbc93296).
 
 <a id="step-07.1"></a>
 
@@ -2446,11 +2460,15 @@ git restore --source 0acb4556f724 --staged -- :/ && git restore --source d444e03
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/d444e0387d256c62024581e98f59d670cbc93296). [The code after it](https://github.com/rahuldave/cheesecracker/tree/d444e0387d256c62024581e98f59d670cbc93296).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/d444e0387d256c62024581e98f59d670cbc93296). [The code after it](https://github.com/rahuldave/cheesecracker/tree/step-07).
+
+This part ends at the code at `step-07`. [The code after this part](https://github.com/rahuldave/cheesecracker/tree/step-07)
 
 <a id="step-08"></a>
 
 ## 8 System tests
+
+This walk goes through [rahuldave/cheesecracker](https://github.com/rahuldave/cheesecracker) on GitHub. This part starts from the code at `step-07`. [The code before this part](https://github.com/rahuldave/cheesecracker/tree/step-07)
 
 ```bash
 just setup
@@ -2459,8 +2477,6 @@ just setup
 The integration tests call the app in the same process as the tests. They cannot tell whether the image starts, or
 whether the server answers on its port. A system test sends real HTTP requests to the running server, as the Cheese
 App does. Here the server is the run image, our deployment, which `just docker-serve` starts.
-
-[The code before this part](https://github.com/rahuldave/cheesecracker/tree/d444e0387d256c62024581e98f59d670cbc93296). [The code after it](https://github.com/rahuldave/cheesecracker/tree/277d54eebce4a1727ed3d8a5c46570ca4a95f75d).
 
 <a id="step-08.1"></a>
 
@@ -2783,11 +2799,15 @@ git restore --source 19813cf32d08 --staged -- :/ && git restore --source 277d54e
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/277d54eebce4a1727ed3d8a5c46570ca4a95f75d). [The code after it](https://github.com/rahuldave/cheesecracker/tree/277d54eebce4a1727ed3d8a5c46570ca4a95f75d).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/277d54eebce4a1727ed3d8a5c46570ca4a95f75d). [The code after it](https://github.com/rahuldave/cheesecracker/tree/step-08).
+
+This part ends at the code at `step-08`. [The code after this part](https://github.com/rahuldave/cheesecracker/tree/step-08)
 
 <a id="step-09"></a>
 
 ## 9 The dev image
+
+This walk goes through [rahuldave/cheesecracker](https://github.com/rahuldave/cheesecracker) on GitHub. This part starts from the code at `step-08`. [The code before this part](https://github.com/rahuldave/cheesecracker/tree/step-08)
 
 ```bash
 just setup
@@ -2796,8 +2816,6 @@ just setup
 The checks run on this machine. Another person, or a CI service, runs them on another system, with other versions of
 the tools. The dev image holds the whole project with every group of dependencies, and uv, just and git. So the
 checks run in the same Linux, anywhere Docker runs.
-
-[The code before this part](https://github.com/rahuldave/cheesecracker/tree/277d54eebce4a1727ed3d8a5c46570ca4a95f75d). [The code after it](https://github.com/rahuldave/cheesecracker/tree/0701e9244ab2384538eda4d623e1d047ff3f8258).
 
 <a id="step-09.1"></a>
 
@@ -2955,11 +2973,15 @@ git restore --source ccf62d330f28 --staged -- :/ && git restore --source 0701e92
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/0701e9244ab2384538eda4d623e1d047ff3f8258). [The code after it](https://github.com/rahuldave/cheesecracker/tree/0701e9244ab2384538eda4d623e1d047ff3f8258).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/0701e9244ab2384538eda4d623e1d047ff3f8258). [The code after it](https://github.com/rahuldave/cheesecracker/tree/step-09).
+
+This part ends at the code at `step-09`. [The code after this part](https://github.com/rahuldave/cheesecracker/tree/step-09)
 
 <a id="step-10"></a>
 
 ## 10 A new endpoint
+
+This walk goes through [rahuldave/cheesecracker](https://github.com/rahuldave/cheesecracker) on GitHub. This part starts from the code at `step-09`. [The code before this part](https://github.com/rahuldave/cheesecracker/tree/step-09)
 
 ```bash
 just setup
@@ -3070,4 +3092,6 @@ git restore --source 0701e9244ab2 --staged -- :/ && git restore --source e706255
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/compare/0701e9244ab2384538eda4d623e1d047ff3f8258...e706255d9c0fee3b6fded40376e7ac8829d1654a). [The code after it](https://github.com/rahuldave/cheesecracker/tree/e706255d9c0fee3b6fded40376e7ac8829d1654a).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/compare/0701e9244ab2384538eda4d623e1d047ff3f8258...e706255d9c0fee3b6fded40376e7ac8829d1654a).
+
+This part ends at the code at `step-10`. [The code after this part](https://github.com/rahuldave/cheesecracker/tree/step-10)

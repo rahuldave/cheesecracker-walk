@@ -6,6 +6,8 @@ title: "5.5 to 5.7 The fixes"
 
 **Build it yourself.** [Read the tutorial](../read/step-05.5-to-step-05.7.qmd) is the other way to read this part.
 
+This walk goes through [rahuldave/cheesecracker](https://github.com/rahuldave/cheesecracker) on GitHub. This part starts from the code at `b947593e84b7`, partway through `step-05`. [The code before this part](https://github.com/rahuldave/cheesecracker/tree/b947593e84b71486902b3ff1c7f9e1458b70e3f7){.btn .btn-sm .btn-primary}
+
 If you start at this part, make your clone as **Get the project** says, and then run this command. It puts in your clone the files that this part starts from. A file that the project deleted before this part stays, so delete it if `git check` lists it:
 
 ```bash
@@ -17,8 +19,6 @@ just setup
 ```
 
 The formatter fixes the layout, and the linter removes the import that nothing uses. A person shortens the long line.
-
-[The code before this part](https://github.com/rahuldave/cheesecracker/tree/b947593e84b71486902b3ff1c7f9e1458b70e3f7). [The code after it](https://github.com/rahuldave/cheesecracker/tree/693a713a458db01debdd7ebc3b084ed1b0350b08).
 
 ## 5.5 the formatter fixes the spaces, the blank lines and the line breaks {#step-05.5}
 
@@ -51,9 +51,9 @@ git restore --source b947593e84b7 --staged -- :/ && git restore --source 4264211
 
 ### What changed {#step-05.5-what-changed-182c57}
 
-- <a id="step-05.5-src-api-service-api-service.py-1e1e71"></a>`src/api-service/api/service.py`: the spaces, the blank lines, and the long `return` on six lines. 10 lines added, 2 removed. It comes from `just fmt`. [The file](https://github.com/rahuldave/cheesecracker/blob/42642115394d8e19ead4c27bafaf4d90d991b0c9/src/api-service/api/service.py).
+- <a id="step-05.5-src-api-service-api-service.py-1e1e71"></a>`src/api-service/api/service.py`: the spaces, the blank lines, and the long `return` on six lines. 10 lines added, 2 removed. It comes from `just fmt`. [The file](https://github.com/rahuldave/cheesecracker/blob/42642115394d8e19ead4c27bafaf4d90d991b0c9/src/api-service/api/service.py){.btn .btn-sm .btn-secondary}
   - look at `z = power(x, 2) + power(y, 2)`
-- <a id="step-05.5-src-api-service-api-utils.py-18f1f8"></a>`src/api-service/api/utils.py`: the space after the comma, and two blank lines before `unused_function()`. 1 line added, 2 removed. It comes from `just fmt`. [The file](https://github.com/rahuldave/cheesecracker/blob/42642115394d8e19ead4c27bafaf4d90d991b0c9/src/api-service/api/utils.py).
+- <a id="step-05.5-src-api-service-api-utils.py-18f1f8"></a>`src/api-service/api/utils.py`: the space after the comma, and two blank lines before `unused_function()`. 1 line added, 2 removed. It comes from `just fmt`. [The file](https://github.com/rahuldave/cheesecracker/blob/42642115394d8e19ead4c27bafaf4d90d991b0c9/src/api-service/api/utils.py){.btn .btn-sm .btn-secondary}
   - look at `def power(base, exponent):`
 
 <details><summary>The diff that <code>just fmt</code> makes in <code>src/api-service/api/service.py</code></summary>
@@ -111,7 +111,7 @@ git restore --source b947593e84b7 --staged -- :/ && git restore --source 4264211
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/42642115394d8e19ead4c27bafaf4d90d991b0c9). [The code after it](https://github.com/rahuldave/cheesecracker/tree/42642115394d8e19ead4c27bafaf4d90d991b0c9).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/42642115394d8e19ead4c27bafaf4d90d991b0c9){.btn .btn-sm .btn-secondary} [The code after it](https://github.com/rahuldave/cheesecracker/tree/42642115394d8e19ead4c27bafaf4d90d991b0c9){.btn .btn-sm .btn-primary}
 
 ## 5.6 the linter removes the import that nothing uses {#step-05.6}
 
@@ -144,7 +144,7 @@ git restore --source 42642115394d --staged -- :/ && git restore --source cfd2ebb
 
 ### What changed {#step-05.6-what-changed-182c57}
 
-- <a id="step-05.6-src-api-service-api-service.py-1e1e71"></a>`src/api-service/api/service.py`: the import of `os`, removed. 0 lines added, 1 removed. It comes from `just lint --fix || true`. [The file](https://github.com/rahuldave/cheesecracker/blob/cfd2ebb050dda3ce951f0f28e84b9ae09fbe14d5/src/api-service/api/service.py).
+- <a id="step-05.6-src-api-service-api-service.py-1e1e71"></a>`src/api-service/api/service.py`: the import of `os`, removed. 0 lines added, 1 removed. It comes from `just lint --fix || true`. [The file](https://github.com/rahuldave/cheesecracker/blob/cfd2ebb050dda3ce951f0f28e84b9ae09fbe14d5/src/api-service/api/service.py){.btn .btn-sm .btn-secondary}
 
 <details><summary>The diff that <code>just lint --fix || true</code> makes in <code>src/api-service/api/service.py</code></summary>
 
@@ -161,7 +161,7 @@ git restore --source 42642115394d --staged -- :/ && git restore --source cfd2ebb
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/cfd2ebb050dda3ce951f0f28e84b9ae09fbe14d5). [The code after it](https://github.com/rahuldave/cheesecracker/tree/cfd2ebb050dda3ce951f0f28e84b9ae09fbe14d5).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/cfd2ebb050dda3ce951f0f28e84b9ae09fbe14d5){.btn .btn-sm .btn-secondary} [The code after it](https://github.com/rahuldave/cheesecracker/tree/cfd2ebb050dda3ce951f0f28e84b9ae09fbe14d5){.btn .btn-sm .btn-primary}
 
 ## 5.7 a shorter line, by hand {#step-05.7}
 
@@ -196,7 +196,7 @@ git restore --source cfd2ebb050dd --staged -- :/ && git restore --source 693a713
 
 ### What changed {#step-05.7-what-changed-182c57}
 
-- <a id="step-05.7-src-api-service-api-service.py-1e1e71"></a>`src/api-service/api/service.py`: a shorter message. 1 line added, 1 removed. [The file](https://github.com/rahuldave/cheesecracker/blob/693a713a458db01debdd7ebc3b084ed1b0350b08/src/api-service/api/service.py).
+- <a id="step-05.7-src-api-service-api-service.py-1e1e71"></a>`src/api-service/api/service.py`: a shorter message. 1 line added, 1 removed. [The file](https://github.com/rahuldave/cheesecracker/blob/693a713a458db01debdd7ebc3b084ed1b0350b08/src/api-service/api/service.py){.btn .btn-sm .btn-secondary}
   - look at `"message": "This is a very long line that exceeds 120 characters blah",`
 
 <details open><summary>The patch to <code>src/api-service/api/service.py</code></summary>
@@ -213,4 +213,6 @@ git restore --source cfd2ebb050dd --staged -- :/ && git restore --source 693a713
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/693a713a458db01debdd7ebc3b084ed1b0350b08). [The code after it](https://github.com/rahuldave/cheesecracker/tree/693a713a458db01debdd7ebc3b084ed1b0350b08).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/693a713a458db01debdd7ebc3b084ed1b0350b08){.btn .btn-sm .btn-secondary} [The code after it](https://github.com/rahuldave/cheesecracker/tree/693a713a458db01debdd7ebc3b084ed1b0350b08){.btn .btn-sm .btn-primary}
+
+This part ends at the code at `693a713a458d`, partway through `step-05`. [The code after this part](https://github.com/rahuldave/cheesecracker/tree/693a713a458db01debdd7ebc3b084ed1b0350b08){.btn .btn-sm .btn-primary}

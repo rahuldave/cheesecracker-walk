@@ -6,6 +6,8 @@ title: "10 A new endpoint"
 
 **Build it yourself.** [Read the tutorial](../read/step-10.qmd) is the other way to read this part.
 
+This walk goes through [rahuldave/cheesecracker](https://github.com/rahuldave/cheesecracker) on GitHub. This part starts from the code at `step-09`. [The code before this part](https://github.com/rahuldave/cheesecracker/tree/step-09){.btn .btn-sm .btn-primary}
+
 If you start at this part, make your clone as **Get the project** says, and then run this command. It puts in your clone the files that this part starts from. A file that the project deleted before this part stays, so delete it if `git check` lists it:
 
 ```bash
@@ -82,9 +84,9 @@ git restore --source 0701e9244ab2 --staged -- :/ && git restore --source e706255
 
 ## What changed {#step-10-what-changed-182c57}
 
-- <a id="step-10-src-api-service-api-service.py-1e1e71"></a>`src/api-service/api/service.py`: the endpoint `/add/`. 6 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/e706255d9c0fee3b6fded40376e7ac8829d1654a/src/api-service/api/service.py).
+- <a id="step-10-src-api-service-api-service.py-1e1e71"></a>`src/api-service/api/service.py`: the endpoint `/add/`. 6 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/e706255d9c0fee3b6fded40376e7ac8829d1654a/src/api-service/api/service.py){.btn .btn-sm .btn-secondary}
   - look at `return {"result": x + y}`
-- <a id="step-10-tests-integration-test_api.py-596674"></a>`tests/integration/test_api.py`: the test of `/add/`. 6 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/e706255d9c0fee3b6fded40376e7ac8829d1654a/tests/integration/test_api.py).
+- <a id="step-10-tests-integration-test_api.py-596674"></a>`tests/integration/test_api.py`: the test of `/add/`. 6 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/e706255d9c0fee3b6fded40376e7ac8829d1654a/tests/integration/test_api.py){.btn .btn-sm .btn-secondary}
   - look at `response = client.get("/add/?x=10&y=20")`
 
 <details open><summary>The patch to <code>src/api-service/api/service.py</code></summary>
@@ -121,4 +123,6 @@ git restore --source 0701e9244ab2 --staged -- :/ && git restore --source e706255
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/compare/0701e9244ab2384538eda4d623e1d047ff3f8258...e706255d9c0fee3b6fded40376e7ac8829d1654a). [The code after it](https://github.com/rahuldave/cheesecracker/tree/e706255d9c0fee3b6fded40376e7ac8829d1654a).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/compare/0701e9244ab2384538eda4d623e1d047ff3f8258...e706255d9c0fee3b6fded40376e7ac8829d1654a){.btn .btn-sm .btn-secondary}
+
+This part ends at the code at `step-10`. [The code after this part](https://github.com/rahuldave/cheesecracker/tree/step-10){.btn .btn-sm .btn-primary}

@@ -6,6 +6,8 @@ title: "5 The formatter and the linter"
 
 **Build it yourself.** [Read the tutorial](../read/step-05.qmd) is the other way to read this part.
 
+This walk goes through [rahuldave/cheesecracker](https://github.com/rahuldave/cheesecracker) on GitHub. This part starts from the code at `step-04`. [The code before this part](https://github.com/rahuldave/cheesecracker/tree/step-04){.btn .btn-sm .btn-primary}
+
 If you start at this part, make your clone as **Get the project** says, and then run this command. It puts in your clone the files that this part starts from. A file that the project deleted before this part stays, so delete it if `git check` lists it:
 
 ```bash
@@ -19,8 +21,6 @@ just setup
 Code that works can still be hard to read, and a reader can miss a bug in it. A formatter writes the code in one
 layout. A linter checks the code against rules, such as "no import that nothing uses". ruff is both, and it has the
 rules of flake8.
-
-[The code before this part](https://github.com/rahuldave/cheesecracker/tree/bfb9c783c67c31254ce8136784738c0f2fc17fb5). [The code after it](https://github.com/rahuldave/cheesecracker/tree/e89e0cfa991257757c887f687087a9c77c093e20).
 
 ## 5.1 a change in a hurry: the code still works, and reads worse {#step-05.1}
 
@@ -62,9 +62,9 @@ git restore --source bfb9c783c67c --staged -- :/ && git restore --source f776506
 
 ### What changed {#step-05.1-what-changed-182c57}
 
-- <a id="step-05.1-src-api-service-api-service.py-1e1e71"></a>`src/api-service/api/service.py`: an import that nothing uses, missing spaces and blank lines, and a long line. 3 lines added, 5 removed. [The file](https://github.com/rahuldave/cheesecracker/blob/f77650600c1176caa9aaee86e6cddfccc43fc69c/src/api-service/api/service.py).
+- <a id="step-05.1-src-api-service-api-service.py-1e1e71"></a>`src/api-service/api/service.py`: an import that nothing uses, missing spaces and blank lines, and a long line. 3 lines added, 5 removed. [The file](https://github.com/rahuldave/cheesecracker/blob/f77650600c1176caa9aaee86e6cddfccc43fc69c/src/api-service/api/service.py){.btn .btn-sm .btn-secondary}
   - look at `z=power(x,2)+power(y,2)`
-- <a id="step-05.1-src-api-service-api-utils.py-18f1f8"></a>`src/api-service/api/utils.py`: a missing space, extra blank lines, and a function that nothing calls. 6 lines added, 1 removed. [The file](https://github.com/rahuldave/cheesecracker/blob/f77650600c1176caa9aaee86e6cddfccc43fc69c/src/api-service/api/utils.py).
+- <a id="step-05.1-src-api-service-api-utils.py-18f1f8"></a>`src/api-service/api/utils.py`: a missing space, extra blank lines, and a function that nothing calls. 6 lines added, 1 removed. [The file](https://github.com/rahuldave/cheesecracker/blob/f77650600c1176caa9aaee86e6cddfccc43fc69c/src/api-service/api/utils.py){.btn .btn-sm .btn-secondary}
   - look at `def unused_function():`
 
 <details open><summary>The patch to <code>src/api-service/api/service.py</code></summary>
@@ -125,7 +125,7 @@ git restore --source bfb9c783c67c --staged -- :/ && git restore --source f776506
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/f77650600c1176caa9aaee86e6cddfccc43fc69c). [The code after it](https://github.com/rahuldave/cheesecracker/tree/f77650600c1176caa9aaee86e6cddfccc43fc69c).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/f77650600c1176caa9aaee86e6cddfccc43fc69c){.btn .btn-sm .btn-secondary} [The code after it](https://github.com/rahuldave/cheesecracker/tree/f77650600c1176caa9aaee86e6cddfccc43fc69c){.btn .btn-sm .btn-primary}
 
 ## 5.2 ruff, the formatter and the linter, in the group lint {#step-05.2}
 
@@ -155,9 +155,9 @@ git restore --source f77650600c11 --staged -- :/ && git restore --source 9662828
 
 ### What changed {#step-05.2-what-changed-182c57}
 
-- <a id="step-05.2-pyproject.toml-5d07e7"></a>`pyproject.toml`: ruff, in the group `lint`. 3 lines added. It comes from `uv add --group lint ruff`. [The file](https://github.com/rahuldave/cheesecracker/blob/9662828462ba2a21ca04a79c412e83ac070767f6/pyproject.toml).
+- <a id="step-05.2-pyproject.toml-5d07e7"></a>`pyproject.toml`: ruff, in the group `lint`. 3 lines added. It comes from `uv add --group lint ruff`. [The file](https://github.com/rahuldave/cheesecracker/blob/9662828462ba2a21ca04a79c412e83ac070767f6/pyproject.toml){.btn .btn-sm .btn-secondary}
   - look at `"ruff>=0.17.1",`
-- <a id="step-05.2-uv.lock-8356d8"></a>`uv.lock`: the exact version of ruff. 29 lines added. It comes from `uv add --group lint ruff`. [The file](https://github.com/rahuldave/cheesecracker/blob/9662828462ba2a21ca04a79c412e83ac070767f6/uv.lock).
+- <a id="step-05.2-uv.lock-8356d8"></a>`uv.lock`: the exact version of ruff. 29 lines added. It comes from `uv add --group lint ruff`. [The file](https://github.com/rahuldave/cheesecracker/blob/9662828462ba2a21ca04a79c412e83ac070767f6/uv.lock){.btn .btn-sm .btn-secondary}
 
 <details><summary>The diff that <code>uv add --group lint ruff</code> makes in <code>pyproject.toml</code></summary>
 
@@ -176,7 +176,7 @@ git restore --source f77650600c11 --staged -- :/ && git restore --source 9662828
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/9662828462ba2a21ca04a79c412e83ac070767f6). [The code after it](https://github.com/rahuldave/cheesecracker/tree/9662828462ba2a21ca04a79c412e83ac070767f6).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/9662828462ba2a21ca04a79c412e83ac070767f6){.btn .btn-sm .btn-secondary} [The code after it](https://github.com/rahuldave/cheesecracker/tree/9662828462ba2a21ca04a79c412e83ac070767f6){.btn .btn-sm .btn-primary}
 
 ## 5.3 ruff's settings: lines of 120 characters, and flake8's rules {#step-05.3}
 
@@ -241,7 +241,7 @@ git restore --source 9662828462ba --staged -- :/ && git restore --source 7c1670f
 
 ### What changed {#step-05.3-what-changed-182c57}
 
-- <a id="step-05.3-pyproject.toml-5d07e7"></a>`pyproject.toml`: the settings of ruff, the length of a line and the rules of the linter. 8 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/7c1670fd52a0f62f414f31d415d10f2efb5a8405/pyproject.toml).
+- <a id="step-05.3-pyproject.toml-5d07e7"></a>`pyproject.toml`: the settings of ruff, the length of a line and the rules of the linter. 8 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/7c1670fd52a0f62f414f31d415d10f2efb5a8405/pyproject.toml){.btn .btn-sm .btn-secondary}
   - look at `select = ["E", "W", "F"]`
 
 <details open><summary>The patch to <code>pyproject.toml</code></summary>
@@ -263,7 +263,7 @@ git restore --source 9662828462ba --staged -- :/ && git restore --source 7c1670f
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/7c1670fd52a0f62f414f31d415d10f2efb5a8405). [The code after it](https://github.com/rahuldave/cheesecracker/tree/7c1670fd52a0f62f414f31d415d10f2efb5a8405).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/7c1670fd52a0f62f414f31d415d10f2efb5a8405){.btn .btn-sm .btn-secondary} [The code after it](https://github.com/rahuldave/cheesecracker/tree/7c1670fd52a0f62f414f31d415d10f2efb5a8405){.btn .btn-sm .btn-primary}
 
 ## 5.4 just fmt and just lint run ruff {#step-05.4}
 
@@ -297,7 +297,7 @@ git restore --source 7c1670fd52a0 --staged -- :/ && git restore --source b947593
 
 ### What changed {#step-05.4-what-changed-182c57}
 
-- <a id="step-05.4-justfile-424f0b"></a>`justfile`: the recipes `fmt` and `lint`. 8 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/b947593e84b71486902b3ff1c7f9e1458b70e3f7/justfile).
+- <a id="step-05.4-justfile-424f0b"></a>`justfile`: the recipes `fmt` and `lint`. 8 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/b947593e84b71486902b3ff1c7f9e1458b70e3f7/justfile){.btn .btn-sm .btn-secondary}
   - look at `uv run ruff check "$@"`
 
 <details open><summary>The patch to <code>justfile</code></summary>
@@ -319,7 +319,7 @@ git restore --source 7c1670fd52a0 --staged -- :/ && git restore --source b947593
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/b947593e84b71486902b3ff1c7f9e1458b70e3f7). [The code after it](https://github.com/rahuldave/cheesecracker/tree/b947593e84b71486902b3ff1c7f9e1458b70e3f7).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/b947593e84b71486902b3ff1c7f9e1458b70e3f7){.btn .btn-sm .btn-secondary} [The code after it](https://github.com/rahuldave/cheesecracker/tree/b947593e84b71486902b3ff1c7f9e1458b70e3f7){.btn .btn-sm .btn-primary}
 
 ## 5.5 the formatter fixes the spaces, the blank lines and the line breaks {#step-05.5}
 
@@ -352,9 +352,9 @@ git restore --source b947593e84b7 --staged -- :/ && git restore --source 4264211
 
 ### What changed {#step-05.5-what-changed-182c57}
 
-- <a id="step-05.5-src-api-service-api-service.py-1e1e71"></a>`src/api-service/api/service.py`: the spaces, the blank lines, and the long `return` on six lines. 10 lines added, 2 removed. It comes from `just fmt`. [The file](https://github.com/rahuldave/cheesecracker/blob/42642115394d8e19ead4c27bafaf4d90d991b0c9/src/api-service/api/service.py).
+- <a id="step-05.5-src-api-service-api-service.py-1e1e71"></a>`src/api-service/api/service.py`: the spaces, the blank lines, and the long `return` on six lines. 10 lines added, 2 removed. It comes from `just fmt`. [The file](https://github.com/rahuldave/cheesecracker/blob/42642115394d8e19ead4c27bafaf4d90d991b0c9/src/api-service/api/service.py){.btn .btn-sm .btn-secondary}
   - look at `z = power(x, 2) + power(y, 2)`
-- <a id="step-05.5-src-api-service-api-utils.py-18f1f8"></a>`src/api-service/api/utils.py`: the space after the comma, and two blank lines before `unused_function()`. 1 line added, 2 removed. It comes from `just fmt`. [The file](https://github.com/rahuldave/cheesecracker/blob/42642115394d8e19ead4c27bafaf4d90d991b0c9/src/api-service/api/utils.py).
+- <a id="step-05.5-src-api-service-api-utils.py-18f1f8"></a>`src/api-service/api/utils.py`: the space after the comma, and two blank lines before `unused_function()`. 1 line added, 2 removed. It comes from `just fmt`. [The file](https://github.com/rahuldave/cheesecracker/blob/42642115394d8e19ead4c27bafaf4d90d991b0c9/src/api-service/api/utils.py){.btn .btn-sm .btn-secondary}
   - look at `def power(base, exponent):`
 
 <details><summary>The diff that <code>just fmt</code> makes in <code>src/api-service/api/service.py</code></summary>
@@ -412,7 +412,7 @@ git restore --source b947593e84b7 --staged -- :/ && git restore --source 4264211
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/42642115394d8e19ead4c27bafaf4d90d991b0c9). [The code after it](https://github.com/rahuldave/cheesecracker/tree/42642115394d8e19ead4c27bafaf4d90d991b0c9).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/42642115394d8e19ead4c27bafaf4d90d991b0c9){.btn .btn-sm .btn-secondary} [The code after it](https://github.com/rahuldave/cheesecracker/tree/42642115394d8e19ead4c27bafaf4d90d991b0c9){.btn .btn-sm .btn-primary}
 
 ## 5.6 the linter removes the import that nothing uses {#step-05.6}
 
@@ -445,7 +445,7 @@ git restore --source 42642115394d --staged -- :/ && git restore --source cfd2ebb
 
 ### What changed {#step-05.6-what-changed-182c57}
 
-- <a id="step-05.6-src-api-service-api-service.py-1e1e71"></a>`src/api-service/api/service.py`: the import of `os`, removed. 0 lines added, 1 removed. It comes from `just lint --fix || true`. [The file](https://github.com/rahuldave/cheesecracker/blob/cfd2ebb050dda3ce951f0f28e84b9ae09fbe14d5/src/api-service/api/service.py).
+- <a id="step-05.6-src-api-service-api-service.py-1e1e71"></a>`src/api-service/api/service.py`: the import of `os`, removed. 0 lines added, 1 removed. It comes from `just lint --fix || true`. [The file](https://github.com/rahuldave/cheesecracker/blob/cfd2ebb050dda3ce951f0f28e84b9ae09fbe14d5/src/api-service/api/service.py){.btn .btn-sm .btn-secondary}
 
 <details><summary>The diff that <code>just lint --fix || true</code> makes in <code>src/api-service/api/service.py</code></summary>
 
@@ -462,7 +462,7 @@ git restore --source 42642115394d --staged -- :/ && git restore --source cfd2ebb
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/cfd2ebb050dda3ce951f0f28e84b9ae09fbe14d5). [The code after it](https://github.com/rahuldave/cheesecracker/tree/cfd2ebb050dda3ce951f0f28e84b9ae09fbe14d5).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/cfd2ebb050dda3ce951f0f28e84b9ae09fbe14d5){.btn .btn-sm .btn-secondary} [The code after it](https://github.com/rahuldave/cheesecracker/tree/cfd2ebb050dda3ce951f0f28e84b9ae09fbe14d5){.btn .btn-sm .btn-primary}
 
 ## 5.7 a shorter line, by hand {#step-05.7}
 
@@ -497,7 +497,7 @@ git restore --source cfd2ebb050dd --staged -- :/ && git restore --source 693a713
 
 ### What changed {#step-05.7-what-changed-182c57}
 
-- <a id="step-05.7-src-api-service-api-service.py-1e1e71"></a>`src/api-service/api/service.py`: a shorter message. 1 line added, 1 removed. [The file](https://github.com/rahuldave/cheesecracker/blob/693a713a458db01debdd7ebc3b084ed1b0350b08/src/api-service/api/service.py).
+- <a id="step-05.7-src-api-service-api-service.py-1e1e71"></a>`src/api-service/api/service.py`: a shorter message. 1 line added, 1 removed. [The file](https://github.com/rahuldave/cheesecracker/blob/693a713a458db01debdd7ebc3b084ed1b0350b08/src/api-service/api/service.py){.btn .btn-sm .btn-secondary}
   - look at `"message": "This is a very long line that exceeds 120 characters blah",`
 
 <details open><summary>The patch to <code>src/api-service/api/service.py</code></summary>
@@ -514,7 +514,7 @@ git restore --source cfd2ebb050dd --staged -- :/ && git restore --source 693a713
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/693a713a458db01debdd7ebc3b084ed1b0350b08). [The code after it](https://github.com/rahuldave/cheesecracker/tree/693a713a458db01debdd7ebc3b084ed1b0350b08).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/693a713a458db01debdd7ebc3b084ed1b0350b08){.btn .btn-sm .btn-secondary} [The code after it](https://github.com/rahuldave/cheesecracker/tree/693a713a458db01debdd7ebc3b084ed1b0350b08){.btn .btn-sm .btn-primary}
 
 ## 5.8 just check runs every check {#step-05.8}
 
@@ -549,7 +549,7 @@ git restore --source 693a713a458d --staged -- :/ && git restore --source e89e0cf
 
 ### What changed {#step-05.8-what-changed-182c57}
 
-- <a id="step-05.8-justfile-424f0b"></a>`justfile`: the recipe `check`. 6 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/e89e0cfa991257757c887f687087a9c77c093e20/justfile).
+- <a id="step-05.8-justfile-424f0b"></a>`justfile`: the recipe `check`. 6 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/e89e0cfa991257757c887f687087a9c77c093e20/justfile){.btn .btn-sm .btn-secondary}
   - look at `just fmt --check`
 
 <details open><summary>The patch to <code>justfile</code></summary>
@@ -569,4 +569,6 @@ git restore --source 693a713a458d --staged -- :/ && git restore --source e89e0cf
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/e89e0cfa991257757c887f687087a9c77c093e20). [The code after it](https://github.com/rahuldave/cheesecracker/tree/e89e0cfa991257757c887f687087a9c77c093e20).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/e89e0cfa991257757c887f687087a9c77c093e20){.btn .btn-sm .btn-secondary} [The code after it](https://github.com/rahuldave/cheesecracker/tree/step-05){.btn .btn-sm .btn-primary}
+
+This part ends at the code at `step-05`. [The code after this part](https://github.com/rahuldave/cheesecracker/tree/step-05){.btn .btn-sm .btn-primary}

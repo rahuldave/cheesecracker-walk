@@ -17,6 +17,8 @@ and the page checks your files against it.
 The first sections build the code to check, a function, a server and their tests. Some changes of the whole tutorial are not in this one. After such a gap, the next section says what those changes
 did, and starts from the code that they left. It first runs `just setup`, which installs the packages of that code.
 
+Each page is one part. A part is one or more changes to the project, each a section of its page. The code where a part starts and where it ends has a tag on GitHub, such as `step-00`, or is a commit between two tags. The top of each page says where its part starts, and the bottom says where it ends, each with a link to that code.
+
 There are two ways to read this tutorial. Both have the same parts, in the same order.
 
 Each part ends with a section called **What changed**. It lists every file that the part changes, with a link to the file, and then the whole diff of each file, folded. A lockfile and a binary file have a link alone. The text above it explains the change. In Build it yourself, What changed is what you check your files against.

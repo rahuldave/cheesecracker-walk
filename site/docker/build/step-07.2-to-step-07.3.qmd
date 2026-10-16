@@ -6,6 +6,8 @@ title: "7.2 to 7.3 The run image"
 
 **Build it yourself.** [Read the tutorial](../read/step-07.2-to-step-07.3.qmd) is the other way to read this part.
 
+This walk goes through [rahuldave/cheesecracker](https://github.com/rahuldave/cheesecracker) on GitHub. This part starts from the code at `2a28a5c704d6`, partway through `step-07`. [The code before this part](https://github.com/rahuldave/cheesecracker/tree/2a28a5c704d6d9ed8200aeb8962aa01e5c2ac552){.btn .btn-sm .btn-primary}
+
 If you start at this part, make your clone as **Get the project** says, and then run this command. It puts in your clone the files that this part starts from. A file that the project deleted before this part stays, so delete it if `git check` lists it:
 
 ```bash
@@ -18,8 +20,6 @@ just setup
 
 The run image holds Python, the dependencies of the server and its code, and starts the server. Three recipes build
 it, start it and stop it.
-
-[The code before this part](https://github.com/rahuldave/cheesecracker/tree/2a28a5c704d6d9ed8200aeb8962aa01e5c2ac552). [The code after it](https://github.com/rahuldave/cheesecracker/tree/d444e0387d256c62024581e98f59d670cbc93296).
 
 ## 7.2 the run image, the server as it runs in production {#step-07.2}
 
@@ -62,7 +62,7 @@ git restore --source 2a28a5c704d6 --staged -- :/ && git restore --source 0acb455
 
 ### What changed {#step-07.2-what-changed-182c57}
 
-- <a id="step-07.2-Dockerfile-6651dd"></a>`Dockerfile`: the stages `uv`, `build` and `run`. New, 34 lines. [The file](https://github.com/rahuldave/cheesecracker/blob/0acb4556f724cd94e4a71ab4fff739a974413fc0/Dockerfile).
+- <a id="step-07.2-Dockerfile-6651dd"></a>`Dockerfile`: the stages `uv`, `build` and `run`. New, 34 lines. [The file](https://github.com/rahuldave/cheesecracker/blob/0acb4556f724cd94e4a71ab4fff739a974413fc0/Dockerfile){.btn .btn-sm .btn-secondary}
   - look at `RUN uv sync --locked --no-default-groups`
 
 <details open><summary>The patch to <code>Dockerfile</code></summary>
@@ -107,7 +107,7 @@ git restore --source 2a28a5c704d6 --staged -- :/ && git restore --source 0acb455
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/0acb4556f724cd94e4a71ab4fff739a974413fc0). [The code after it](https://github.com/rahuldave/cheesecracker/tree/0acb4556f724cd94e4a71ab4fff739a974413fc0).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/0acb4556f724cd94e4a71ab4fff739a974413fc0){.btn .btn-sm .btn-secondary} [The code after it](https://github.com/rahuldave/cheesecracker/tree/0acb4556f724cd94e4a71ab4fff739a974413fc0){.btn .btn-sm .btn-primary}
 
 ## 7.3 just docker-build, just docker-serve and just docker-stop {#step-07.3}
 
@@ -168,7 +168,7 @@ git restore --source 0acb4556f724 --staged -- :/ && git restore --source d444e03
 
 ### What changed {#step-07.3-what-changed-182c57}
 
-- <a id="step-07.3-justfile-424f0b"></a>`justfile`: the recipes `docker-build`, `docker-serve` and `docker-stop`. 20 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/d444e0387d256c62024581e98f59d670cbc93296/justfile).
+- <a id="step-07.3-justfile-424f0b"></a>`justfile`: the recipes `docker-build`, `docker-serve` and `docker-stop`. 20 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/d444e0387d256c62024581e98f59d670cbc93296/justfile){.btn .btn-sm .btn-secondary}
   - look at `docker run --rm --detach --name cheesecracker-run --publish 9000:9000 cheesecracker-run > /dev/null || exit 1`
 
 <details open><summary>The patch to <code>justfile</code></summary>
@@ -202,4 +202,6 @@ git restore --source 0acb4556f724 --staged -- :/ && git restore --source d444e03
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/d444e0387d256c62024581e98f59d670cbc93296). [The code after it](https://github.com/rahuldave/cheesecracker/tree/d444e0387d256c62024581e98f59d670cbc93296).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/d444e0387d256c62024581e98f59d670cbc93296){.btn .btn-sm .btn-secondary} [The code after it](https://github.com/rahuldave/cheesecracker/tree/step-07){.btn .btn-sm .btn-primary}
+
+This part ends at the code at `step-07`. [The code after this part](https://github.com/rahuldave/cheesecracker/tree/step-07){.btn .btn-sm .btn-primary}

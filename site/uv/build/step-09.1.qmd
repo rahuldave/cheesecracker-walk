@@ -6,6 +6,8 @@ title: "9.1 The dev image installs every group"
 
 **Build it yourself.** [Read the tutorial](../read/step-09.1.qmd) is the other way to read this part.
 
+This walk goes through [rahuldave/cheesecracker](https://github.com/rahuldave/cheesecracker) on GitHub. This part starts from the code at `step-08`. [The code before this part](https://github.com/rahuldave/cheesecracker/tree/step-08){.btn .btn-sm .btn-primary}
+
 This part does not start where the part before it ends, because the walk skips some changes. This command puts the files that this part starts from in place of yours. Run it, and then go on:
 
 ```bash
@@ -24,8 +26,6 @@ just setup
 
 The whole tutorial then adds the system tests, and the recipe `just test-system`. The dev image is for working on the
 project, so it installs every group.
-
-[The code before this part](https://github.com/rahuldave/cheesecracker/tree/277d54eebce4a1727ed3d8a5c46570ca4a95f75d). [The code after it](https://github.com/rahuldave/cheesecracker/tree/ccf62d330f28c6eec4c0b993e1a71e2c11a8b5af).
 
 ## 9.1 the dev image, to work on the project in Linux {#step-09.1}
 
@@ -67,7 +67,7 @@ git restore --source 277d54eebce4 --staged -- :/ && git restore --source ccf62d3
 
 ### What changed {#step-09.1-what-changed-182c57}
 
-- <a id="step-09.1-Dockerfile-6651dd"></a>`Dockerfile`: the stage `dev`, and its lines in the comment at the top. 26 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/ccf62d330f28c6eec4c0b993e1a71e2c11a8b5af/Dockerfile).
+- <a id="step-09.1-Dockerfile-6651dd"></a>`Dockerfile`: the stage `dev`, and its lines in the comment at the top. 26 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/ccf62d330f28c6eec4c0b993e1a71e2c11a8b5af/Dockerfile){.btn .btn-sm .btn-secondary}
   - look at `FROM python:3.12-slim-bookworm AS dev`
 
 <details open><summary>The patch to <code>Dockerfile</code></summary>
@@ -114,4 +114,6 @@ git restore --source 277d54eebce4 --staged -- :/ && git restore --source ccf62d3
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/ccf62d330f28c6eec4c0b993e1a71e2c11a8b5af). [The code after it](https://github.com/rahuldave/cheesecracker/tree/ccf62d330f28c6eec4c0b993e1a71e2c11a8b5af).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/ccf62d330f28c6eec4c0b993e1a71e2c11a8b5af){.btn .btn-sm .btn-secondary} [The code after it](https://github.com/rahuldave/cheesecracker/tree/ccf62d330f28c6eec4c0b993e1a71e2c11a8b5af){.btn .btn-sm .btn-primary}
+
+This part ends at the code at `ccf62d330f28`, partway through `step-09`. [The code after this part](https://github.com/rahuldave/cheesecracker/tree/ccf62d330f28c6eec4c0b993e1a71e2c11a8b5af){.btn .btn-sm .btn-primary}

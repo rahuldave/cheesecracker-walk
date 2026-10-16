@@ -6,6 +6,8 @@ title: "9.2 just docker-shell and just docker-test"
 
 **Build it yourself.** [Read the tutorial](../read/step-09.2.qmd) is the other way to read this part.
 
+This walk goes through [rahuldave/cheesecracker](https://github.com/rahuldave/cheesecracker) on GitHub. This part starts from the code at `ccf62d330f28`, partway through `step-09`. [The code before this part](https://github.com/rahuldave/cheesecracker/tree/ccf62d330f28c6eec4c0b993e1a71e2c11a8b5af){.btn .btn-sm .btn-primary}
+
 This part does not start where the part before it ends, because the walk skips some changes. This command puts the files that this part starts from in place of yours. Run it, and then go on:
 
 ```bash
@@ -25,8 +27,6 @@ just docker-build dev
 
 The whole tutorial then adds the dev image to the `Dockerfile`. Two recipes run it, with the folder of the project
 mounted inside.
-
-[The code before this part](https://github.com/rahuldave/cheesecracker/tree/ccf62d330f28c6eec4c0b993e1a71e2c11a8b5af). [The code after it](https://github.com/rahuldave/cheesecracker/tree/0701e9244ab2384538eda4d623e1d047ff3f8258).
 
 ## 9.2 just docker-shell and just docker-test {#step-09.2}
 
@@ -69,7 +69,7 @@ git restore --source ccf62d330f28 --staged -- :/ && git restore --source 0701e92
 
 ### What changed {#step-09.2-what-changed-182c57}
 
-- <a id="step-09.2-justfile-424f0b"></a>`justfile`: the recipes `docker-shell` and `docker-test`. 8 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/0701e9244ab2384538eda4d623e1d047ff3f8258/justfile).
+- <a id="step-09.2-justfile-424f0b"></a>`justfile`: the recipes `docker-shell` and `docker-test`. 8 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/0701e9244ab2384538eda4d623e1d047ff3f8258/justfile){.btn .btn-sm .btn-secondary}
   - look at `docker run --rm -v "$PWD":/work cheesecracker-dev just "${@:-check}"`
 
 <details open><summary>The patch to <code>justfile</code></summary>
@@ -91,4 +91,6 @@ git restore --source ccf62d330f28 --staged -- :/ && git restore --source 0701e92
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/0701e9244ab2384538eda4d623e1d047ff3f8258). [The code after it](https://github.com/rahuldave/cheesecracker/tree/0701e9244ab2384538eda4d623e1d047ff3f8258).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/0701e9244ab2384538eda4d623e1d047ff3f8258){.btn .btn-sm .btn-secondary} [The code after it](https://github.com/rahuldave/cheesecracker/tree/step-09){.btn .btn-sm .btn-primary}
+
+This part ends at the code at `step-09`. [The code after this part](https://github.com/rahuldave/cheesecracker/tree/step-09){.btn .btn-sm .btn-primary}

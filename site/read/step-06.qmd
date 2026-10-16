@@ -6,14 +6,23 @@ title: "6 Checks before every commit"
 
 **Read the tutorial.** [Build it yourself](../build/step-06.qmd) is the other way to read this part.
 
+This walk goes through [rahuldave/cheesecracker](https://github.com/rahuldave/cheesecracker) on GitHub. This part starts from the code at `step-05`. [The code before this part](https://github.com/rahuldave/cheesecracker/tree/step-05){.btn .btn-sm .btn-primary}
+
+To look at this code on your machine, run these commands. The first one makes a clone, if this folder has none:
+
+```bash
+[ -d cheesecracker ] || git clone https://github.com/rahuldave/cheesecracker
+cd cheesecracker
+git fetch --quiet --tags --force origin
+git switch --detach step-05
+```
+
 ```bash
 just setup
 ```
 
 `just check` works only when someone runs it. pre-commit runs checks before every `git commit`, and stops the commit
 when a check fails. The checks are in `.pre-commit-config.yaml`.
-
-[The code before this part](https://github.com/rahuldave/cheesecracker/tree/e89e0cfa991257757c887f687087a9c77c093e20). [The code after it](https://github.com/rahuldave/cheesecracker/tree/57ec2e24ecd4946823edbfad27bc2296f80e3847).
 
 ## 6.1 pre-commit, in the group lint {#step-06.1}
 
@@ -29,9 +38,9 @@ uv prints the version of pre-commit.
 
 ### What changed {#step-06.1-what-changed-182c57}
 
-- <a id="step-06.1-pyproject.toml-5d07e7"></a>`pyproject.toml`: pre-commit, in the group `lint`. 1 line added. It comes from `uv add --group lint pre-commit`. [The file](https://github.com/rahuldave/cheesecracker/blob/f3ad230bf911e0c446eb6752ec2718b910d9e851/pyproject.toml).
+- <a id="step-06.1-pyproject.toml-5d07e7"></a>`pyproject.toml`: pre-commit, in the group `lint`. 1 line added. It comes from `uv add --group lint pre-commit`. [The file](https://github.com/rahuldave/cheesecracker/blob/f3ad230bf911e0c446eb6752ec2718b910d9e851/pyproject.toml){.btn .btn-sm .btn-secondary}
   - look at `"pre-commit>=4.7.0",`
-- <a id="step-06.1-uv.lock-8356d8"></a>`uv.lock`: the exact versions of pre-commit, and of the packages that it needs. 149 lines added, 1 removed. It comes from `uv add --group lint pre-commit`. [The file](https://github.com/rahuldave/cheesecracker/blob/f3ad230bf911e0c446eb6752ec2718b910d9e851/uv.lock).
+- <a id="step-06.1-uv.lock-8356d8"></a>`uv.lock`: the exact versions of pre-commit, and of the packages that it needs. 149 lines added, 1 removed. It comes from `uv add --group lint pre-commit`. [The file](https://github.com/rahuldave/cheesecracker/blob/f3ad230bf911e0c446eb6752ec2718b910d9e851/uv.lock){.btn .btn-sm .btn-secondary}
 
 <details><summary>The diff of <code>pyproject.toml</code></summary>
 
@@ -48,7 +57,7 @@ uv prints the version of pre-commit.
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/f3ad230bf911e0c446eb6752ec2718b910d9e851). [The code after it](https://github.com/rahuldave/cheesecracker/tree/f3ad230bf911e0c446eb6752ec2718b910d9e851).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/f3ad230bf911e0c446eb6752ec2718b910d9e851){.btn .btn-sm .btn-secondary} [The code after it](https://github.com/rahuldave/cheesecracker/tree/f3ad230bf911e0c446eb6752ec2718b910d9e851){.btn .btn-sm .btn-primary}
 
 ## 6.2 the checks that run before every commit {#step-06.2}
 
@@ -76,7 +85,7 @@ Every other check says `Passed`.
 
 ### What changed {#step-06.2-what-changed-182c57}
 
-- <a id="step-06.2-.pre-commit-config.yaml-e7d14d"></a>`.pre-commit-config.yaml`: the checks that run before every commit. New, 22 lines. [The file](https://github.com/rahuldave/cheesecracker/blob/009d77653eadfde09e438656cde77b5eac489115/.pre-commit-config.yaml).
+- <a id="step-06.2-.pre-commit-config.yaml-e7d14d"></a>`.pre-commit-config.yaml`: the checks that run before every commit. New, 22 lines. [The file](https://github.com/rahuldave/cheesecracker/blob/009d77653eadfde09e438656cde77b5eac489115/.pre-commit-config.yaml){.btn .btn-sm .btn-secondary}
   - look at `- id: ruff-check`
 
 <details><summary>The diff of <code>.pre-commit-config.yaml</code></summary>
@@ -109,7 +118,7 @@ Every other check says `Passed`.
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/009d77653eadfde09e438656cde77b5eac489115). [The code after it](https://github.com/rahuldave/cheesecracker/tree/009d77653eadfde09e438656cde77b5eac489115).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/009d77653eadfde09e438656cde77b5eac489115){.btn .btn-sm .btn-secondary} [The code after it](https://github.com/rahuldave/cheesecracker/tree/009d77653eadfde09e438656cde77b5eac489115){.btn .btn-sm .btn-primary}
 
 ## 6.3 just hook installs the checks as a git hook {#step-06.3}
 
@@ -128,7 +137,7 @@ pre-commit prints `pre-commit installed at .git/hooks/pre-commit`. From now on, 
 
 ### What changed {#step-06.3-what-changed-182c57}
 
-- <a id="step-06.3-justfile-424f0b"></a>`justfile`: the recipe `hook`. 4 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/57ec2e24ecd4946823edbfad27bc2296f80e3847/justfile).
+- <a id="step-06.3-justfile-424f0b"></a>`justfile`: the recipe `hook`. 4 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/57ec2e24ecd4946823edbfad27bc2296f80e3847/justfile){.btn .btn-sm .btn-secondary}
   - look at `uv run pre-commit install`
 
 <details><summary>The diff of <code>justfile</code></summary>
@@ -149,4 +158,6 @@ pre-commit prints `pre-commit installed at .git/hooks/pre-commit`. From now on, 
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/57ec2e24ecd4946823edbfad27bc2296f80e3847). [The code after it](https://github.com/rahuldave/cheesecracker/tree/57ec2e24ecd4946823edbfad27bc2296f80e3847).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/57ec2e24ecd4946823edbfad27bc2296f80e3847){.btn .btn-sm .btn-secondary} [The code after it](https://github.com/rahuldave/cheesecracker/tree/step-06){.btn .btn-sm .btn-primary}
+
+This part ends at the code at `step-06`. [The code after this part](https://github.com/rahuldave/cheesecracker/tree/step-06){.btn .btn-sm .btn-primary}

@@ -6,6 +6,8 @@ title: "3 The distance endpoint, and integration tests"
 
 **Build it yourself.** [Read the tutorial](../read/step-03.qmd) is the other way to read this part.
 
+This walk goes through [rahuldave/cheesecracker](https://github.com/rahuldave/cheesecracker) on GitHub. This part starts from the code at `step-02`. [The code before this part](https://github.com/rahuldave/cheesecracker/tree/step-02){.btn .btn-sm .btn-primary}
+
 If you start at this part, make your clone as **Get the project** says, and then run this command. It puts in your clone the files that this part starts from. A file that the project deleted before this part stays, so delete it if `git check` lists it:
 
 ```bash
@@ -22,8 +24,6 @@ just setup
 The app needs an endpoint that does some work, and tests that call it. The endpoint computes the distance of a point
 from the origin with `power()`. An integration test sends requests to the app and checks the answers, with no server
 and no network.
-
-[The code before this part](https://github.com/rahuldave/cheesecracker/tree/69c3bf65c78cf8e96bf8f9ea1dde29279db1351a). [The code after it](https://github.com/rahuldave/cheesecracker/tree/5862780b44d2f4ec87088c971dec57f23c11139e).
 
 ## 3.1 /euclidean_distance/, the distance of a point from the origin {#step-03.1}
 
@@ -62,7 +62,7 @@ git restore --source 69c3bf65c78c --staged -- :/ && git restore --source e576e7b
 
 ### What changed {#step-03.1-what-changed-182c57}
 
-- <a id="step-03.1-src-api-service-api-service.py-1e1e71"></a>`src/api-service/api/service.py`: the imports of `math` and `power()`, and the endpoint `/euclidean_distance/`. 12 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/e576e7bb9e550b1a572a764b15f8d0bfde229d97/src/api-service/api/service.py).
+- <a id="step-03.1-src-api-service-api-service.py-1e1e71"></a>`src/api-service/api/service.py`: the imports of `math` and `power()`, and the endpoint `/euclidean_distance/`. 12 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/e576e7bb9e550b1a572a764b15f8d0bfde229d97/src/api-service/api/service.py){.btn .btn-sm .btn-secondary}
   - look at `z = power(x, 2) + power(y, 2)`
 
 <details open><summary>The patch to <code>src/api-service/api/service.py</code></summary>
@@ -95,7 +95,7 @@ git restore --source 69c3bf65c78c --staged -- :/ && git restore --source e576e7b
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/e576e7bb9e550b1a572a764b15f8d0bfde229d97). [The code after it](https://github.com/rahuldave/cheesecracker/tree/e576e7bb9e550b1a572a764b15f8d0bfde229d97).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/e576e7bb9e550b1a572a764b15f8d0bfde229d97){.btn .btn-sm .btn-secondary} [The code after it](https://github.com/rahuldave/cheesecracker/tree/e576e7bb9e550b1a572a764b15f8d0bfde229d97){.btn .btn-sm .btn-primary}
 
 ## 3.2 httpx2 and pytest-asyncio, for tests of the app {#step-03.2}
 
@@ -128,9 +128,9 @@ git restore --source e576e7bb9e55 --staged -- :/ && git restore --source 3c75ffb
 
 ### What changed {#step-03.2-what-changed-182c57}
 
-- <a id="step-03.2-pyproject.toml-5d07e7"></a>`pyproject.toml`: httpx2 and pytest-asyncio, in the group `test`. 2 lines added. It comes from `uv add --group test httpx2 pytest-asyncio`. [The file](https://github.com/rahuldave/cheesecracker/blob/3c75ffb1a089431a2455a69e9bcb3ec0302224f0/pyproject.toml).
+- <a id="step-03.2-pyproject.toml-5d07e7"></a>`pyproject.toml`: httpx2 and pytest-asyncio, in the group `test`. 2 lines added. It comes from `uv add --group test httpx2 pytest-asyncio`. [The file](https://github.com/rahuldave/cheesecracker/blob/3c75ffb1a089431a2455a69e9bcb3ec0302224f0/pyproject.toml){.btn .btn-sm .btn-secondary}
   - look at `"httpx2>=2.13.1",`
-- <a id="step-03.2-uv.lock-8356d8"></a>`uv.lock`: the exact versions of httpx2, pytest-asyncio, and the packages that they need. 68 lines added, 1 removed. It comes from `uv add --group test httpx2 pytest-asyncio`. [The file](https://github.com/rahuldave/cheesecracker/blob/3c75ffb1a089431a2455a69e9bcb3ec0302224f0/uv.lock).
+- <a id="step-03.2-uv.lock-8356d8"></a>`uv.lock`: the exact versions of httpx2, pytest-asyncio, and the packages that they need. 68 lines added, 1 removed. It comes from `uv add --group test httpx2 pytest-asyncio`. [The file](https://github.com/rahuldave/cheesecracker/blob/3c75ffb1a089431a2455a69e9bcb3ec0302224f0/uv.lock){.btn .btn-sm .btn-secondary}
 
 <details><summary>The diff that <code>uv add --group test httpx2 pytest-asyncio</code> makes in <code>pyproject.toml</code></summary>
 
@@ -149,7 +149,7 @@ git restore --source e576e7bb9e55 --staged -- :/ && git restore --source 3c75ffb
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/3c75ffb1a089431a2455a69e9bcb3ec0302224f0). [The code after it](https://github.com/rahuldave/cheesecracker/tree/3c75ffb1a089431a2455a69e9bcb3ec0302224f0).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/3c75ffb1a089431a2455a69e9bcb3ec0302224f0){.btn .btn-sm .btn-secondary} [The code after it](https://github.com/rahuldave/cheesecracker/tree/3c75ffb1a089431a2455a69e9bcb3ec0302224f0){.btn .btn-sm .btn-primary}
 
 ## 3.3 integration tests of the API {#step-03.3}
 
@@ -191,7 +191,7 @@ git restore --source 3c75ffb1a089 --staged -- :/ && git restore --source 5862780
 
 ### What changed {#step-03.3-what-changed-182c57}
 
-- <a id="step-03.3-tests-integration-test_api.py-596674"></a>`tests/integration/test_api.py`: ten integration tests, through FastAPI's `TestClient`. New, 89 lines. [The file](https://github.com/rahuldave/cheesecracker/blob/5862780b44d2f4ec87088c971dec57f23c11139e/tests/integration/test_api.py).
+- <a id="step-03.3-tests-integration-test_api.py-596674"></a>`tests/integration/test_api.py`: ten integration tests, through FastAPI's `TestClient`. New, 89 lines. [The file](https://github.com/rahuldave/cheesecracker/blob/5862780b44d2f4ec87088c971dec57f23c11139e/tests/integration/test_api.py){.btn .btn-sm .btn-secondary}
   - look at `response = client.get("/euclidean_distance/?x=3&y=4")`
 
 <details open><summary>The patch to <code>tests/integration/test_api.py</code></summary>
@@ -291,4 +291,6 @@ git restore --source 3c75ffb1a089 --staged -- :/ && git restore --source 5862780
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/5862780b44d2f4ec87088c971dec57f23c11139e). [The code after it](https://github.com/rahuldave/cheesecracker/tree/5862780b44d2f4ec87088c971dec57f23c11139e).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/5862780b44d2f4ec87088c971dec57f23c11139e){.btn .btn-sm .btn-secondary} [The code after it](https://github.com/rahuldave/cheesecracker/tree/step-03){.btn .btn-sm .btn-primary}
+
+This part ends at the code at `step-03`. [The code after this part](https://github.com/rahuldave/cheesecracker/tree/step-03){.btn .btn-sm .btn-primary}

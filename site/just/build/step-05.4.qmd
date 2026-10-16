@@ -6,6 +6,8 @@ title: "5.4 just fmt and just lint"
 
 **Build it yourself.** [Read the tutorial](../read/step-05.4.qmd) is the other way to read this part.
 
+This walk goes through [rahuldave/cheesecracker](https://github.com/rahuldave/cheesecracker) on GitHub. This part starts from the code at `7c1670fd52a0`, partway through `step-05`. [The code before this part](https://github.com/rahuldave/cheesecracker/tree/7c1670fd52a0f62f414f31d415d10f2efb5a8405){.btn .btn-sm .btn-primary}
+
 This part does not start where the part before it ends, because the walk skips some changes. This command puts the files that this part starts from in place of yours. Run it, and then go on:
 
 ```bash
@@ -24,8 +26,6 @@ just setup
 
 The whole tutorial then makes a change in a hurry, adds ruff, and gives it the rules of flake8. The formatter and the
 linter get a recipe each.
-
-[The code before this part](https://github.com/rahuldave/cheesecracker/tree/7c1670fd52a0f62f414f31d415d10f2efb5a8405). [The code after it](https://github.com/rahuldave/cheesecracker/tree/b947593e84b71486902b3ff1c7f9e1458b70e3f7).
 
 ## 5.4 just fmt and just lint run ruff {#step-05.4}
 
@@ -59,7 +59,7 @@ git restore --source 7c1670fd52a0 --staged -- :/ && git restore --source b947593
 
 ### What changed {#step-05.4-what-changed-182c57}
 
-- <a id="step-05.4-justfile-424f0b"></a>`justfile`: the recipes `fmt` and `lint`. 8 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/b947593e84b71486902b3ff1c7f9e1458b70e3f7/justfile).
+- <a id="step-05.4-justfile-424f0b"></a>`justfile`: the recipes `fmt` and `lint`. 8 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/b947593e84b71486902b3ff1c7f9e1458b70e3f7/justfile){.btn .btn-sm .btn-secondary}
   - look at `uv run ruff check "$@"`
 
 <details open><summary>The patch to <code>justfile</code></summary>
@@ -81,4 +81,6 @@ git restore --source 7c1670fd52a0 --staged -- :/ && git restore --source b947593
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/b947593e84b71486902b3ff1c7f9e1458b70e3f7). [The code after it](https://github.com/rahuldave/cheesecracker/tree/b947593e84b71486902b3ff1c7f9e1458b70e3f7).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/b947593e84b71486902b3ff1c7f9e1458b70e3f7){.btn .btn-sm .btn-secondary} [The code after it](https://github.com/rahuldave/cheesecracker/tree/b947593e84b71486902b3ff1c7f9e1458b70e3f7){.btn .btn-sm .btn-primary}
+
+This part ends at the code at `b947593e84b7`, partway through `step-05`. [The code after this part](https://github.com/rahuldave/cheesecracker/tree/b947593e84b71486902b3ff1c7f9e1458b70e3f7){.btn .btn-sm .btn-primary}

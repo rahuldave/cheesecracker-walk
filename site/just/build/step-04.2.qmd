@@ -6,6 +6,8 @@ title: "4.2 just cov"
 
 **Build it yourself.** [Read the tutorial](../read/step-04.2.qmd) is the other way to read this part.
 
+This walk goes through [rahuldave/cheesecracker](https://github.com/rahuldave/cheesecracker) on GitHub. This part starts from the code at `54de20e8055e`, partway through `step-04`. [The code before this part](https://github.com/rahuldave/cheesecracker/tree/54de20e8055ec62726d8956cac3a944433dc404c){.btn .btn-sm .btn-primary}
+
 This part does not start where the part before it ends, because the walk skips some changes. This command puts the files that this part starts from in place of yours. Run it, and then go on:
 
 ```bash
@@ -23,8 +25,6 @@ just setup
 ```
 
 The whole tutorial then adds an endpoint, ten integration tests, and pytest-cov. Coverage gets a recipe.
-
-[The code before this part](https://github.com/rahuldave/cheesecracker/tree/54de20e8055ec62726d8956cac3a944433dc404c). [The code after it](https://github.com/rahuldave/cheesecracker/tree/bfb9c783c67c31254ce8136784738c0f2fc17fb5).
 
 ## 4.2 just cov shows which lines the tests run {#step-04.2}
 
@@ -59,7 +59,7 @@ git restore --source 54de20e8055e --staged -- :/ && git restore --source bfb9c78
 
 ### What changed {#step-04.2-what-changed-182c57}
 
-- <a id="step-04.2-justfile-424f0b"></a>`justfile`: the recipe `cov`. 4 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/bfb9c783c67c31254ce8136784738c0f2fc17fb5/justfile).
+- <a id="step-04.2-justfile-424f0b"></a>`justfile`: the recipe `cov`. 4 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/bfb9c783c67c31254ce8136784738c0f2fc17fb5/justfile){.btn .btn-sm .btn-secondary}
   - look at `uv run pytest --cov=api --cov-report=term-missing "$@"`
 
 <details open><summary>The patch to <code>justfile</code></summary>
@@ -77,4 +77,6 @@ git restore --source 54de20e8055e --staged -- :/ && git restore --source bfb9c78
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/bfb9c783c67c31254ce8136784738c0f2fc17fb5). [The code after it](https://github.com/rahuldave/cheesecracker/tree/bfb9c783c67c31254ce8136784738c0f2fc17fb5).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/bfb9c783c67c31254ce8136784738c0f2fc17fb5){.btn .btn-sm .btn-secondary} [The code after it](https://github.com/rahuldave/cheesecracker/tree/step-04){.btn .btn-sm .btn-primary}
+
+This part ends at the code at `step-04`. [The code after this part](https://github.com/rahuldave/cheesecracker/tree/step-04){.btn .btn-sm .btn-primary}

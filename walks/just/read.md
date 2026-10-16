@@ -24,6 +24,8 @@ did, and starts from the code that they left. It first runs `just setup`, which 
 
 ## 0 The project, and its justfile
 
+This walk goes through [rahuldave/cheesecracker](https://github.com/rahuldave/cheesecracker) on GitHub. This part is where the project starts, at `step-00`. [The code of this part](https://github.com/rahuldave/cheesecracker/tree/step-00)
+
 The first recipe, `setup`, makes the environment of the project.
 
 ```bash
@@ -164,11 +166,13 @@ just --list
 
 </details>
 
-[The code](https://github.com/rahuldave/cheesecracker/tree/cf50a6ef5045e08ca727aeaffdb710fad2cae096).
+This part ends at the code at `step-00`. [The code after this part](https://github.com/rahuldave/cheesecracker/tree/step-00)
 
 <a id="step-01.5"></a>
 
 ## 1.5 just test
+
+This walk goes through [rahuldave/cheesecracker](https://github.com/rahuldave/cheesecracker) on GitHub. This part starts from the code at `cbc98b162671`, partway through `step-01`. [The code before this part](https://github.com/rahuldave/cheesecracker/tree/cbc98b162671bce7a7ba82d7d18c7dc6d530b746)
 
 ```bash
 just setup
@@ -176,8 +180,6 @@ just setup
 
 The whole tutorial first writes the function `power()`, adds pytest, tells pytest where the tests are, and writes
 eleven unit tests. The command that runs them gets a recipe.
-
-[The code before this part](https://github.com/rahuldave/cheesecracker/tree/cbc98b162671bce7a7ba82d7d18c7dc6d530b746). [The code after it](https://github.com/rahuldave/cheesecracker/tree/e86e0c3d10bbe9409674f1c65ce4afdc38e7f76f).
 
 ### 1.5 just test runs the tests
 
@@ -215,19 +217,21 @@ just prints the command of the recipe, and pytest prints `11 passed`.
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/e86e0c3d10bbe9409674f1c65ce4afdc38e7f76f). [The code after it](https://github.com/rahuldave/cheesecracker/tree/e86e0c3d10bbe9409674f1c65ce4afdc38e7f76f).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/e86e0c3d10bbe9409674f1c65ce4afdc38e7f76f). [The code after it](https://github.com/rahuldave/cheesecracker/tree/step-01).
+
+This part ends at the code at `step-01`. [The code after this part](https://github.com/rahuldave/cheesecracker/tree/step-01)
 
 <a id="step-02.3"></a>
 
 ## 2.3 just serve and just stop
+
+This walk goes through [rahuldave/cheesecracker](https://github.com/rahuldave/cheesecracker) on GitHub. This part starts from the code at `acee14f7dff4`, partway through `step-02`. [The code before this part](https://github.com/rahuldave/cheesecracker/tree/acee14f7dff43d6c5b76234b3a016985d74c60d2)
 
 ```bash
 just setup
 ```
 
 The whole tutorial then adds FastAPI and uvicorn, and writes the app. Two recipes start the server and stop it.
-
-[The code before this part](https://github.com/rahuldave/cheesecracker/tree/acee14f7dff43d6c5b76234b3a016985d74c60d2). [The code after it](https://github.com/rahuldave/cheesecracker/tree/69c3bf65c78cf8e96bf8f9ea1dde29279db1351a).
 
 ### 2.3 just serve and just stop, the server on this machine
 
@@ -331,19 +335,21 @@ curl -s localhost:9000/health
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/69c3bf65c78cf8e96bf8f9ea1dde29279db1351a). [The code after it](https://github.com/rahuldave/cheesecracker/tree/69c3bf65c78cf8e96bf8f9ea1dde29279db1351a).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/69c3bf65c78cf8e96bf8f9ea1dde29279db1351a). [The code after it](https://github.com/rahuldave/cheesecracker/tree/step-02).
+
+This part ends at the code at `step-02`. [The code after this part](https://github.com/rahuldave/cheesecracker/tree/step-02)
 
 <a id="step-04.2"></a>
 
 ## 4.2 just cov
+
+This walk goes through [rahuldave/cheesecracker](https://github.com/rahuldave/cheesecracker) on GitHub. This part starts from the code at `54de20e8055e`, partway through `step-04`. [The code before this part](https://github.com/rahuldave/cheesecracker/tree/54de20e8055ec62726d8956cac3a944433dc404c)
 
 ```bash
 just setup
 ```
 
 The whole tutorial then adds an endpoint, ten integration tests, and pytest-cov. Coverage gets a recipe.
-
-[The code before this part](https://github.com/rahuldave/cheesecracker/tree/54de20e8055ec62726d8956cac3a944433dc404c). [The code after it](https://github.com/rahuldave/cheesecracker/tree/bfb9c783c67c31254ce8136784738c0f2fc17fb5).
 
 ### 4.2 just cov shows which lines the tests run
 
@@ -381,11 +387,15 @@ The total is 95%. `service.py` misses line 31, the answer of `/health`, because 
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/bfb9c783c67c31254ce8136784738c0f2fc17fb5). [The code after it](https://github.com/rahuldave/cheesecracker/tree/bfb9c783c67c31254ce8136784738c0f2fc17fb5).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/bfb9c783c67c31254ce8136784738c0f2fc17fb5). [The code after it](https://github.com/rahuldave/cheesecracker/tree/step-04).
+
+This part ends at the code at `step-04`. [The code after this part](https://github.com/rahuldave/cheesecracker/tree/step-04)
 
 <a id="step-05.4"></a>
 
 ## 5.4 just fmt and just lint
+
+This walk goes through [rahuldave/cheesecracker](https://github.com/rahuldave/cheesecracker) on GitHub. This part starts from the code at `7c1670fd52a0`, partway through `step-05`. [The code before this part](https://github.com/rahuldave/cheesecracker/tree/7c1670fd52a0f62f414f31d415d10f2efb5a8405)
 
 ```bash
 just setup
@@ -393,8 +403,6 @@ just setup
 
 The whole tutorial then makes a change in a hurry, adds ruff, and gives it the rules of flake8. The formatter and the
 linter get a recipe each.
-
-[The code before this part](https://github.com/rahuldave/cheesecracker/tree/7c1670fd52a0f62f414f31d415d10f2efb5a8405). [The code after it](https://github.com/rahuldave/cheesecracker/tree/b947593e84b71486902b3ff1c7f9e1458b70e3f7).
 
 ### 5.4 just fmt and just lint run ruff
 
@@ -437,17 +445,19 @@ The recipe fails as `ruff format --check` did, with `2 files would be reformatte
 
 [This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/b947593e84b71486902b3ff1c7f9e1458b70e3f7). [The code after it](https://github.com/rahuldave/cheesecracker/tree/b947593e84b71486902b3ff1c7f9e1458b70e3f7).
 
+This part ends at the code at `b947593e84b7`, partway through `step-05`. [The code after this part](https://github.com/rahuldave/cheesecracker/tree/b947593e84b71486902b3ff1c7f9e1458b70e3f7)
+
 <a id="step-05.8"></a>
 
 ## 5.8 just check
+
+This walk goes through [rahuldave/cheesecracker](https://github.com/rahuldave/cheesecracker) on GitHub. This part starts from the code at `693a713a458d`, partway through `step-05`. [The code before this part](https://github.com/rahuldave/cheesecracker/tree/693a713a458db01debdd7ebc3b084ed1b0350b08)
 
 ```bash
 just setup
 ```
 
 The whole tutorial then fixes the code with ruff, and shortens a long line. One recipe runs every check.
-
-[The code before this part](https://github.com/rahuldave/cheesecracker/tree/693a713a458db01debdd7ebc3b084ed1b0350b08). [The code after it](https://github.com/rahuldave/cheesecracker/tree/e89e0cfa991257757c887f687087a9c77c093e20).
 
 ### 5.8 just check runs every check
 
@@ -487,11 +497,15 @@ just prints each command, and the last line is `21 passed`.
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/e89e0cfa991257757c887f687087a9c77c093e20). [The code after it](https://github.com/rahuldave/cheesecracker/tree/e89e0cfa991257757c887f687087a9c77c093e20).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/e89e0cfa991257757c887f687087a9c77c093e20). [The code after it](https://github.com/rahuldave/cheesecracker/tree/step-05).
+
+This part ends at the code at `step-05`. [The code after this part](https://github.com/rahuldave/cheesecracker/tree/step-05)
 
 <a id="step-06.3"></a>
 
 ## 6.3 just hook
+
+This walk goes through [rahuldave/cheesecracker](https://github.com/rahuldave/cheesecracker) on GitHub. This part starts from the code at `009d77653ead`, partway through `step-06`. [The code before this part](https://github.com/rahuldave/cheesecracker/tree/009d77653eadfde09e438656cde77b5eac489115)
 
 ```bash
 just setup
@@ -499,8 +513,6 @@ just setup
 
 The whole tutorial then adds pre-commit, a tool that runs checks before every commit. git runs them through a hook, a
 file in git's own folder. `just setup` installs only Python and the packages, so the hook gets a recipe of its own.
-
-[The code before this part](https://github.com/rahuldave/cheesecracker/tree/009d77653eadfde09e438656cde77b5eac489115). [The code after it](https://github.com/rahuldave/cheesecracker/tree/57ec2e24ecd4946823edbfad27bc2296f80e3847).
 
 ### 6.3 just hook installs the checks as a git hook
 
@@ -540,11 +552,15 @@ pre-commit prints `pre-commit installed at .git/hooks/pre-commit`. From now on, 
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/57ec2e24ecd4946823edbfad27bc2296f80e3847). [The code after it](https://github.com/rahuldave/cheesecracker/tree/57ec2e24ecd4946823edbfad27bc2296f80e3847).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/57ec2e24ecd4946823edbfad27bc2296f80e3847). [The code after it](https://github.com/rahuldave/cheesecracker/tree/step-06).
+
+This part ends at the code at `step-06`. [The code after this part](https://github.com/rahuldave/cheesecracker/tree/step-06)
 
 <a id="step-07.3"></a>
 
 ## 7.3 The Docker recipes
+
+This walk goes through [rahuldave/cheesecracker](https://github.com/rahuldave/cheesecracker) on GitHub. This part starts from the code at `0acb4556f724`, partway through `step-07`. [The code before this part](https://github.com/rahuldave/cheesecracker/tree/0acb4556f724cd94e4a71ab4fff739a974413fc0)
 
 ```bash
 just setup
@@ -552,8 +568,6 @@ just setup
 
 The whole tutorial then writes `.dockerignore`, and a `Dockerfile` with the run image. Three recipes build an image,
 start its server and stop it.
-
-[The code before this part](https://github.com/rahuldave/cheesecracker/tree/0acb4556f724cd94e4a71ab4fff739a974413fc0). [The code after it](https://github.com/rahuldave/cheesecracker/tree/d444e0387d256c62024581e98f59d670cbc93296).
 
 ### 7.3 just docker-build, just docker-serve and just docker-stop
 
@@ -635,11 +649,15 @@ Docker prints the name of the container, `cheesecracker-run`, and the server sto
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/d444e0387d256c62024581e98f59d670cbc93296). [The code after it](https://github.com/rahuldave/cheesecracker/tree/d444e0387d256c62024581e98f59d670cbc93296).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/d444e0387d256c62024581e98f59d670cbc93296). [The code after it](https://github.com/rahuldave/cheesecracker/tree/step-07).
+
+This part ends at the code at `step-07`. [The code after this part](https://github.com/rahuldave/cheesecracker/tree/step-07)
 
 <a id="step-08.4"></a>
 
 ## 8.4 just test-system
+
+This walk goes through [rahuldave/cheesecracker](https://github.com/rahuldave/cheesecracker) on GitHub. This part starts from the code at `19813cf32d08`, partway through `step-08`. [The code before this part](https://github.com/rahuldave/cheesecracker/tree/19813cf32d0843eea486048243e1eaf62b16a0fe)
 
 ```bash
 just setup
@@ -650,8 +668,6 @@ just docker-serve
 The whole tutorial then adds the package requests, and writes system tests. A system test sends real HTTP requests to
 the server at port 9000 of this machine. The system tests need a running server, so `just test` leaves them out, and
 `just docker-serve` above starts one. The system tests get a recipe of their own, apart from `just check`.
-
-[The code before this part](https://github.com/rahuldave/cheesecracker/tree/19813cf32d0843eea486048243e1eaf62b16a0fe). [The code after it](https://github.com/rahuldave/cheesecracker/tree/277d54eebce4a1727ed3d8a5c46570ca4a95f75d).
 
 ### 8.4 just test-system runs the system tests
 
@@ -697,11 +713,15 @@ docker-serve`.
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/277d54eebce4a1727ed3d8a5c46570ca4a95f75d). [The code after it](https://github.com/rahuldave/cheesecracker/tree/277d54eebce4a1727ed3d8a5c46570ca4a95f75d).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/277d54eebce4a1727ed3d8a5c46570ca4a95f75d). [The code after it](https://github.com/rahuldave/cheesecracker/tree/step-08).
+
+This part ends at the code at `step-08`. [The code after this part](https://github.com/rahuldave/cheesecracker/tree/step-08)
 
 <a id="step-09.2"></a>
 
 ## 9.2 just docker-shell and just docker-test
+
+This walk goes through [rahuldave/cheesecracker](https://github.com/rahuldave/cheesecracker) on GitHub. This part starts from the code at `ccf62d330f28`, partway through `step-09`. [The code before this part](https://github.com/rahuldave/cheesecracker/tree/ccf62d330f28c6eec4c0b993e1a71e2c11a8b5af)
 
 ```bash
 just setup
@@ -710,8 +730,6 @@ just docker-build dev
 
 The whole tutorial then adds the dev image to the `Dockerfile`. Two recipes run it, with the folder of the project
 mounted inside.
-
-[The code before this part](https://github.com/rahuldave/cheesecracker/tree/ccf62d330f28c6eec4c0b993e1a71e2c11a8b5af). [The code after it](https://github.com/rahuldave/cheesecracker/tree/0701e9244ab2384538eda4d623e1d047ff3f8258).
 
 ### 9.2 just docker-shell and just docker-test
 
@@ -761,4 +779,6 @@ The eleven unit tests pass in Linux.
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/0701e9244ab2384538eda4d623e1d047ff3f8258). [The code after it](https://github.com/rahuldave/cheesecracker/tree/0701e9244ab2384538eda4d623e1d047ff3f8258).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/0701e9244ab2384538eda4d623e1d047ff3f8258). [The code after it](https://github.com/rahuldave/cheesecracker/tree/step-09).
+
+This part ends at the code at `step-09`. [The code after this part](https://github.com/rahuldave/cheesecracker/tree/step-09)

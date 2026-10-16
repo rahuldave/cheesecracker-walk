@@ -21,6 +21,8 @@ did, and starts from the code that they left. It first runs `just setup`, which 
 
 ## 0 The project, and its `.venv`
 
+This walk goes through [rahuldave/cheesecracker](https://github.com/rahuldave/cheesecracker) on GitHub. This part is where the project starts, at `step-00`. [The code of this part](https://github.com/rahuldave/cheesecracker/tree/step-00)
+
 The project starts as a `pyproject.toml`, a `.python-version` and a lockfile. `just setup` makes the environment,
 `.venv`, from the lockfile.
 
@@ -162,11 +164,13 @@ just --list
 
 </details>
 
-[The code](https://github.com/rahuldave/cheesecracker/tree/cf50a6ef5045e08ca727aeaffdb710fad2cae096).
+This part ends at the code at `step-00`. [The code after this part](https://github.com/rahuldave/cheesecracker/tree/step-00)
 
 <a id="step-01.2"></a>
 
 ## 1.2 A group for the tests
+
+This walk goes through [rahuldave/cheesecracker](https://github.com/rahuldave/cheesecracker) on GitHub. This part starts from the code at `bb1701fd54ba`, partway through `step-01`. [The code before this part](https://github.com/rahuldave/cheesecracker/tree/bb1701fd54ba7c6aa9bd971c6651f34439f004d6)
 
 ```bash
 just setup
@@ -174,8 +178,6 @@ just setup
 
 The whole tutorial first writes the function `power()`, in `src/api-service/api/utils.py`. Its tests need pytest, and
 the server never does. So pytest goes into a group of its own.
-
-[The code before this part](https://github.com/rahuldave/cheesecracker/tree/bb1701fd54ba7c6aa9bd971c6651f34439f004d6). [The code after it](https://github.com/rahuldave/cheesecracker/tree/fc8c3bce83604277393460c4eb243d176d51905c).
 
 ### 1.2 pytest, in the dependency group test
 
@@ -218,9 +220,13 @@ uv prints the version of pytest, `pytest 9.1.1` on the day of the class.
 
 [This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/fc8c3bce83604277393460c4eb243d176d51905c). [The code after it](https://github.com/rahuldave/cheesecracker/tree/fc8c3bce83604277393460c4eb243d176d51905c).
 
+This part ends at the code at `fc8c3bce8360`, partway through `step-01`. [The code after this part](https://github.com/rahuldave/cheesecracker/tree/fc8c3bce83604277393460c4eb243d176d51905c)
+
 <a id="step-02.1"></a>
 
 ## 2.1 The dependencies of the server
+
+This walk goes through [rahuldave/cheesecracker](https://github.com/rahuldave/cheesecracker) on GitHub. This part starts from the code at `step-01`. [The code before this part](https://github.com/rahuldave/cheesecracker/tree/step-01)
 
 ```bash
 just setup
@@ -229,8 +235,6 @@ just setup
 The whole tutorial then tells pytest where the tests are, adds eleven unit tests of `power()`, and the recipe
 `just test`. Next comes the server, which needs FastAPI to build it and uvicorn to run it. They are dependencies of the project itself, and of no
 group.
-
-[The code before this part](https://github.com/rahuldave/cheesecracker/tree/e86e0c3d10bbe9409674f1c65ce4afdc38e7f76f). [The code after it](https://github.com/rahuldave/cheesecracker/tree/18dd9dfb1c9597e50a8b404a6cb6379c1c149320).
 
 ### 2.1 FastAPI, and uvicorn to serve it
 
@@ -273,9 +277,13 @@ uvicorn prints its version, and the version of Python that runs it.
 
 [This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/18dd9dfb1c9597e50a8b404a6cb6379c1c149320). [The code after it](https://github.com/rahuldave/cheesecracker/tree/18dd9dfb1c9597e50a8b404a6cb6379c1c149320).
 
+This part ends at the code at `18dd9dfb1c95`, partway through `step-02`. [The code after this part](https://github.com/rahuldave/cheesecracker/tree/18dd9dfb1c9597e50a8b404a6cb6379c1c149320)
+
 <a id="step-03.2"></a>
 
 ## 3.2 More tools for the tests
+
+This walk goes through [rahuldave/cheesecracker](https://github.com/rahuldave/cheesecracker) on GitHub. This part starts from the code at `e576e7bb9e55`, partway through `step-03`. [The code before this part](https://github.com/rahuldave/cheesecracker/tree/e576e7bb9e550b1a572a764b15f8d0bfde229d97)
 
 ```bash
 just setup
@@ -283,8 +291,6 @@ just setup
 
 The whole tutorial then writes the app, the recipes `just serve` and `just stop`, and an endpoint that computes a
 distance. The integration tests need two more packages, and they go into the group `test`.
-
-[The code before this part](https://github.com/rahuldave/cheesecracker/tree/e576e7bb9e550b1a572a764b15f8d0bfde229d97). [The code after it](https://github.com/rahuldave/cheesecracker/tree/3c75ffb1a089431a2455a69e9bcb3ec0302224f0).
 
 ### 3.2 httpx2 and pytest-asyncio, for tests of the app
 
@@ -326,9 +332,13 @@ pytest still prints `11 passed`. The new packages change no test.
 
 [This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/3c75ffb1a089431a2455a69e9bcb3ec0302224f0). [The code after it](https://github.com/rahuldave/cheesecracker/tree/3c75ffb1a089431a2455a69e9bcb3ec0302224f0).
 
+This part ends at the code at `3c75ffb1a089`, partway through `step-03`. [The code after this part](https://github.com/rahuldave/cheesecracker/tree/3c75ffb1a089431a2455a69e9bcb3ec0302224f0)
+
 <a id="step-04.1"></a>
 
 ## 4.1 One more tool for the tests
+
+This walk goes through [rahuldave/cheesecracker](https://github.com/rahuldave/cheesecracker) on GitHub. This part starts from the code at `step-03`. [The code before this part](https://github.com/rahuldave/cheesecracker/tree/step-03)
 
 ```bash
 just setup
@@ -336,8 +346,6 @@ just setup
 
 The whole tutorial then adds ten integration tests. The package pytest-cov measures which lines of the code the tests
 run, and it goes into the group `test`.
-
-[The code before this part](https://github.com/rahuldave/cheesecracker/tree/5862780b44d2f4ec87088c971dec57f23c11139e). [The code after it](https://github.com/rahuldave/cheesecracker/tree/54de20e8055ec62726d8956cac3a944433dc404c).
 
 ### 4.1 pytest-cov, to measure what the tests run
 
@@ -376,9 +384,13 @@ The table shows `utils.py` at 100% and `service.py` at 0%. The unit tests call `
 
 [This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/54de20e8055ec62726d8956cac3a944433dc404c). [The code after it](https://github.com/rahuldave/cheesecracker/tree/54de20e8055ec62726d8956cac3a944433dc404c).
 
+This part ends at the code at `54de20e8055e`, partway through `step-04`. [The code after this part](https://github.com/rahuldave/cheesecracker/tree/54de20e8055ec62726d8956cac3a944433dc404c)
+
 <a id="step-05.2"></a>
 
 ## 5.2 A second group, for the checks
+
+This walk goes through [rahuldave/cheesecracker](https://github.com/rahuldave/cheesecracker) on GitHub. This part starts from the code at `f77650600c11`, partway through `step-05`. [The code before this part](https://github.com/rahuldave/cheesecracker/tree/f77650600c1176caa9aaee86e6cddfccc43fc69c)
 
 ```bash
 just setup
@@ -386,8 +398,6 @@ just setup
 
 The whole tutorial then adds the recipe `just cov`, and a change made in a hurry. ruff checks the code, and the server
 does not need it. So ruff starts a second group, `lint`.
-
-[The code before this part](https://github.com/rahuldave/cheesecracker/tree/f77650600c1176caa9aaee86e6cddfccc43fc69c). [The code after it](https://github.com/rahuldave/cheesecracker/tree/9662828462ba2a21ca04a79c412e83ac070767f6).
 
 ### 5.2 ruff, the formatter and the linter, in the group lint
 
@@ -426,9 +436,13 @@ uv prints the version of ruff, `ruff 0.17.1` on the day of the class.
 
 [This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/9662828462ba2a21ca04a79c412e83ac070767f6). [The code after it](https://github.com/rahuldave/cheesecracker/tree/9662828462ba2a21ca04a79c412e83ac070767f6).
 
+This part ends at the code at `9662828462ba`, partway through `step-05`. [The code after this part](https://github.com/rahuldave/cheesecracker/tree/9662828462ba2a21ca04a79c412e83ac070767f6)
+
 <a id="step-06.1"></a>
 
 ## 6.1 pre-commit, in the group lint
+
+This walk goes through [rahuldave/cheesecracker](https://github.com/rahuldave/cheesecracker) on GitHub. This part starts from the code at `step-05`. [The code before this part](https://github.com/rahuldave/cheesecracker/tree/step-05)
 
 ```bash
 just setup
@@ -436,8 +450,6 @@ just setup
 
 The whole tutorial then sets up ruff, and fixes the code with it. pre-commit runs the checks before every commit, so
 it joins ruff in the group `lint`.
-
-[The code before this part](https://github.com/rahuldave/cheesecracker/tree/e89e0cfa991257757c887f687087a9c77c093e20). [The code after it](https://github.com/rahuldave/cheesecracker/tree/f3ad230bf911e0c446eb6752ec2718b910d9e851).
 
 ### 6.1 pre-commit, in the group lint
 
@@ -474,9 +486,13 @@ uv prints the version of pre-commit.
 
 [This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/f3ad230bf911e0c446eb6752ec2718b910d9e851). [The code after it](https://github.com/rahuldave/cheesecracker/tree/f3ad230bf911e0c446eb6752ec2718b910d9e851).
 
+This part ends at the code at `f3ad230bf911`, partway through `step-06`. [The code after this part](https://github.com/rahuldave/cheesecracker/tree/f3ad230bf911e0c446eb6752ec2718b910d9e851)
+
 <a id="step-07.2"></a>
 
 ## 7.2 The run image installs no group
+
+This walk goes through [rahuldave/cheesecracker](https://github.com/rahuldave/cheesecracker) on GitHub. This part starts from the code at `2a28a5c704d6`, partway through `step-07`. [The code before this part](https://github.com/rahuldave/cheesecracker/tree/2a28a5c704d6d9ed8200aeb8962aa01e5c2ac552)
 
 ```bash
 just setup
@@ -484,8 +500,6 @@ just setup
 
 The whole tutorial then writes the checks of pre-commit, and `.dockerignore`. The run image is the server as it runs
 in production. It needs the dependencies of the project, and no group.
-
-[The code before this part](https://github.com/rahuldave/cheesecracker/tree/2a28a5c704d6d9ed8200aeb8962aa01e5c2ac552). [The code after it](https://github.com/rahuldave/cheesecracker/tree/0acb4556f724cd94e4a71ab4fff739a974413fc0).
 
 ### 7.2 the run image, the server as it runs in production
 
@@ -560,9 +574,13 @@ The image is about 173 MB, nearly all of it Python and the dependencies of the s
 
 [This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/0acb4556f724cd94e4a71ab4fff739a974413fc0). [The code after it](https://github.com/rahuldave/cheesecracker/tree/0acb4556f724cd94e4a71ab4fff739a974413fc0).
 
+This part ends at the code at `0acb4556f724`, partway through `step-07`. [The code after this part](https://github.com/rahuldave/cheesecracker/tree/0acb4556f724cd94e4a71ab4fff739a974413fc0)
+
 <a id="step-08.1"></a>
 
 ## 8.1 One more tool for the tests, after the run image
+
+This walk goes through [rahuldave/cheesecracker](https://github.com/rahuldave/cheesecracker) on GitHub. This part starts from the code at `step-07`. [The code before this part](https://github.com/rahuldave/cheesecracker/tree/step-07)
 
 ```bash
 just setup
@@ -570,8 +588,6 @@ just setup
 
 The whole tutorial then adds recipes for Docker. The system tests send real HTTP requests, with the package `requests`.
 `requests` goes into the group `test`, and the run image never sees it.
-
-[The code before this part](https://github.com/rahuldave/cheesecracker/tree/d444e0387d256c62024581e98f59d670cbc93296). [The code after it](https://github.com/rahuldave/cheesecracker/tree/de0780b72a5cad4f0ed70e9c0cdcdee9d1028562).
 
 ### 8.1 requests, for tests that send real HTTP requests
 
@@ -609,9 +625,13 @@ Python prints the version of requests.
 
 [This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/de0780b72a5cad4f0ed70e9c0cdcdee9d1028562). [The code after it](https://github.com/rahuldave/cheesecracker/tree/de0780b72a5cad4f0ed70e9c0cdcdee9d1028562).
 
+This part ends at the code at `de0780b72a5c`, partway through `step-08`. [The code after this part](https://github.com/rahuldave/cheesecracker/tree/de0780b72a5cad4f0ed70e9c0cdcdee9d1028562)
+
 <a id="step-09.1"></a>
 
 ## 9.1 The dev image installs every group
+
+This walk goes through [rahuldave/cheesecracker](https://github.com/rahuldave/cheesecracker) on GitHub. This part starts from the code at `step-08`. [The code before this part](https://github.com/rahuldave/cheesecracker/tree/step-08)
 
 ```bash
 just setup
@@ -619,8 +639,6 @@ just setup
 
 The whole tutorial then adds the system tests, and the recipe `just test-system`. The dev image is for working on the
 project, so it installs every group.
-
-[The code before this part](https://github.com/rahuldave/cheesecracker/tree/277d54eebce4a1727ed3d8a5c46570ca4a95f75d). [The code after it](https://github.com/rahuldave/cheesecracker/tree/ccf62d330f28c6eec4c0b993e1a71e2c11a8b5af).
 
 ### 9.1 the dev image, to work on the project in Linux
 
@@ -695,3 +713,5 @@ The image is about 353 MB, twice the run image, because it has every tool.
 </details>
 
 [This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/ccf62d330f28c6eec4c0b993e1a71e2c11a8b5af). [The code after it](https://github.com/rahuldave/cheesecracker/tree/ccf62d330f28c6eec4c0b993e1a71e2c11a8b5af).
+
+This part ends at the code at `ccf62d330f28`, partway through `step-09`. [The code after this part](https://github.com/rahuldave/cheesecracker/tree/ccf62d330f28c6eec4c0b993e1a71e2c11a8b5af)

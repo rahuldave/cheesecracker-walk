@@ -28,6 +28,8 @@ did, and starts from the code that they left. It first runs `just setup`, which 
 
 ## 0 The project
 
+This walk goes through [rahuldave/cheesecracker](https://github.com/rahuldave/cheesecracker) on GitHub. This part is where the project starts, at `step-00`. [The code of this part](https://github.com/rahuldave/cheesecracker/tree/step-00)
+
 The project starts empty, with a `pyproject.toml`, a lockfile and a `justfile`. The next sections give it code and
 tests.
 
@@ -169,11 +171,13 @@ just --list
 
 </details>
 
-[The code](https://github.com/rahuldave/cheesecracker/tree/cf50a6ef5045e08ca727aeaffdb710fad2cae096).
+This part ends at the code at `step-00`. [The code after this part](https://github.com/rahuldave/cheesecracker/tree/step-00)
 
 <a id="step-01"></a>
 
 ## 1 A function, and its unit tests
+
+This walk goes through [rahuldave/cheesecracker](https://github.com/rahuldave/cheesecracker) on GitHub. This part starts from the code at `step-00`. [The code before this part](https://github.com/rahuldave/cheesecracker/tree/step-00)
 
 A unit test calls one function alone. The first function of the server, `power()`, gets eleven of them.
 
@@ -184,8 +188,6 @@ just setup
 The server will compute distances, and it needs a function that raises a number to a power. We write the function
 first, and tests that call it alone. A unit test calls one function, with no server and no network, so it runs in
 milliseconds.
-
-[The code before this part](https://github.com/rahuldave/cheesecracker/tree/cf50a6ef5045e08ca727aeaffdb710fad2cae096). [The code after it](https://github.com/rahuldave/cheesecracker/tree/e86e0c3d10bbe9409674f1c65ce4afdc38e7f76f).
 
 <a id="step-01.1"></a>
 
@@ -492,11 +494,15 @@ just prints the command of the recipe, and pytest prints `11 passed`.
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/e86e0c3d10bbe9409674f1c65ce4afdc38e7f76f). [The code after it](https://github.com/rahuldave/cheesecracker/tree/e86e0c3d10bbe9409674f1c65ce4afdc38e7f76f).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/e86e0c3d10bbe9409674f1c65ce4afdc38e7f76f). [The code after it](https://github.com/rahuldave/cheesecracker/tree/step-01).
+
+This part ends at the code at `step-01`. [The code after this part](https://github.com/rahuldave/cheesecracker/tree/step-01)
 
 <a id="step-02"></a>
 
 ## 2 The server under test
+
+This walk goes through [rahuldave/cheesecracker](https://github.com/rahuldave/cheesecracker) on GitHub. This part starts from the code at `step-01`. [The code before this part](https://github.com/rahuldave/cheesecracker/tree/step-01)
 
 The integration tests and the system tests need a server to call. This section writes it, with two answers, `/` and
 `/health`, and the recipes `just serve` and `just stop`.
@@ -507,8 +513,6 @@ just setup
 
 The Cheese App talks to its server over HTTP. FastAPI turns Python functions into the answers of HTTP requests, and
 uvicorn is the server that runs a FastAPI app. We write an app that answers two requests, and run it on this machine.
-
-[The code before this part](https://github.com/rahuldave/cheesecracker/tree/e86e0c3d10bbe9409674f1c65ce4afdc38e7f76f). [The code after it](https://github.com/rahuldave/cheesecracker/tree/69c3bf65c78cf8e96bf8f9ea1dde29279db1351a).
 
 <a id="step-02.1"></a>
 
@@ -721,11 +725,15 @@ curl -s localhost:9000/health
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/69c3bf65c78cf8e96bf8f9ea1dde29279db1351a). [The code after it](https://github.com/rahuldave/cheesecracker/tree/69c3bf65c78cf8e96bf8f9ea1dde29279db1351a).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/69c3bf65c78cf8e96bf8f9ea1dde29279db1351a). [The code after it](https://github.com/rahuldave/cheesecracker/tree/step-02).
+
+This part ends at the code at `step-02`. [The code after this part](https://github.com/rahuldave/cheesecracker/tree/step-02)
 
 <a id="step-03"></a>
 
 ## 3 Integration tests
+
+This walk goes through [rahuldave/cheesecracker](https://github.com/rahuldave/cheesecracker) on GitHub. This part starts from the code at `step-02`. [The code before this part](https://github.com/rahuldave/cheesecracker/tree/step-02)
 
 An integration test sends a request to the app, with no server and no network. First the app gets a new request
 that does some work. `/euclidean_distance/` answers with the distance of a point from the origin.
@@ -737,8 +745,6 @@ just setup
 The app needs an endpoint that does some work, and tests that call it. The endpoint computes the distance of a point
 from the origin with `power()`. An integration test sends requests to the app and checks the answers, with no server
 and no network.
-
-[The code before this part](https://github.com/rahuldave/cheesecracker/tree/69c3bf65c78cf8e96bf8f9ea1dde29279db1351a). [The code after it](https://github.com/rahuldave/cheesecracker/tree/5862780b44d2f4ec87088c971dec57f23c11139e).
 
 <a id="step-03.1"></a>
 
@@ -969,11 +975,15 @@ just stop
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/5862780b44d2f4ec87088c971dec57f23c11139e). [The code after it](https://github.com/rahuldave/cheesecracker/tree/5862780b44d2f4ec87088c971dec57f23c11139e).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/5862780b44d2f4ec87088c971dec57f23c11139e). [The code after it](https://github.com/rahuldave/cheesecracker/tree/step-03).
+
+This part ends at the code at `step-03`. [The code after this part](https://github.com/rahuldave/cheesecracker/tree/step-03)
 
 <a id="step-04"></a>
 
 ## 4 Coverage
+
+This walk goes through [rahuldave/cheesecracker](https://github.com/rahuldave/cheesecracker) on GitHub. This part starts from the code at `step-03`. [The code before this part](https://github.com/rahuldave/cheesecracker/tree/step-03)
 
 The tests pass, but nothing says which lines of the code they run. Coverage counts them.
 
@@ -983,8 +993,6 @@ just setup
 
 Twenty-one tests pass, and we still do not know which lines of the app they run. Coverage counts the lines of the
 package `api` that run during the tests, and lists the lines that no test ran.
-
-[The code before this part](https://github.com/rahuldave/cheesecracker/tree/5862780b44d2f4ec87088c971dec57f23c11139e). [The code after it](https://github.com/rahuldave/cheesecracker/tree/bfb9c783c67c31254ce8136784738c0f2fc17fb5).
 
 <a id="step-04.1"></a>
 
@@ -1063,11 +1071,15 @@ The total is 95%. `service.py` misses line 31, the answer of `/health`, because 
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/bfb9c783c67c31254ce8136784738c0f2fc17fb5). [The code after it](https://github.com/rahuldave/cheesecracker/tree/bfb9c783c67c31254ce8136784738c0f2fc17fb5).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/bfb9c783c67c31254ce8136784738c0f2fc17fb5). [The code after it](https://github.com/rahuldave/cheesecracker/tree/step-04).
+
+This part ends at the code at `step-04`. [The code after this part](https://github.com/rahuldave/cheesecracker/tree/step-04)
 
 <a id="step-07"></a>
 
 ## 7 The run image, a server to test against
+
+This walk goes through [rahuldave/cheesecracker](https://github.com/rahuldave/cheesecracker) on GitHub. This part starts from the code at `step-06`. [The code before this part](https://github.com/rahuldave/cheesecracker/tree/step-06)
 
 The whole tutorial then makes a change in a hurry. It adds an import that nothing uses, a function
 `unused_function()` that nothing calls, and a long `message` in the answer of `/euclidean_distance/`. Then ruff, a
@@ -1084,8 +1096,6 @@ just setup
 The server runs on this machine, with its `.venv` and this version of macOS or Linux. Production is another machine,
 such as a server on Google Cloud. A Docker image holds the server with everything it needs, so it runs the same on
 any machine with Docker. The run image is the image that production runs, our deployment.
-
-[The code before this part](https://github.com/rahuldave/cheesecracker/tree/57ec2e24ecd4946823edbfad27bc2296f80e3847). [The code after it](https://github.com/rahuldave/cheesecracker/tree/d444e0387d256c62024581e98f59d670cbc93296).
 
 <a id="step-07.1"></a>
 
@@ -1286,11 +1296,15 @@ Docker prints the name of the container, `cheesecracker-run`, and the server sto
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/d444e0387d256c62024581e98f59d670cbc93296). [The code after it](https://github.com/rahuldave/cheesecracker/tree/d444e0387d256c62024581e98f59d670cbc93296).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/d444e0387d256c62024581e98f59d670cbc93296). [The code after it](https://github.com/rahuldave/cheesecracker/tree/step-07).
+
+This part ends at the code at `step-07`. [The code after this part](https://github.com/rahuldave/cheesecracker/tree/step-07)
 
 <a id="step-08"></a>
 
 ## 8 System tests, against the run image
+
+This walk goes through [rahuldave/cheesecracker](https://github.com/rahuldave/cheesecracker) on GitHub. This part starts from the code at `step-07`. [The code before this part](https://github.com/rahuldave/cheesecracker/tree/step-07)
 
 The system tests send real HTTP requests to the run image. They need a server, so they run apart from the other
 tests, and fail when no server answers.
@@ -1302,8 +1316,6 @@ just setup
 The integration tests call the app in the same process as the tests. They cannot tell whether the image starts, or
 whether the server answers on its port. A system test sends real HTTP requests to the running server, as the Cheese
 App does. Here the server is the run image, our deployment, which `just docker-serve` starts.
-
-[The code before this part](https://github.com/rahuldave/cheesecracker/tree/d444e0387d256c62024581e98f59d670cbc93296). [The code after it](https://github.com/rahuldave/cheesecracker/tree/277d54eebce4a1727ed3d8a5c46570ca4a95f75d).
 
 <a id="step-08.1"></a>
 
@@ -1544,4 +1556,6 @@ docker-serve`.
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/277d54eebce4a1727ed3d8a5c46570ca4a95f75d). [The code after it](https://github.com/rahuldave/cheesecracker/tree/277d54eebce4a1727ed3d8a5c46570ca4a95f75d).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/277d54eebce4a1727ed3d8a5c46570ca4a95f75d). [The code after it](https://github.com/rahuldave/cheesecracker/tree/step-08).
+
+This part ends at the code at `step-08`. [The code after this part](https://github.com/rahuldave/cheesecracker/tree/step-08)

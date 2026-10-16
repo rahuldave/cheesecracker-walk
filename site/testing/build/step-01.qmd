@@ -6,6 +6,8 @@ title: "1 A function, and its unit tests"
 
 **Build it yourself.** [Read the tutorial](../read/step-01.qmd) is the other way to read this part.
 
+This walk goes through [rahuldave/cheesecracker](https://github.com/rahuldave/cheesecracker) on GitHub. This part starts from the code at `step-00`. [The code before this part](https://github.com/rahuldave/cheesecracker/tree/step-00){.btn .btn-sm .btn-primary}
+
 If you start at this part, make your clone as **Get the project** says, and then run this command. It puts in your clone the files that this part starts from. A file that the project deleted before this part stays, so delete it if `git check` lists it:
 
 ```bash
@@ -21,8 +23,6 @@ just setup
 The server will compute distances, and it needs a function that raises a number to a power. We write the function
 first, and tests that call it alone. A unit test calls one function, with no server and no network, so it runs in
 milliseconds.
-
-[The code before this part](https://github.com/rahuldave/cheesecracker/tree/cf50a6ef5045e08ca727aeaffdb710fad2cae096). [The code after it](https://github.com/rahuldave/cheesecracker/tree/e86e0c3d10bbe9409674f1c65ce4afdc38e7f76f).
 
 ## 1.1 power(), the first function of the API {#step-01.1}
 
@@ -67,8 +67,8 @@ git restore --source cf50a6ef5045 --staged -- :/ && git restore --source bb1701f
 
 ### What changed {#step-01.1-what-changed-182c57}
 
-- <a id="step-01.1-src-api-service-api-__init__.py-e2e18a"></a>`src/api-service/api/__init__.py`: one comment, which makes the folder a package. New, 1 line. [The file](https://github.com/rahuldave/cheesecracker/blob/bb1701fd54ba7c6aa9bd971c6651f34439f004d6/src/api-service/api/__init__.py).
-- <a id="step-01.1-src-api-service-api-utils.py-18f1f8"></a>`src/api-service/api/utils.py`: the function `power()`. New, 9 lines. [The file](https://github.com/rahuldave/cheesecracker/blob/bb1701fd54ba7c6aa9bd971c6651f34439f004d6/src/api-service/api/utils.py).
+- <a id="step-01.1-src-api-service-api-__init__.py-e2e18a"></a>`src/api-service/api/__init__.py`: one comment, which makes the folder a package. New, 1 line. [The file](https://github.com/rahuldave/cheesecracker/blob/bb1701fd54ba7c6aa9bd971c6651f34439f004d6/src/api-service/api/__init__.py){.btn .btn-sm .btn-secondary}
+- <a id="step-01.1-src-api-service-api-utils.py-18f1f8"></a>`src/api-service/api/utils.py`: the function `power()`. New, 9 lines. [The file](https://github.com/rahuldave/cheesecracker/blob/bb1701fd54ba7c6aa9bd971c6651f34439f004d6/src/api-service/api/utils.py){.btn .btn-sm .btn-secondary}
   - look at `return base**exponent`
 
 <details open><summary>The patch to <code>src/api-service/api/__init__.py</code></summary>
@@ -97,7 +97,7 @@ git restore --source cf50a6ef5045 --staged -- :/ && git restore --source bb1701f
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/bb1701fd54ba7c6aa9bd971c6651f34439f004d6). [The code after it](https://github.com/rahuldave/cheesecracker/tree/bb1701fd54ba7c6aa9bd971c6651f34439f004d6).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/bb1701fd54ba7c6aa9bd971c6651f34439f004d6){.btn .btn-sm .btn-secondary} [The code after it](https://github.com/rahuldave/cheesecracker/tree/bb1701fd54ba7c6aa9bd971c6651f34439f004d6){.btn .btn-sm .btn-primary}
 
 ## 1.2 pytest, in the dependency group test {#step-01.2}
 
@@ -132,9 +132,9 @@ git restore --source bb1701fd54ba --staged -- :/ && git restore --source fc8c3bc
 
 ### What changed {#step-01.2-what-changed-182c57}
 
-- <a id="step-01.2-pyproject.toml-5d07e7"></a>`pyproject.toml`: pytest, in the group `test`. 5 lines added. It comes from `uv add --group test pytest`. [The file](https://github.com/rahuldave/cheesecracker/blob/fc8c3bce83604277393460c4eb243d176d51905c/pyproject.toml).
+- <a id="step-01.2-pyproject.toml-5d07e7"></a>`pyproject.toml`: pytest, in the group `test`. 5 lines added. It comes from `uv add --group test pytest`. [The file](https://github.com/rahuldave/cheesecracker/blob/fc8c3bce83604277393460c4eb243d176d51905c/pyproject.toml){.btn .btn-sm .btn-secondary}
   - look at `"pytest>=9.1.1",`
-- <a id="step-01.2-uv.lock-8356d8"></a>`uv.lock`: the exact version of pytest, and of the packages that it needs. 71 lines added. It comes from `uv add --group test pytest`. [The file](https://github.com/rahuldave/cheesecracker/blob/fc8c3bce83604277393460c4eb243d176d51905c/uv.lock).
+- <a id="step-01.2-uv.lock-8356d8"></a>`uv.lock`: the exact version of pytest, and of the packages that it needs. 71 lines added. It comes from `uv add --group test pytest`. [The file](https://github.com/rahuldave/cheesecracker/blob/fc8c3bce83604277393460c4eb243d176d51905c/uv.lock){.btn .btn-sm .btn-secondary}
 
 <details><summary>The diff that <code>uv add --group test pytest</code> makes in <code>pyproject.toml</code></summary>
 
@@ -152,7 +152,7 @@ git restore --source bb1701fd54ba --staged -- :/ && git restore --source fc8c3bc
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/fc8c3bce83604277393460c4eb243d176d51905c). [The code after it](https://github.com/rahuldave/cheesecracker/tree/fc8c3bce83604277393460c4eb243d176d51905c).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/fc8c3bce83604277393460c4eb243d176d51905c){.btn .btn-sm .btn-secondary} [The code after it](https://github.com/rahuldave/cheesecracker/tree/fc8c3bce83604277393460c4eb243d176d51905c){.btn .btn-sm .btn-primary}
 
 ## 1.3 pytest finds the tests, and the package api {#step-01.3}
 
@@ -211,7 +211,7 @@ git restore --source fc8c3bce8360 --staged -- :/ && git restore --source ff82ac1
 
 ### What changed {#step-01.3-what-changed-182c57}
 
-- <a id="step-01.3-pyproject.toml-5d07e7"></a>`pyproject.toml`: the table `[tool.pytest.ini_options]`, with the folder of the tests and the folder of the package. 5 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/ff82ac1870a7e1937a6fb4d25ac171249378f299/pyproject.toml).
+- <a id="step-01.3-pyproject.toml-5d07e7"></a>`pyproject.toml`: the table `[tool.pytest.ini_options]`, with the folder of the tests and the folder of the package. 5 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/ff82ac1870a7e1937a6fb4d25ac171249378f299/pyproject.toml){.btn .btn-sm .btn-secondary}
   - look at `pythonpath = ["src/api-service"]`
 
 <details open><summary>The patch to <code>pyproject.toml</code></summary>
@@ -230,7 +230,7 @@ git restore --source fc8c3bce8360 --staged -- :/ && git restore --source ff82ac1
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/ff82ac1870a7e1937a6fb4d25ac171249378f299). [The code after it](https://github.com/rahuldave/cheesecracker/tree/ff82ac1870a7e1937a6fb4d25ac171249378f299).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/ff82ac1870a7e1937a6fb4d25ac171249378f299){.btn .btn-sm .btn-secondary} [The code after it](https://github.com/rahuldave/cheesecracker/tree/ff82ac1870a7e1937a6fb4d25ac171249378f299){.btn .btn-sm .btn-primary}
 
 ## 1.4 unit tests of power() {#step-01.4}
 
@@ -266,7 +266,7 @@ git restore --source ff82ac1870a7 --staged -- :/ && git restore --source cbc98b1
 
 ### What changed {#step-01.4-what-changed-182c57}
 
-- <a id="step-01.4-tests-unit-test_utils.py-3d93fe"></a>`tests/unit/test_utils.py`: eleven unit tests of `power()`. New, 91 lines. [The file](https://github.com/rahuldave/cheesecracker/blob/cbc98b162671bce7a7ba82d7d18c7dc6d530b746/tests/unit/test_utils.py).
+- <a id="step-01.4-tests-unit-test_utils.py-3d93fe"></a>`tests/unit/test_utils.py`: eleven unit tests of `power()`. New, 91 lines. [The file](https://github.com/rahuldave/cheesecracker/blob/cbc98b162671bce7a7ba82d7d18c7dc6d530b746/tests/unit/test_utils.py){.btn .btn-sm .btn-secondary}
   - look at `assert power(2, 3) == 8`
 
 <details open><summary>The patch to <code>tests/unit/test_utils.py</code></summary>
@@ -368,7 +368,7 @@ git restore --source ff82ac1870a7 --staged -- :/ && git restore --source cbc98b1
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/cbc98b162671bce7a7ba82d7d18c7dc6d530b746). [The code after it](https://github.com/rahuldave/cheesecracker/tree/cbc98b162671bce7a7ba82d7d18c7dc6d530b746).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/cbc98b162671bce7a7ba82d7d18c7dc6d530b746){.btn .btn-sm .btn-secondary} [The code after it](https://github.com/rahuldave/cheesecracker/tree/cbc98b162671bce7a7ba82d7d18c7dc6d530b746){.btn .btn-sm .btn-primary}
 
 ## 1.5 just test runs the tests {#step-01.5}
 
@@ -403,7 +403,7 @@ git restore --source cbc98b162671 --staged -- :/ && git restore --source e86e0c3
 
 ### What changed {#step-01.5-what-changed-182c57}
 
-- <a id="step-01.5-justfile-424f0b"></a>`justfile`: the recipe `test`. 4 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/e86e0c3d10bbe9409674f1c65ce4afdc38e7f76f/justfile).
+- <a id="step-01.5-justfile-424f0b"></a>`justfile`: the recipe `test`. 4 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/e86e0c3d10bbe9409674f1c65ce4afdc38e7f76f/justfile){.btn .btn-sm .btn-secondary}
   - look at `uv run pytest "$@"`
 
 <details open><summary>The patch to <code>justfile</code></summary>
@@ -421,4 +421,6 @@ git restore --source cbc98b162671 --staged -- :/ && git restore --source e86e0c3
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/e86e0c3d10bbe9409674f1c65ce4afdc38e7f76f). [The code after it](https://github.com/rahuldave/cheesecracker/tree/e86e0c3d10bbe9409674f1c65ce4afdc38e7f76f).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/e86e0c3d10bbe9409674f1c65ce4afdc38e7f76f){.btn .btn-sm .btn-secondary} [The code after it](https://github.com/rahuldave/cheesecracker/tree/step-01){.btn .btn-sm .btn-primary}
+
+This part ends at the code at `step-01`. [The code after this part](https://github.com/rahuldave/cheesecracker/tree/step-01){.btn .btn-sm .btn-primary}

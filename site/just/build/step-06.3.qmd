@@ -6,6 +6,8 @@ title: "6.3 just hook"
 
 **Build it yourself.** [Read the tutorial](../read/step-06.3.qmd) is the other way to read this part.
 
+This walk goes through [rahuldave/cheesecracker](https://github.com/rahuldave/cheesecracker) on GitHub. This part starts from the code at `009d77653ead`, partway through `step-06`. [The code before this part](https://github.com/rahuldave/cheesecracker/tree/009d77653eadfde09e438656cde77b5eac489115){.btn .btn-sm .btn-primary}
+
 This part does not start where the part before it ends, because the walk skips some changes. This command puts the files that this part starts from in place of yours. Run it, and then go on:
 
 ```bash
@@ -24,8 +26,6 @@ just setup
 
 The whole tutorial then adds pre-commit, a tool that runs checks before every commit. git runs them through a hook, a
 file in git's own folder. `just setup` installs only Python and the packages, so the hook gets a recipe of its own.
-
-[The code before this part](https://github.com/rahuldave/cheesecracker/tree/009d77653eadfde09e438656cde77b5eac489115). [The code after it](https://github.com/rahuldave/cheesecracker/tree/57ec2e24ecd4946823edbfad27bc2296f80e3847).
 
 ## 6.3 just hook installs the checks as a git hook {#step-06.3}
 
@@ -60,7 +60,7 @@ git restore --source 009d77653ead --staged -- :/ && git restore --source 57ec2e2
 
 ### What changed {#step-06.3-what-changed-182c57}
 
-- <a id="step-06.3-justfile-424f0b"></a>`justfile`: the recipe `hook`. 4 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/57ec2e24ecd4946823edbfad27bc2296f80e3847/justfile).
+- <a id="step-06.3-justfile-424f0b"></a>`justfile`: the recipe `hook`. 4 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/57ec2e24ecd4946823edbfad27bc2296f80e3847/justfile){.btn .btn-sm .btn-secondary}
   - look at `uv run pre-commit install`
 
 <details open><summary>The patch to <code>justfile</code></summary>
@@ -81,4 +81,6 @@ git restore --source 009d77653ead --staged -- :/ && git restore --source 57ec2e2
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/57ec2e24ecd4946823edbfad27bc2296f80e3847). [The code after it](https://github.com/rahuldave/cheesecracker/tree/57ec2e24ecd4946823edbfad27bc2296f80e3847).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/57ec2e24ecd4946823edbfad27bc2296f80e3847){.btn .btn-sm .btn-secondary} [The code after it](https://github.com/rahuldave/cheesecracker/tree/step-06){.btn .btn-sm .btn-primary}
+
+This part ends at the code at `step-06`. [The code after this part](https://github.com/rahuldave/cheesecracker/tree/step-06){.btn .btn-sm .btn-primary}

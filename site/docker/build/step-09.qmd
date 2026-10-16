@@ -6,6 +6,8 @@ title: "9 The dev image"
 
 **Build it yourself.** [Read the tutorial](../read/step-09.qmd) is the other way to read this part.
 
+This walk goes through [rahuldave/cheesecracker](https://github.com/rahuldave/cheesecracker) on GitHub. This part starts from the code at `step-08`. [The code before this part](https://github.com/rahuldave/cheesecracker/tree/step-08){.btn .btn-sm .btn-primary}
+
 If you start at this part, make your clone as **Get the project** says, and then run this command. It puts in your clone the files that this part starts from. A file that the project deleted before this part stays, so delete it if `git check` lists it:
 
 ```bash
@@ -21,8 +23,6 @@ just setup
 The checks run on this machine. Another person, or a CI service, runs them on another system, with other versions of
 the tools. The dev image holds the whole project with every group of dependencies, and uv, just and git. So the
 checks run in the same Linux, anywhere Docker runs.
-
-[The code before this part](https://github.com/rahuldave/cheesecracker/tree/277d54eebce4a1727ed3d8a5c46570ca4a95f75d). [The code after it](https://github.com/rahuldave/cheesecracker/tree/0701e9244ab2384538eda4d623e1d047ff3f8258).
 
 ## 9.1 the dev image, to work on the project in Linux {#step-09.1}
 
@@ -64,7 +64,7 @@ git restore --source 277d54eebce4 --staged -- :/ && git restore --source ccf62d3
 
 ### What changed {#step-09.1-what-changed-182c57}
 
-- <a id="step-09.1-Dockerfile-6651dd"></a>`Dockerfile`: the stage `dev`, and its lines in the comment at the top. 26 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/ccf62d330f28c6eec4c0b993e1a71e2c11a8b5af/Dockerfile).
+- <a id="step-09.1-Dockerfile-6651dd"></a>`Dockerfile`: the stage `dev`, and its lines in the comment at the top. 26 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/ccf62d330f28c6eec4c0b993e1a71e2c11a8b5af/Dockerfile){.btn .btn-sm .btn-secondary}
   - look at `FROM python:3.12-slim-bookworm AS dev`
 
 <details open><summary>The patch to <code>Dockerfile</code></summary>
@@ -111,7 +111,7 @@ git restore --source 277d54eebce4 --staged -- :/ && git restore --source ccf62d3
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/ccf62d330f28c6eec4c0b993e1a71e2c11a8b5af). [The code after it](https://github.com/rahuldave/cheesecracker/tree/ccf62d330f28c6eec4c0b993e1a71e2c11a8b5af).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/ccf62d330f28c6eec4c0b993e1a71e2c11a8b5af){.btn .btn-sm .btn-secondary} [The code after it](https://github.com/rahuldave/cheesecracker/tree/ccf62d330f28c6eec4c0b993e1a71e2c11a8b5af){.btn .btn-sm .btn-primary}
 
 ## 9.2 just docker-shell and just docker-test {#step-09.2}
 
@@ -154,7 +154,7 @@ git restore --source ccf62d330f28 --staged -- :/ && git restore --source 0701e92
 
 ### What changed {#step-09.2-what-changed-182c57}
 
-- <a id="step-09.2-justfile-424f0b"></a>`justfile`: the recipes `docker-shell` and `docker-test`. 8 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/0701e9244ab2384538eda4d623e1d047ff3f8258/justfile).
+- <a id="step-09.2-justfile-424f0b"></a>`justfile`: the recipes `docker-shell` and `docker-test`. 8 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/0701e9244ab2384538eda4d623e1d047ff3f8258/justfile){.btn .btn-sm .btn-secondary}
   - look at `docker run --rm -v "$PWD":/work cheesecracker-dev just "${@:-check}"`
 
 <details open><summary>The patch to <code>justfile</code></summary>
@@ -176,4 +176,6 @@ git restore --source ccf62d330f28 --staged -- :/ && git restore --source 0701e92
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/0701e9244ab2384538eda4d623e1d047ff3f8258). [The code after it](https://github.com/rahuldave/cheesecracker/tree/0701e9244ab2384538eda4d623e1d047ff3f8258).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/0701e9244ab2384538eda4d623e1d047ff3f8258){.btn .btn-sm .btn-secondary} [The code after it](https://github.com/rahuldave/cheesecracker/tree/step-09){.btn .btn-sm .btn-primary}
+
+This part ends at the code at `step-09`. [The code after this part](https://github.com/rahuldave/cheesecracker/tree/step-09){.btn .btn-sm .btn-primary}

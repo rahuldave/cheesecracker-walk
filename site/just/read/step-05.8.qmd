@@ -6,13 +6,22 @@ title: "5.8 just check"
 
 **Read the tutorial.** [Build it yourself](../build/step-05.8.qmd) is the other way to read this part.
 
+This walk goes through [rahuldave/cheesecracker](https://github.com/rahuldave/cheesecracker) on GitHub. This part starts from the code at `693a713a458d`, partway through `step-05`. [The code before this part](https://github.com/rahuldave/cheesecracker/tree/693a713a458db01debdd7ebc3b084ed1b0350b08){.btn .btn-sm .btn-primary}
+
+To look at this code on your machine, run these commands. The first one makes a clone, if this folder has none:
+
+```bash
+[ -d cheesecracker ] || git clone https://github.com/rahuldave/cheesecracker
+cd cheesecracker
+git fetch --quiet --tags --force origin
+git switch --detach 693a713a458d
+```
+
 ```bash
 just setup
 ```
 
 The whole tutorial then fixes the code with ruff, and shortens a long line. One recipe runs every check.
-
-[The code before this part](https://github.com/rahuldave/cheesecracker/tree/693a713a458db01debdd7ebc3b084ed1b0350b08). [The code after it](https://github.com/rahuldave/cheesecracker/tree/e89e0cfa991257757c887f687087a9c77c093e20).
 
 ## 5.8 just check runs every check {#step-05.8}
 
@@ -32,7 +41,7 @@ just prints each command, and the last line is `21 passed`.
 
 ### What changed {#step-05.8-what-changed-182c57}
 
-- <a id="step-05.8-justfile-424f0b"></a>`justfile`: the recipe `check`. 6 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/e89e0cfa991257757c887f687087a9c77c093e20/justfile).
+- <a id="step-05.8-justfile-424f0b"></a>`justfile`: the recipe `check`. 6 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/e89e0cfa991257757c887f687087a9c77c093e20/justfile){.btn .btn-sm .btn-secondary}
   - look at `just fmt --check`
 
 <details><summary>The diff of <code>justfile</code></summary>
@@ -52,4 +61,6 @@ just prints each command, and the last line is `21 passed`.
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/e89e0cfa991257757c887f687087a9c77c093e20). [The code after it](https://github.com/rahuldave/cheesecracker/tree/e89e0cfa991257757c887f687087a9c77c093e20).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/e89e0cfa991257757c887f687087a9c77c093e20){.btn .btn-sm .btn-secondary} [The code after it](https://github.com/rahuldave/cheesecracker/tree/step-05){.btn .btn-sm .btn-primary}
+
+This part ends at the code at `step-05`. [The code after this part](https://github.com/rahuldave/cheesecracker/tree/step-05){.btn .btn-sm .btn-primary}

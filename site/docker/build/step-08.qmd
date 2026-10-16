@@ -6,6 +6,8 @@ title: "8 System tests, against the run image"
 
 **Build it yourself.** [Read the tutorial](../read/step-08.qmd) is the other way to read this part.
 
+This walk goes through [rahuldave/cheesecracker](https://github.com/rahuldave/cheesecracker) on GitHub. This part starts from the code at `step-07`. [The code before this part](https://github.com/rahuldave/cheesecracker/tree/step-07){.btn .btn-sm .btn-primary}
+
 If you start at this part, make your clone as **Get the project** says, and then run this command. It puts in your clone the files that this part starts from. A file that the project deleted before this part stays, so delete it if `git check` lists it:
 
 ```bash
@@ -22,8 +24,6 @@ just setup
 The integration tests call the app in the same process as the tests. They cannot tell whether the image starts, or
 whether the server answers on its port. A system test sends real HTTP requests to the running server, as the Cheese
 App does. Here the server is the run image, our deployment, which `just docker-serve` starts.
-
-[The code before this part](https://github.com/rahuldave/cheesecracker/tree/d444e0387d256c62024581e98f59d670cbc93296). [The code after it](https://github.com/rahuldave/cheesecracker/tree/277d54eebce4a1727ed3d8a5c46570ca4a95f75d).
 
 ## 8.1 requests, for tests that send real HTTP requests {#step-08.1}
 
@@ -54,9 +54,9 @@ git restore --source d444e0387d25 --staged -- :/ && git restore --source de0780b
 
 ### What changed {#step-08.1-what-changed-182c57}
 
-- <a id="step-08.1-pyproject.toml-5d07e7"></a>`pyproject.toml`: requests, in the group `test`. 1 line added. It comes from `uv add --group test requests`. [The file](https://github.com/rahuldave/cheesecracker/blob/de0780b72a5cad4f0ed70e9c0cdcdee9d1028562/pyproject.toml).
+- <a id="step-08.1-pyproject.toml-5d07e7"></a>`pyproject.toml`: requests, in the group `test`. 1 line added. It comes from `uv add --group test requests`. [The file](https://github.com/rahuldave/cheesecracker/blob/de0780b72a5cad4f0ed70e9c0cdcdee9d1028562/pyproject.toml){.btn .btn-sm .btn-secondary}
   - look at `"requests>=2.34.2",`
-- <a id="step-08.1-uv.lock-8356d8"></a>`uv.lock`: the exact versions of requests, and of the packages that it needs. 166 lines added. It comes from `uv add --group test requests`. [The file](https://github.com/rahuldave/cheesecracker/blob/de0780b72a5cad4f0ed70e9c0cdcdee9d1028562/uv.lock).
+- <a id="step-08.1-uv.lock-8356d8"></a>`uv.lock`: the exact versions of requests, and of the packages that it needs. 166 lines added. It comes from `uv add --group test requests`. [The file](https://github.com/rahuldave/cheesecracker/blob/de0780b72a5cad4f0ed70e9c0cdcdee9d1028562/uv.lock){.btn .btn-sm .btn-secondary}
 
 <details><summary>The diff that <code>uv add --group test requests</code> makes in <code>pyproject.toml</code></summary>
 
@@ -73,7 +73,7 @@ git restore --source d444e0387d25 --staged -- :/ && git restore --source de0780b
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/de0780b72a5cad4f0ed70e9c0cdcdee9d1028562). [The code after it](https://github.com/rahuldave/cheesecracker/tree/de0780b72a5cad4f0ed70e9c0cdcdee9d1028562).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/de0780b72a5cad4f0ed70e9c0cdcdee9d1028562){.btn .btn-sm .btn-secondary} [The code after it](https://github.com/rahuldave/cheesecracker/tree/de0780b72a5cad4f0ed70e9c0cdcdee9d1028562){.btn .btn-sm .btn-primary}
 
 ## 8.2 the tests that run by default: unit and integration {#step-08.2}
 
@@ -132,7 +132,7 @@ git restore --source de0780b72a5c --staged -- :/ && git restore --source c8302b4
 
 ### What changed {#step-08.2-what-changed-182c57}
 
-- <a id="step-08.2-pyproject.toml-5d07e7"></a>`pyproject.toml`: the two folders of tests that run by default. 1 line added, 1 removed. [The file](https://github.com/rahuldave/cheesecracker/blob/c8302b4cff8bd9fc480ba4f74a0c7d34c769fef6/pyproject.toml).
+- <a id="step-08.2-pyproject.toml-5d07e7"></a>`pyproject.toml`: the two folders of tests that run by default. 1 line added, 1 removed. [The file](https://github.com/rahuldave/cheesecracker/blob/c8302b4cff8bd9fc480ba4f74a0c7d34c769fef6/pyproject.toml){.btn .btn-sm .btn-secondary}
   - look at `testpaths = ["tests/unit", "tests/integration"]`
 
 <details open><summary>The patch to <code>pyproject.toml</code></summary>
@@ -151,7 +151,7 @@ git restore --source de0780b72a5c --staged -- :/ && git restore --source c8302b4
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/c8302b4cff8bd9fc480ba4f74a0c7d34c769fef6). [The code after it](https://github.com/rahuldave/cheesecracker/tree/c8302b4cff8bd9fc480ba4f74a0c7d34c769fef6).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/c8302b4cff8bd9fc480ba4f74a0c7d34c769fef6){.btn .btn-sm .btn-secondary} [The code after it](https://github.com/rahuldave/cheesecracker/tree/c8302b4cff8bd9fc480ba4f74a0c7d34c769fef6){.btn .btn-sm .btn-primary}
 
 ## 8.3 system tests, against the server in Docker {#step-08.3}
 
@@ -197,7 +197,7 @@ git restore --source c8302b4cff8b --staged -- :/ && git restore --source 19813cf
 
 ### What changed {#step-08.3-what-changed-182c57}
 
-- <a id="step-08.3-tests-system-test_system_api.py-780a11"></a>`tests/system/test_system_api.py`: five system tests, through real HTTP requests to `localhost:9000`. New, 69 lines. [The file](https://github.com/rahuldave/cheesecracker/blob/19813cf32d0843eea486048243e1eaf62b16a0fe/tests/system/test_system_api.py).
+- <a id="step-08.3-tests-system-test_system_api.py-780a11"></a>`tests/system/test_system_api.py`: five system tests, through real HTTP requests to `localhost:9000`. New, 69 lines. [The file](https://github.com/rahuldave/cheesecracker/blob/19813cf32d0843eea486048243e1eaf62b16a0fe/tests/system/test_system_api.py){.btn .btn-sm .btn-secondary}
   - look at `pytest.fail(f"no server at {API_BASE_URL}: start one with just docker-serve", pytrace=False)`
 
 <details open><summary>The patch to <code>tests/system/test_system_api.py</code></summary>
@@ -277,7 +277,7 @@ git restore --source c8302b4cff8b --staged -- :/ && git restore --source 19813cf
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/19813cf32d0843eea486048243e1eaf62b16a0fe). [The code after it](https://github.com/rahuldave/cheesecracker/tree/19813cf32d0843eea486048243e1eaf62b16a0fe).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/19813cf32d0843eea486048243e1eaf62b16a0fe){.btn .btn-sm .btn-secondary} [The code after it](https://github.com/rahuldave/cheesecracker/tree/19813cf32d0843eea486048243e1eaf62b16a0fe){.btn .btn-sm .btn-primary}
 
 ## 8.4 just test-system runs the system tests {#step-08.4}
 
@@ -320,7 +320,7 @@ git restore --source 19813cf32d08 --staged -- :/ && git restore --source 277d54e
 
 ### What changed {#step-08.4-what-changed-182c57}
 
-- <a id="step-08.4-justfile-424f0b"></a>`justfile`: the recipe `test-system`. 4 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/277d54eebce4a1727ed3d8a5c46570ca4a95f75d/justfile).
+- <a id="step-08.4-justfile-424f0b"></a>`justfile`: the recipe `test-system`. 4 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/277d54eebce4a1727ed3d8a5c46570ca4a95f75d/justfile){.btn .btn-sm .btn-secondary}
   - look at `uv run pytest tests/system "$@"`
 
 <details open><summary>The patch to <code>justfile</code></summary>
@@ -338,4 +338,6 @@ git restore --source 19813cf32d08 --staged -- :/ && git restore --source 277d54e
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/277d54eebce4a1727ed3d8a5c46570ca4a95f75d). [The code after it](https://github.com/rahuldave/cheesecracker/tree/277d54eebce4a1727ed3d8a5c46570ca4a95f75d).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/277d54eebce4a1727ed3d8a5c46570ca4a95f75d){.btn .btn-sm .btn-secondary} [The code after it](https://github.com/rahuldave/cheesecracker/tree/step-08){.btn .btn-sm .btn-primary}
+
+This part ends at the code at `step-08`. [The code after this part](https://github.com/rahuldave/cheesecracker/tree/step-08){.btn .btn-sm .btn-primary}
