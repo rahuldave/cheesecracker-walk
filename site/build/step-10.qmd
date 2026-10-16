@@ -9,7 +9,7 @@ title: "10 A new endpoint"
 If you start at this part, make your clone as **Get the project** says, and then run this command. It puts in your clone the files that this part starts from. A file that the project deleted before this part stays, so delete it if `git check` lists it:
 
 ```bash
-git rm -rq --cached --ignore-unmatch -- :/ && git restore --source 7289b1614eae --staged --worktree -- :/
+git rm -rq --cached --ignore-unmatch -- :/ && git restore --source 0701e9244ab2 --staged --worktree -- :/
 ```
 
 ```bash
@@ -23,13 +23,13 @@ image.
 Apply the patch to [`src/api-service/api/service.py`](#step-10-src-api-service-api-service.py-1e1e71), from the top of the project:
 
 ```bash
-curl -fsSL https://github.com/rahuldave/cheesecracker/compare/7289b1614eae3831f3523d44d49be3b3a77188d9...effff204ad0d917d40da0c370f2f4fec4833b0dd.diff | git apply --include=src/api-service/api/service.py
+curl -fsSL https://github.com/rahuldave/cheesecracker/compare/0701e9244ab2384538eda4d623e1d047ff3f8258...e706255d9c0fee3b6fded40376e7ac8829d1654a.diff | git apply --include=src/api-service/api/service.py
 ```
 
 Apply the patch to [`tests/integration/test_api.py`](#step-10-tests-integration-test_api.py-596674), from the top of the project:
 
 ```bash
-curl -fsSL https://github.com/rahuldave/cheesecracker/compare/7289b1614eae3831f3523d44d49be3b3a77188d9...effff204ad0d917d40da0c370f2f4fec4833b0dd.diff | git apply --include=tests/integration/test_api.py
+curl -fsSL https://github.com/rahuldave/cheesecracker/compare/0701e9244ab2384538eda4d623e1d047ff3f8258...e706255d9c0fee3b6fded40376e7ac8829d1654a.diff | git apply --include=tests/integration/test_api.py
 ```
 
 Apply both patches. Read the function `add_numbers()` at the end of `service.py`, and `test_add_endpoint()` at the end
@@ -71,20 +71,20 @@ just docker-stop
 Check your files against this part. The command prints nothing when they match, and otherwise shows what differs:
 
 ```bash
-git check effff204ad0d
+git check e706255d9c0f
 ```
 
 If you are stuck, this command puts the files of this part in place of yours. A file that you made yourself stays:
 
 ```bash
-git restore --source 7289b1614eae --staged -- :/ && git restore --source effff204ad0d --staged --worktree -- :/
+git restore --source 0701e9244ab2 --staged -- :/ && git restore --source e706255d9c0f --staged --worktree -- :/
 ```
 
 ## What changed {#step-10-what-changed-182c57}
 
-- <a id="step-10-src-api-service-api-service.py-1e1e71"></a>`src/api-service/api/service.py`: the endpoint `/add/`. 6 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/effff204ad0d917d40da0c370f2f4fec4833b0dd/src/api-service/api/service.py).
+- <a id="step-10-src-api-service-api-service.py-1e1e71"></a>`src/api-service/api/service.py`: the endpoint `/add/`. 6 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/e706255d9c0fee3b6fded40376e7ac8829d1654a/src/api-service/api/service.py).
   - look at `return {"result": x + y}`
-- <a id="step-10-tests-integration-test_api.py-596674"></a>`tests/integration/test_api.py`: the test of `/add/`. 6 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/effff204ad0d917d40da0c370f2f4fec4833b0dd/tests/integration/test_api.py).
+- <a id="step-10-tests-integration-test_api.py-596674"></a>`tests/integration/test_api.py`: the test of `/add/`. 6 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/e706255d9c0fee3b6fded40376e7ac8829d1654a/tests/integration/test_api.py).
   - look at `response = client.get("/add/?x=10&y=20")`
 
 <details open><summary>The patch to <code>src/api-service/api/service.py</code></summary>
@@ -121,4 +121,4 @@ git restore --source 7289b1614eae --staged -- :/ && git restore --source effff20
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/compare/7289b1614eae3831f3523d44d49be3b3a77188d9...effff204ad0d917d40da0c370f2f4fec4833b0dd). [The code after it](https://github.com/rahuldave/cheesecracker/tree/effff204ad0d917d40da0c370f2f4fec4833b0dd).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/compare/0701e9244ab2384538eda4d623e1d047ff3f8258...e706255d9c0fee3b6fded40376e7ac8829d1654a). [The code after it](https://github.com/rahuldave/cheesecracker/tree/e706255d9c0fee3b6fded40376e7ac8829d1654a).

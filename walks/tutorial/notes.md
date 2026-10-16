@@ -822,7 +822,7 @@ tests that need none. The system tests then run only when we ask for them.
 patch$ pyproject.toml
 
 ::: do
-Read the line `testpaths` in the table `[tool.pytest.ini_options]` of `pyproject.toml`, and the comment above it.
+Read the line `testpaths` in the table `[tool.pytest.ini_options]` of `pyproject.toml`.
 :::
 
 ::: watch

@@ -620,7 +620,7 @@ just setup
 The whole tutorial then adds the system tests, and the recipe `just test-system`. The dev image is for working on the
 project, so it installs every group.
 
-[The code before this part](https://github.com/rahuldave/cheesecracker/tree/ada469682ca5e1ba62c65d14b08778392e27ea2c). [The code after it](https://github.com/rahuldave/cheesecracker/tree/5135b59c9dcd3520e5622e30c0f6cbe9c2c65c81).
+[The code before this part](https://github.com/rahuldave/cheesecracker/tree/277d54eebce4a1727ed3d8a5c46570ca4a95f75d). [The code after it](https://github.com/rahuldave/cheesecracker/tree/ccf62d330f28c6eec4c0b993e1a71e2c11a8b5af).
 
 ### 9.1 the dev image, to work on the project in Linux
 
@@ -647,7 +647,7 @@ The image is about 353 MB, twice the run image, because it has every tool.
 
 #### What changed
 
-- <a id="step-09.1-Dockerfile-6651dd"></a>`Dockerfile`: the stage `dev`, and its lines in the comment at the top. 26 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/5135b59c9dcd3520e5622e30c0f6cbe9c2c65c81/Dockerfile).
+- <a id="step-09.1-Dockerfile-6651dd"></a>`Dockerfile`: the stage `dev`, and its lines in the comment at the top. 26 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/ccf62d330f28c6eec4c0b993e1a71e2c11a8b5af/Dockerfile).
   - look at `FROM python:3.12-slim-bookworm AS dev`
 
 <details><summary>The diff of <code>Dockerfile</code></summary>
@@ -694,4 +694,4 @@ The image is about 353 MB, twice the run image, because it has every tool.
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/5135b59c9dcd3520e5622e30c0f6cbe9c2c65c81). [The code after it](https://github.com/rahuldave/cheesecracker/tree/5135b59c9dcd3520e5622e30c0f6cbe9c2c65c81).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/ccf62d330f28c6eec4c0b993e1a71e2c11a8b5af). [The code after it](https://github.com/rahuldave/cheesecracker/tree/ccf62d330f28c6eec4c0b993e1a71e2c11a8b5af).

@@ -651,7 +651,7 @@ The whole tutorial then adds the package requests, and writes system tests. A sy
 the server at port 9000 of this machine. The system tests need a running server, so `just test` leaves them out, and
 `just docker-serve` above starts one. The system tests get a recipe of their own, apart from `just check`.
 
-[The code before this part](https://github.com/rahuldave/cheesecracker/tree/e32704d961be53d188b08349a0270696878a1db0). [The code after it](https://github.com/rahuldave/cheesecracker/tree/ada469682ca5e1ba62c65d14b08778392e27ea2c).
+[The code before this part](https://github.com/rahuldave/cheesecracker/tree/19813cf32d0843eea486048243e1eaf62b16a0fe). [The code after it](https://github.com/rahuldave/cheesecracker/tree/277d54eebce4a1727ed3d8a5c46570ca4a95f75d).
 
 ### 8.4 just test-system runs the system tests
 
@@ -679,7 +679,7 @@ docker-serve`.
 
 #### What changed
 
-- <a id="step-08.4-justfile-424f0b"></a>`justfile`: the recipe `test-system`. 4 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/ada469682ca5e1ba62c65d14b08778392e27ea2c/justfile).
+- <a id="step-08.4-justfile-424f0b"></a>`justfile`: the recipe `test-system`. 4 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/277d54eebce4a1727ed3d8a5c46570ca4a95f75d/justfile).
   - look at `uv run pytest tests/system "$@"`
 
 <details><summary>The diff of <code>justfile</code></summary>
@@ -697,7 +697,7 @@ docker-serve`.
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/ada469682ca5e1ba62c65d14b08778392e27ea2c). [The code after it](https://github.com/rahuldave/cheesecracker/tree/ada469682ca5e1ba62c65d14b08778392e27ea2c).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/277d54eebce4a1727ed3d8a5c46570ca4a95f75d). [The code after it](https://github.com/rahuldave/cheesecracker/tree/277d54eebce4a1727ed3d8a5c46570ca4a95f75d).
 
 <a id="step-09.2"></a>
 
@@ -711,7 +711,7 @@ just docker-build dev
 The whole tutorial then adds the dev image to the `Dockerfile`. Two recipes run it, with the folder of the project
 mounted inside.
 
-[The code before this part](https://github.com/rahuldave/cheesecracker/tree/5135b59c9dcd3520e5622e30c0f6cbe9c2c65c81). [The code after it](https://github.com/rahuldave/cheesecracker/tree/7289b1614eae3831f3523d44d49be3b3a77188d9).
+[The code before this part](https://github.com/rahuldave/cheesecracker/tree/ccf62d330f28c6eec4c0b993e1a71e2c11a8b5af). [The code after it](https://github.com/rahuldave/cheesecracker/tree/0701e9244ab2384538eda4d623e1d047ff3f8258).
 
 ### 9.2 just docker-shell and just docker-test
 
@@ -739,7 +739,7 @@ The eleven unit tests pass in Linux.
 
 #### What changed
 
-- <a id="step-09.2-justfile-424f0b"></a>`justfile`: the recipes `docker-shell` and `docker-test`. 8 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/7289b1614eae3831f3523d44d49be3b3a77188d9/justfile).
+- <a id="step-09.2-justfile-424f0b"></a>`justfile`: the recipes `docker-shell` and `docker-test`. 8 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/0701e9244ab2384538eda4d623e1d047ff3f8258/justfile).
   - look at `docker run --rm -v "$PWD":/work cheesecracker-dev just "${@:-check}"`
 
 <details><summary>The diff of <code>justfile</code></summary>
@@ -761,4 +761,4 @@ The eleven unit tests pass in Linux.
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/7289b1614eae3831f3523d44d49be3b3a77188d9). [The code after it](https://github.com/rahuldave/cheesecracker/tree/7289b1614eae3831f3523d44d49be3b3a77188d9).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/0701e9244ab2384538eda4d623e1d047ff3f8258). [The code after it](https://github.com/rahuldave/cheesecracker/tree/0701e9244ab2384538eda4d623e1d047ff3f8258).

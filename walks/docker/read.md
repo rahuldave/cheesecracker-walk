@@ -263,7 +263,7 @@ The integration tests call the app in the same process as the tests. They cannot
 whether the server answers on its port. A system test sends real HTTP requests to the running server, as the Cheese
 App does. Here the server is the run image, our deployment, which `just docker-serve` starts.
 
-[The code before this part](https://github.com/rahuldave/cheesecracker/tree/d444e0387d256c62024581e98f59d670cbc93296). [The code after it](https://github.com/rahuldave/cheesecracker/tree/ada469682ca5e1ba62c65d14b08778392e27ea2c).
+[The code before this part](https://github.com/rahuldave/cheesecracker/tree/d444e0387d256c62024581e98f59d670cbc93296). [The code after it](https://github.com/rahuldave/cheesecracker/tree/277d54eebce4a1727ed3d8a5c46570ca4a95f75d).
 
 <a id="step-08.1"></a>
 
@@ -324,19 +324,17 @@ pytest prints `21 passed`, as before.
 
 #### What changed
 
-- <a id="step-08.2-pyproject.toml-5d07e7"></a>`pyproject.toml`: the two folders of tests that run by default. 2 lines added, 2 removed. [The file](https://github.com/rahuldave/cheesecracker/blob/f6df5edbeffb588784804bf2147645d5ede6aaca/pyproject.toml).
+- <a id="step-08.2-pyproject.toml-5d07e7"></a>`pyproject.toml`: the two folders of tests that run by default. 1 line added, 1 removed. [The file](https://github.com/rahuldave/cheesecracker/blob/c8302b4cff8bd9fc480ba4f74a0c7d34c769fef6/pyproject.toml).
   - look at `testpaths = ["tests/unit", "tests/integration"]`
 
 <details><summary>The diff of <code>pyproject.toml</code></summary>
 
 ```diff
-@@ -29,8 +29,8 @@ test = [
- ]
+@@ -30,7 +30,7 @@ test = [
  
  [tool.pytest.ini_options]
--# The tests are in tests/, and import the package api from src/api-service/
+ # The tests are in tests/, and import the package api from src/api-service/
 -testpaths = ["tests"]
-+# The tests that run by default, which need no server. They import the package api from src/api-service/
 +testpaths = ["tests/unit", "tests/integration"]
  pythonpath = ["src/api-service"]
  
@@ -345,7 +343,7 @@ pytest prints `21 passed`, as before.
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/f6df5edbeffb588784804bf2147645d5ede6aaca). [The code after it](https://github.com/rahuldave/cheesecracker/tree/f6df5edbeffb588784804bf2147645d5ede6aaca).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/c8302b4cff8bd9fc480ba4f74a0c7d34c769fef6). [The code after it](https://github.com/rahuldave/cheesecracker/tree/c8302b4cff8bd9fc480ba4f74a0c7d34c769fef6).
 
 <a id="step-08.3"></a>
 
@@ -378,7 +376,7 @@ just test -q
 
 #### What changed
 
-- <a id="step-08.3-tests-system-test_system_api.py-780a11"></a>`tests/system/test_system_api.py`: five system tests, through real HTTP requests to `localhost:9000`. New, 69 lines. [The file](https://github.com/rahuldave/cheesecracker/blob/e32704d961be53d188b08349a0270696878a1db0/tests/system/test_system_api.py).
+- <a id="step-08.3-tests-system-test_system_api.py-780a11"></a>`tests/system/test_system_api.py`: five system tests, through real HTTP requests to `localhost:9000`. New, 69 lines. [The file](https://github.com/rahuldave/cheesecracker/blob/19813cf32d0843eea486048243e1eaf62b16a0fe/tests/system/test_system_api.py).
   - look at `pytest.fail(f"no server at {API_BASE_URL}: start one with just docker-serve", pytrace=False)`
 
 <details><summary>The diff of <code>tests/system/test_system_api.py</code></summary>
@@ -458,7 +456,7 @@ just test -q
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/e32704d961be53d188b08349a0270696878a1db0). [The code after it](https://github.com/rahuldave/cheesecracker/tree/e32704d961be53d188b08349a0270696878a1db0).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/19813cf32d0843eea486048243e1eaf62b16a0fe). [The code after it](https://github.com/rahuldave/cheesecracker/tree/19813cf32d0843eea486048243e1eaf62b16a0fe).
 
 <a id="step-08.4"></a>
 
@@ -488,7 +486,7 @@ docker-serve`.
 
 #### What changed
 
-- <a id="step-08.4-justfile-424f0b"></a>`justfile`: the recipe `test-system`. 4 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/ada469682ca5e1ba62c65d14b08778392e27ea2c/justfile).
+- <a id="step-08.4-justfile-424f0b"></a>`justfile`: the recipe `test-system`. 4 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/277d54eebce4a1727ed3d8a5c46570ca4a95f75d/justfile).
   - look at `uv run pytest tests/system "$@"`
 
 <details><summary>The diff of <code>justfile</code></summary>
@@ -506,7 +504,7 @@ docker-serve`.
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/ada469682ca5e1ba62c65d14b08778392e27ea2c). [The code after it](https://github.com/rahuldave/cheesecracker/tree/ada469682ca5e1ba62c65d14b08778392e27ea2c).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/277d54eebce4a1727ed3d8a5c46570ca4a95f75d). [The code after it](https://github.com/rahuldave/cheesecracker/tree/277d54eebce4a1727ed3d8a5c46570ca4a95f75d).
 
 <a id="step-09"></a>
 
@@ -522,7 +520,7 @@ The checks run on this machine. Another person, or a CI service, runs them on an
 the tools. The dev image holds the whole project with every group of dependencies, and uv, just and git. So the
 checks run in the same Linux, anywhere Docker runs.
 
-[The code before this part](https://github.com/rahuldave/cheesecracker/tree/ada469682ca5e1ba62c65d14b08778392e27ea2c). [The code after it](https://github.com/rahuldave/cheesecracker/tree/7289b1614eae3831f3523d44d49be3b3a77188d9).
+[The code before this part](https://github.com/rahuldave/cheesecracker/tree/277d54eebce4a1727ed3d8a5c46570ca4a95f75d). [The code after it](https://github.com/rahuldave/cheesecracker/tree/0701e9244ab2384538eda4d623e1d047ff3f8258).
 
 <a id="step-09.1"></a>
 
@@ -551,7 +549,7 @@ The image is about 353 MB, twice the run image, because it has every tool.
 
 #### What changed
 
-- <a id="step-09.1-Dockerfile-6651dd"></a>`Dockerfile`: the stage `dev`, and its lines in the comment at the top. 26 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/5135b59c9dcd3520e5622e30c0f6cbe9c2c65c81/Dockerfile).
+- <a id="step-09.1-Dockerfile-6651dd"></a>`Dockerfile`: the stage `dev`, and its lines in the comment at the top. 26 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/ccf62d330f28c6eec4c0b993e1a71e2c11a8b5af/Dockerfile).
   - look at `FROM python:3.12-slim-bookworm AS dev`
 
 <details><summary>The diff of <code>Dockerfile</code></summary>
@@ -598,7 +596,7 @@ The image is about 353 MB, twice the run image, because it has every tool.
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/5135b59c9dcd3520e5622e30c0f6cbe9c2c65c81). [The code after it](https://github.com/rahuldave/cheesecracker/tree/5135b59c9dcd3520e5622e30c0f6cbe9c2c65c81).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/ccf62d330f28c6eec4c0b993e1a71e2c11a8b5af). [The code after it](https://github.com/rahuldave/cheesecracker/tree/ccf62d330f28c6eec4c0b993e1a71e2c11a8b5af).
 
 <a id="step-09.2"></a>
 
@@ -628,7 +626,7 @@ The eleven unit tests pass in Linux.
 
 #### What changed
 
-- <a id="step-09.2-justfile-424f0b"></a>`justfile`: the recipes `docker-shell` and `docker-test`. 8 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/7289b1614eae3831f3523d44d49be3b3a77188d9/justfile).
+- <a id="step-09.2-justfile-424f0b"></a>`justfile`: the recipes `docker-shell` and `docker-test`. 8 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/0701e9244ab2384538eda4d623e1d047ff3f8258/justfile).
   - look at `docker run --rm -v "$PWD":/work cheesecracker-dev just "${@:-check}"`
 
 <details><summary>The diff of <code>justfile</code></summary>
@@ -650,7 +648,7 @@ The eleven unit tests pass in Linux.
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/7289b1614eae3831f3523d44d49be3b3a77188d9). [The code after it](https://github.com/rahuldave/cheesecracker/tree/7289b1614eae3831f3523d44d49be3b3a77188d9).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/0701e9244ab2384538eda4d623e1d047ff3f8258). [The code after it](https://github.com/rahuldave/cheesecracker/tree/0701e9244ab2384538eda4d623e1d047ff3f8258).
 
 <a id="step-10"></a>
 
@@ -708,9 +706,9 @@ just docker-stop
 
 ### What changed
 
-- <a id="step-10-src-api-service-api-service.py-1e1e71"></a>`src/api-service/api/service.py`: the endpoint `/add/`. 6 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/effff204ad0d917d40da0c370f2f4fec4833b0dd/src/api-service/api/service.py).
+- <a id="step-10-src-api-service-api-service.py-1e1e71"></a>`src/api-service/api/service.py`: the endpoint `/add/`. 6 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/e706255d9c0fee3b6fded40376e7ac8829d1654a/src/api-service/api/service.py).
   - look at `return {"result": x + y}`
-- <a id="step-10-tests-integration-test_api.py-596674"></a>`tests/integration/test_api.py`: the test of `/add/`. 6 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/effff204ad0d917d40da0c370f2f4fec4833b0dd/tests/integration/test_api.py).
+- <a id="step-10-tests-integration-test_api.py-596674"></a>`tests/integration/test_api.py`: the test of `/add/`. 6 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/e706255d9c0fee3b6fded40376e7ac8829d1654a/tests/integration/test_api.py).
   - look at `response = client.get("/add/?x=10&y=20")`
 
 <details><summary>The diff of <code>src/api-service/api/service.py</code></summary>
@@ -747,4 +745,4 @@ just docker-stop
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/compare/7289b1614eae3831f3523d44d49be3b3a77188d9...effff204ad0d917d40da0c370f2f4fec4833b0dd). [The code after it](https://github.com/rahuldave/cheesecracker/tree/effff204ad0d917d40da0c370f2f4fec4833b0dd).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/compare/0701e9244ab2384538eda4d623e1d047ff3f8258...e706255d9c0fee3b6fded40376e7ac8829d1654a). [The code after it](https://github.com/rahuldave/cheesecracker/tree/e706255d9c0fee3b6fded40376e7ac8829d1654a).

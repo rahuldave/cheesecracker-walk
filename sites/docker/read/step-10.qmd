@@ -58,9 +58,9 @@ just docker-stop
 
 ## What changed {#step-10-what-changed-182c57}
 
-- <a id="step-10-src-api-service-api-service.py-1e1e71"></a>`src/api-service/api/service.py`: the endpoint `/add/`. 6 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/effff204ad0d917d40da0c370f2f4fec4833b0dd/src/api-service/api/service.py).
+- <a id="step-10-src-api-service-api-service.py-1e1e71"></a>`src/api-service/api/service.py`: the endpoint `/add/`. 6 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/e706255d9c0fee3b6fded40376e7ac8829d1654a/src/api-service/api/service.py).
   - look at `return {"result": x + y}`
-- <a id="step-10-tests-integration-test_api.py-596674"></a>`tests/integration/test_api.py`: the test of `/add/`. 6 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/effff204ad0d917d40da0c370f2f4fec4833b0dd/tests/integration/test_api.py).
+- <a id="step-10-tests-integration-test_api.py-596674"></a>`tests/integration/test_api.py`: the test of `/add/`. 6 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/e706255d9c0fee3b6fded40376e7ac8829d1654a/tests/integration/test_api.py).
   - look at `response = client.get("/add/?x=10&y=20")`
 
 <details><summary>The diff of <code>src/api-service/api/service.py</code></summary>
@@ -97,4 +97,4 @@ just docker-stop
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/compare/7289b1614eae3831f3523d44d49be3b3a77188d9...effff204ad0d917d40da0c370f2f4fec4833b0dd). [The code after it](https://github.com/rahuldave/cheesecracker/tree/effff204ad0d917d40da0c370f2f4fec4833b0dd).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/compare/0701e9244ab2384538eda4d623e1d047ff3f8258...e706255d9c0fee3b6fded40376e7ac8829d1654a). [The code after it](https://github.com/rahuldave/cheesecracker/tree/e706255d9c0fee3b6fded40376e7ac8829d1654a).

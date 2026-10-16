@@ -902,7 +902,7 @@ git restore --source d444e0387d25 --staged -- :/ && git restore --source de0780b
 This part does not start where the part before it ends, because the walk skips some changes. This command puts the files that this part starts from in place of yours. Run it, and then go on:
 
 ```bash
-git restore --source de0780b72a5c --staged -- :/ && git restore --source ada469682ca5 --staged --worktree -- :/
+git restore --source de0780b72a5c --staged -- :/ && git restore --source 277d54eebce4 --staged --worktree -- :/
 ```
 
 ```bash
@@ -912,7 +912,7 @@ just setup
 The whole tutorial then adds the system tests, and the recipe `just test-system`. The dev image is for working on the
 project, so it installs every group.
 
-[The code before this part](https://github.com/rahuldave/cheesecracker/tree/ada469682ca5e1ba62c65d14b08778392e27ea2c). [The code after it](https://github.com/rahuldave/cheesecracker/tree/5135b59c9dcd3520e5622e30c0f6cbe9c2c65c81).
+[The code before this part](https://github.com/rahuldave/cheesecracker/tree/277d54eebce4a1727ed3d8a5c46570ca4a95f75d). [The code after it](https://github.com/rahuldave/cheesecracker/tree/ccf62d330f28c6eec4c0b993e1a71e2c11a8b5af).
 
 ### 9.1 the dev image, to work on the project in Linux
 
@@ -922,7 +922,7 @@ run image.
 Apply the patch to [`Dockerfile`](#step-09.1-Dockerfile-6651dd), from the top of the project:
 
 ```bash
-curl -fsSL https://github.com/rahuldave/cheesecracker/commit/5135b59c9dcd3520e5622e30c0f6cbe9c2c65c81.diff | git apply --include=Dockerfile
+curl -fsSL https://github.com/rahuldave/cheesecracker/commit/ccf62d330f28c6eec4c0b993e1a71e2c11a8b5af.diff | git apply --include=Dockerfile
 ```
 
 Apply the patch. Read the new lines at the top of the file, then the stage `dev` at the end. Read its line `RUN uv
@@ -943,18 +943,18 @@ The image is about 353 MB, twice the run image, because it has every tool.
 Check your files against this move. The command prints nothing when they match, and otherwise shows what differs:
 
 ```bash
-git check 5135b59c9dcd
+git check ccf62d330f28
 ```
 
 If you are stuck, this command puts the files of this move in place of yours. A file that you made yourself stays:
 
 ```bash
-git restore --source ada469682ca5 --staged -- :/ && git restore --source 5135b59c9dcd --staged --worktree -- :/
+git restore --source 277d54eebce4 --staged -- :/ && git restore --source ccf62d330f28 --staged --worktree -- :/
 ```
 
 #### What changed
 
-- <a id="step-09.1-Dockerfile-6651dd"></a>`Dockerfile`: the stage `dev`, and its lines in the comment at the top. 26 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/5135b59c9dcd3520e5622e30c0f6cbe9c2c65c81/Dockerfile).
+- <a id="step-09.1-Dockerfile-6651dd"></a>`Dockerfile`: the stage `dev`, and its lines in the comment at the top. 26 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/ccf62d330f28c6eec4c0b993e1a71e2c11a8b5af/Dockerfile).
   - look at `FROM python:3.12-slim-bookworm AS dev`
 
 <details open><summary>The patch to <code>Dockerfile</code></summary>
@@ -1001,4 +1001,4 @@ git restore --source ada469682ca5 --staged -- :/ && git restore --source 5135b59
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/5135b59c9dcd3520e5622e30c0f6cbe9c2c65c81). [The code after it](https://github.com/rahuldave/cheesecracker/tree/5135b59c9dcd3520e5622e30c0f6cbe9c2c65c81).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/ccf62d330f28c6eec4c0b993e1a71e2c11a8b5af). [The code after it](https://github.com/rahuldave/cheesecracker/tree/ccf62d330f28c6eec4c0b993e1a71e2c11a8b5af).

@@ -9,13 +9,13 @@ title: "8.4 just test-system"
 This part does not start where the part before it ends, because the walk skips some changes. This command puts the files that this part starts from in place of yours. Run it, and then go on:
 
 ```bash
-git restore --source d444e0387d25 --staged -- :/ && git restore --source e32704d961be --staged --worktree -- :/
+git restore --source d444e0387d25 --staged -- :/ && git restore --source 19813cf32d08 --staged --worktree -- :/
 ```
 
 If you start at this part, make your clone as **Get the project** says, and then run this command. It puts in your clone the files that this part starts from. A file that the project deleted before this part stays, so delete it if `git check` lists it:
 
 ```bash
-git rm -rq --cached --ignore-unmatch -- :/ && git restore --source e32704d961be --staged --worktree -- :/
+git rm -rq --cached --ignore-unmatch -- :/ && git restore --source 19813cf32d08 --staged --worktree -- :/
 ```
 
 ```bash
@@ -28,7 +28,7 @@ The whole tutorial then adds the package requests, and writes system tests. A sy
 the server at port 9000 of this machine. The system tests need a running server, so `just test` leaves them out, and
 `just docker-serve` above starts one. The system tests get a recipe of their own, apart from `just check`.
 
-[The code before this part](https://github.com/rahuldave/cheesecracker/tree/e32704d961be53d188b08349a0270696878a1db0). [The code after it](https://github.com/rahuldave/cheesecracker/tree/ada469682ca5e1ba62c65d14b08778392e27ea2c).
+[The code before this part](https://github.com/rahuldave/cheesecracker/tree/19813cf32d0843eea486048243e1eaf62b16a0fe). [The code after it](https://github.com/rahuldave/cheesecracker/tree/277d54eebce4a1727ed3d8a5c46570ca4a95f75d).
 
 ## 8.4 just test-system runs the system tests {#step-08.4}
 
@@ -38,7 +38,7 @@ fails them, and never stops a commit.
 Apply the patch to [`justfile`](#step-08.4-justfile-424f0b), from the top of the project:
 
 ```bash
-curl -fsSL https://github.com/rahuldave/cheesecracker/commit/ada469682ca5e1ba62c65d14b08778392e27ea2c.diff | git apply --include=justfile
+curl -fsSL https://github.com/rahuldave/cheesecracker/commit/277d54eebce4a1727ed3d8a5c46570ca4a95f75d.diff | git apply --include=justfile
 ```
 
 Read the recipe `test-system` at the end of the `justfile`.
@@ -60,18 +60,18 @@ docker-serve`.
 Check your files against this move. The command prints nothing when they match, and otherwise shows what differs:
 
 ```bash
-git check ada469682ca5
+git check 277d54eebce4
 ```
 
 If you are stuck, this command puts the files of this move in place of yours. A file that you made yourself stays:
 
 ```bash
-git restore --source e32704d961be --staged -- :/ && git restore --source ada469682ca5 --staged --worktree -- :/
+git restore --source 19813cf32d08 --staged -- :/ && git restore --source 277d54eebce4 --staged --worktree -- :/
 ```
 
 ### What changed {#step-08.4-what-changed-182c57}
 
-- <a id="step-08.4-justfile-424f0b"></a>`justfile`: the recipe `test-system`. 4 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/ada469682ca5e1ba62c65d14b08778392e27ea2c/justfile).
+- <a id="step-08.4-justfile-424f0b"></a>`justfile`: the recipe `test-system`. 4 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/277d54eebce4a1727ed3d8a5c46570ca4a95f75d/justfile).
   - look at `uv run pytest tests/system "$@"`
 
 <details open><summary>The patch to <code>justfile</code></summary>
@@ -89,4 +89,4 @@ git restore --source e32704d961be --staged -- :/ && git restore --source ada4696
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/ada469682ca5e1ba62c65d14b08778392e27ea2c). [The code after it](https://github.com/rahuldave/cheesecracker/tree/ada469682ca5e1ba62c65d14b08778392e27ea2c).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/277d54eebce4a1727ed3d8a5c46570ca4a95f75d). [The code after it](https://github.com/rahuldave/cheesecracker/tree/277d54eebce4a1727ed3d8a5c46570ca4a95f75d).
