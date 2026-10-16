@@ -764,7 +764,8 @@ website:
                 - text: "9.2 just docker-shell and just docker-test"
                   href: just/build/step-09.2.qmd#step-09.2
 
-theme: cosmo
+metadata-files: ["_settings.yml"]   # the class's own settings
+theme: "ac215"
 css: styles.css
 toc: true
 toc-depth: 2

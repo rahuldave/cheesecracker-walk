@@ -1,0 +1,6 @@
+# The AC215 theme for smalldocs. Each file is Bootstrap 5.3.8, then the AC215 rules, compiled from scss/ by just build.
+css:
+  light: ac215.css
+  dark: ac215-dark.css
+logo: logo.png
+favicon: logo.png
