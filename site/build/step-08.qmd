@@ -14,8 +14,6 @@ git rm -rq --cached --ignore-unmatch -- :/ && git restore --source d444e0387d25 
 
 ```bash
 just setup
-just docker-build run
-just docker-serve
 ```
 
 The integration tests call the app in the same process as the tests. They cannot tell whether the image starts, or
@@ -168,9 +166,11 @@ curl -fsSL https://github.com/rahuldave/cheesecracker/commit/e32704d961be53d188b
 Make the folder `tests/system/`, and apply the patch. Read the fixture `server`, then the line
 `@pytest.mark.usefixtures("server")` above the class `TestAPIEndpoints`.
 
-The server of `just docker-serve` runs. Run the system tests against it.
+Build the run image, start its server, and run the system tests against it. The server runs to the end of this part.
 
 ```bash
+just docker-build run
+just docker-serve
 uv run pytest tests/system -v
 ```
 

@@ -1,0 +1,123 @@
+---
+title: "7.3 The Docker recipes"
+---
+
+<!-- Made by the walk skill's render.py from the facts of the walk. Do not edit it by hand: run just walk-update again. -->
+
+**Build it yourself.** [Read the tutorial](../read/step-07.3.qmd) is the other way to read this part.
+
+This part does not start where the part before it ends, because the walk skips some changes. This command puts the files that this part starts from in place of yours. Run it, and then go on:
+
+```bash
+git restore --source 57ec2e24ecd4 --staged -- :/ && git restore --source 0acb4556f724 --staged --worktree -- :/
+```
+
+If you start at this part, make your clone as **Get the project** says, and then run this command. It puts in your clone the files that this part starts from. A file that the project deleted before this part stays, so delete it if `git check` lists it:
+
+```bash
+git rm -rq --cached --ignore-unmatch -- :/ && git restore --source 0acb4556f724 --staged --worktree -- :/
+```
+
+```bash
+just setup
+```
+
+The whole tutorial then writes `.dockerignore`, and a `Dockerfile` with the run image. Three recipes build an image,
+start its server and stop it.
+
+[The code before this part](https://github.com/rahuldave/cheesecracker/tree/0acb4556f724cd94e4a71ab4fff739a974413fc0). [The code after it](https://github.com/rahuldave/cheesecracker/tree/d444e0387d256c62024581e98f59d670cbc93296).
+
+## 7.3 just docker-build, just docker-serve and just docker-stop {#step-07.3}
+
+Three recipes give the Docker commands short names. `docker-build` builds an image of the `Dockerfile`.
+`docker-serve` starts the server of the run image in the background, at port 9000, and `docker-stop` stops it.
+
+Apply the patch to [`justfile`](#step-07.3-justfile-424f0b), from the top of the project:
+
+```bash
+curl -fsSL https://github.com/rahuldave/cheesecracker/commit/d444e0387d256c62024581e98f59d670cbc93296.diff | git apply --include=justfile
+```
+
+Read the recipes `docker-build`, `docker-serve` and `docker-stop` at the end of the `justfile`.
+
+```bash
+just docker-build run
+```
+
+Docker takes each layer that has not changed since the last build from its cache, and prints `CACHED` for it.
+
+```bash
+just docker-serve
+```
+
+The recipe prints `docker-serve: http://localhost:9000, in the container cheesecracker-run`. Ask the server for its
+health.
+
+```bash
+curl -s localhost:9000/health
+```
+
+The server in Docker answers `{"status":"healthy"}`, as the server on this machine did. The container runs in the
+background, so you do not see what it prints. Docker keeps that output, and `docker logs` shows it.
+
+```bash
+docker logs cheesecracker-run
+```
+
+uvicorn printed `Uvicorn running on http://0.0.0.0:9000`, and started four server processes, its workers.
+
+```bash
+just docker-stop
+```
+
+Docker prints the name of the container, `cheesecracker-run`, and the server stops.
+
+Check your files against this move. The command prints nothing when they match, and otherwise shows what differs:
+
+```bash
+git check d444e0387d25
+```
+
+If you are stuck, this command puts the files of this move in place of yours. A file that you made yourself stays:
+
+```bash
+git restore --source 0acb4556f724 --staged -- :/ && git restore --source d444e0387d25 --staged --worktree -- :/
+```
+
+### What changed {#step-07.3-what-changed-182c57}
+
+- <a id="step-07.3-justfile-424f0b"></a>`justfile`: the recipes `docker-build`, `docker-serve` and `docker-stop`. 20 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/d444e0387d256c62024581e98f59d670cbc93296/justfile).
+  - look at `docker run --rm --detach --name cheesecracker-run --publish 9000:9000 cheesecracker-run > /dev/null || exit 1`
+
+<details open><summary>The patch to <code>justfile</code></summary>
+
+```diff
+@@ -62,3 +62,23 @@ check:
+     just fmt --check
+     just lint
+     just test -q
++
++# Build an image of the Dockerfile: just docker-build run
++docker-build kind:
++    docker build --target "$1" --tag "cheesecracker-$1" .
++
++# Start the server in the run image, in the background, at http://localhost:9000, as it runs in production. just docker-stop stops it
++docker-serve:
++    #!/usr/bin/env sh
++    if curl -sf localhost:9000/health > /dev/null; then echo "docker-serve: a server already answers at http://localhost:9000" >&2; exit 1; fi
++    docker run --rm --detach --name cheesecracker-run --publish 9000:9000 cheesecracker-run > /dev/null || exit 1
++    for i in $(seq 1 30); do
++        if curl -sf localhost:9000/health > /dev/null; then echo "docker-serve: http://localhost:9000, in the container cheesecracker-run"; exit 0; fi
++        sleep 1
++    done
++    echo "docker-serve: no answer after 30 seconds; read docker logs cheesecracker-run" >&2
++    exit 1
++
++# Stop the server of just docker-serve, and remove its container
++docker-stop:
++    docker stop cheesecracker-run
+```
+
+</details>
+
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/d444e0387d256c62024581e98f59d670cbc93296). [The code after it](https://github.com/rahuldave/cheesecracker/tree/d444e0387d256c62024581e98f59d670cbc93296).

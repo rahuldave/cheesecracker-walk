@@ -1,0 +1,80 @@
+---
+title: "4.2 just cov"
+---
+
+<!-- Made by the walk skill's render.py from the facts of the walk. Do not edit it by hand: run just walk-update again. -->
+
+**Build it yourself.** [Read the tutorial](../read/step-04.2.qmd) is the other way to read this part.
+
+This part does not start where the part before it ends, because the walk skips some changes. This command puts the files that this part starts from in place of yours. Run it, and then go on:
+
+```bash
+git restore --source 69c3bf65c78c --staged -- :/ && git restore --source 54de20e8055e --staged --worktree -- :/
+```
+
+If you start at this part, make your clone as **Get the project** says, and then run this command. It puts in your clone the files that this part starts from. A file that the project deleted before this part stays, so delete it if `git check` lists it:
+
+```bash
+git rm -rq --cached --ignore-unmatch -- :/ && git restore --source 54de20e8055e --staged --worktree -- :/
+```
+
+```bash
+just setup
+```
+
+The whole tutorial then adds an endpoint, ten integration tests, and pytest-cov. Coverage gets a recipe.
+
+[The code before this part](https://github.com/rahuldave/cheesecracker/tree/54de20e8055ec62726d8956cac3a944433dc404c). [The code after it](https://github.com/rahuldave/cheesecracker/tree/bfb9c783c67c31254ce8136784738c0f2fc17fb5).
+
+## 4.2 just cov shows which lines the tests run {#step-04.2}
+
+The recipe `cov` runs every test with coverage, and adds the column `Missing`, with the numbers of the lines that no
+test ran.
+
+Apply the patch to [`justfile`](#step-04.2-justfile-424f0b), from the top of the project:
+
+```bash
+curl -fsSL https://github.com/rahuldave/cheesecracker/commit/bfb9c783c67c31254ce8136784738c0f2fc17fb5.diff | git apply --include=justfile
+```
+
+Read the recipe `cov` at the end of the `justfile`.
+
+```bash
+just cov -q
+```
+
+The total is 95%. `service.py` misses line 31, the answer of `/health`, because no test asks for it.
+
+Check your files against this move. The command prints nothing when they match, and otherwise shows what differs:
+
+```bash
+git check bfb9c783c67c
+```
+
+If you are stuck, this command puts the files of this move in place of yours. A file that you made yourself stays:
+
+```bash
+git restore --source 54de20e8055e --staged -- :/ && git restore --source bfb9c783c67c --staged --worktree -- :/
+```
+
+### What changed {#step-04.2-what-changed-182c57}
+
+- <a id="step-04.2-justfile-424f0b"></a>`justfile`: the recipe `cov`. 4 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/bfb9c783c67c31254ce8136784738c0f2fc17fb5/justfile).
+  - look at `uv run pytest --cov=api --cov-report=term-missing "$@"`
+
+<details open><summary>The patch to <code>justfile</code></summary>
+
+```diff
+@@ -40,3 +40,7 @@ stop:
+     done
+     echo "stop: the server still answers after 30 seconds" >&2
+     exit 1
++
++# Run the tests, and show which lines of the package api they ran. Extra arguments go to pytest: just cov tests/unit
++cov *args:
++    uv run pytest --cov=api --cov-report=term-missing "$@"
+```
+
+</details>
+
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/bfb9c783c67c31254ce8136784738c0f2fc17fb5). [The code after it](https://github.com/rahuldave/cheesecracker/tree/bfb9c783c67c31254ce8136784738c0f2fc17fb5).

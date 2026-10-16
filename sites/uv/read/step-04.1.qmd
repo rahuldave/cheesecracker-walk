@@ -1,0 +1,53 @@
+---
+title: "4.1 One more tool for the tests"
+---
+
+<!-- Made by the walk skill's render.py from the facts of the walk. Do not edit it by hand: run just walk-update again. -->
+
+**Read the tutorial.** [Build it yourself](../build/step-04.1.qmd) is the other way to read this part.
+
+```bash
+just setup
+```
+
+The whole tutorial then adds ten integration tests. The package pytest-cov measures which lines of the code the tests
+run, and it goes into the group `test`.
+
+[The code before this part](https://github.com/rahuldave/cheesecracker/tree/5862780b44d2f4ec87088c971dec57f23c11139e). [The code after it](https://github.com/rahuldave/cheesecracker/tree/54de20e8055ec62726d8956cac3a944433dc404c).
+
+## 4.1 pytest-cov, to measure what the tests run {#step-04.1}
+
+pytest-cov adds the option `--cov` to pytest. It is a tool of the tests, so it goes into the group `test`.
+
+This change came from running `uv add --group test pytest-cov`.
+
+The check runs the unit tests alone, with coverage of the package `api`.
+
+```bash
+uv run pytest tests/unit --cov=api -q
+```
+
+The table shows `utils.py` at 100% and `service.py` at 0%. The unit tests call `power()`, and never the app.
+
+### What changed {#step-04.1-what-changed-182c57}
+
+- <a id="step-04.1-pyproject.toml-5d07e7"></a>`pyproject.toml`: pytest-cov, in the group `test`. 1 line added. It comes from `uv add --group test pytest-cov`. [The file](https://github.com/rahuldave/cheesecracker/blob/54de20e8055ec62726d8956cac3a944433dc404c/pyproject.toml).
+  - look at `"pytest-cov>=7.1.0",`
+- <a id="step-04.1-uv.lock-8356d8"></a>`uv.lock`: the exact versions of pytest-cov, and of coverage, which it uses. 115 lines added. It comes from `uv add --group test pytest-cov`. [The file](https://github.com/rahuldave/cheesecracker/blob/54de20e8055ec62726d8956cac3a944433dc404c/uv.lock).
+
+<details><summary>The diff of <code>pyproject.toml</code></summary>
+
+```diff
+@@ -20,6 +20,7 @@ test = [
+     "httpx2>=2.13.1",
+     "pytest>=9.1.1",
+     "pytest-asyncio>=1.4.0",
++    "pytest-cov>=7.1.0",
+ ]
+ 
+ [tool.pytest.ini_options]
+```
+
+</details>
+
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/54de20e8055ec62726d8956cac3a944433dc404c). [The code after it](https://github.com/rahuldave/cheesecracker/tree/54de20e8055ec62726d8956cac3a944433dc404c).

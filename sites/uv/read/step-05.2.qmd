@@ -1,0 +1,53 @@
+---
+title: "5.2 A second group, for the checks"
+---
+
+<!-- Made by the walk skill's render.py from the facts of the walk. Do not edit it by hand: run just walk-update again. -->
+
+**Read the tutorial.** [Build it yourself](../build/step-05.2.qmd) is the other way to read this part.
+
+```bash
+just setup
+```
+
+The whole tutorial then adds the recipe `just cov`, and a change made in a hurry. ruff checks the code, and the server
+does not need it. So ruff starts a second group, `lint`.
+
+[The code before this part](https://github.com/rahuldave/cheesecracker/tree/f77650600c1176caa9aaee86e6cddfccc43fc69c). [The code after it](https://github.com/rahuldave/cheesecracker/tree/9662828462ba2a21ca04a79c412e83ac070767f6).
+
+## 5.2 ruff, the formatter and the linter, in the group lint {#step-05.2}
+
+ruff checks the code, and the server does not need it to run. So ruff goes into a group of its own, `lint`.
+
+This change came from running `uv add --group lint ruff`.
+
+```bash
+uv run ruff --version
+```
+
+uv prints the version of ruff, `ruff 0.17.1` on the day of the class.
+
+### What changed {#step-05.2-what-changed-182c57}
+
+- <a id="step-05.2-pyproject.toml-5d07e7"></a>`pyproject.toml`: ruff, in the group `lint`. 3 lines added. It comes from `uv add --group lint ruff`. [The file](https://github.com/rahuldave/cheesecracker/blob/9662828462ba2a21ca04a79c412e83ac070767f6/pyproject.toml).
+  - look at `"ruff>=0.17.1",`
+- <a id="step-05.2-uv.lock-8356d8"></a>`uv.lock`: the exact version of ruff. 29 lines added. It comes from `uv add --group lint ruff`. [The file](https://github.com/rahuldave/cheesecracker/blob/9662828462ba2a21ca04a79c412e83ac070767f6/uv.lock).
+
+<details><summary>The diff of <code>pyproject.toml</code></summary>
+
+```diff
+@@ -16,6 +16,9 @@ package = false
+ default-groups = "all"
+ 
+ [dependency-groups]
++lint = [
++    "ruff>=0.17.1",
++]
+ test = [
+     "httpx2>=2.13.1",
+     "pytest>=9.1.1",
+```
+
+</details>
+
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/9662828462ba2a21ca04a79c412e83ac070767f6). [The code after it](https://github.com/rahuldave/cheesecracker/tree/9662828462ba2a21ca04a79c412e83ac070767f6).

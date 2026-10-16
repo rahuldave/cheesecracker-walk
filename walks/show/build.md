@@ -157,7 +157,14 @@ just setup
 
 The project is empty. It has a `pyproject.toml` with no dependencies, an empty `uv.lock`, a `README.md`, a
 `.gitignore`, and a `justfile` with one recipe, `setup`. `just setup` runs `uv sync --locked`. uv is the tool that installs Python and
-packages. The command makes the folder `.venv`, with Python 3.12 and every package of `uv.lock` in it. A second run changes nothing.
+packages. The command makes the folder `.venv`, with Python 3.12 and every package of `uv.lock` in it. Run it again.
+
+```bash
+just setup
+```
+
+uv prints `Resolved 1 package` and `Checked`, and no line `Creating virtual environment`. A second run changes
+nothing.
 
 Two settings of `pyproject.toml`, in the table `[tool.uv]`, matter for the whole project. `package = false` says that
 cheesecracker is an application. uv installs its dependencies, and does not install the project as a package.
@@ -997,12 +1004,11 @@ git restore --source acee14f7dff4 --staged -- :/ && git restore --source 69c3bf6
 
 ```bash
 just setup
-just serve
 ```
 
 The app needs an endpoint that does some work, and tests that call it. The endpoint computes the distance of a point
 from the origin with `power()`. An integration test sends requests to the app and checks the answers, with no server
-and no network. The server of `just serve` runs during this part, so we can ask it for each new answer.
+and no network.
 
 [The code before this part](https://github.com/rahuldave/cheesecracker/tree/69c3bf65c78cf8e96bf8f9ea1dde29279db1351a). [The code after it](https://github.com/rahuldave/cheesecracker/tree/5862780b44d2f4ec87088c971dec57f23c11139e).
 
@@ -1021,11 +1027,12 @@ curl -fsSL https://github.com/rahuldave/cheesecracker/commit/e576e7bb9e550b1a572
 
 Read the two imports after `CORSMiddleware`, and the new function at the end of the file.
 
-The server of `just serve` restarts with the new code, because of `--reload`. The restart takes a moment, so the
-command waits a second before it asks for the distance of the point (3, 4).
+Start the server, and ask it for the distance of the point (3, 4). The server runs to the end of this part, and
+restarts when a file of the code changes, because of `--reload`.
 
 ```bash
-sleep 1 && curl -s "localhost:9000/euclidean_distance/?x=3&y=4"
+just serve
+curl -s "localhost:9000/euclidean_distance/?x=3&y=4"
 ```
 
 The server answers `{"x":3.0,"y":4.0,"distance":5.0}`.
@@ -2363,7 +2370,7 @@ Read the recipes `docker-build`, `docker-serve` and `docker-stop` at the end of 
 just docker-build run
 ```
 
-The build takes a second, because Docker has every layer in its cache.
+Docker takes each layer that has not changed since the last build from its cache, and prints `CACHED` for it.
 
 ```bash
 just docker-serve
@@ -2447,8 +2454,6 @@ git restore --source 0acb4556f724 --staged -- :/ && git restore --source d444e03
 
 ```bash
 just setup
-just docker-build run
-just docker-serve
 ```
 
 The integration tests call the app in the same process as the tests. They cannot tell whether the image starts, or
@@ -2607,9 +2612,11 @@ curl -fsSL https://github.com/rahuldave/cheesecracker/commit/e32704d961be53d188b
 Make the folder `tests/system/`, and apply the patch. Read the fixture `server`, then the line
 `@pytest.mark.usefixtures("server")` above the class `TestAPIEndpoints`.
 
-The server of `just docker-serve` runs. Run the system tests against it.
+Build the run image, start its server, and run the system tests against it. The server runs to the end of this part.
 
 ```bash
+just docker-build run
+just docker-serve
 uv run pytest tests/system -v
 ```
 

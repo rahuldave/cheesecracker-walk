@@ -1,0 +1,294 @@
+---
+title: "3 The distance endpoint, and integration tests"
+---
+
+<!-- Made by the walk skill's render.py from the facts of the walk. Do not edit it by hand: run just walk-update again. -->
+
+**Build it yourself.** [Read the tutorial](../read/step-03.qmd) is the other way to read this part.
+
+If you start at this part, make your clone as **Get the project** says, and then run this command. It puts in your clone the files that this part starts from. A file that the project deleted before this part stays, so delete it if `git check` lists it:
+
+```bash
+git rm -rq --cached --ignore-unmatch -- :/ && git restore --source 69c3bf65c78c --staged --worktree -- :/
+```
+
+The server gets a new request, `/euclidean_distance/`, which works out how far a point is from the origin. New tests
+send that request to the app, and check the answer.
+
+```bash
+just setup
+```
+
+The app needs an endpoint that does some work, and tests that call it. The endpoint computes the distance of a point
+from the origin with `power()`. An integration test sends requests to the app and checks the answers, with no server
+and no network.
+
+[The code before this part](https://github.com/rahuldave/cheesecracker/tree/69c3bf65c78cf8e96bf8f9ea1dde29279db1351a). [The code after it](https://github.com/rahuldave/cheesecracker/tree/5862780b44d2f4ec87088c971dec57f23c11139e).
+
+## 3.1 /euclidean_distance/, the distance of a point from the origin {#step-03.1}
+
+The Cheese App asks the server for the distance of a point `(x, y)` from the origin `(0, 0)`. That distance is the
+square root of x squared plus y squared.
+
+Apply the patch to [`src/api-service/api/service.py`](#step-03.1-src-api-service-api-service.py-1e1e71), from the top of the project:
+
+```bash
+curl -fsSL https://github.com/rahuldave/cheesecracker/commit/e576e7bb9e550b1a572a764b15f8d0bfde229d97.diff | git apply --include=src/api-service/api/service.py
+```
+
+Read the two imports after `CORSMiddleware`, and the new function at the end of the file.
+
+Start the server, and ask it for the distance of the point (3, 4). The server runs to the end of this part, and
+restarts when a file of the code changes, because of `--reload`.
+
+```bash
+just serve
+curl -s "localhost:9000/euclidean_distance/?x=3&y=4"
+```
+
+The server answers `{"x":3.0,"y":4.0,"distance":5.0}`.
+
+Check your files against this move. The command prints nothing when they match, and otherwise shows what differs:
+
+```bash
+git check e576e7bb9e55
+```
+
+If you are stuck, this command puts the files of this move in place of yours. A file that you made yourself stays:
+
+```bash
+git restore --source 69c3bf65c78c --staged -- :/ && git restore --source e576e7bb9e55 --staged --worktree -- :/
+```
+
+### What changed {#step-03.1-what-changed-182c57}
+
+- <a id="step-03.1-src-api-service-api-service.py-1e1e71"></a>`src/api-service/api/service.py`: the imports of `math` and `power()`, and the endpoint `/euclidean_distance/`. 12 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/e576e7bb9e550b1a572a764b15f8d0bfde229d97/src/api-service/api/service.py).
+  - look at `z = power(x, 2) + power(y, 2)`
+
+<details open><summary>The patch to <code>src/api-service/api/service.py</code></summary>
+
+```diff
+@@ -4,6 +4,8 @@ Cheese App API Service
+ 
+ from fastapi import FastAPI
+ from starlette.middleware.cors import CORSMiddleware
++import math
++from api.utils import power
+ 
+ # Setup FastAPI app
+ app = FastAPI(title="Cheese API Server", description="API Server for Cheese App", version="v1")
+@@ -27,3 +29,13 @@ async def get_index():
+ @app.get("/health")
+ async def health_check():
+     return {"status": "healthy"}
++
++
++@app.get("/euclidean_distance/")
++async def calculate_euclidean_distance(x: float = 1, y: float = 2):
++    """Calculate the Euclidean distance from origin: sqrt(x^2 + y^2)
++    Returns the distance of a point (x, y) from the origin (0, 0)
++    """
++    z = power(x, 2) + power(y, 2)
++    result = math.sqrt(z)
++    return {"x": x, "y": y, "distance": result}
+```
+
+</details>
+
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/e576e7bb9e550b1a572a764b15f8d0bfde229d97). [The code after it](https://github.com/rahuldave/cheesecracker/tree/e576e7bb9e550b1a572a764b15f8d0bfde229d97).
+
+## 3.2 httpx2 and pytest-asyncio, for tests of the app {#step-03.2}
+
+FastAPI's `TestClient` sends requests to the app in the same process, with no server. It needs the package httpx2.
+One test of the app is a coroutine, an `async` function, and pytest-asyncio runs it.
+
+```bash
+uv add --group test httpx2 pytest-asyncio
+```
+
+The command adds both packages to the group `test`, and writes their versions into `uv.lock`.
+
+```bash
+just test -q
+```
+
+pytest still prints `11 passed`. The new packages change no test.
+
+Check your files against this move. The command prints nothing when they match, and otherwise shows what differs:
+
+```bash
+git check 3c75ffb1a089
+```
+
+If you are stuck, this command puts the files of this move in place of yours. A file that you made yourself stays:
+
+```bash
+git restore --source e576e7bb9e55 --staged -- :/ && git restore --source 3c75ffb1a089 --staged --worktree -- :/
+```
+
+### What changed {#step-03.2-what-changed-182c57}
+
+- <a id="step-03.2-pyproject.toml-5d07e7"></a>`pyproject.toml`: httpx2 and pytest-asyncio, in the group `test`. 2 lines added. It comes from `uv add --group test httpx2 pytest-asyncio`. [The file](https://github.com/rahuldave/cheesecracker/blob/3c75ffb1a089431a2455a69e9bcb3ec0302224f0/pyproject.toml).
+  - look at `"httpx2>=2.13.1",`
+- <a id="step-03.2-uv.lock-8356d8"></a>`uv.lock`: the exact versions of httpx2, pytest-asyncio, and the packages that they need. 68 lines added, 1 removed. It comes from `uv add --group test httpx2 pytest-asyncio`. [The file](https://github.com/rahuldave/cheesecracker/blob/3c75ffb1a089431a2455a69e9bcb3ec0302224f0/uv.lock).
+
+<details><summary>The diff that <code>uv add --group test httpx2 pytest-asyncio</code> makes in <code>pyproject.toml</code></summary>
+
+```diff
+@@ -17,7 +17,9 @@ default-groups = "all"
+ 
+ [dependency-groups]
+ test = [
++    "httpx2>=2.13.1",
+     "pytest>=9.1.1",
++    "pytest-asyncio>=1.4.0",
+ ]
+ 
+ [tool.pytest.ini_options]
+```
+
+</details>
+
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/3c75ffb1a089431a2455a69e9bcb3ec0302224f0). [The code after it](https://github.com/rahuldave/cheesecracker/tree/3c75ffb1a089431a2455a69e9bcb3ec0302224f0).
+
+## 3.3 integration tests of the API {#step-03.3}
+
+A unit test of `power()` cannot tell whether the app routes a request to the right function, or reads its
+parameters, or answers in JSON. Ten integration tests send requests to the app through `TestClient`, and check each
+answer.
+
+Apply the patch to [`tests/integration/test_api.py`](#step-03.3-tests-integration-test_api.py-596674), from the top of the project:
+
+```bash
+curl -fsSL https://github.com/rahuldave/cheesecracker/commit/5862780b44d2f4ec87088c971dec57f23c11139e.diff | git apply --include=tests/integration/test_api.py
+```
+
+Make the folder `tests/integration/`, and apply the patch. Read the line `client = TestClient(app)`, then the classes
+`TestAPIEndpoints` and `TestCORS`.
+
+```bash
+just test -q
+```
+
+pytest prints `21 passed`, the eleven unit tests and the ten integration tests. The tests needed no server, so we
+stop the one of `just serve`.
+
+```bash
+just stop
+```
+
+Check your files against this move. The command prints nothing when they match, and otherwise shows what differs:
+
+```bash
+git check 5862780b44d2
+```
+
+If you are stuck, this command puts the files of this move in place of yours. A file that you made yourself stays:
+
+```bash
+git restore --source 3c75ffb1a089 --staged -- :/ && git restore --source 5862780b44d2 --staged --worktree -- :/
+```
+
+### What changed {#step-03.3-what-changed-182c57}
+
+- <a id="step-03.3-tests-integration-test_api.py-596674"></a>`tests/integration/test_api.py`: ten integration tests, through FastAPI's `TestClient`. New, 89 lines. [The file](https://github.com/rahuldave/cheesecracker/blob/5862780b44d2f4ec87088c971dec57f23c11139e/tests/integration/test_api.py).
+  - look at `response = client.get("/euclidean_distance/?x=3&y=4")`
+
+<details open><summary>The patch to <code>tests/integration/test_api.py</code></summary>
+
+```diff
+@@ -0,0 +1,89 @@
++"""
++Integration tests for the Cheese App API
++Tests the full API endpoints with FastAPI TestClient
++Based on L18, Slide 11-12 - Integration tests
++"""
++
++import pytest
++from fastapi.testclient import TestClient
++from api.service import app
++
++client = TestClient(app)
++
++
++class TestAPIEndpoints:
++    """Integration tests for API endpoints"""
++
++    def test_root_endpoint(self):
++        """Test the root endpoint returns welcome message"""
++        response = client.get("/")
++        assert response.status_code == 200
++        data = response.json()
++        assert "message" in data
++        assert "Cheese App" in data["message"]
++
++    def test_root_returns_json(self):
++        """Test that root returns JSON content type"""
++        response = client.get("/")
++        assert response.status_code == 200
++        assert "application/json" in response.headers["content-type"]
++
++    def test_euclidean_distance_endpoint(self):
++        """Test the euclidean_distance endpoint"""
++        response = client.get("/euclidean_distance/?x=3&y=4")
++        assert response.status_code == 200
++        data = response.json()
++        assert data["x"] == 3
++        assert data["y"] == 4
++        assert data["distance"] == 5.0
++
++    def test_euclidean_distance_default_parameters(self):
++        """Test euclidean_distance with default parameters"""
++        response = client.get("/euclidean_distance/")
++        assert response.status_code == 200
++        data = response.json()
++        assert "distance" in data
++
++    def test_euclidean_distance_with_floats(self):
++        """Test euclidean_distance with floating point numbers"""
++        response = client.get("/euclidean_distance/?x=1.5&y=2.0")
++        assert response.status_code == 200
++        data = response.json()
++        assert data["x"] == 1.5
++        assert data["y"] == 2.0
++        assert isinstance(data["distance"], float)
++
++    def test_invalid_route_returns_404(self):
++        """Test that invalid routes return 404"""
++        response = client.get("/this-route-does-not-exist")
++        assert response.status_code == 404
++
++    def test_method_not_allowed(self):
++        """Test that POST to GET-only endpoint returns 405"""
++        response = client.post("/")
++        assert response.status_code == 405
++
++
++class TestCORS:
++    """Tests for CORS configuration"""
++
++    def test_cors_enabled(self):
++        """Test that CORS headers are present"""
++        response = client.get("/", headers={"Origin": "http://localhost:3000"})
++        assert response.status_code == 200
++        assert "access-control-allow-origin" in response.headers
++
++    def test_cors_allows_all_origins(self):
++        """Test that CORS allows all origins"""
++        response = client.get("/", headers={"Origin": "http://example.com"})
++        assert response.status_code == 200
++        assert response.headers["access-control-allow-origin"] == "*"
++
++
++@pytest.mark.asyncio
++async def test_api_health_check():
++    """Test that the API is healthy and responding"""
++    response = client.get("/")
++    assert response.status_code == 200
++    # API should respond quickly
++    assert response.elapsed.total_seconds() < 1 if hasattr(response, "elapsed") else True
+```
+
+</details>
+
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/5862780b44d2f4ec87088c971dec57f23c11139e). [The code after it](https://github.com/rahuldave/cheesecracker/tree/5862780b44d2f4ec87088c971dec57f23c11139e).

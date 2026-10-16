@@ -1,0 +1,117 @@
+---
+title: "9.1 The dev image installs every group"
+---
+
+<!-- Made by the walk skill's render.py from the facts of the walk. Do not edit it by hand: run just walk-update again. -->
+
+**Build it yourself.** [Read the tutorial](../read/step-09.1.qmd) is the other way to read this part.
+
+This part does not start where the part before it ends, because the walk skips some changes. This command puts the files that this part starts from in place of yours. Run it, and then go on:
+
+```bash
+git restore --source de0780b72a5c --staged -- :/ && git restore --source ada469682ca5 --staged --worktree -- :/
+```
+
+If you start at this part, make your clone as **Get the project** says, and then run this command. It puts in your clone the files that this part starts from. A file that the project deleted before this part stays, so delete it if `git check` lists it:
+
+```bash
+git rm -rq --cached --ignore-unmatch -- :/ && git restore --source ada469682ca5 --staged --worktree -- :/
+```
+
+```bash
+just setup
+```
+
+The whole tutorial then adds the system tests, and the recipe `just test-system`. The dev image is for working on the
+project, so it installs every group.
+
+[The code before this part](https://github.com/rahuldave/cheesecracker/tree/ada469682ca5e1ba62c65d14b08778392e27ea2c). [The code after it](https://github.com/rahuldave/cheesecracker/tree/5135b59c9dcd3520e5622e30c0f6cbe9c2c65c81).
+
+## 9.1 the dev image, to work on the project in Linux {#step-09.1}
+
+The dev image is a fourth stage of the `Dockerfile`, `dev`. It takes uv from the stage `uv`, and nothing from the
+run image.
+
+Apply the patch to [`Dockerfile`](#step-09.1-Dockerfile-6651dd), from the top of the project:
+
+```bash
+curl -fsSL https://github.com/rahuldave/cheesecracker/commit/5135b59c9dcd3520e5622e30c0f6cbe9c2c65c81.diff | git apply --include=Dockerfile
+```
+
+Apply the patch. Read the new lines at the top of the file, then the stage `dev` at the end. Read its line `RUN uv
+tool install`, and its line `RUN uv sync --locked`, which installs every group.
+
+```bash
+docker build --target dev --tag cheesecracker-dev .
+```
+
+Near the end, the line `naming to docker.io/library/cheesecracker-dev` names the image.
+
+```bash
+docker image ls cheesecracker-dev
+```
+
+The image is about 353 MB, twice the run image, because it has every tool.
+
+Check your files against this move. The command prints nothing when they match, and otherwise shows what differs:
+
+```bash
+git check 5135b59c9dcd
+```
+
+If you are stuck, this command puts the files of this move in place of yours. A file that you made yourself stays:
+
+```bash
+git restore --source ada469682ca5 --staged -- :/ && git restore --source 5135b59c9dcd --staged --worktree -- :/
+```
+
+### What changed {#step-09.1-what-changed-182c57}
+
+- <a id="step-09.1-Dockerfile-6651dd"></a>`Dockerfile`: the stage `dev`, and its lines in the comment at the top. 26 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/5135b59c9dcd3520e5622e30c0f6cbe9c2c65c81/Dockerfile).
+  - look at `FROM python:3.12-slim-bookworm AS dev`
+
+<details open><summary>The patch to <code>Dockerfile</code></summary>
+
+```diff
+@@ -2,6 +2,8 @@
+ #
+ #   docker build --target run --tag cheesecracker-run .
+ #       the production image: Python, the dependencies of the server and its code. It starts the server
++#   docker build --target dev --tag cheesecracker-dev .
++#       the development image: every dependency group, uv, just and git. It starts a shell
+ #
+ # The environment lives in /opt/venv, never in the project folder.
+ 
+@@ -32,3 +34,27 @@ USER app
+ EXPOSE 9000
+ # Four workers, and no restart on a change: the server as it runs in production
+ CMD ["uvicorn", "api.service:app", "--host", "0.0.0.0", "--port", "9000", "--workers", "4"]
++
++# The dev image: the whole project with every dependency group, and uv, just and git to work in it
++FROM python:3.12-slim-bookworm AS dev
++# hadolint ignore=DL3008
++RUN apt-get update \
++    && apt-get install --yes --no-install-recommends ca-certificates curl git \
++    && rm -rf /var/lib/apt/lists/*
++COPY --from=uv /uv /uvx /usr/local/bin/
++ENV UV_PROJECT_ENVIRONMENT=/opt/venv \
++    UV_PYTHON_DOWNLOADS=never \
++    UV_LINK_MODE=copy \
++    UV_NO_CACHE=1 \
++    UV_TOOL_BIN_DIR=/usr/local/bin \
++    PATH=/opt/venv/bin:$PATH \
++    PYTHONUNBUFFERED=1
++# just, as a wheel from PyPI. git refuses a folder that another user owns, and a mounted folder
++# belongs to the user of the host, so every folder is safe
++RUN uv tool install "rust-just==1.50.0" \
++    && git config --system --add safe.directory '*'
++WORKDIR /work
++COPY pyproject.toml uv.lock .python-version ./
++RUN uv sync --locked
++COPY . .
++CMD ["bash"]
+```
+
+</details>
+
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/5135b59c9dcd3520e5622e30c0f6cbe9c2c65c81). [The code after it](https://github.com/rahuldave/cheesecracker/tree/5135b59c9dcd3520e5622e30c0f6cbe9c2c65c81).

@@ -1,0 +1,54 @@
+---
+title: "1.5 just test"
+---
+
+<!-- Made by the walk skill's render.py from the facts of the walk. Do not edit it by hand: run just walk-update again. -->
+
+**Read the tutorial.** [Build it yourself](../build/step-01.5.qmd) is the other way to read this part.
+
+```bash
+just setup
+```
+
+The whole tutorial first writes the function `power()`, adds pytest, tells pytest where the tests are, and writes
+eleven unit tests. The command that runs them gets a recipe.
+
+[The code before this part](https://github.com/rahuldave/cheesecracker/tree/cbc98b162671bce7a7ba82d7d18c7dc6d530b746). [The code after it](https://github.com/rahuldave/cheesecracker/tree/e86e0c3d10bbe9409674f1c65ce4afdc38e7f76f).
+
+## 1.5 just test runs the tests {#step-01.5}
+
+The command `uv run pytest` is long, and every task of the project gets a recipe in the `justfile`, so that one
+short command runs it. The recipe `test` runs pytest through uv, and passes on to pytest any words that you type after `just test`.
+
+A patch to [`justfile`](#step-01.5-justfile-424f0b).
+
+The recipe `test`, at the end of the `justfile`, runs `uv run pytest "$@"`. `"$@"` stands for the words after
+`just test`, so `just test tests/unit` runs the unit tests alone.
+
+```bash
+just test -q
+```
+
+just prints the command of the recipe, and pytest prints `11 passed`.
+
+### What changed {#step-01.5-what-changed-182c57}
+
+- <a id="step-01.5-justfile-424f0b"></a>`justfile`: the recipe `test`. 4 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/e86e0c3d10bbe9409674f1c65ce4afdc38e7f76f/justfile).
+  - look at `uv run pytest "$@"`
+
+<details><summary>The diff of <code>justfile</code></summary>
+
+```diff
+@@ -10,3 +10,7 @@ default:
+ # Install Python and every dependency into .venv, exactly as the lockfile says
+ setup:
+     uv sync --locked
++
++# Run the tests. Extra arguments go to pytest: just test tests/unit
++test *args:
++    uv run pytest "$@"
+```
+
+</details>
+
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/e86e0c3d10bbe9409674f1c65ce4afdc38e7f76f). [The code after it](https://github.com/rahuldave/cheesecracker/tree/e86e0c3d10bbe9409674f1c65ce4afdc38e7f76f).

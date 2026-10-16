@@ -1,0 +1,76 @@
+---
+title: "5.8 One recipe for every check"
+---
+
+<!-- Made by the walk skill's render.py from the facts of the walk. Do not edit it by hand: run just walk-update again. -->
+
+**Build it yourself.** [Read the tutorial](../read/step-05.8.qmd) is the other way to read this part.
+
+If you start at this part, make your clone as **Get the project** says, and then run this command. It puts in your clone the files that this part starts from. A file that the project deleted before this part stays, so delete it if `git check` lists it:
+
+```bash
+git rm -rq --cached --ignore-unmatch -- :/ && git restore --source 693a713a458d --staged --worktree -- :/
+```
+
+```bash
+just setup
+```
+
+The layout, the rules and the tests each have a recipe. One recipe, `just check`, runs them all.
+
+[The code before this part](https://github.com/rahuldave/cheesecracker/tree/693a713a458db01debdd7ebc3b084ed1b0350b08). [The code after it](https://github.com/rahuldave/cheesecracker/tree/e89e0cfa991257757c887f687087a9c77c093e20).
+
+## 5.8 just check runs every check {#step-05.8}
+
+The layout, the rules and the tests each have a recipe now. The recipe `check` runs all three, and stops at the
+first that fails.
+
+Apply the patch to [`justfile`](#step-05.8-justfile-424f0b), from the top of the project:
+
+```bash
+curl -fsSL https://github.com/rahuldave/cheesecracker/commit/e89e0cfa991257757c887f687087a9c77c093e20.diff | git apply --include=justfile
+```
+
+Read the recipe `check` at the end of the `justfile`.
+
+```bash
+just check
+```
+
+just prints each command, and the last line is `21 passed`.
+
+Check your files against this move. The command prints nothing when they match, and otherwise shows what differs:
+
+```bash
+git check e89e0cfa9912
+```
+
+If you are stuck, this command puts the files of this move in place of yours. A file that you made yourself stays:
+
+```bash
+git restore --source 693a713a458d --staged -- :/ && git restore --source e89e0cfa9912 --staged --worktree -- :/
+```
+
+### What changed {#step-05.8-what-changed-182c57}
+
+- <a id="step-05.8-justfile-424f0b"></a>`justfile`: the recipe `check`. 6 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/e89e0cfa991257757c887f687087a9c77c093e20/justfile).
+  - look at `just fmt --check`
+
+<details open><summary>The patch to <code>justfile</code></summary>
+
+```diff
+@@ -52,3 +52,9 @@ fmt *args:
+ # Check the code against the rules in pyproject.toml. Extra arguments go to ruff: just lint --fix
+ lint *args:
+     uv run ruff check "$@"
++
++# Everything a commit must pass: the format, the lint and the tests
++check:
++    just fmt --check
++    just lint
++    just test -q
+```
+
+</details>
+
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/e89e0cfa991257757c887f687087a9c77c093e20). [The code after it](https://github.com/rahuldave/cheesecracker/tree/e89e0cfa991257757c887f687087a9c77c093e20).

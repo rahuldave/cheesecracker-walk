@@ -1,0 +1,57 @@
+---
+title: "5.4 just fmt and just lint"
+---
+
+<!-- Made by the walk skill's render.py from the facts of the walk. Do not edit it by hand: run just walk-update again. -->
+
+**Read the tutorial.** [Build it yourself](../build/step-05.4.qmd) is the other way to read this part.
+
+```bash
+just setup
+```
+
+The whole tutorial then makes a change in a hurry, adds ruff, and gives it the rules of flake8. The formatter and the
+linter get a recipe each.
+
+[The code before this part](https://github.com/rahuldave/cheesecracker/tree/7c1670fd52a0f62f414f31d415d10f2efb5a8405). [The code after it](https://github.com/rahuldave/cheesecracker/tree/b947593e84b71486902b3ff1c7f9e1458b70e3f7).
+
+## 5.4 just fmt and just lint run ruff {#step-05.4}
+
+Two recipes give the formatter and the linter short names. Each passes on to ruff any words that you type after it.
+
+A patch to [`justfile`](#step-05.4-justfile-424f0b).
+
+The recipe `fmt` runs `uv run ruff format`, and `lint` runs `uv run ruff check`. So `just fmt --check` checks the
+layout, and `just lint --fix` fixes what ruff can fix.
+
+```bash
+just fmt --check
+```
+
+The recipe fails as `ruff format --check` did, with `2 files would be reformatted`.
+
+### What changed {#step-05.4-what-changed-182c57}
+
+- <a id="step-05.4-justfile-424f0b"></a>`justfile`: the recipes `fmt` and `lint`. 8 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/b947593e84b71486902b3ff1c7f9e1458b70e3f7/justfile).
+  - look at `uv run ruff check "$@"`
+
+<details><summary>The diff of <code>justfile</code></summary>
+
+```diff
+@@ -44,3 +44,11 @@ stop:
+ # Run the tests, and show which lines of the package api they ran. Extra arguments go to pytest: just cov tests/unit
+ cov *args:
+     uv run pytest --cov=api --cov-report=term-missing "$@"
++
++# Format the code, one way. Extra arguments go to ruff: just fmt --check, just fmt --diff
++fmt *args:
++    uv run ruff format "$@"
++
++# Check the code against the rules in pyproject.toml. Extra arguments go to ruff: just lint --fix
++lint *args:
++    uv run ruff check "$@"
+```
+
+</details>
+
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/b947593e84b71486902b3ff1c7f9e1458b70e3f7). [The code after it](https://github.com/rahuldave/cheesecracker/tree/b947593e84b71486902b3ff1c7f9e1458b70e3f7).

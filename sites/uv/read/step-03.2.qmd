@@ -1,0 +1,56 @@
+---
+title: "3.2 More tools for the tests"
+---
+
+<!-- Made by the walk skill's render.py from the facts of the walk. Do not edit it by hand: run just walk-update again. -->
+
+**Read the tutorial.** [Build it yourself](../build/step-03.2.qmd) is the other way to read this part.
+
+```bash
+just setup
+```
+
+The whole tutorial then writes the app, the recipes `just serve` and `just stop`, and an endpoint that computes a
+distance. The integration tests need two more packages, and they go into the group `test`.
+
+[The code before this part](https://github.com/rahuldave/cheesecracker/tree/e576e7bb9e550b1a572a764b15f8d0bfde229d97). [The code after it](https://github.com/rahuldave/cheesecracker/tree/3c75ffb1a089431a2455a69e9bcb3ec0302224f0).
+
+## 3.2 httpx2 and pytest-asyncio, for tests of the app {#step-03.2}
+
+FastAPI's `TestClient` sends requests to the app in the same process, with no server. It needs the package httpx2.
+One test of the app is a coroutine, an `async` function, and pytest-asyncio runs it.
+
+This change came from running `uv add --group test httpx2 pytest-asyncio`.
+
+The command adds both packages to the group `test`, and writes their versions into `uv.lock`.
+
+```bash
+just test -q
+```
+
+pytest still prints `11 passed`. The new packages change no test.
+
+### What changed {#step-03.2-what-changed-182c57}
+
+- <a id="step-03.2-pyproject.toml-5d07e7"></a>`pyproject.toml`: httpx2 and pytest-asyncio, in the group `test`. 2 lines added. It comes from `uv add --group test httpx2 pytest-asyncio`. [The file](https://github.com/rahuldave/cheesecracker/blob/3c75ffb1a089431a2455a69e9bcb3ec0302224f0/pyproject.toml).
+  - look at `"httpx2>=2.13.1",`
+- <a id="step-03.2-uv.lock-8356d8"></a>`uv.lock`: the exact versions of httpx2, pytest-asyncio, and the packages that they need. 68 lines added, 1 removed. It comes from `uv add --group test httpx2 pytest-asyncio`. [The file](https://github.com/rahuldave/cheesecracker/blob/3c75ffb1a089431a2455a69e9bcb3ec0302224f0/uv.lock).
+
+<details><summary>The diff of <code>pyproject.toml</code></summary>
+
+```diff
+@@ -17,7 +17,9 @@ default-groups = "all"
+ 
+ [dependency-groups]
+ test = [
++    "httpx2>=2.13.1",
+     "pytest>=9.1.1",
++    "pytest-asyncio>=1.4.0",
+ ]
+ 
+ [tool.pytest.ini_options]
+```
+
+</details>
+
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/3c75ffb1a089431a2455a69e9bcb3ec0302224f0). [The code after it](https://github.com/rahuldave/cheesecracker/tree/3c75ffb1a089431a2455a69e9bcb3ec0302224f0).

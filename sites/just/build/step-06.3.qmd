@@ -1,0 +1,84 @@
+---
+title: "6.3 just hook"
+---
+
+<!-- Made by the walk skill's render.py from the facts of the walk. Do not edit it by hand: run just walk-update again. -->
+
+**Build it yourself.** [Read the tutorial](../read/step-06.3.qmd) is the other way to read this part.
+
+This part does not start where the part before it ends, because the walk skips some changes. This command puts the files that this part starts from in place of yours. Run it, and then go on:
+
+```bash
+git restore --source e89e0cfa9912 --staged -- :/ && git restore --source 009d77653ead --staged --worktree -- :/
+```
+
+If you start at this part, make your clone as **Get the project** says, and then run this command. It puts in your clone the files that this part starts from. A file that the project deleted before this part stays, so delete it if `git check` lists it:
+
+```bash
+git rm -rq --cached --ignore-unmatch -- :/ && git restore --source 009d77653ead --staged --worktree -- :/
+```
+
+```bash
+just setup
+```
+
+The whole tutorial then adds pre-commit, a tool that runs checks before every commit. git runs them through a hook, a
+file in git's own folder. `just setup` installs only Python and the packages, so the hook gets a recipe of its own.
+
+[The code before this part](https://github.com/rahuldave/cheesecracker/tree/009d77653eadfde09e438656cde77b5eac489115). [The code after it](https://github.com/rahuldave/cheesecracker/tree/57ec2e24ecd4946823edbfad27bc2296f80e3847).
+
+## 6.3 just hook installs the checks as a git hook {#step-06.3}
+
+pre-commit runs before every commit only after it installs a hook in `.git/hooks/`. `just setup` never changes git,
+so the hook has a recipe of its own, `hook`. You run it once in each clone.
+
+Apply the patch to [`justfile`](#step-06.3-justfile-424f0b), from the top of the project:
+
+```bash
+curl -fsSL https://github.com/rahuldave/cheesecracker/commit/57ec2e24ecd4946823edbfad27bc2296f80e3847.diff | git apply --include=justfile
+```
+
+Read the recipe `hook`, after the recipe `setup`.
+
+```bash
+just hook
+```
+
+pre-commit prints `pre-commit installed at .git/hooks/pre-commit`. From now on, `git commit` runs the checks first.
+
+Check your files against this move. The command prints nothing when they match, and otherwise shows what differs:
+
+```bash
+git check 57ec2e24ecd4
+```
+
+If you are stuck, this command puts the files of this move in place of yours. A file that you made yourself stays:
+
+```bash
+git restore --source 009d77653ead --staged -- :/ && git restore --source 57ec2e24ecd4 --staged --worktree -- :/
+```
+
+### What changed {#step-06.3-what-changed-182c57}
+
+- <a id="step-06.3-justfile-424f0b"></a>`justfile`: the recipe `hook`. 4 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/57ec2e24ecd4946823edbfad27bc2296f80e3847/justfile).
+  - look at `uv run pre-commit install`
+
+<details open><summary>The patch to <code>justfile</code></summary>
+
+```diff
+@@ -11,6 +11,10 @@ default:
+ setup:
+     uv sync --locked
+ 
++# Install the git hook: the checks of .pre-commit-config.yaml before every commit. Once per clone
++hook:
++    uv run pre-commit install
++
+ # Run the tests. Extra arguments go to pytest: just test tests/unit
+ test *args:
+     uv run pytest "$@"
+```
+
+</details>
+
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/57ec2e24ecd4946823edbfad27bc2296f80e3847). [The code after it](https://github.com/rahuldave/cheesecracker/tree/57ec2e24ecd4946823edbfad27bc2296f80e3847).

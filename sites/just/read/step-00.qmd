@@ -1,0 +1,149 @@
+---
+title: "0 The project, and its justfile"
+---
+
+<!-- Made by the walk skill's render.py from the facts of the walk. Do not edit it by hand: run just walk-update again. -->
+
+**Read the tutorial.** [Build it yourself](../build/step-00.qmd) is the other way to read this part.
+
+The first recipe, `setup`, makes the environment of the project.
+
+```bash
+just setup
+```
+
+The project is empty. It has a `pyproject.toml` with no dependencies, an empty `uv.lock`, a `README.md`, a
+`.gitignore`, and a `justfile` with one recipe, `setup`. `just setup` runs `uv sync --locked`. uv is the tool that installs Python and
+packages. The command makes the folder `.venv`, with Python 3.12 and every package of `uv.lock` in it. Run it again.
+
+```bash
+just setup
+```
+
+uv prints `Resolved 1 package` and `Checked`, and no line `Creating virtual environment`. A second run changes
+nothing.
+
+Two settings of `pyproject.toml`, in the table `[tool.uv]`, matter for the whole project. `package = false` says that
+cheesecracker is an application. uv installs its dependencies, and does not install the project as a package.
+`default-groups = "all"` makes `uv sync` and `uv run` install every group of dependencies, such as the tools of the
+tests.
+
+```bash
+just --list
+```
+
+`just --list` prints the one recipe, `setup`, with its comment.
+
+## What changed {#step-00-what-changed-182c57}
+
+- <a id="step-00-.gitignore-a5cc29"></a>`.gitignore`: the environment, the caches of the tools, and the secrets, which git never takes. New, 21 lines. [The file](https://github.com/rahuldave/cheesecracker/blob/cf50a6ef5045e08ca727aeaffdb710fad2cae096/.gitignore).
+- <a id="step-00-.python-version-7696e9"></a>`.python-version`: the version of Python that uv installs, 3.12. New, 1 line. [The file](https://github.com/rahuldave/cheesecracker/blob/cf50a6ef5045e08ca727aeaffdb710fad2cae096/.python-version).
+- <a id="step-00-README.md-8ec9a0"></a>`README.md`: what the project is, and how to set it up. New, 14 lines. [The file](https://github.com/rahuldave/cheesecracker/blob/cf50a6ef5045e08ca727aeaffdb710fad2cae096/README.md).
+- <a id="step-00-justfile-424f0b"></a>`justfile`: the recipe `setup`, and `default`, which lists the recipes. New, 12 lines. [The file](https://github.com/rahuldave/cheesecracker/blob/cf50a6ef5045e08ca727aeaffdb710fad2cae096/justfile).
+  - look at `uv sync --locked`
+- <a id="step-00-pyproject.toml-5d07e7"></a>`pyproject.toml`: the name of the project, no dependencies yet, and the table `[tool.uv]`. New, 13 lines. [The file](https://github.com/rahuldave/cheesecracker/blob/cf50a6ef5045e08ca727aeaffdb710fad2cae096/pyproject.toml).
+  - look at `default-groups = "all"`
+- <a id="step-00-uv.lock-8356d8"></a>`uv.lock`: the lockfile, with the project and no packages yet. New, 8 lines. [The file](https://github.com/rahuldave/cheesecracker/blob/cf50a6ef5045e08ca727aeaffdb710fad2cae096/uv.lock).
+
+<details><summary>The diff of <code>.gitignore</code></summary>
+
+```diff
+@@ -0,0 +1,21 @@
++# Python
++__pycache__/
++*.py[cod]
++.venv/
++
++# What the tests and the coverage write
++.pytest_cache/
++.coverage
++htmlcov/
++.ruff_cache/
++
++# Secrets: never commit them
++secrets/
++.env
++*.key
++*.pem
++
++# The editor and the system
++.vscode/
++.idea/
++.DS_Store
+```
+
+</details>
+
+<details><summary>The diff of <code>.python-version</code></summary>
+
+```diff
+@@ -0,0 +1 @@
++3.12
+```
+
+</details>
+
+<details><summary>The diff of <code>README.md</code></summary>
+
+````diff
+@@ -0,0 +1,14 @@
++# cheesecracker
++
++cheesecracker is the API server of the Cheese App, a class project of AC215. The server answers a few HTTP
++requests. The project shows how to test a server, check its code, and run it in Docker.
++
++## Run it
++
++You need [uv](https://docs.astral.sh/uv/) and [just](https://just.systems/). Then run:
++
++```
++just setup
++```
++
++`just` lists every recipe of the project.
+````
+
+</details>
+
+<details><summary>The diff of <code>justfile</code></summary>
+
+```diff
+@@ -0,0 +1,12 @@
++# cheesecracker: every task is a recipe here. `just` lists them.
++
++# Each word after a recipe's name reaches its commands whole, as "$1", "$2" and so on; "$@" is all of them
++set positional-arguments
++
++[private]
++default:
++    @just --list --unsorted
++
++# Install Python and every dependency into .venv, exactly as the lockfile says
++setup:
++    uv sync --locked
+```
+
+</details>
+
+<details><summary>The diff of <code>pyproject.toml</code></summary>
+
+```diff
+@@ -0,0 +1,13 @@
++[project]
++name = "cheesecracker"
++version = "0.1.0"
++description = "The Cheese App's API server, with its tests, its checks and its Docker images"
++readme = "README.md"
++requires-python = ">=3.12"
++dependencies = []
++
++[tool.uv]
++# The project is an application, not a library: uv installs its dependencies, and not the project itself
++package = false
++# uv sync and uv run install every dependency group, not only dev
++default-groups = "all"
+```
+
+</details>
+
+[The code](https://github.com/rahuldave/cheesecracker/tree/cf50a6ef5045e08ca727aeaffdb710fad2cae096).

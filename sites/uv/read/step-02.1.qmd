@@ -1,0 +1,58 @@
+---
+title: "2.1 The dependencies of the server"
+---
+
+<!-- Made by the walk skill's render.py from the facts of the walk. Do not edit it by hand: run just walk-update again. -->
+
+**Read the tutorial.** [Build it yourself](../build/step-02.1.qmd) is the other way to read this part.
+
+```bash
+just setup
+```
+
+The whole tutorial then tells pytest where the tests are, adds eleven unit tests of `power()`, and the recipe
+`just test`. Next comes the server, which needs FastAPI to build it and uvicorn to run it. They are dependencies of the project itself, and of no
+group.
+
+[The code before this part](https://github.com/rahuldave/cheesecracker/tree/e86e0c3d10bbe9409674f1c65ce4afdc38e7f76f). [The code after it](https://github.com/rahuldave/cheesecracker/tree/18dd9dfb1c9597e50a8b404a6cb6379c1c149320).
+
+## 2.1 FastAPI, and uvicorn to serve it {#step-02.1}
+
+The server needs FastAPI and uvicorn to run, so they are dependencies of the project itself, and not of a group.
+
+This change came from running `uv add fastapi uvicorn`.
+
+The command adds both packages to `dependencies` in `pyproject.toml`, and writes their versions into `uv.lock`.
+
+```bash
+uv run uvicorn --version
+```
+
+uvicorn prints its version, and the version of Python that runs it.
+
+### What changed {#step-02.1-what-changed-182c57}
+
+- <a id="step-02.1-pyproject.toml-5d07e7"></a>`pyproject.toml`: FastAPI and uvicorn, the dependencies of the server. 4 lines added, 1 removed. It comes from `uv add fastapi uvicorn`. [The file](https://github.com/rahuldave/cheesecracker/blob/18dd9dfb1c9597e50a8b404a6cb6379c1c149320/pyproject.toml).
+  - look at `"fastapi>=0.143.2",`
+- <a id="step-02.1-uv.lock-8356d8"></a>`uv.lock`: the exact versions of FastAPI, uvicorn, and the packages that they need. 263 lines added. It comes from `uv add fastapi uvicorn`. [The file](https://github.com/rahuldave/cheesecracker/blob/18dd9dfb1c9597e50a8b404a6cb6379c1c149320/uv.lock).
+
+<details><summary>The diff of <code>pyproject.toml</code></summary>
+
+```diff
+@@ -4,7 +4,10 @@ version = "0.1.0"
+ description = "The Cheese App's API server, with its tests, its checks and its Docker images"
+ readme = "README.md"
+ requires-python = ">=3.12"
+-dependencies = []
++dependencies = [
++    "fastapi>=0.143.2",
++    "uvicorn>=0.54.0",
++]
+ 
+ [tool.uv]
+ # The project is an application, not a library: uv installs its dependencies, and not the project itself
+```
+
+</details>
+
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/18dd9dfb1c9597e50a8b404a6cb6379c1c149320). [The code after it](https://github.com/rahuldave/cheesecracker/tree/18dd9dfb1c9597e50a8b404a6cb6379c1c149320).

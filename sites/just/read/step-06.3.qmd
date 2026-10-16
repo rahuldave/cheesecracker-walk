@@ -1,0 +1,56 @@
+---
+title: "6.3 just hook"
+---
+
+<!-- Made by the walk skill's render.py from the facts of the walk. Do not edit it by hand: run just walk-update again. -->
+
+**Read the tutorial.** [Build it yourself](../build/step-06.3.qmd) is the other way to read this part.
+
+```bash
+just setup
+```
+
+The whole tutorial then adds pre-commit, a tool that runs checks before every commit. git runs them through a hook, a
+file in git's own folder. `just setup` installs only Python and the packages, so the hook gets a recipe of its own.
+
+[The code before this part](https://github.com/rahuldave/cheesecracker/tree/009d77653eadfde09e438656cde77b5eac489115). [The code after it](https://github.com/rahuldave/cheesecracker/tree/57ec2e24ecd4946823edbfad27bc2296f80e3847).
+
+## 6.3 just hook installs the checks as a git hook {#step-06.3}
+
+pre-commit runs before every commit only after it installs a hook in `.git/hooks/`. `just setup` never changes git,
+so the hook has a recipe of its own, `hook`. You run it once in each clone.
+
+A patch to [`justfile`](#step-06.3-justfile-424f0b).
+
+The recipe `hook`, after the recipe `setup`, runs `uv run pre-commit install`.
+
+```bash
+just hook
+```
+
+pre-commit prints `pre-commit installed at .git/hooks/pre-commit`. From now on, `git commit` runs the checks first.
+
+### What changed {#step-06.3-what-changed-182c57}
+
+- <a id="step-06.3-justfile-424f0b"></a>`justfile`: the recipe `hook`. 4 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/57ec2e24ecd4946823edbfad27bc2296f80e3847/justfile).
+  - look at `uv run pre-commit install`
+
+<details><summary>The diff of <code>justfile</code></summary>
+
+```diff
+@@ -11,6 +11,10 @@ default:
+ setup:
+     uv sync --locked
+ 
++# Install the git hook: the checks of .pre-commit-config.yaml before every commit. Once per clone
++hook:
++    uv run pre-commit install
++
+ # Run the tests. Extra arguments go to pytest: just test tests/unit
+ test *args:
+     uv run pytest "$@"
+```
+
+</details>
+
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/57ec2e24ecd4946823edbfad27bc2296f80e3847). [The code after it](https://github.com/rahuldave/cheesecracker/tree/57ec2e24ecd4946823edbfad27bc2296f80e3847).

@@ -1,0 +1,98 @@
+---
+title: "7.3 The Docker recipes"
+---
+
+<!-- Made by the walk skill's render.py from the facts of the walk. Do not edit it by hand: run just walk-update again. -->
+
+**Read the tutorial.** [Build it yourself](../build/step-07.3.qmd) is the other way to read this part.
+
+```bash
+just setup
+```
+
+The whole tutorial then writes `.dockerignore`, and a `Dockerfile` with the run image. Three recipes build an image,
+start its server and stop it.
+
+[The code before this part](https://github.com/rahuldave/cheesecracker/tree/0acb4556f724cd94e4a71ab4fff739a974413fc0). [The code after it](https://github.com/rahuldave/cheesecracker/tree/d444e0387d256c62024581e98f59d670cbc93296).
+
+## 7.3 just docker-build, just docker-serve and just docker-stop {#step-07.3}
+
+Three recipes give the Docker commands short names. `docker-build` builds an image of the `Dockerfile`.
+`docker-serve` starts the server of the run image in the background, at port 9000, and `docker-stop` stops it.
+
+A patch to [`justfile`](#step-07.3-justfile-424f0b).
+
+The recipe `docker-build` takes the name of a stage, and runs `docker build --target` with it. `docker-serve` runs the
+image `cheesecracker-run` with `--detach`, so the container runs in the background, as in the original tutorial's
+`docker run -d`. `--publish` connects its port 9000 to port 9000 of this machine. The recipe then asks `/health`
+until the server answers. `docker-stop` stops the container, and `--rm` removes it.
+
+```bash
+just docker-build run
+```
+
+Docker takes each layer that has not changed since the last build from its cache, and prints `CACHED` for it.
+
+```bash
+just docker-serve
+```
+
+The recipe prints `docker-serve: http://localhost:9000, in the container cheesecracker-run`. Ask the server for its
+health.
+
+```bash
+curl -s localhost:9000/health
+```
+
+The server in Docker answers `{"status":"healthy"}`, as the server on this machine did. The container runs in the
+background, so you do not see what it prints. Docker keeps that output, and `docker logs` shows it.
+
+```bash
+docker logs cheesecracker-run
+```
+
+uvicorn printed `Uvicorn running on http://0.0.0.0:9000`, and started four server processes, its workers.
+
+```bash
+just docker-stop
+```
+
+Docker prints the name of the container, `cheesecracker-run`, and the server stops.
+
+### What changed {#step-07.3-what-changed-182c57}
+
+- <a id="step-07.3-justfile-424f0b"></a>`justfile`: the recipes `docker-build`, `docker-serve` and `docker-stop`. 20 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/d444e0387d256c62024581e98f59d670cbc93296/justfile).
+  - look at `docker run --rm --detach --name cheesecracker-run --publish 9000:9000 cheesecracker-run > /dev/null || exit 1`
+
+<details><summary>The diff of <code>justfile</code></summary>
+
+```diff
+@@ -62,3 +62,23 @@ check:
+     just fmt --check
+     just lint
+     just test -q
++
++# Build an image of the Dockerfile: just docker-build run
++docker-build kind:
++    docker build --target "$1" --tag "cheesecracker-$1" .
++
++# Start the server in the run image, in the background, at http://localhost:9000, as it runs in production. just docker-stop stops it
++docker-serve:
++    #!/usr/bin/env sh
++    if curl -sf localhost:9000/health > /dev/null; then echo "docker-serve: a server already answers at http://localhost:9000" >&2; exit 1; fi
++    docker run --rm --detach --name cheesecracker-run --publish 9000:9000 cheesecracker-run > /dev/null || exit 1
++    for i in $(seq 1 30); do
++        if curl -sf localhost:9000/health > /dev/null; then echo "docker-serve: http://localhost:9000, in the container cheesecracker-run"; exit 0; fi
++        sleep 1
++    done
++    echo "docker-serve: no answer after 30 seconds; read docker logs cheesecracker-run" >&2
++    exit 1
++
++# Stop the server of just docker-serve, and remove its container
++docker-stop:
++    docker stop cheesecracker-run
+```
+
+</details>
+
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/d444e0387d256c62024581e98f59d670cbc93296). [The code after it](https://github.com/rahuldave/cheesecracker/tree/d444e0387d256c62024581e98f59d670cbc93296).

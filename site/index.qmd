@@ -182,3 +182,13 @@ git config alias.check '!f() { i="$(git rev-parse --git-path check-index)" && { 
 - [8 System tests](build/step-08.qmd)
 - [9 The dev image](build/step-09.qmd)
 - [10 A new endpoint](build/step-10.qmd)
+
+## The other walks
+
+Each other walk through the project has a website of its own:
+
+- [The tests of cheesecracker](testing/index.html). Unit tests of a function, integration tests of the app, coverage, and system tests against the server in the run image, apart from the other tests.
+- [The formatter and the linter of cheesecracker](linting/index.html). Code that works and reads badly, then ruff as the formatter and the linter, their fixes, one recipe for every check, and pre-commit before each `git commit`.
+- [uv and the groups of dependencies of cheesecracker](uv/index.html). The project and its lockfile, the dependencies of the server, the groups `test` and `lint`, and the two Docker images, which install no group and every group.
+- [cheesecracker in Docker](docker/index.html). The run image as the deployment, system tests against it, the dev image for the checks in Linux, and a change through both images.
+- [just, the recipes of cheesecracker](just/index.html). The justfile of the project, one recipe at a time: setup, test, serve, cov, fmt, lint, check, hook, the Docker recipes and test-system.

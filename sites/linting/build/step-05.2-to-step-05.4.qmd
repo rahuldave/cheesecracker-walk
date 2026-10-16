@@ -1,0 +1,217 @@
+---
+title: "5.2 to 5.4 ruff, the formatter and the linter"
+---
+
+<!-- Made by the walk skill's render.py from the facts of the walk. Do not edit it by hand: run just walk-update again. -->
+
+**Build it yourself.** [Read the tutorial](../read/step-05.2-to-step-05.4.qmd) is the other way to read this part.
+
+If you start at this part, make your clone as **Get the project** says, and then run this command. It puts in your clone the files that this part starts from. A file that the project deleted before this part stays, so delete it if `git check` lists it:
+
+```bash
+git rm -rq --cached --ignore-unmatch -- :/ && git restore --source f77650600c11 --staged --worktree -- :/
+```
+
+```bash
+just setup
+```
+
+ruff goes into a dependency group of its own, `lint`. Its settings allow lines of up to 120 characters, and check the
+rules that flake8, an older linter, checks. Two recipes run it. `just fmt` runs the formatter, and `just lint` runs the
+linter.
+
+[The code before this part](https://github.com/rahuldave/cheesecracker/tree/f77650600c1176caa9aaee86e6cddfccc43fc69c). [The code after it](https://github.com/rahuldave/cheesecracker/tree/b947593e84b71486902b3ff1c7f9e1458b70e3f7).
+
+## 5.2 ruff, the formatter and the linter, in the group lint {#step-05.2}
+
+ruff checks the code, and the server does not need it to run. So ruff goes into a group of its own, `lint`.
+
+```bash
+uv add --group lint ruff
+```
+
+```bash
+uv run ruff --version
+```
+
+uv prints the version of ruff, `ruff 0.17.1` on the day of the class.
+
+Check your files against this move. The command prints nothing when they match, and otherwise shows what differs:
+
+```bash
+git check 9662828462ba
+```
+
+If you are stuck, this command puts the files of this move in place of yours. A file that you made yourself stays:
+
+```bash
+git restore --source f77650600c11 --staged -- :/ && git restore --source 9662828462ba --staged --worktree -- :/
+```
+
+### What changed {#step-05.2-what-changed-182c57}
+
+- <a id="step-05.2-pyproject.toml-5d07e7"></a>`pyproject.toml`: ruff, in the group `lint`. 3 lines added. It comes from `uv add --group lint ruff`. [The file](https://github.com/rahuldave/cheesecracker/blob/9662828462ba2a21ca04a79c412e83ac070767f6/pyproject.toml).
+  - look at `"ruff>=0.17.1",`
+- <a id="step-05.2-uv.lock-8356d8"></a>`uv.lock`: the exact version of ruff. 29 lines added. It comes from `uv add --group lint ruff`. [The file](https://github.com/rahuldave/cheesecracker/blob/9662828462ba2a21ca04a79c412e83ac070767f6/uv.lock).
+
+<details><summary>The diff that <code>uv add --group lint ruff</code> makes in <code>pyproject.toml</code></summary>
+
+```diff
+@@ -16,6 +16,9 @@ package = false
+ default-groups = "all"
+ 
+ [dependency-groups]
++lint = [
++    "ruff>=0.17.1",
++]
+ test = [
+     "httpx2>=2.13.1",
+     "pytest>=9.1.1",
+```
+
+</details>
+
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/9662828462ba2a21ca04a79c412e83ac070767f6). [The code after it](https://github.com/rahuldave/cheesecracker/tree/9662828462ba2a21ca04a79c412e83ac070767f6).
+
+## 5.3 ruff's settings: lines of 120 characters, and flake8's rules {#step-05.3}
+
+By default, ruff allows lines of up to 88 characters, and this project allows 120. Its default rules also leave out
+some rules of flake8. Two tables in `pyproject.toml` set both.
+
+Set the values that this change sets in [`pyproject.toml`](#step-05.3-pyproject.toml-5d07e7). Run this command from the top of the project. It reads your file with tomlkit, a library for TOML files. It sets each of these values as the project has it, and keeps the rest of your file:
+
+```bash
+uv run --quiet --no-config --no-project --with tomlkit python - <<'PY'
+import pathlib, tomlkit
+path = pathlib.Path('pyproject.toml')
+doc = tomlkit.parse(path.read_text(encoding='utf-8')) if path.exists() else tomlkit.document()
+# Each value that the change sets, by its keys
+SET = [
+    (('tool', 'ruff'), {'line-length': 120, 'lint': {'select': ['E', 'W', 'F']}}),
+]
+
+def put(table, keys, value):   # make each table on the way; a table goes into the one there, key by key
+    for key in keys[:-1]:
+        if key not in table:
+            table[key] = tomlkit.table(True)
+        table = table[key]
+    if isinstance(value, dict) and isinstance(table.get(keys[-1]), dict):
+        for key, item in value.items():
+            put(table[keys[-1]], [key], item)
+    else:
+        table[keys[-1]] = value
+
+for keys, value in SET:
+    put(doc, keys, value)
+path.write_text(tomlkit.dumps(doc), encoding='utf-8')
+PY
+```
+
+Read the tables `[tool.ruff]` and `[tool.ruff.lint]` at the end of `pyproject.toml`.
+
+```bash
+uv run ruff check
+```
+
+ruff finds 2 errors, and fails. `F401` is the import of `os`, which nothing uses. `E501` is the line of 187
+characters. ruff says that it can fix the first one.
+
+```bash
+uv run ruff format --check
+```
+
+ruff says `2 files would be reformatted`, and fails. `--check` changes no file.
+
+Check your files against this move. The command prints nothing when they match, and otherwise shows what differs:
+
+```bash
+git check 7c1670fd52a0
+```
+
+If you are stuck, this command puts the files of this move in place of yours. A file that you made yourself stays:
+
+```bash
+git restore --source 9662828462ba --staged -- :/ && git restore --source 7c1670fd52a0 --staged --worktree -- :/
+```
+
+### What changed {#step-05.3-what-changed-182c57}
+
+- <a id="step-05.3-pyproject.toml-5d07e7"></a>`pyproject.toml`: the settings of ruff, the length of a line and the rules of the linter. 8 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/7c1670fd52a0f62f414f31d415d10f2efb5a8405/pyproject.toml).
+  - look at `select = ["E", "W", "F"]`
+
+<details open><summary>The patch to <code>pyproject.toml</code></summary>
+
+```diff
+@@ -30,3 +30,11 @@ test = [
+ # The tests are in tests/, and import the package api from src/api-service/
+ testpaths = ["tests"]
+ pythonpath = ["src/api-service"]
++
++[tool.ruff]
++# The longest line, for the formatter and the linter
++line-length = 120
++
++[tool.ruff.lint]
++# The rules that flake8 checks: pycodestyle's errors (E) and warnings (W), and pyflakes (F)
++select = ["E", "W", "F"]
+```
+
+</details>
+
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/7c1670fd52a0f62f414f31d415d10f2efb5a8405). [The code after it](https://github.com/rahuldave/cheesecracker/tree/7c1670fd52a0f62f414f31d415d10f2efb5a8405).
+
+## 5.4 just fmt and just lint run ruff {#step-05.4}
+
+Two recipes give the formatter and the linter short names. Each passes on to ruff any words that you type after it.
+
+Apply the patch to [`justfile`](#step-05.4-justfile-424f0b), from the top of the project:
+
+```bash
+curl -fsSL https://github.com/rahuldave/cheesecracker/commit/b947593e84b71486902b3ff1c7f9e1458b70e3f7.diff | git apply --include=justfile
+```
+
+Read the recipes `fmt` and `lint` at the end of the `justfile`.
+
+```bash
+just fmt --check
+```
+
+The recipe fails as `ruff format --check` did, with `2 files would be reformatted`.
+
+Check your files against this move. The command prints nothing when they match, and otherwise shows what differs:
+
+```bash
+git check b947593e84b7
+```
+
+If you are stuck, this command puts the files of this move in place of yours. A file that you made yourself stays:
+
+```bash
+git restore --source 7c1670fd52a0 --staged -- :/ && git restore --source b947593e84b7 --staged --worktree -- :/
+```
+
+### What changed {#step-05.4-what-changed-182c57}
+
+- <a id="step-05.4-justfile-424f0b"></a>`justfile`: the recipes `fmt` and `lint`. 8 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/b947593e84b71486902b3ff1c7f9e1458b70e3f7/justfile).
+  - look at `uv run ruff check "$@"`
+
+<details open><summary>The patch to <code>justfile</code></summary>
+
+```diff
+@@ -44,3 +44,11 @@ stop:
+ # Run the tests, and show which lines of the package api they ran. Extra arguments go to pytest: just cov tests/unit
+ cov *args:
+     uv run pytest --cov=api --cov-report=term-missing "$@"
++
++# Format the code, one way. Extra arguments go to ruff: just fmt --check, just fmt --diff
++fmt *args:
++    uv run ruff format "$@"
++
++# Check the code against the rules in pyproject.toml. Extra arguments go to ruff: just lint --fix
++lint *args:
++    uv run ruff check "$@"
+```
+
+</details>
+
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/b947593e84b71486902b3ff1c7f9e1458b70e3f7). [The code after it](https://github.com/rahuldave/cheesecracker/tree/b947593e84b71486902b3ff1c7f9e1458b70e3f7).

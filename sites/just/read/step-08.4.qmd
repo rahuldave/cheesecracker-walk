@@ -1,0 +1,65 @@
+---
+title: "8.4 just test-system"
+---
+
+<!-- Made by the walk skill's render.py from the facts of the walk. Do not edit it by hand: run just walk-update again. -->
+
+**Read the tutorial.** [Build it yourself](../build/step-08.4.qmd) is the other way to read this part.
+
+```bash
+just setup
+just docker-build run
+just docker-serve
+```
+
+The whole tutorial then adds the package requests, and writes system tests. A system test sends real HTTP requests to
+the server at port 9000 of this machine. The system tests need a running server, so `just test` leaves them out, and
+`just docker-serve` above starts one. The system tests get a recipe of their own, apart from `just check`.
+
+[The code before this part](https://github.com/rahuldave/cheesecracker/tree/e32704d961be53d188b08349a0270696878a1db0). [The code after it](https://github.com/rahuldave/cheesecracker/tree/ada469682ca5e1ba62c65d14b08778392e27ea2c).
+
+## 8.4 just test-system runs the system tests {#step-08.4}
+
+The system tests have a recipe of their own, `test-system`, apart from `just test` and `just check`. A missing server
+fails them, and never stops a commit.
+
+A patch to [`justfile`](#step-08.4-justfile-424f0b).
+
+The recipe `test-system`, at the end of the `justfile`, runs `uv run pytest tests/system`, and passes on to pytest any
+words that you type after it.
+
+```bash
+just test-system -q
+```
+
+pytest prints `5 passed`. Then stop the server, and run the system tests again.
+
+```bash
+just docker-stop
+just test-system -q
+```
+
+pytest fails, with `1 passed, 4 errors`. Each error says `no server at http://localhost:9000: start one with just
+docker-serve`.
+
+### What changed {#step-08.4-what-changed-182c57}
+
+- <a id="step-08.4-justfile-424f0b"></a>`justfile`: the recipe `test-system`. 4 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/ada469682ca5e1ba62c65d14b08778392e27ea2c/justfile).
+  - look at `uv run pytest tests/system "$@"`
+
+<details><summary>The diff of <code>justfile</code></summary>
+
+```diff
+@@ -82,3 +82,7 @@ docker-serve:
+ # Stop the server of just docker-serve, and remove its container
+ docker-stop:
+     docker stop cheesecracker-run
++
++# Run the system tests against the server at http://localhost:9000. They fail when no server answers there
++test-system *args:
++    uv run pytest tests/system "$@"
+```
+
+</details>
+
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/ada469682ca5e1ba62c65d14b08778392e27ea2c). [The code after it](https://github.com/rahuldave/cheesecracker/tree/ada469682ca5e1ba62c65d14b08778392e27ea2c).

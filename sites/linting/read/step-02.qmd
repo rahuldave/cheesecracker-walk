@@ -1,0 +1,225 @@
+---
+title: "2 The server"
+---
+
+<!-- Made by the walk skill's render.py from the facts of the walk. Do not edit it by hand: run just walk-update again. -->
+
+**Read the tutorial.** [Build it yourself](../build/step-02.qmd) is the other way to read this part.
+
+The server answers two requests, `/` and `/health`.
+
+```bash
+just setup
+```
+
+The Cheese App talks to its server over HTTP. FastAPI turns Python functions into the answers of HTTP requests, and
+uvicorn is the server that runs a FastAPI app. We write an app that answers two requests, and run it on this machine.
+
+[The code before this part](https://github.com/rahuldave/cheesecracker/tree/e86e0c3d10bbe9409674f1c65ce4afdc38e7f76f). [The code after it](https://github.com/rahuldave/cheesecracker/tree/69c3bf65c78cf8e96bf8f9ea1dde29279db1351a).
+
+## 2.1 FastAPI, and uvicorn to serve it {#step-02.1}
+
+The server needs FastAPI and uvicorn to run, so they are dependencies of the project itself, and not of a group.
+
+This change came from running `uv add fastapi uvicorn`.
+
+The command adds both packages to `dependencies` in `pyproject.toml`, and writes their versions into `uv.lock`.
+
+```bash
+uv run uvicorn --version
+```
+
+uvicorn prints its version, and the version of Python that runs it.
+
+### What changed {#step-02.1-what-changed-182c57}
+
+- <a id="step-02.1-pyproject.toml-5d07e7"></a>`pyproject.toml`: FastAPI and uvicorn, the dependencies of the server. 4 lines added, 1 removed. It comes from `uv add fastapi uvicorn`. [The file](https://github.com/rahuldave/cheesecracker/blob/18dd9dfb1c9597e50a8b404a6cb6379c1c149320/pyproject.toml).
+  - look at `"fastapi>=0.143.2",`
+- <a id="step-02.1-uv.lock-8356d8"></a>`uv.lock`: the exact versions of FastAPI, uvicorn, and the packages that they need. 263 lines added. It comes from `uv add fastapi uvicorn`. [The file](https://github.com/rahuldave/cheesecracker/blob/18dd9dfb1c9597e50a8b404a6cb6379c1c149320/uv.lock).
+
+<details><summary>The diff of <code>pyproject.toml</code></summary>
+
+```diff
+@@ -4,7 +4,10 @@ version = "0.1.0"
+ description = "The Cheese App's API server, with its tests, its checks and its Docker images"
+ readme = "README.md"
+ requires-python = ">=3.12"
+-dependencies = []
++dependencies = [
++    "fastapi>=0.143.2",
++    "uvicorn>=0.54.0",
++]
+ 
+ [tool.uv]
+ # The project is an application, not a library: uv installs its dependencies, and not the project itself
+```
+
+</details>
+
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/18dd9dfb1c9597e50a8b404a6cb6379c1c149320). [The code after it](https://github.com/rahuldave/cheesecracker/tree/18dd9dfb1c9597e50a8b404a6cb6379c1c149320).
+
+## 2.2 the API server, with / and /health {#step-02.2}
+
+The app needs a first answer, and a way to tell that it runs. `service.py` makes the FastAPI app, and answers two
+requests. The request `/` gets a welcome, and `/health` gets the status of the server.
+
+A patch to [`src/api-service/api/service.py`](#step-02.2-src-api-service-api-service.py-1e1e71).
+
+The new file `src/api-service/api/service.py` makes `app`, with a title and a version. The CORS middleware lets a web
+page from any address call the server. After the comment `# Routes`, `get_index()` answers `/`, and `health_check()`
+answers `/health`.
+
+```bash
+uv run --directory src/api-service python -c "from api.service import app; print([r.path for r in app.routes])"
+```
+
+Python prints the routes of the app. The last two are `/` and `/health`. FastAPI adds the first four, for its
+documentation pages.
+
+### What changed {#step-02.2-what-changed-182c57}
+
+- <a id="step-02.2-src-api-service-api-service.py-1e1e71"></a>`src/api-service/api/service.py`: the FastAPI app, its CORS middleware, and the routes `/` and `/health`. New, 29 lines. [The file](https://github.com/rahuldave/cheesecracker/blob/acee14f7dff43d6c5b76234b3a016985d74c60d2/src/api-service/api/service.py).
+  - look at `return {"status": "healthy"}`
+
+<details><summary>The diff of <code>src/api-service/api/service.py</code></summary>
+
+```diff
+@@ -0,0 +1,29 @@
++"""
++Cheese App API Service
++"""
++
++from fastapi import FastAPI
++from starlette.middleware.cors import CORSMiddleware
++
++# Setup FastAPI app
++app = FastAPI(title="Cheese API Server", description="API Server for Cheese App", version="v1")
++
++# Enable CORSMiddleware
++app.add_middleware(
++    CORSMiddleware,
++    allow_credentials=False,
++    allow_origins=["*"],
++    allow_methods=["*"],
++    allow_headers=["*"],
++)
++
++
++# Routes
++@app.get("/")
++async def get_index():
++    return {"message": "Welcome to the Cheese App CI/CD Tutorial!"}
++
++
++@app.get("/health")
++async def health_check():
++    return {"status": "healthy"}
+```
+
+</details>
+
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/acee14f7dff43d6c5b76234b3a016985d74c60d2). [The code after it](https://github.com/rahuldave/cheesecracker/tree/acee14f7dff43d6c5b76234b3a016985d74c60d2).
+
+## 2.3 just serve and just stop, the server on this machine {#step-02.3}
+
+The app does nothing until a server runs it. The recipe `serve` starts uvicorn at port 9000, in the background, and
+waits until the server answers. The recipe `stop` stops it. A server is a fixture of the commands that need it. We start
+it before them, and stop it after them.
+
+A patch to [`justfile`](#step-02.3-justfile-424f0b).
+
+A patch to [`.gitignore`](#step-02.3-.gitignore-a5cc29).
+
+The recipe `serve` runs `uvicorn api.service:app` with `&`, so the server runs in the background. `--app-dir` tells
+uvicorn where the package `api` is, and `--reload` restarts the server when a file of the code changes. The recipe
+keeps the number of the process in `.serve.pid`, and asks `/health` once a second until the server answers. `stop`
+stops that process, and waits until the port is free. `.gitignore` now lists `.serve.log` and `.serve.pid`, which git never takes.
+
+```bash
+just serve
+```
+
+The recipe prints `serve: http://localhost:9000, its log in .serve.log`. Ask the server for its health.
+
+```bash
+curl -s localhost:9000/health
+```
+
+The server answers `{"status":"healthy"}`. Open `http://localhost:9000/docs` in a browser to see the pages that
+FastAPI makes for each route.
+
+```bash
+just stop
+```
+
+The recipe prints `stop: stopped`. Ask for the health again.
+
+```bash
+curl -s localhost:9000/health
+```
+
+`curl` prints nothing, and fails with the code 7, because no server answers.
+
+### What changed {#step-02.3-what-changed-182c57}
+
+- <a id="step-02.3-.gitignore-a5cc29"></a>`.gitignore`: the log of the server and the number of its process. 4 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/69c3bf65c78cf8e96bf8f9ea1dde29279db1351a/.gitignore).
+  - look at `.serve.pid`
+- <a id="step-02.3-justfile-424f0b"></a>`justfile`: the recipes `serve` and `stop`. 26 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/69c3bf65c78cf8e96bf8f9ea1dde29279db1351a/justfile).
+  - look at `uv run uvicorn api.service:app --app-dir src/api-service --host 0.0.0.0 --port 9000 --reload > .serve.log 2>&1 &`
+
+<details><summary>The diff of <code>.gitignore</code></summary>
+
+```diff
+@@ -9,6 +9,10 @@ __pycache__/
+ htmlcov/
+ .ruff_cache/
+ 
++# What just serve writes: the log of the server, and its process id
++.serve.log
++.serve.pid
++
+ # Secrets: never commit them
+ secrets/
+ .env
+```
+
+</details>
+
+<details><summary>The diff of <code>justfile</code></summary>
+
+```diff
+@@ -14,3 +14,29 @@ setup:
+ # Run the tests. Extra arguments go to pytest: just test tests/unit
+ test *args:
+     uv run pytest "$@"
++
++# Start the server on this machine, in the background, at http://localhost:9000. It restarts when a file of the code changes. just stop stops it
++serve:
++    #!/usr/bin/env sh
++    if curl -sf localhost:9000/health > /dev/null; then echo "serve: a server already answers at http://localhost:9000" >&2; exit 1; fi
++    uv run uvicorn api.service:app --app-dir src/api-service --host 0.0.0.0 --port 9000 --reload > .serve.log 2>&1 &
++    echo $! > .serve.pid
++    for i in $(seq 1 30); do
++        if curl -sf localhost:9000/health > /dev/null; then echo "serve: http://localhost:9000, its log in .serve.log"; exit 0; fi
++        sleep 1
++    done
++    echo "serve: no answer after 30 seconds; read .serve.log" >&2
++    exit 1
++
++# Stop the server of just serve
++stop:
++    #!/usr/bin/env sh
++    if [ ! -f .serve.pid ]; then echo "stop: no server of just serve runs here" >&2; exit 1; fi
++    kill "$(cat .serve.pid)" && rm .serve.pid
++    # Wait until the server no longer answers, so that the port is free for the next one
++    for i in $(seq 1 30); do
++        if ! curl -s localhost:9000/health > /dev/null; then echo "stop: stopped"; exit 0; fi
++        sleep 1
++    done
++    echo "stop: the server still answers after 30 seconds" >&2
++    exit 1
+```
+
+</details>
+
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/69c3bf65c78cf8e96bf8f9ea1dde29279db1351a). [The code after it](https://github.com/rahuldave/cheesecracker/tree/69c3bf65c78cf8e96bf8f9ea1dde29279db1351a).

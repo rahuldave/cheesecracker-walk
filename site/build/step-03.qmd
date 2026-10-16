@@ -14,12 +14,11 @@ git rm -rq --cached --ignore-unmatch -- :/ && git restore --source 69c3bf65c78c 
 
 ```bash
 just setup
-just serve
 ```
 
 The app needs an endpoint that does some work, and tests that call it. The endpoint computes the distance of a point
 from the origin with `power()`. An integration test sends requests to the app and checks the answers, with no server
-and no network. The server of `just serve` runs during this part, so we can ask it for each new answer.
+and no network.
 
 [The code before this part](https://github.com/rahuldave/cheesecracker/tree/69c3bf65c78cf8e96bf8f9ea1dde29279db1351a). [The code after it](https://github.com/rahuldave/cheesecracker/tree/5862780b44d2f4ec87088c971dec57f23c11139e).
 
@@ -36,11 +35,12 @@ curl -fsSL https://github.com/rahuldave/cheesecracker/commit/e576e7bb9e550b1a572
 
 Read the two imports after `CORSMiddleware`, and the new function at the end of the file.
 
-The server of `just serve` restarts with the new code, because of `--reload`. The restart takes a moment, so the
-command waits a second before it asks for the distance of the point (3, 4).
+Start the server, and ask it for the distance of the point (3, 4). The server runs to the end of this part, and
+restarts when a file of the code changes, because of `--reload`.
 
 ```bash
-sleep 1 && curl -s "localhost:9000/euclidean_distance/?x=3&y=4"
+just serve
+curl -s "localhost:9000/euclidean_distance/?x=3&y=4"
 ```
 
 The server answers `{"x":3.0,"y":4.0,"distance":5.0}`.

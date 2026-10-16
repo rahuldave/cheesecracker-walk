@@ -1,0 +1,343 @@
+---
+title: "8 System tests, against the run image"
+---
+
+<!-- Made by the walk skill's render.py from the facts of the walk. Do not edit it by hand: run just walk-update again. -->
+
+**Build it yourself.** [Read the tutorial](../read/step-08.qmd) is the other way to read this part.
+
+If you start at this part, make your clone as **Get the project** says, and then run this command. It puts in your clone the files that this part starts from. A file that the project deleted before this part stays, so delete it if `git check` lists it:
+
+```bash
+git rm -rq --cached --ignore-unmatch -- :/ && git restore --source d444e0387d25 --staged --worktree -- :/
+```
+
+The system tests send real HTTP requests to the run image. They need a server, so they run apart from the other
+tests, and fail when no server answers.
+
+```bash
+just setup
+```
+
+The integration tests call the app in the same process as the tests. They cannot tell whether the image starts, or
+whether the server answers on its port. A system test sends real HTTP requests to the running server, as the Cheese
+App does. Here the server is the run image, our deployment, which `just docker-serve` starts.
+
+[The code before this part](https://github.com/rahuldave/cheesecracker/tree/d444e0387d256c62024581e98f59d670cbc93296). [The code after it](https://github.com/rahuldave/cheesecracker/tree/ada469682ca5e1ba62c65d14b08778392e27ea2c).
+
+## 8.1 requests, for tests that send real HTTP requests {#step-08.1}
+
+The system tests send their requests with the package requests. It is a tool of the tests, so it goes into the group
+`test`.
+
+```bash
+uv add --group test requests
+```
+
+```bash
+uv run python -c "import requests; print(requests.__version__)"
+```
+
+Python prints the version of requests.
+
+Check your files against this move. The command prints nothing when they match, and otherwise shows what differs:
+
+```bash
+git check de0780b72a5c
+```
+
+If you are stuck, this command puts the files of this move in place of yours. A file that you made yourself stays:
+
+```bash
+git restore --source d444e0387d25 --staged -- :/ && git restore --source de0780b72a5c --staged --worktree -- :/
+```
+
+### What changed {#step-08.1-what-changed-182c57}
+
+- <a id="step-08.1-pyproject.toml-5d07e7"></a>`pyproject.toml`: requests, in the group `test`. 1 line added. It comes from `uv add --group test requests`. [The file](https://github.com/rahuldave/cheesecracker/blob/de0780b72a5cad4f0ed70e9c0cdcdee9d1028562/pyproject.toml).
+  - look at `"requests>=2.34.2",`
+- <a id="step-08.1-uv.lock-8356d8"></a>`uv.lock`: the exact versions of requests, and of the packages that it needs. 166 lines added. It comes from `uv add --group test requests`. [The file](https://github.com/rahuldave/cheesecracker/blob/de0780b72a5cad4f0ed70e9c0cdcdee9d1028562/uv.lock).
+
+<details><summary>The diff that <code>uv add --group test requests</code> makes in <code>pyproject.toml</code></summary>
+
+```diff
+@@ -25,6 +25,7 @@ test = [
+     "pytest>=9.1.1",
+     "pytest-asyncio>=1.4.0",
+     "pytest-cov>=7.1.0",
++    "requests>=2.34.2",
+ ]
+ 
+ [tool.pytest.ini_options]
+```
+
+</details>
+
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/de0780b72a5cad4f0ed70e9c0cdcdee9d1028562). [The code after it](https://github.com/rahuldave/cheesecracker/tree/de0780b72a5cad4f0ed70e9c0cdcdee9d1028562).
+
+## 8.2 the tests that run by default: unit and integration {#step-08.2}
+
+The system tests need a running server, and the other tests do not. `just test`, `just check`, the git hook and the
+dev image run every test of `testpaths`. They must not depend on a server, so `testpaths` names the two folders of
+tests that need none. The system tests then run only when we ask for them.
+
+Set the values that this change sets in [`pyproject.toml`](#step-08.2-pyproject.toml-5d07e7). Run this command from the top of the project. It reads your file with tomlkit, a library for TOML files. It sets each of these values as the project has it, and keeps the rest of your file:
+
+```bash
+uv run --quiet --no-config --no-project --with tomlkit python - <<'PY'
+import pathlib, tomlkit
+path = pathlib.Path('pyproject.toml')
+doc = tomlkit.parse(path.read_text(encoding='utf-8')) if path.exists() else tomlkit.document()
+# Each value that the change sets, by its keys
+SET = [
+    (('tool', 'pytest', 'ini_options', 'testpaths'), ['tests/unit', 'tests/integration']),
+]
+
+def put(table, keys, value):   # make each table on the way; a table goes into the one there, key by key
+    for key in keys[:-1]:
+        if key not in table:
+            table[key] = tomlkit.table(True)
+        table = table[key]
+    if isinstance(value, dict) and isinstance(table.get(keys[-1]), dict):
+        for key, item in value.items():
+            put(table[keys[-1]], [key], item)
+    else:
+        table[keys[-1]] = value
+
+for keys, value in SET:
+    put(doc, keys, value)
+path.write_text(tomlkit.dumps(doc), encoding='utf-8')
+PY
+```
+
+Read the line `testpaths` in the table `[tool.pytest.ini_options]` of `pyproject.toml`, and the comment above it.
+
+```bash
+just test -q
+```
+
+pytest prints `21 passed`, as before.
+
+Check your files against this move. The command prints nothing when they match, and otherwise shows what differs:
+
+```bash
+git check f6df5edbeffb
+```
+
+If you are stuck, this command puts the files of this move in place of yours. A file that you made yourself stays:
+
+```bash
+git restore --source de0780b72a5c --staged -- :/ && git restore --source f6df5edbeffb --staged --worktree -- :/
+```
+
+### What changed {#step-08.2-what-changed-182c57}
+
+- <a id="step-08.2-pyproject.toml-5d07e7"></a>`pyproject.toml`: the two folders of tests that run by default. 2 lines added, 2 removed. [The file](https://github.com/rahuldave/cheesecracker/blob/f6df5edbeffb588784804bf2147645d5ede6aaca/pyproject.toml).
+  - look at `testpaths = ["tests/unit", "tests/integration"]`
+
+<details open><summary>The patch to <code>pyproject.toml</code></summary>
+
+```diff
+@@ -29,8 +29,8 @@ test = [
+ ]
+ 
+ [tool.pytest.ini_options]
+-# The tests are in tests/, and import the package api from src/api-service/
+-testpaths = ["tests"]
++# The tests that run by default, which need no server. They import the package api from src/api-service/
++testpaths = ["tests/unit", "tests/integration"]
+ pythonpath = ["src/api-service"]
+ 
+ [tool.ruff]
+```
+
+</details>
+
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/f6df5edbeffb588784804bf2147645d5ede6aaca). [The code after it](https://github.com/rahuldave/cheesecracker/tree/f6df5edbeffb588784804bf2147645d5ede6aaca).
+
+## 8.3 system tests, against the server in Docker {#step-08.3}
+
+Five system tests send requests to `localhost:9000`. Four of them need a server there, and the fifth imports the app.
+A test that needs a server must fail when none answers, as a test fails without its data. A fixture does that.
+
+Apply the patch to [`tests/system/test_system_api.py`](#step-08.3-tests-system-test_system_api.py-780a11), from the top of the project:
+
+```bash
+curl -fsSL https://github.com/rahuldave/cheesecracker/commit/e32704d961be53d188b08349a0270696878a1db0.diff | git apply --include=tests/system/test_system_api.py
+```
+
+Make the folder `tests/system/`, and apply the patch. Read the fixture `server`, then the line
+`@pytest.mark.usefixtures("server")` above the class `TestAPIEndpoints`.
+
+Build the run image, start its server, and run the system tests against it. The server runs to the end of this part.
+
+```bash
+just docker-build run
+just docker-serve
+uv run pytest tests/system -v
+```
+
+pytest prints `5 passed`. The four tests of `TestAPIEndpoints` sent their requests to the server in Docker.
+
+```bash
+just test -q
+```
+
+`just test` still prints `21 passed`, because `testpaths` leaves out `tests/system`.
+
+Check your files against this move. The command prints nothing when they match, and otherwise shows what differs:
+
+```bash
+git check e32704d961be
+```
+
+If you are stuck, this command puts the files of this move in place of yours. A file that you made yourself stays:
+
+```bash
+git restore --source f6df5edbeffb --staged -- :/ && git restore --source e32704d961be --staged --worktree -- :/
+```
+
+### What changed {#step-08.3-what-changed-182c57}
+
+- <a id="step-08.3-tests-system-test_system_api.py-780a11"></a>`tests/system/test_system_api.py`: five system tests, through real HTTP requests to `localhost:9000`. New, 69 lines. [The file](https://github.com/rahuldave/cheesecracker/blob/e32704d961be53d188b08349a0270696878a1db0/tests/system/test_system_api.py).
+  - look at `pytest.fail(f"no server at {API_BASE_URL}: start one with just docker-serve", pytrace=False)`
+
+<details open><summary>The patch to <code>tests/system/test_system_api.py</code></summary>
+
+```diff
+@@ -0,0 +1,69 @@
++"""
++System tests of the API server
++Send real HTTP requests to the server at localhost:9000, the deployment
++"""
++
++import pytest
++import requests
++
++
++# Base URL for the API (assumes API is running)
++API_BASE_URL = "http://localhost:9000"
++
++
++@pytest.fixture(scope="module")
++def server():
++    """Fail the tests that use it when no server answers at localhost:9000"""
++    try:
++        requests.get(f"{API_BASE_URL}/health", timeout=2)
++    except requests.RequestException:
++        pytest.fail(f"no server at {API_BASE_URL}: start one with just docker-serve", pytrace=False)
++
++
++@pytest.mark.usefixtures("server")
++class TestAPIEndpoints:
++    """System tests of the endpoints, through the running server"""
++
++    def test_root_endpoint(self):
++        """Test the root endpoint returns welcome message"""
++        response = requests.get(f"{API_BASE_URL}/")
++        assert response.status_code == 200
++        data = response.json()
++        assert "message" in data
++        assert "Cheese App" in data["message"]
++
++    def test_health_check(self):
++        """Test health check endpoint"""
++        response = requests.get(f"{API_BASE_URL}/health")
++        assert response.status_code == 200
++        data = response.json()
++        assert data["status"] == "healthy"
++
++    def test_euclidean_distance_endpoint_default(self):
++        """Test euclidean_distance endpoint with default values"""
++        response = requests.get(f"{API_BASE_URL}/euclidean_distance/")
++        assert response.status_code == 200
++        data = response.json()
++        assert "distance" in data
++        assert data["x"] == 1.0
++        assert data["y"] == 2.0
++        assert data["distance"] == pytest.approx(2.236, rel=0.01)
++
++    def test_euclidean_distance_endpoint_custom_values(self):
++        """Test euclidean_distance endpoint with custom values (3, 4)"""
++        response = requests.get(f"{API_BASE_URL}/euclidean_distance/?x=3&y=4")
++        assert response.status_code == 200
++        data = response.json()
++        assert data["distance"] == pytest.approx(5.0)
++
++
++# Standalone tests that don't require running API
++class TestAPIWithoutServer:
++    """Tests that can run without a live server"""
++
++    def test_api_structure(self):
++        """Test that we can import the API module"""
++        from api.service import app
++
++        assert app.title == "Cheese API Server"
++        assert app.version == "v1"
+```
+
+</details>
+
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/e32704d961be53d188b08349a0270696878a1db0). [The code after it](https://github.com/rahuldave/cheesecracker/tree/e32704d961be53d188b08349a0270696878a1db0).
+
+## 8.4 just test-system runs the system tests {#step-08.4}
+
+The system tests have a recipe of their own, `test-system`, apart from `just test` and `just check`. A missing server
+fails them, and never stops a commit.
+
+Apply the patch to [`justfile`](#step-08.4-justfile-424f0b), from the top of the project:
+
+```bash
+curl -fsSL https://github.com/rahuldave/cheesecracker/commit/ada469682ca5e1ba62c65d14b08778392e27ea2c.diff | git apply --include=justfile
+```
+
+Read the recipe `test-system` at the end of the `justfile`.
+
+```bash
+just test-system -q
+```
+
+pytest prints `5 passed`. Then stop the server, and run the system tests again.
+
+```bash
+just docker-stop
+just test-system -q
+```
+
+pytest fails, with `1 passed, 4 errors`. Each error says `no server at http://localhost:9000: start one with just
+docker-serve`.
+
+Check your files against this move. The command prints nothing when they match, and otherwise shows what differs:
+
+```bash
+git check ada469682ca5
+```
+
+If you are stuck, this command puts the files of this move in place of yours. A file that you made yourself stays:
+
+```bash
+git restore --source e32704d961be --staged -- :/ && git restore --source ada469682ca5 --staged --worktree -- :/
+```
+
+### What changed {#step-08.4-what-changed-182c57}
+
+- <a id="step-08.4-justfile-424f0b"></a>`justfile`: the recipe `test-system`. 4 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/ada469682ca5e1ba62c65d14b08778392e27ea2c/justfile).
+  - look at `uv run pytest tests/system "$@"`
+
+<details open><summary>The patch to <code>justfile</code></summary>
+
+```diff
+@@ -82,3 +82,7 @@ docker-serve:
+ # Stop the server of just docker-serve, and remove its container
+ docker-stop:
+     docker stop cheesecracker-run
++
++# Run the system tests against the server at http://localhost:9000. They fail when no server answers there
++test-system *args:
++    uv run pytest tests/system "$@"
+```
+
+</details>
+
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/ada469682ca5e1ba62c65d14b08778392e27ea2c). [The code after it](https://github.com/rahuldave/cheesecracker/tree/ada469682ca5e1ba62c65d14b08778392e27ea2c).

@@ -1,0 +1,104 @@
+---
+title: "5.1 A change in a hurry"
+---
+
+<!-- Made by the walk skill's render.py from the facts of the walk. Do not edit it by hand: run just walk-update again. -->
+
+**Read the tutorial.** [Build it yourself](../build/step-05.1.qmd) is the other way to read this part.
+
+```bash
+just setup
+```
+
+The whole tutorial then adds pytest-cov, a tool that shows which lines of the code the tests run, and a recipe,
+`just cov`, that runs it. The code of the server does not change.
+
+Then someone changes the code in a hurry. It still works, and it reads worse.
+
+[The code before this part](https://github.com/rahuldave/cheesecracker/tree/bfb9c783c67c31254ce8136784738c0f2fc17fb5). [The code after it](https://github.com/rahuldave/cheesecracker/tree/f77650600c1176caa9aaee86e6cddfccc43fc69c).
+
+## 5.1 a change in a hurry: the code still works, and reads worse {#step-05.1}
+
+A change made in a hurry leaves code that works and reads badly. The change adds an import that nothing uses, and takes
+out spaces and blank lines. It also makes one line 187 characters long, and adds a function that nothing calls.
+
+A patch to [`src/api-service/api/service.py`](#step-05.1-src-api-service-api-service.py-1e1e71).
+
+A patch to [`src/api-service/api/utils.py`](#step-05.1-src-api-service-api-utils.py-18f1f8).
+
+`service.py` now imports `os`, which nothing uses. `/health` follows `/` with no blank line. The line
+`z=power(x,2)+power(y,2)` has no spaces, and the `return` at the end is 187 characters long. `utils.py` has a missing
+space, three blank lines, and `unused_function()`.
+
+```bash
+just test -q
+```
+
+pytest still prints `21 passed`. The tests check what the code does, not how it reads.
+
+### What changed {#step-05.1-what-changed-182c57}
+
+- <a id="step-05.1-src-api-service-api-service.py-1e1e71"></a>`src/api-service/api/service.py`: an import that nothing uses, missing spaces and blank lines, and a long line. 3 lines added, 5 removed. [The file](https://github.com/rahuldave/cheesecracker/blob/f77650600c1176caa9aaee86e6cddfccc43fc69c/src/api-service/api/service.py).
+  - look at `z=power(x,2)+power(y,2)`
+- <a id="step-05.1-src-api-service-api-utils.py-18f1f8"></a>`src/api-service/api/utils.py`: a missing space, extra blank lines, and a function that nothing calls. 6 lines added, 1 removed. [The file](https://github.com/rahuldave/cheesecracker/blob/f77650600c1176caa9aaee86e6cddfccc43fc69c/src/api-service/api/utils.py).
+  - look at `def unused_function():`
+
+<details><summary>The diff of <code>src/api-service/api/service.py</code></summary>
+
+```diff
+@@ -5,6 +5,7 @@ Cheese App API Service
+ from fastapi import FastAPI
+ from starlette.middleware.cors import CORSMiddleware
+ import math
++import os
+ from api.utils import power
+ 
+ # Setup FastAPI app
+@@ -19,13 +20,10 @@ app.add_middleware(
+     allow_headers=["*"],
+ )
+ 
+-
+ # Routes
+ @app.get("/")
+ async def get_index():
+     return {"message": "Welcome to the Cheese App CI/CD Tutorial!"}
+-
+-
+ @app.get("/health")
+ async def health_check():
+     return {"status": "healthy"}
+@@ -36,6 +34,6 @@ async def calculate_euclidean_distance(x: float = 1, y: float = 2):
+     """Calculate the Euclidean distance from origin: sqrt(x^2 + y^2)
+     Returns the distance of a point (x, y) from the origin (0, 0)
+     """
+-    z = power(x, 2) + power(y, 2)
++    z=power(x,2)+power(y,2)
+     result = math.sqrt(z)
+-    return {"x": x, "y": y, "distance": result}
++    return {"x": x, "y": y, "distance": result, "message": "This is a very long line that exceeds 120 characters and Black will complain about it so we need to fix this formatting issue"}
+```
+
+</details>
+
+<details><summary>The diff of <code>src/api-service/api/utils.py</code></summary>
+
+```diff
+@@ -4,6 +4,11 @@ Used by the Cheese App API Service
+ """
+ 
+ 
+-def power(base, exponent):
++def power(base,exponent):
+     """Calculate base raised to the power of exponent"""
+     return base**exponent
++
++
++
++def unused_function():
++    pass
+```
+
+</details>
+
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/f77650600c1176caa9aaee86e6cddfccc43fc69c). [The code after it](https://github.com/rahuldave/cheesecracker/tree/f77650600c1176caa9aaee86e6cddfccc43fc69c).

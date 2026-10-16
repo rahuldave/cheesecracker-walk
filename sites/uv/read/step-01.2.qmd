@@ -1,0 +1,57 @@
+---
+title: "1.2 A group for the tests"
+---
+
+<!-- Made by the walk skill's render.py from the facts of the walk. Do not edit it by hand: run just walk-update again. -->
+
+**Read the tutorial.** [Build it yourself](../build/step-01.2.qmd) is the other way to read this part.
+
+```bash
+just setup
+```
+
+The whole tutorial first writes the function `power()`, in `src/api-service/api/utils.py`. Its tests need pytest, and
+the server never does. So pytest goes into a group of its own.
+
+[The code before this part](https://github.com/rahuldave/cheesecracker/tree/bb1701fd54ba7c6aa9bd971c6651f34439f004d6). [The code after it](https://github.com/rahuldave/cheesecracker/tree/fc8c3bce83604277393460c4eb243d176d51905c).
+
+## 1.2 pytest, in the dependency group test {#step-01.2}
+
+A test calls `power()` and compares the result with the answer that we expect. pytest finds the tests of a project,
+runs them, and reports each failure. The tests need pytest, but the server does not. So pytest goes into a group of
+dependencies of its own, `test`.
+
+This change came from running `uv add --group test pytest`.
+
+The command adds pytest to the group `test` of `pyproject.toml`. It writes the exact versions of pytest and of the
+packages that it needs into `uv.lock`.
+
+```bash
+uv run pytest --version
+```
+
+uv prints the version of pytest, `pytest 9.1.1` on the day of the class.
+
+### What changed {#step-01.2-what-changed-182c57}
+
+- <a id="step-01.2-pyproject.toml-5d07e7"></a>`pyproject.toml`: pytest, in the group `test`. 5 lines added. It comes from `uv add --group test pytest`. [The file](https://github.com/rahuldave/cheesecracker/blob/fc8c3bce83604277393460c4eb243d176d51905c/pyproject.toml).
+  - look at `"pytest>=9.1.1",`
+- <a id="step-01.2-uv.lock-8356d8"></a>`uv.lock`: the exact version of pytest, and of the packages that it needs. 71 lines added. It comes from `uv add --group test pytest`. [The file](https://github.com/rahuldave/cheesecracker/blob/fc8c3bce83604277393460c4eb243d176d51905c/uv.lock).
+
+<details><summary>The diff of <code>pyproject.toml</code></summary>
+
+```diff
+@@ -11,3 +11,8 @@ dependencies = []
+ package = false
+ # uv sync and uv run install every dependency group, not only dev
+ default-groups = "all"
++
++[dependency-groups]
++test = [
++    "pytest>=9.1.1",
++]
+```
+
+</details>
+
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/fc8c3bce83604277393460c4eb243d176d51905c). [The code after it](https://github.com/rahuldave/cheesecracker/tree/fc8c3bce83604277393460c4eb243d176d51905c).

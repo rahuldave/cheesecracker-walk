@@ -1,0 +1,276 @@
+---
+title: "7 The run image, a server to test against"
+---
+
+<!-- Made by the walk skill's render.py from the facts of the walk. Do not edit it by hand: run just walk-update again. -->
+
+**Build it yourself.** [Read the tutorial](../read/step-07.qmd) is the other way to read this part.
+
+This part does not start where the part before it ends, because the walk skips some changes. This command puts the files that this part starts from in place of yours. Run it, and then go on:
+
+```bash
+git restore --source bfb9c783c67c --staged -- :/ && git restore --source 57ec2e24ecd4 --staged --worktree -- :/
+```
+
+If you start at this part, make your clone as **Get the project** says, and then run this command. It puts in your clone the files that this part starts from. A file that the project deleted before this part stays, so delete it if `git check` lists it:
+
+```bash
+git rm -rq --cached --ignore-unmatch -- :/ && git restore --source 57ec2e24ecd4 --staged --worktree -- :/
+```
+
+The whole tutorial then makes a change in a hurry. It adds an import that nothing uses, a function
+`unused_function()` that nothing calls, and a long `message` in the answer of `/euclidean_distance/`. Then ruff, a
+tool that formats code and checks it, fixes the spaces and blank lines, and removes the import. A person shortens the
+message. pre-commit then runs the checks before each commit. The tests pass all along.
+
+A system test needs a server that runs as it will run in production. Docker builds that server as an image, the run
+image.
+
+```bash
+just setup
+```
+
+The server runs on this machine, with its `.venv` and this version of macOS or Linux. Production is another machine,
+such as a server on Google Cloud. A Docker image holds the server with everything it needs, so it runs the same on
+any machine with Docker. The run image is the image that production runs, our deployment.
+
+[The code before this part](https://github.com/rahuldave/cheesecracker/tree/57ec2e24ecd4946823edbfad27bc2296f80e3847). [The code after it](https://github.com/rahuldave/cheesecracker/tree/d444e0387d256c62024581e98f59d670cbc93296).
+
+## 7.1 what docker build leaves out {#step-07.1}
+
+`docker build` sends the files of the folder to Docker. The folder has `.venv`, the caches of the tools, git and maybe
+secrets. None of them belongs in an image. `.dockerignore` lists them.
+
+Apply the patch to [`.dockerignore`](#step-07.1-.dockerignore-05a721), from the top of the project:
+
+```bash
+curl -fsSL https://github.com/rahuldave/cheesecracker/commit/2a28a5c704d6d9ed8200aeb8962aa01e5c2ac552.diff | git apply --include=.dockerignore
+```
+
+Apply the patch, and read its list.
+
+```bash
+cat .dockerignore
+```
+
+`cat` prints the list.
+
+Check your files against this move. The command prints nothing when they match, and otherwise shows what differs:
+
+```bash
+git check 2a28a5c704d6
+```
+
+If you are stuck, this command puts the files of this move in place of yours. A file that you made yourself stays:
+
+```bash
+git restore --source 57ec2e24ecd4 --staged -- :/ && git restore --source 2a28a5c704d6 --staged --worktree -- :/
+```
+
+### What changed {#step-07.1-what-changed-182c57}
+
+- <a id="step-07.1-.dockerignore-05a721"></a>`.dockerignore`: what `docker build` never sends to Docker. New, 10 lines. [The file](https://github.com/rahuldave/cheesecracker/blob/2a28a5c704d6d9ed8200aeb8962aa01e5c2ac552/.dockerignore).
+  - look at `.venv/`
+
+<details open><summary>The patch to <code>.dockerignore</code></summary>
+
+```diff
+@@ -0,0 +1,10 @@
++# What docker build never sends to Docker: the environment, the caches, git and the secrets
++.venv/
++__pycache__/
++.pytest_cache/
++.ruff_cache/
++.coverage
++htmlcov/
++.git/
++secrets/
++.env
+```
+
+</details>
+
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/2a28a5c704d6d9ed8200aeb8962aa01e5c2ac552). [The code after it](https://github.com/rahuldave/cheesecracker/tree/2a28a5c704d6d9ed8200aeb8962aa01e5c2ac552).
+
+## 7.2 the run image, the server as it runs in production {#step-07.2}
+
+The run image needs Python, the dependencies of the server, and the code. It does not need uv, the tests, ruff or
+pre-commit. The `Dockerfile` builds the image in stages, and the run image takes only what the server needs.
+
+Apply the patch to [`Dockerfile`](#step-07.2-Dockerfile-6651dd), from the top of the project:
+
+```bash
+curl -fsSL https://github.com/rahuldave/cheesecracker/commit/0acb4556f724cd94e4a71ab4fff739a974413fc0.diff | git apply --include=Dockerfile
+```
+
+Apply the patch, and read the three stages, which start at each `FROM`. Read the line `RUN uv sync` in the stage
+`build`, and the line `COPY --from=build` and the `CMD` in the stage `run`.
+
+```bash
+docker build --target run --tag cheesecracker-run .
+```
+
+Docker prints each line of the `Dockerfile` as it runs. Near the end, the line `naming to
+docker.io/library/cheesecracker-run` names the image.
+
+```bash
+docker image ls cheesecracker-run
+```
+
+The image is about 173 MB, nearly all of it Python and the dependencies of the server.
+
+Check your files against this move. The command prints nothing when they match, and otherwise shows what differs:
+
+```bash
+git check 0acb4556f724
+```
+
+If you are stuck, this command puts the files of this move in place of yours. A file that you made yourself stays:
+
+```bash
+git restore --source 2a28a5c704d6 --staged -- :/ && git restore --source 0acb4556f724 --staged --worktree -- :/
+```
+
+### What changed {#step-07.2-what-changed-182c57}
+
+- <a id="step-07.2-Dockerfile-6651dd"></a>`Dockerfile`: the stages `uv`, `build` and `run`. New, 34 lines. [The file](https://github.com/rahuldave/cheesecracker/blob/0acb4556f724cd94e4a71ab4fff739a974413fc0/Dockerfile).
+  - look at `RUN uv sync --locked --no-default-groups`
+
+<details open><summary>The patch to <code>Dockerfile</code></summary>
+
+```diff
+@@ -0,0 +1,34 @@
++# The images of the API server, built from uv.lock, so they hold the versions that the lockfile names.
++#
++#   docker build --target run --tag cheesecracker-run .
++#       the production image: Python, the dependencies of the server and its code. It starts the server
++#
++# The environment lives in /opt/venv, never in the project folder.
++
++# uv itself, copied from its own image
++FROM ghcr.io/astral-sh/uv:0.12.13 AS uv
++
++# The environment of the server, without the dependency groups: no tests, no ruff, no pre-commit
++FROM python:3.12-slim-bookworm AS build
++COPY --from=uv /uv /usr/local/bin/uv
++ENV UV_PROJECT_ENVIRONMENT=/opt/venv \
++    UV_PYTHON_DOWNLOADS=never \
++    UV_COMPILE_BYTECODE=1 \
++    UV_LINK_MODE=copy \
++    UV_NO_CACHE=1
++WORKDIR /app
++COPY pyproject.toml uv.lock .python-version ./
++RUN uv sync --locked --no-default-groups
++
++# The run image: Python, the environment from the build stage, and the code. No uv, and no dev tools
++FROM python:3.12-slim-bookworm AS run
++RUN useradd --create-home --uid 1000 app
++COPY --from=build /opt/venv /opt/venv
++WORKDIR /app
++COPY src/api-service/api ./api
++ENV PATH=/opt/venv/bin:$PATH \
++    PYTHONUNBUFFERED=1
++USER app
++EXPOSE 9000
++# Four workers, and no restart on a change: the server as it runs in production
++CMD ["uvicorn", "api.service:app", "--host", "0.0.0.0", "--port", "9000", "--workers", "4"]
+```
+
+</details>
+
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/0acb4556f724cd94e4a71ab4fff739a974413fc0). [The code after it](https://github.com/rahuldave/cheesecracker/tree/0acb4556f724cd94e4a71ab4fff739a974413fc0).
+
+## 7.3 just docker-build, just docker-serve and just docker-stop {#step-07.3}
+
+Three recipes give the Docker commands short names. `docker-build` builds an image of the `Dockerfile`.
+`docker-serve` starts the server of the run image in the background, at port 9000, and `docker-stop` stops it.
+
+Apply the patch to [`justfile`](#step-07.3-justfile-424f0b), from the top of the project:
+
+```bash
+curl -fsSL https://github.com/rahuldave/cheesecracker/commit/d444e0387d256c62024581e98f59d670cbc93296.diff | git apply --include=justfile
+```
+
+Read the recipes `docker-build`, `docker-serve` and `docker-stop` at the end of the `justfile`.
+
+```bash
+just docker-build run
+```
+
+Docker takes each layer that has not changed since the last build from its cache, and prints `CACHED` for it.
+
+```bash
+just docker-serve
+```
+
+The recipe prints `docker-serve: http://localhost:9000, in the container cheesecracker-run`. Ask the server for its
+health.
+
+```bash
+curl -s localhost:9000/health
+```
+
+The server in Docker answers `{"status":"healthy"}`, as the server on this machine did. The container runs in the
+background, so you do not see what it prints. Docker keeps that output, and `docker logs` shows it.
+
+```bash
+docker logs cheesecracker-run
+```
+
+uvicorn printed `Uvicorn running on http://0.0.0.0:9000`, and started four server processes, its workers.
+
+```bash
+just docker-stop
+```
+
+Docker prints the name of the container, `cheesecracker-run`, and the server stops.
+
+Check your files against this move. The command prints nothing when they match, and otherwise shows what differs:
+
+```bash
+git check d444e0387d25
+```
+
+If you are stuck, this command puts the files of this move in place of yours. A file that you made yourself stays:
+
+```bash
+git restore --source 0acb4556f724 --staged -- :/ && git restore --source d444e0387d25 --staged --worktree -- :/
+```
+
+### What changed {#step-07.3-what-changed-182c57}
+
+- <a id="step-07.3-justfile-424f0b"></a>`justfile`: the recipes `docker-build`, `docker-serve` and `docker-stop`. 20 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/d444e0387d256c62024581e98f59d670cbc93296/justfile).
+  - look at `docker run --rm --detach --name cheesecracker-run --publish 9000:9000 cheesecracker-run > /dev/null || exit 1`
+
+<details open><summary>The patch to <code>justfile</code></summary>
+
+```diff
+@@ -62,3 +62,23 @@ check:
+     just fmt --check
+     just lint
+     just test -q
++
++# Build an image of the Dockerfile: just docker-build run
++docker-build kind:
++    docker build --target "$1" --tag "cheesecracker-$1" .
++
++# Start the server in the run image, in the background, at http://localhost:9000, as it runs in production. just docker-stop stops it
++docker-serve:
++    #!/usr/bin/env sh
++    if curl -sf localhost:9000/health > /dev/null; then echo "docker-serve: a server already answers at http://localhost:9000" >&2; exit 1; fi
++    docker run --rm --detach --name cheesecracker-run --publish 9000:9000 cheesecracker-run > /dev/null || exit 1
++    for i in $(seq 1 30); do
++        if curl -sf localhost:9000/health > /dev/null; then echo "docker-serve: http://localhost:9000, in the container cheesecracker-run"; exit 0; fi
++        sleep 1
++    done
++    echo "docker-serve: no answer after 30 seconds; read docker logs cheesecracker-run" >&2
++    exit 1
++
++# Stop the server of just docker-serve, and remove its container
++docker-stop:
++    docker stop cheesecracker-run
+```
+
+</details>
+
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/d444e0387d256c62024581e98f59d670cbc93296). [The code after it](https://github.com/rahuldave/cheesecracker/tree/d444e0387d256c62024581e98f59d670cbc93296).

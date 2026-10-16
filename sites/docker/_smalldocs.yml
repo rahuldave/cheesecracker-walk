@@ -1,0 +1,89 @@
+# Made by the walk skill's render.py from the facts of the walk. Do not edit it by hand: run just walk-update again.
+project:
+  type: website
+  output-dir: _site
+  render: ["index.qmd", "read/*.qmd", "build/*.qmd"]   # only these pages
+
+website:
+  title: "cheesecracker in Docker"
+  page-navigation: true
+  search: true
+  sidebar:
+    style: docked
+    contents:
+      - index.qmd
+      - section: "Read the tutorial"
+        contents:
+          - section: "7.1 What docker build leaves out"
+            href: read/step-07.1.qmd
+            contents:
+              - text: "7.1 what docker build leaves out"
+                href: read/step-07.1.qmd#step-07.1
+          - section: "7.2 to 7.3 The run image"
+            href: read/step-07.2-to-step-07.3.qmd
+            contents:
+              - text: "7.2 the run image, the server as it runs in production"
+                href: read/step-07.2-to-step-07.3.qmd#step-07.2
+              - text: "7.3 just docker-build, just docker-serve and just docker-stop"
+                href: read/step-07.2-to-step-07.3.qmd#step-07.3
+          - section: "8 System tests, against the run image"
+            href: read/step-08.qmd
+            contents:
+              - text: "8.1 requests, for tests that send real HTTP requests"
+                href: read/step-08.qmd#step-08.1
+              - text: "8.2 the tests that run by default: unit and integration"
+                href: read/step-08.qmd#step-08.2
+              - text: "8.3 system tests, against the server in Docker"
+                href: read/step-08.qmd#step-08.3
+              - text: "8.4 just test-system runs the system tests"
+                href: read/step-08.qmd#step-08.4
+          - section: "9 The dev image"
+            href: read/step-09.qmd
+            contents:
+              - text: "9.1 the dev image, to work on the project in Linux"
+                href: read/step-09.qmd#step-09.1
+              - text: "9.2 just docker-shell and just docker-test"
+                href: read/step-09.qmd#step-09.2
+          - text: "10 A change, through both images"
+            href: read/step-10.qmd
+      - section: "Build it yourself"
+        contents:
+          - section: "7.1 What docker build leaves out"
+            href: build/step-07.1.qmd
+            contents:
+              - text: "7.1 what docker build leaves out"
+                href: build/step-07.1.qmd#step-07.1
+          - section: "7.2 to 7.3 The run image"
+            href: build/step-07.2-to-step-07.3.qmd
+            contents:
+              - text: "7.2 the run image, the server as it runs in production"
+                href: build/step-07.2-to-step-07.3.qmd#step-07.2
+              - text: "7.3 just docker-build, just docker-serve and just docker-stop"
+                href: build/step-07.2-to-step-07.3.qmd#step-07.3
+          - section: "8 System tests, against the run image"
+            href: build/step-08.qmd
+            contents:
+              - text: "8.1 requests, for tests that send real HTTP requests"
+                href: build/step-08.qmd#step-08.1
+              - text: "8.2 the tests that run by default: unit and integration"
+                href: build/step-08.qmd#step-08.2
+              - text: "8.3 system tests, against the server in Docker"
+                href: build/step-08.qmd#step-08.3
+              - text: "8.4 just test-system runs the system tests"
+                href: build/step-08.qmd#step-08.4
+          - section: "9 The dev image"
+            href: build/step-09.qmd
+            contents:
+              - text: "9.1 the dev image, to work on the project in Linux"
+                href: build/step-09.qmd#step-09.1
+              - text: "9.2 just docker-shell and just docker-test"
+                href: build/step-09.qmd#step-09.2
+          - text: "10 A change, through both images"
+            href: build/step-10.qmd
+
+theme: cosmo
+css: styles.css
+toc: true
+toc-depth: 2
+code-copy: true
+from: markdown-tex_math_dollars-smart  # a $ is a dollar, not mathematics; -- stays two hyphens

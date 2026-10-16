@@ -183,7 +183,7 @@ Read the recipes `docker-build`, `docker-serve` and `docker-stop` at the end of 
 just docker-build run
 ```
 
-The build takes a second, because Docker has every layer in its cache.
+Docker takes each layer that has not changed since the last build from its cache, and prints `CACHED` for it.
 
 ```bash
 just docker-serve

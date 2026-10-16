@@ -1,0 +1,53 @@
+---
+title: "4.2 just cov"
+---
+
+<!-- Made by the walk skill's render.py from the facts of the walk. Do not edit it by hand: run just walk-update again. -->
+
+**Read the tutorial.** [Build it yourself](../build/step-04.2.qmd) is the other way to read this part.
+
+```bash
+just setup
+```
+
+The whole tutorial then adds an endpoint, ten integration tests, and pytest-cov. Coverage gets a recipe.
+
+[The code before this part](https://github.com/rahuldave/cheesecracker/tree/54de20e8055ec62726d8956cac3a944433dc404c). [The code after it](https://github.com/rahuldave/cheesecracker/tree/bfb9c783c67c31254ce8136784738c0f2fc17fb5).
+
+## 4.2 just cov shows which lines the tests run {#step-04.2}
+
+The recipe `cov` runs every test with coverage, and adds the column `Missing`, with the numbers of the lines that no
+test ran.
+
+A patch to [`justfile`](#step-04.2-justfile-424f0b).
+
+The recipe `cov`, at the end of the `justfile`, runs pytest with `--cov=api --cov-report=term-missing`, and passes
+on to pytest any words that you type after `just cov`.
+
+```bash
+just cov -q
+```
+
+The total is 95%. `service.py` misses line 31, the answer of `/health`, because no test asks for it.
+
+### What changed {#step-04.2-what-changed-182c57}
+
+- <a id="step-04.2-justfile-424f0b"></a>`justfile`: the recipe `cov`. 4 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/bfb9c783c67c31254ce8136784738c0f2fc17fb5/justfile).
+  - look at `uv run pytest --cov=api --cov-report=term-missing "$@"`
+
+<details><summary>The diff of <code>justfile</code></summary>
+
+```diff
+@@ -40,3 +40,7 @@ stop:
+     done
+     echo "stop: the server still answers after 30 seconds" >&2
+     exit 1
++
++# Run the tests, and show which lines of the package api they ran. Extra arguments go to pytest: just cov tests/unit
++cov *args:
++    uv run pytest --cov=api --cov-report=term-missing "$@"
+```
+
+</details>
+
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/bfb9c783c67c31254ce8136784738c0f2fc17fb5). [The code after it](https://github.com/rahuldave/cheesecracker/tree/bfb9c783c67c31254ce8136784738c0f2fc17fb5).

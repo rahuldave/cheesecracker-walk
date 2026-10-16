@@ -8,8 +8,6 @@ title: "8 System tests"
 
 ```bash
 just setup
-just docker-build run
-just docker-serve
 ```
 
 The integration tests call the app in the same process as the tests. They cannot tell whether the image starts, or
@@ -107,9 +105,11 @@ The new file `tests/system/test_system_api.py` sets `API_BASE_URL` to `http://lo
 asks for `/health`, and fails with "no server at http://localhost:9000" when nothing answers. The four tests of
 `TestAPIEndpoints` use it. `TestAPIWithoutServer` imports the app, and needs no server.
 
-The server of `just docker-serve` runs. Run the system tests against it.
+Build the run image, start its server, and run the system tests against it. The server runs to the end of this part.
 
 ```bash
+just docker-build run
+just docker-serve
 uv run pytest tests/system -v
 ```
 

@@ -21,3 +21,60 @@ folder = "walks/tutorial"
 intro = "walks/tutorial/intro.md"
 loose = ["pyproject.toml", "uv.lock"]
 moves = "do"                            # the learner makes each move from the text
+
+# The small walks have notes of their own, walks/ID/notes.md. Their {{include}} lines take sections of
+# walks/tutorial/notes.md, with the same slides and commits. Each starts in watch mode.
+
+[[walk]]
+id = "testing"
+title = "The tests of cheesecracker"
+description = "Unit tests of a function, integration tests of the app, coverage, and system tests against the server in the run image, apart from the other tests."
+kind = "tutorial"
+loose = ["pyproject.toml", "uv.lock"]
+notes = "walks/testing/notes.md"
+shared = "walks/tutorial/notes.md"
+slides = "walks/tutorial/slides/slides.toml"
+moves = "watch"
+
+[[walk]]
+id = "linting"
+title = "The formatter and the linter of cheesecracker"
+description = "Code that works and reads badly, then ruff as the formatter and the linter, their fixes, one recipe for every check, and pre-commit before each `git commit`."
+kind = "tutorial"
+loose = ["pyproject.toml", "uv.lock"]
+notes = "walks/linting/notes.md"
+shared = "walks/tutorial/notes.md"
+slides = "walks/tutorial/slides/slides.toml"
+moves = "watch"
+
+[[walk]]
+id = "uv"
+title = "uv and the groups of dependencies of cheesecracker"
+description = "The project and its lockfile, the dependencies of the server, the groups `test` and `lint`, and the two Docker images, which install no group and every group."
+kind = "tutorial"
+loose = ["pyproject.toml", "uv.lock"]
+notes = "walks/uv/notes.md"
+shared = "walks/tutorial/notes.md"
+slides = "walks/tutorial/slides/slides.toml"
+moves = "watch"
+
+[[walk]]
+id = "docker"
+title = "cheesecracker in Docker"
+description = "The run image as the deployment, system tests against it, the dev image for the checks in Linux, and a change through both images."
+kind = "tutorial"
+loose = ["pyproject.toml", "uv.lock"]
+notes = "walks/docker/notes.md"
+shared = "walks/tutorial/notes.md"
+slides = "walks/tutorial/slides/slides.toml"
+moves = "watch"
+
+[[walk]]
+id = "just"
+title = "just, the recipes of cheesecracker"
+description = "The justfile of the project, one recipe at a time: setup, test, serve, cov, fmt, lint, check, hook, the Docker recipes and test-system."
+kind = "tutorial"
+notes = "walks/just/notes.md"
+shared = "walks/tutorial/notes.md"
+slides = "walks/tutorial/slides/slides.toml"
+moves = "watch"

@@ -1,0 +1,10 @@
+/* Made by the walk skill's render.py from the facts of the walk. Do not edit it by hand: run just walk-update again. */
+/* Inline code keeps the code font, without the shaded box and the colour the theme gives it. */
+code:not(pre code) {
+  background-color: transparent !important;
+  color: inherit !important;
+  padding: 0 !important;
+}
+/* What changed: the diffs fold, and open one at a time. */
+details { margin: 0.5em 0; }
+details > summary { cursor: pointer; }

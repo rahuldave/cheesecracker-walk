@@ -22,7 +22,12 @@ $ just setup
 
 The project is empty. It has a `pyproject.toml` with no dependencies, an empty `uv.lock`, a `README.md`, a
 `.gitignore`, and a `justfile` with one recipe, `setup`. `just setup` runs `uv sync --locked`. uv is the tool that installs Python and
-packages. The command makes the folder `.venv`, with Python 3.12 and every package of `uv.lock` in it. A second run changes nothing.
+packages. The command makes the folder `.venv`, with Python 3.12 and every package of `uv.lock` in it. Run it again.
+
+$ just setup
+
+uv prints `Resolved 1 package` and `Checked`, and no line `Creating virtual environment`. A second run changes
+nothing.
 
 Two settings of `pyproject.toml`, in the table `[tool.uv]`, matter for the whole project. `package = false` says that
 cheesecracker is an application. uv installs its dependencies, and does not install the project as a package.
@@ -274,11 +279,9 @@ files:
 
 $ just setup
 
-$ just serve
-
 The app needs an endpoint that does some work, and tests that call it. The endpoint computes the distance of a point
 from the origin with `power()`. An integration test sends requests to the app and checks the answers, with no server
-and no network. The server of `just serve` runs during this part, so we can ask it for each new answer.
+and no network.
 
 ### step-03.1 /euclidean_distance/, the distance of a point from the origin
 
@@ -297,10 +300,12 @@ Read the two imports after `CORSMiddleware`, and the new function at the end of 
 and returns them with the distance.
 :::
 
-The server of `just serve` restarts with the new code, because of `--reload`. The restart takes a moment, so the
-command waits a second before it asks for the distance of the point (3, 4).
+Start the server, and ask it for the distance of the point (3, 4). The server runs to the end of this part, and
+restarts when a file of the code changes, because of `--reload`.
 
-$ sleep 1 && curl -s "localhost:9000/euclidean_distance/?x=3&y=4"
+$ just serve
+
+$ curl -s "localhost:9000/euclidean_distance/?x=3&y=4"
 
 The server answers `{"x":3.0,"y":4.0,"distance":5.0}`.
 
@@ -760,7 +765,7 @@ until the server answers. `docker-stop` stops the container, and `--rm` removes 
 
 $ just docker-build run
 
-The build takes a second, because Docker has every layer in its cache.
+Docker takes each layer that has not changed since the last build from its cache, and prints `CACHED` for it.
 
 $ just docker-serve
 
@@ -787,10 +792,6 @@ files:
 ## step-08 System tests
 
 $ just setup
-
-$ just docker-build run
-
-$ just docker-serve
 
 The integration tests call the app in the same process as the tests. They cannot tell whether the image starts, or
 whether the server answers on its port. A system test sends real HTTP requests to the running server, as the Cheese
@@ -855,7 +856,11 @@ asks for `/health`, and fails with "no server at http://localhost:9000" when not
 `TestAPIEndpoints` use it. `TestAPIWithoutServer` imports the app, and needs no server.
 :::
 
-The server of `just docker-serve` runs. Run the system tests against it.
+Build the run image, start its server, and run the system tests against it. The server runs to the end of this part.
+
+$ just docker-build run
+
+$ just docker-serve
 
 $ uv run pytest tests/system -v
 

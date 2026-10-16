@@ -1,0 +1,52 @@
+---
+title: "8.1 One more tool for the tests, after the run image"
+---
+
+<!-- Made by the walk skill's render.py from the facts of the walk. Do not edit it by hand: run just walk-update again. -->
+
+**Read the tutorial.** [Build it yourself](../build/step-08.1.qmd) is the other way to read this part.
+
+```bash
+just setup
+```
+
+The whole tutorial then adds recipes for Docker. The system tests send real HTTP requests, with the package `requests`.
+`requests` goes into the group `test`, and the run image never sees it.
+
+[The code before this part](https://github.com/rahuldave/cheesecracker/tree/d444e0387d256c62024581e98f59d670cbc93296). [The code after it](https://github.com/rahuldave/cheesecracker/tree/de0780b72a5cad4f0ed70e9c0cdcdee9d1028562).
+
+## 8.1 requests, for tests that send real HTTP requests {#step-08.1}
+
+The system tests send their requests with the package requests. It is a tool of the tests, so it goes into the group
+`test`.
+
+This change came from running `uv add --group test requests`.
+
+```bash
+uv run python -c "import requests; print(requests.__version__)"
+```
+
+Python prints the version of requests.
+
+### What changed {#step-08.1-what-changed-182c57}
+
+- <a id="step-08.1-pyproject.toml-5d07e7"></a>`pyproject.toml`: requests, in the group `test`. 1 line added. It comes from `uv add --group test requests`. [The file](https://github.com/rahuldave/cheesecracker/blob/de0780b72a5cad4f0ed70e9c0cdcdee9d1028562/pyproject.toml).
+  - look at `"requests>=2.34.2",`
+- <a id="step-08.1-uv.lock-8356d8"></a>`uv.lock`: the exact versions of requests, and of the packages that it needs. 166 lines added. It comes from `uv add --group test requests`. [The file](https://github.com/rahuldave/cheesecracker/blob/de0780b72a5cad4f0ed70e9c0cdcdee9d1028562/uv.lock).
+
+<details><summary>The diff of <code>pyproject.toml</code></summary>
+
+```diff
+@@ -25,6 +25,7 @@ test = [
+     "pytest>=9.1.1",
+     "pytest-asyncio>=1.4.0",
+     "pytest-cov>=7.1.0",
++    "requests>=2.34.2",
+ ]
+ 
+ [tool.pytest.ini_options]
+```
+
+</details>
+
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/de0780b72a5cad4f0ed70e9c0cdcdee9d1028562). [The code after it](https://github.com/rahuldave/cheesecracker/tree/de0780b72a5cad4f0ed70e9c0cdcdee9d1028562).

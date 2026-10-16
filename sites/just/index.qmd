@@ -1,0 +1,75 @@
+---
+title: "just, the recipes of cheesecracker"
+---
+
+<!-- Made by the walk skill's render.py from the facts of the walk. Do not edit it by hand: run just walk-update again. -->
+
+This walk is one of several through the project. The website of the first, [cheesecracker, one change at a time](../), lists them all.
+
+We follow the `justfile` of cheesecracker, the API server of the Cheese App. The program `just` reads this file. The
+file gives each task of the project a short name, and each named task is a recipe.
+
+The recipes keep the commands in one place, so a person, a git hook and Docker run the same
+thing. `just` alone lists them, and `just --show NAME` prints one. This tutorial takes the recipes out of the whole
+tutorial of cheesecracker, one at a time, as each one comes in. Every recipe here is in the `justfile` of the project
+cheesecracker, in the folder of its code.
+
+We make the project in moves. A move is one small change, made by one patch or by one command. You make each move,
+and the page checks your files against it.
+
+Some changes of the whole tutorial are not in this one. After such a gap, the next section says what those changes
+did, and starts from the code that they left. It first runs `just setup`, which installs the packages of that code.
+
+There are two ways to read this tutorial. Both have the same parts, in the same order.
+
+Each part ends with a section called **What changed**. It lists every file that the part changes, with a link to the file, and then the whole diff of each file, folded. A lockfile and a binary file have a link alone. The text above it explains the change. In Build it yourself, What changed is what you check your files against.
+
+In Build it yourself, a file that a command makes says which command. A diff that is open is a patch. Apply it with the command in the text, or make the same change in your editor.
+
+## Read the tutorial
+
+Each change explained, with the code to look at.
+
+- [0 The project, and its justfile](read/step-00.qmd)
+- [1.5 just test](read/step-01.5.qmd)
+- [2.3 just serve and just stop](read/step-02.3.qmd)
+- [4.2 just cov](read/step-04.2.qmd)
+- [5.4 just fmt and just lint](read/step-05.4.qmd)
+- [5.8 just check](read/step-05.8.qmd)
+- [6.3 just hook](read/step-06.3.qmd)
+- [7.3 The Docker recipes](read/step-07.3.qmd)
+- [8.4 just test-system](read/step-08.4.qmd)
+- [9.2 just docker-shell and just docker-test](read/step-09.2.qmd)
+
+## Build it yourself
+
+Every command to run and every change to make by hand, to make the project yourself.
+
+### Get the project
+
+You build the project in a clone of your own, on a branch `mine` that starts where this walk starts. Run the commands of these pages in its top folder.
+
+```bash
+git clone https://github.com/rahuldave/cheesecracker
+cd cheesecracker
+git switch -c mine cf50a6ef5045
+```
+
+Then add the command `git check`, which compares your files with the project's after each move, and leaves what `git add` has staged as it was.
+
+```bash
+git config alias.check '!f() { i="$(git rev-parse --git-path check-index)" && { cp -p "$(git rev-parse --git-path index)" "$i" 2>/dev/null || rm -f "$i"; } && export GIT_INDEX_FILE="$i" && git add -A && git diff --cached --stat "$1"; }; f'
+```
+
+### The parts
+
+- [0 The project, and its justfile](build/step-00.qmd)
+- [1.5 just test](build/step-01.5.qmd)
+- [2.3 just serve and just stop](build/step-02.3.qmd)
+- [4.2 just cov](build/step-04.2.qmd)
+- [5.4 just fmt and just lint](build/step-05.4.qmd)
+- [5.8 just check](build/step-05.8.qmd)
+- [6.3 just hook](build/step-06.3.qmd)
+- [7.3 The Docker recipes](build/step-07.3.qmd)
+- [8.4 just test-system](build/step-08.4.qmd)
+- [9.2 just docker-shell and just docker-test](build/step-09.2.qmd)

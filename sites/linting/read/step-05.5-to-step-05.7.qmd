@@ -1,0 +1,166 @@
+---
+title: "5.5 to 5.7 The fixes"
+---
+
+<!-- Made by the walk skill's render.py from the facts of the walk. Do not edit it by hand: run just walk-update again. -->
+
+**Read the tutorial.** [Build it yourself](../build/step-05.5-to-step-05.7.qmd) is the other way to read this part.
+
+```bash
+just setup
+```
+
+The formatter fixes the layout, and the linter removes the import that nothing uses. A person shortens the long line.
+
+[The code before this part](https://github.com/rahuldave/cheesecracker/tree/b947593e84b71486902b3ff1c7f9e1458b70e3f7). [The code after it](https://github.com/rahuldave/cheesecracker/tree/693a713a458db01debdd7ebc3b084ed1b0350b08).
+
+## 5.5 the formatter fixes the spaces, the blank lines and the line breaks {#step-05.5}
+
+The formatter writes every file in one layout, so nobody fixes spaces by hand.
+
+This change came from running `just fmt`.
+
+ruff prints `2 files reformatted`. In `service.py`, `z=power(x,2)+power(y,2)` now has its spaces, and two blank lines
+separate the routes. The long `return` now spreads its dictionary over six lines, one key on each line. In `utils.py`, the blank lines are two.
+
+```bash
+just fmt --check
+```
+
+ruff prints `6 files already formatted`.
+
+### What changed {#step-05.5-what-changed-182c57}
+
+- <a id="step-05.5-src-api-service-api-service.py-1e1e71"></a>`src/api-service/api/service.py`: the spaces, the blank lines, and the long `return` on six lines. 10 lines added, 2 removed. It comes from `just fmt`. [The file](https://github.com/rahuldave/cheesecracker/blob/42642115394d8e19ead4c27bafaf4d90d991b0c9/src/api-service/api/service.py).
+  - look at `z = power(x, 2) + power(y, 2)`
+- <a id="step-05.5-src-api-service-api-utils.py-18f1f8"></a>`src/api-service/api/utils.py`: the space after the comma, and two blank lines before `unused_function()`. 1 line added, 2 removed. It comes from `just fmt`. [The file](https://github.com/rahuldave/cheesecracker/blob/42642115394d8e19ead4c27bafaf4d90d991b0c9/src/api-service/api/utils.py).
+  - look at `def power(base, exponent):`
+
+<details><summary>The diff of <code>src/api-service/api/service.py</code></summary>
+
+```diff
+@@ -20,10 +20,13 @@ app.add_middleware(
+     allow_headers=["*"],
+ )
+ 
++
+ # Routes
+ @app.get("/")
+ async def get_index():
+     return {"message": "Welcome to the Cheese App CI/CD Tutorial!"}
++
++
+ @app.get("/health")
+ async def health_check():
+     return {"status": "healthy"}
+@@ -34,6 +37,11 @@ async def calculate_euclidean_distance(x: float = 1, y: float = 2):
+     """Calculate the Euclidean distance from origin: sqrt(x^2 + y^2)
+     Returns the distance of a point (x, y) from the origin (0, 0)
+     """
+-    z=power(x,2)+power(y,2)
++    z = power(x, 2) + power(y, 2)
+     result = math.sqrt(z)
+-    return {"x": x, "y": y, "distance": result, "message": "This is a very long line that exceeds 120 characters and Black will complain about it so we need to fix this formatting issue"}
++    return {
++        "x": x,
++        "y": y,
++        "distance": result,
++        "message": "This is a very long line that exceeds 120 characters and Black will complain about it so we need to fix this formatting issue",
++    }
+```
+
+</details>
+
+<details><summary>The diff of <code>src/api-service/api/utils.py</code></summary>
+
+```diff
+@@ -4,11 +4,10 @@ Used by the Cheese App API Service
+ """
+ 
+ 
+-def power(base,exponent):
++def power(base, exponent):
+     """Calculate base raised to the power of exponent"""
+     return base**exponent
+ 
+ 
+-
+ def unused_function():
+     pass
+```
+
+</details>
+
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/42642115394d8e19ead4c27bafaf4d90d991b0c9). [The code after it](https://github.com/rahuldave/cheesecracker/tree/42642115394d8e19ead4c27bafaf4d90d991b0c9).
+
+## 5.6 the linter removes the import that nothing uses {#step-05.6}
+
+ruff can remove an import that nothing uses, because the change cannot alter what the code does. The linter still fails
+after the fix, because one error is left. `|| true` makes the command count as a success all the same.
+
+This change came from running `just lint --fix || true`.
+
+ruff removes the line `import os` from `service.py`, and still reports the long line.
+
+```bash
+just lint
+```
+
+ruff finds 1 error, `E501`, and fails. The line of the message is 147 characters long, and no tool can shorten words.
+
+### What changed {#step-05.6-what-changed-182c57}
+
+- <a id="step-05.6-src-api-service-api-service.py-1e1e71"></a>`src/api-service/api/service.py`: the import of `os`, removed. 0 lines added, 1 removed. It comes from `just lint --fix || true`. [The file](https://github.com/rahuldave/cheesecracker/blob/cfd2ebb050dda3ce951f0f28e84b9ae09fbe14d5/src/api-service/api/service.py).
+
+<details><summary>The diff of <code>src/api-service/api/service.py</code></summary>
+
+```diff
+@@ -5,7 +5,6 @@ Cheese App API Service
+ from fastapi import FastAPI
+ from starlette.middleware.cors import CORSMiddleware
+ import math
+-import os
+ from api.utils import power
+ 
+ # Setup FastAPI app
+```
+
+</details>
+
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/cfd2ebb050dda3ce951f0f28e84b9ae09fbe14d5). [The code after it](https://github.com/rahuldave/cheesecracker/tree/cfd2ebb050dda3ce951f0f28e84b9ae09fbe14d5).
+
+## 5.7 a shorter line, by hand {#step-05.7}
+
+A long message is a choice of words, so a person has to shorten it. The new message is short enough for one line.
+
+A patch to [`src/api-service/api/service.py`](#step-05.7-src-api-service-api-service.py-1e1e71).
+
+The value of `"message"` in the `return` of `calculate_euclidean_distance()` is now shorter than 120 characters.
+
+```bash
+just lint
+```
+
+ruff prints `All checks passed!`. Note that ruff never reports `unused_function()`. No rule of `E`, `W` or `F` looks for
+a function that nothing calls.
+
+### What changed {#step-05.7-what-changed-182c57}
+
+- <a id="step-05.7-src-api-service-api-service.py-1e1e71"></a>`src/api-service/api/service.py`: a shorter message. 1 line added, 1 removed. [The file](https://github.com/rahuldave/cheesecracker/blob/693a713a458db01debdd7ebc3b084ed1b0350b08/src/api-service/api/service.py).
+  - look at `"message": "This is a very long line that exceeds 120 characters blah",`
+
+<details><summary>The diff of <code>src/api-service/api/service.py</code></summary>
+
+```diff
+@@ -42,5 +42,5 @@ async def calculate_euclidean_distance(x: float = 1, y: float = 2):
+         "x": x,
+         "y": y,
+         "distance": result,
+-        "message": "This is a very long line that exceeds 120 characters and Black will complain about it so we need to fix this formatting issue",
++        "message": "This is a very long line that exceeds 120 characters blah",
+     }
+```
+
+</details>
+
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/693a713a458db01debdd7ebc3b084ed1b0350b08). [The code after it](https://github.com/rahuldave/cheesecracker/tree/693a713a458db01debdd7ebc3b084ed1b0350b08).

@@ -1,0 +1,143 @@
+---
+title: "9 The dev image"
+---
+
+<!-- Made by the walk skill's render.py from the facts of the walk. Do not edit it by hand: run just walk-update again. -->
+
+**Read the tutorial.** [Build it yourself](../build/step-09.qmd) is the other way to read this part.
+
+The dev image runs the checks in Linux, anywhere Docker runs.
+
+```bash
+just setup
+```
+
+The checks run on this machine. Another person, or a CI service, runs them on another system, with other versions of
+the tools. The dev image holds the whole project with every group of dependencies, and uv, just and git. So the
+checks run in the same Linux, anywhere Docker runs.
+
+[The code before this part](https://github.com/rahuldave/cheesecracker/tree/ada469682ca5e1ba62c65d14b08778392e27ea2c). [The code after it](https://github.com/rahuldave/cheesecracker/tree/7289b1614eae3831f3523d44d49be3b3a77188d9).
+
+## 9.1 the dev image, to work on the project in Linux {#step-09.1}
+
+The dev image is a fourth stage of the `Dockerfile`, `dev`. It takes uv from the stage `uv`, and nothing from the
+run image.
+
+A patch to [`Dockerfile`](#step-09.1-Dockerfile-6651dd).
+
+The stage `dev` installs git and curl, copies uv, and installs just as a package of PyPI. It installs every group of
+`uv.lock` into `/opt/venv`, copies the project into `/work`, and starts a shell. `/opt/venv` is outside `/work`, so a
+`.venv` of this machine in a mounted folder is never used.
+
+```bash
+docker build --target dev --tag cheesecracker-dev .
+```
+
+Near the end, the line `naming to docker.io/library/cheesecracker-dev` names the image.
+
+```bash
+docker image ls cheesecracker-dev
+```
+
+The image is about 353 MB, twice the run image, because it has every tool.
+
+### What changed {#step-09.1-what-changed-182c57}
+
+- <a id="step-09.1-Dockerfile-6651dd"></a>`Dockerfile`: the stage `dev`, and its lines in the comment at the top. 26 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/5135b59c9dcd3520e5622e30c0f6cbe9c2c65c81/Dockerfile).
+  - look at `FROM python:3.12-slim-bookworm AS dev`
+
+<details><summary>The diff of <code>Dockerfile</code></summary>
+
+```diff
+@@ -2,6 +2,8 @@
+ #
+ #   docker build --target run --tag cheesecracker-run .
+ #       the production image: Python, the dependencies of the server and its code. It starts the server
++#   docker build --target dev --tag cheesecracker-dev .
++#       the development image: every dependency group, uv, just and git. It starts a shell
+ #
+ # The environment lives in /opt/venv, never in the project folder.
+ 
+@@ -32,3 +34,27 @@ USER app
+ EXPOSE 9000
+ # Four workers, and no restart on a change: the server as it runs in production
+ CMD ["uvicorn", "api.service:app", "--host", "0.0.0.0", "--port", "9000", "--workers", "4"]
++
++# The dev image: the whole project with every dependency group, and uv, just and git to work in it
++FROM python:3.12-slim-bookworm AS dev
++# hadolint ignore=DL3008
++RUN apt-get update \
++    && apt-get install --yes --no-install-recommends ca-certificates curl git \
++    && rm -rf /var/lib/apt/lists/*
++COPY --from=uv /uv /uvx /usr/local/bin/
++ENV UV_PROJECT_ENVIRONMENT=/opt/venv \
++    UV_PYTHON_DOWNLOADS=never \
++    UV_LINK_MODE=copy \
++    UV_NO_CACHE=1 \
++    UV_TOOL_BIN_DIR=/usr/local/bin \
++    PATH=/opt/venv/bin:$PATH \
++    PYTHONUNBUFFERED=1
++# just, as a wheel from PyPI. git refuses a folder that another user owns, and a mounted folder
++# belongs to the user of the host, so every folder is safe
++RUN uv tool install "rust-just==1.50.0" \
++    && git config --system --add safe.directory '*'
++WORKDIR /work
++COPY pyproject.toml uv.lock .python-version ./
++RUN uv sync --locked
++COPY . .
++CMD ["bash"]
+```
+
+</details>
+
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/5135b59c9dcd3520e5622e30c0f6cbe9c2c65c81). [The code after it](https://github.com/rahuldave/cheesecracker/tree/5135b59c9dcd3520e5622e30c0f6cbe9c2c65c81).
+
+## 9.2 just docker-shell and just docker-test {#step-09.2}
+
+Two recipes run the dev image with this folder mounted at `/work`. An edit here shows in there at once, so the image
+needs no rebuild after a change of the code. `docker-shell` opens a shell in the image. `docker-test` runs the recipe
+that you name in the image, or `just check` if you name none.
+
+A patch to [`justfile`](#step-09.2-justfile-424f0b).
+
+`docker-shell` runs `docker run --rm -it -v "$PWD":/work cheesecracker-dev`. `-v` mounts this folder at `/work`, and
+`-it` gives the shell a terminal. `docker-test` runs `just` in the image, with its words, or with `check`.
+
+```bash
+just docker-test
+```
+
+`just check` runs in Linux. The last line is `21 passed`. The system tests do not run, because `just check` leaves them
+out.
+
+```bash
+just docker-test test tests/unit -q
+```
+
+The eleven unit tests pass in Linux.
+
+### What changed {#step-09.2-what-changed-182c57}
+
+- <a id="step-09.2-justfile-424f0b"></a>`justfile`: the recipes `docker-shell` and `docker-test`. 8 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/7289b1614eae3831f3523d44d49be3b3a77188d9/justfile).
+  - look at `docker run --rm -v "$PWD":/work cheesecracker-dev just "${@:-check}"`
+
+<details><summary>The diff of <code>justfile</code></summary>
+
+```diff
+@@ -86,3 +86,11 @@ docker-stop:
+ # Run the system tests against the server at http://localhost:9000. They fail when no server answers there
+ test-system *args:
+     uv run pytest tests/system "$@"
++
++# A shell in the dev image, with this folder mounted at /work: an edit here shows in there at once
++docker-shell:
++    docker run --rm -it -v "$PWD":/work cheesecracker-dev
++
++# Run a recipe in the dev image, with this folder mounted at /work. Alone, just check: just docker-test test tests/unit
++docker-test *args:
++    docker run --rm -v "$PWD":/work cheesecracker-dev just "${@:-check}"
+```
+
+</details>
+
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/7289b1614eae3831f3523d44d49be3b3a77188d9). [The code after it](https://github.com/rahuldave/cheesecracker/tree/7289b1614eae3831f3523d44d49be3b3a77188d9).

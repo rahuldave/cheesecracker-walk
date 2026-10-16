@@ -1,0 +1,84 @@
+---
+title: "5.4 just fmt and just lint"
+---
+
+<!-- Made by the walk skill's render.py from the facts of the walk. Do not edit it by hand: run just walk-update again. -->
+
+**Build it yourself.** [Read the tutorial](../read/step-05.4.qmd) is the other way to read this part.
+
+This part does not start where the part before it ends, because the walk skips some changes. This command puts the files that this part starts from in place of yours. Run it, and then go on:
+
+```bash
+git restore --source bfb9c783c67c --staged -- :/ && git restore --source 7c1670fd52a0 --staged --worktree -- :/
+```
+
+If you start at this part, make your clone as **Get the project** says, and then run this command. It puts in your clone the files that this part starts from. A file that the project deleted before this part stays, so delete it if `git check` lists it:
+
+```bash
+git rm -rq --cached --ignore-unmatch -- :/ && git restore --source 7c1670fd52a0 --staged --worktree -- :/
+```
+
+```bash
+just setup
+```
+
+The whole tutorial then makes a change in a hurry, adds ruff, and gives it the rules of flake8. The formatter and the
+linter get a recipe each.
+
+[The code before this part](https://github.com/rahuldave/cheesecracker/tree/7c1670fd52a0f62f414f31d415d10f2efb5a8405). [The code after it](https://github.com/rahuldave/cheesecracker/tree/b947593e84b71486902b3ff1c7f9e1458b70e3f7).
+
+## 5.4 just fmt and just lint run ruff {#step-05.4}
+
+Two recipes give the formatter and the linter short names. Each passes on to ruff any words that you type after it.
+
+Apply the patch to [`justfile`](#step-05.4-justfile-424f0b), from the top of the project:
+
+```bash
+curl -fsSL https://github.com/rahuldave/cheesecracker/commit/b947593e84b71486902b3ff1c7f9e1458b70e3f7.diff | git apply --include=justfile
+```
+
+Read the recipes `fmt` and `lint` at the end of the `justfile`.
+
+```bash
+just fmt --check
+```
+
+The recipe fails as `ruff format --check` did, with `2 files would be reformatted`.
+
+Check your files against this move. The command prints nothing when they match, and otherwise shows what differs:
+
+```bash
+git check b947593e84b7
+```
+
+If you are stuck, this command puts the files of this move in place of yours. A file that you made yourself stays:
+
+```bash
+git restore --source 7c1670fd52a0 --staged -- :/ && git restore --source b947593e84b7 --staged --worktree -- :/
+```
+
+### What changed {#step-05.4-what-changed-182c57}
+
+- <a id="step-05.4-justfile-424f0b"></a>`justfile`: the recipes `fmt` and `lint`. 8 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/b947593e84b71486902b3ff1c7f9e1458b70e3f7/justfile).
+  - look at `uv run ruff check "$@"`
+
+<details open><summary>The patch to <code>justfile</code></summary>
+
+```diff
+@@ -44,3 +44,11 @@ stop:
+ # Run the tests, and show which lines of the package api they ran. Extra arguments go to pytest: just cov tests/unit
+ cov *args:
+     uv run pytest --cov=api --cov-report=term-missing "$@"
++
++# Format the code, one way. Extra arguments go to ruff: just fmt --check, just fmt --diff
++fmt *args:
++    uv run ruff format "$@"
++
++# Check the code against the rules in pyproject.toml. Extra arguments go to ruff: just lint --fix
++lint *args:
++    uv run ruff check "$@"
+```
+
+</details>
+
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/b947593e84b71486902b3ff1c7f9e1458b70e3f7). [The code after it](https://github.com/rahuldave/cheesecracker/tree/b947593e84b71486902b3ff1c7f9e1458b70e3f7).
