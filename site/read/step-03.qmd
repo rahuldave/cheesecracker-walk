@@ -8,13 +8,14 @@ title: "3 The distance endpoint, and integration tests"
 
 ```bash
 just setup
+just serve
 ```
 
 The app needs an endpoint that does some work, and tests that call it. The endpoint computes the distance of a point
 from the origin with `power()`. An integration test sends requests to the app and checks the answers, with no server
-and no network.
+and no network. The server of `just serve` runs during this part, so we can ask it for each new answer.
 
-[The code before this part](https://github.com/rahuldave/cheesecracker/tree/8ac2a5642843003cfb2e619e459088265071ac18). [The code after it](https://github.com/rahuldave/cheesecracker/tree/6cc53ab584dd820f401d0dcb51f95877538f996c).
+[The code before this part](https://github.com/rahuldave/cheesecracker/tree/69c3bf65c78cf8e96bf8f9ea1dde29279db1351a). [The code after it](https://github.com/rahuldave/cheesecracker/tree/5862780b44d2f4ec87088c971dec57f23c11139e).
 
 ## 3.1 /euclidean_distance/, the distance of a point from the origin {#step-03.1}
 
@@ -27,17 +28,18 @@ A patch to [`src/api-service/api/service.py`](#step-03.1-src-api-service-api-ser
 `calculate_euclidean_distance()`, answers `/euclidean_distance/`. It takes `x` and `y`, with 1 and 2 as defaults,
 and returns them with the distance.
 
-If `just serve` still runs, it has restarted with the new code. Ask it for the distance of the point (3, 4).
+The server of `just serve` restarts with the new code, because of `--reload`. The restart takes a moment, so the
+command waits a second before it asks for the distance of the point (3, 4).
 
 ```bash
-curl -s "localhost:9000/euclidean_distance/?x=3&y=4"
+sleep 1 && curl -s "localhost:9000/euclidean_distance/?x=3&y=4"
 ```
 
 The server answers `{"x":3.0,"y":4.0,"distance":5.0}`.
 
 ### What changed {#step-03.1-what-changed-182c57}
 
-- <a id="step-03.1-src-api-service-api-service.py-1e1e71"></a>`src/api-service/api/service.py`: the imports of `math` and `power()`, and the endpoint `/euclidean_distance/`. 12 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/a05f377cdf717ac79ca5c39cab76727b755c94c0/src/api-service/api/service.py).
+- <a id="step-03.1-src-api-service-api-service.py-1e1e71"></a>`src/api-service/api/service.py`: the imports of `math` and `power()`, and the endpoint `/euclidean_distance/`. 12 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/e576e7bb9e550b1a572a764b15f8d0bfde229d97/src/api-service/api/service.py).
   - look at `z = power(x, 2) + power(y, 2)`
 
 <details><summary>The diff of <code>src/api-service/api/service.py</code></summary>
@@ -70,7 +72,7 @@ The server answers `{"x":3.0,"y":4.0,"distance":5.0}`.
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/a05f377cdf717ac79ca5c39cab76727b755c94c0). [The code after it](https://github.com/rahuldave/cheesecracker/tree/a05f377cdf717ac79ca5c39cab76727b755c94c0).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/e576e7bb9e550b1a572a764b15f8d0bfde229d97). [The code after it](https://github.com/rahuldave/cheesecracker/tree/e576e7bb9e550b1a572a764b15f8d0bfde229d97).
 
 ## 3.2 httpx2 and pytest-asyncio, for tests of the app {#step-03.2}
 
@@ -89,9 +91,9 @@ pytest still prints `11 passed`. The new packages change no test.
 
 ### What changed {#step-03.2-what-changed-182c57}
 
-- <a id="step-03.2-pyproject.toml-5d07e7"></a>`pyproject.toml`: httpx2 and pytest-asyncio, in the group `test`. 2 lines added. It comes from `uv add --group test httpx2 pytest-asyncio`. [The file](https://github.com/rahuldave/cheesecracker/blob/5d285f5ab4c1c8683197091e1a09c1795dbe21c8/pyproject.toml).
+- <a id="step-03.2-pyproject.toml-5d07e7"></a>`pyproject.toml`: httpx2 and pytest-asyncio, in the group `test`. 2 lines added. It comes from `uv add --group test httpx2 pytest-asyncio`. [The file](https://github.com/rahuldave/cheesecracker/blob/3c75ffb1a089431a2455a69e9bcb3ec0302224f0/pyproject.toml).
   - look at `"httpx2>=2.13.1",`
-- <a id="step-03.2-uv.lock-8356d8"></a>`uv.lock`: the exact versions of httpx2, pytest-asyncio, and the packages that they need. 68 lines added, 1 removed. It comes from `uv add --group test httpx2 pytest-asyncio`. [The file](https://github.com/rahuldave/cheesecracker/blob/5d285f5ab4c1c8683197091e1a09c1795dbe21c8/uv.lock).
+- <a id="step-03.2-uv.lock-8356d8"></a>`uv.lock`: the exact versions of httpx2, pytest-asyncio, and the packages that they need. 68 lines added, 1 removed. It comes from `uv add --group test httpx2 pytest-asyncio`. [The file](https://github.com/rahuldave/cheesecracker/blob/3c75ffb1a089431a2455a69e9bcb3ec0302224f0/uv.lock).
 
 <details><summary>The diff of <code>pyproject.toml</code></summary>
 
@@ -110,7 +112,7 @@ pytest still prints `11 passed`. The new packages change no test.
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/5d285f5ab4c1c8683197091e1a09c1795dbe21c8). [The code after it](https://github.com/rahuldave/cheesecracker/tree/5d285f5ab4c1c8683197091e1a09c1795dbe21c8).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/3c75ffb1a089431a2455a69e9bcb3ec0302224f0). [The code after it](https://github.com/rahuldave/cheesecracker/tree/3c75ffb1a089431a2455a69e9bcb3ec0302224f0).
 
 ## 3.3 integration tests of the API {#step-03.3}
 
@@ -128,11 +130,16 @@ that is not allowed (405). The class `TestCORS` checks the CORS headers.
 just test -q
 ```
 
-pytest prints `21 passed`, the eleven unit tests and the ten integration tests.
+pytest prints `21 passed`, the eleven unit tests and the ten integration tests. The tests needed no server, so we
+stop the one of `just serve`.
+
+```bash
+just stop
+```
 
 ### What changed {#step-03.3-what-changed-182c57}
 
-- <a id="step-03.3-tests-integration-test_api.py-596674"></a>`tests/integration/test_api.py`: ten integration tests, through FastAPI's `TestClient`. New, 89 lines. [The file](https://github.com/rahuldave/cheesecracker/blob/6cc53ab584dd820f401d0dcb51f95877538f996c/tests/integration/test_api.py).
+- <a id="step-03.3-tests-integration-test_api.py-596674"></a>`tests/integration/test_api.py`: ten integration tests, through FastAPI's `TestClient`. New, 89 lines. [The file](https://github.com/rahuldave/cheesecracker/blob/5862780b44d2f4ec87088c971dec57f23c11139e/tests/integration/test_api.py).
   - look at `response = client.get("/euclidean_distance/?x=3&y=4")`
 
 <details><summary>The diff of <code>tests/integration/test_api.py</code></summary>
@@ -232,4 +239,4 @@ pytest prints `21 passed`, the eleven unit tests and the ten integration tests.
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/6cc53ab584dd820f401d0dcb51f95877538f996c). [The code after it](https://github.com/rahuldave/cheesecracker/tree/6cc53ab584dd820f401d0dcb51f95877538f996c).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/5862780b44d2f4ec87088c971dec57f23c11139e). [The code after it](https://github.com/rahuldave/cheesecracker/tree/5862780b44d2f4ec87088c971dec57f23c11139e).

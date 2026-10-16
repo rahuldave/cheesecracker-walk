@@ -9,7 +9,7 @@ title: "7 The server in Docker"
 If you start at this part, make your clone as **Get the project** says, and then run this command. It puts in your clone the files that this part starts from. A file that the project deleted before this part stays, so delete it if `git check` lists it:
 
 ```bash
-git rm -rq --cached --ignore-unmatch -- :/ && git restore --source f6c2619eaa2b --staged --worktree -- :/
+git rm -rq --cached --ignore-unmatch -- :/ && git restore --source 57ec2e24ecd4 --staged --worktree -- :/
 ```
 
 ```bash
@@ -20,7 +20,7 @@ The server runs on this machine, with its `.venv` and this version of macOS or L
 such as a server on Google Cloud. A Docker image holds the server with everything it needs, so it runs the same on
 any machine with Docker. The run image is the image that production runs, our deployment.
 
-[The code before this part](https://github.com/rahuldave/cheesecracker/tree/f6c2619eaa2b721a8bf6e830cced882b22770041). [The code after it](https://github.com/rahuldave/cheesecracker/tree/fef4a5302b176458216aa960487c1662a1e9f795).
+[The code before this part](https://github.com/rahuldave/cheesecracker/tree/57ec2e24ecd4946823edbfad27bc2296f80e3847). [The code after it](https://github.com/rahuldave/cheesecracker/tree/d444e0387d256c62024581e98f59d670cbc93296).
 
 ## 7.1 what docker build leaves out {#step-07.1}
 
@@ -30,7 +30,7 @@ secrets. None of them belongs in an image. `.dockerignore` lists them.
 Apply the patch to [`.dockerignore`](#step-07.1-.dockerignore-05a721), from the top of the project:
 
 ```bash
-curl -fsSL https://github.com/rahuldave/cheesecracker/commit/35ace6018539978332f1810b0c66f58428d6f71a.diff | git apply --include=.dockerignore
+curl -fsSL https://github.com/rahuldave/cheesecracker/commit/2a28a5c704d6d9ed8200aeb8962aa01e5c2ac552.diff | git apply --include=.dockerignore
 ```
 
 Apply the patch, and read its list.
@@ -44,18 +44,18 @@ cat .dockerignore
 Check your files against this move. The command prints nothing when they match, and otherwise shows what differs:
 
 ```bash
-git check 35ace6018539
+git check 2a28a5c704d6
 ```
 
 If you are stuck, this command puts the files of this move in place of yours. A file that you made yourself stays:
 
 ```bash
-git restore --source f6c2619eaa2b --staged -- :/ && git restore --source 35ace6018539 --staged --worktree -- :/
+git restore --source 57ec2e24ecd4 --staged -- :/ && git restore --source 2a28a5c704d6 --staged --worktree -- :/
 ```
 
 ### What changed {#step-07.1-what-changed-182c57}
 
-- <a id="step-07.1-.dockerignore-05a721"></a>`.dockerignore`: what `docker build` never sends to Docker. New, 10 lines. [The file](https://github.com/rahuldave/cheesecracker/blob/35ace6018539978332f1810b0c66f58428d6f71a/.dockerignore).
+- <a id="step-07.1-.dockerignore-05a721"></a>`.dockerignore`: what `docker build` never sends to Docker. New, 10 lines. [The file](https://github.com/rahuldave/cheesecracker/blob/2a28a5c704d6d9ed8200aeb8962aa01e5c2ac552/.dockerignore).
   - look at `.venv/`
 
 <details open><summary>The patch to <code>.dockerignore</code></summary>
@@ -76,7 +76,7 @@ git restore --source f6c2619eaa2b --staged -- :/ && git restore --source 35ace60
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/35ace6018539978332f1810b0c66f58428d6f71a). [The code after it](https://github.com/rahuldave/cheesecracker/tree/35ace6018539978332f1810b0c66f58428d6f71a).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/2a28a5c704d6d9ed8200aeb8962aa01e5c2ac552). [The code after it](https://github.com/rahuldave/cheesecracker/tree/2a28a5c704d6d9ed8200aeb8962aa01e5c2ac552).
 
 ## 7.2 the run image, the server as it runs in production {#step-07.2}
 
@@ -86,7 +86,7 @@ pre-commit. The `Dockerfile` builds the image in stages, and the run image takes
 Apply the patch to [`Dockerfile`](#step-07.2-Dockerfile-6651dd), from the top of the project:
 
 ```bash
-curl -fsSL https://github.com/rahuldave/cheesecracker/commit/b01d2392b453ec410b2083111565c8c14f4ddf11.diff | git apply --include=Dockerfile
+curl -fsSL https://github.com/rahuldave/cheesecracker/commit/0acb4556f724cd94e4a71ab4fff739a974413fc0.diff | git apply --include=Dockerfile
 ```
 
 Apply the patch, and read the three stages, which start at each `FROM`. Read the line `RUN uv sync` in the stage
@@ -96,7 +96,8 @@ Apply the patch, and read the three stages, which start at each `FROM`. Read the
 docker build --target run --tag cheesecracker-run .
 ```
 
-Docker prints each line of the `Dockerfile` as it runs, and the last line names the image `cheesecracker-run`.
+Docker prints each line of the `Dockerfile` as it runs. Near the end, the line `naming to
+docker.io/library/cheesecracker-run` names the image.
 
 ```bash
 docker image ls cheesecracker-run
@@ -107,18 +108,18 @@ The image is about 173 MB, nearly all of it Python and the dependencies of the s
 Check your files against this move. The command prints nothing when they match, and otherwise shows what differs:
 
 ```bash
-git check b01d2392b453
+git check 0acb4556f724
 ```
 
 If you are stuck, this command puts the files of this move in place of yours. A file that you made yourself stays:
 
 ```bash
-git restore --source 35ace6018539 --staged -- :/ && git restore --source b01d2392b453 --staged --worktree -- :/
+git restore --source 2a28a5c704d6 --staged -- :/ && git restore --source 0acb4556f724 --staged --worktree -- :/
 ```
 
 ### What changed {#step-07.2-what-changed-182c57}
 
-- <a id="step-07.2-Dockerfile-6651dd"></a>`Dockerfile`: the stages `uv`, `build` and `run`. New, 34 lines. [The file](https://github.com/rahuldave/cheesecracker/blob/b01d2392b453ec410b2083111565c8c14f4ddf11/Dockerfile).
+- <a id="step-07.2-Dockerfile-6651dd"></a>`Dockerfile`: the stages `uv`, `build` and `run`. New, 34 lines. [The file](https://github.com/rahuldave/cheesecracker/blob/0acb4556f724cd94e4a71ab4fff739a974413fc0/Dockerfile).
   - look at `RUN uv sync --locked --no-default-groups`
 
 <details open><summary>The patch to <code>Dockerfile</code></summary>
@@ -163,20 +164,20 @@ git restore --source 35ace6018539 --staged -- :/ && git restore --source b01d239
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/b01d2392b453ec410b2083111565c8c14f4ddf11). [The code after it](https://github.com/rahuldave/cheesecracker/tree/b01d2392b453ec410b2083111565c8c14f4ddf11).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/0acb4556f724cd94e4a71ab4fff739a974413fc0). [The code after it](https://github.com/rahuldave/cheesecracker/tree/0acb4556f724cd94e4a71ab4fff739a974413fc0).
 
-## 7.3 just docker-build and just docker-serve {#step-07.3}
+## 7.3 just docker-build, just docker-serve and just docker-stop {#step-07.3}
 
-Two recipes give the Docker commands short names. `docker-build` builds an image of the `Dockerfile`, and
-`docker-serve` runs the server in the run image at port 9000.
+Three recipes give the Docker commands short names. `docker-build` builds an image of the `Dockerfile`.
+`docker-serve` starts the server of the run image in the background, at port 9000, and `docker-stop` stops it.
 
 Apply the patch to [`justfile`](#step-07.3-justfile-424f0b), from the top of the project:
 
 ```bash
-curl -fsSL https://github.com/rahuldave/cheesecracker/commit/fef4a5302b176458216aa960487c1662a1e9f795.diff | git apply --include=justfile
+curl -fsSL https://github.com/rahuldave/cheesecracker/commit/d444e0387d256c62024581e98f59d670cbc93296.diff | git apply --include=justfile
 ```
 
-Read the recipes `docker-build` and `docker-serve` at the end of the `justfile`.
+Read the recipes `docker-build`, `docker-serve` and `docker-stop` at the end of the `justfile`.
 
 ```bash
 just docker-build run
@@ -184,44 +185,53 @@ just docker-build run
 
 The build takes a second, because Docker has every layer in its cache.
 
-The server of `just serve` uses port 9000. Stop it with Ctrl-C in its terminal. Then run the server in Docker, in that
-terminal.
-
 ```bash
-# in a second terminal
 just docker-serve
 ```
 
-uvicorn prints `Uvicorn running on http://0.0.0.0:9000`, and starts four workers. In another terminal, ask it for its
+The recipe prints `docker-serve: http://localhost:9000, in the container cheesecracker-run`. Ask the server for its
 health.
 
 ```bash
 curl -s localhost:9000/health
 ```
 
-The server in Docker answers `{"status":"healthy"}`, as the server on this machine did.
+The server in Docker answers `{"status":"healthy"}`, as the server on this machine did. The container runs in the
+background, so you do not see what it prints. Docker keeps that output, and `docker logs` shows it.
+
+```bash
+docker logs cheesecracker-run
+```
+
+uvicorn printed `Uvicorn running on http://0.0.0.0:9000`, and started four server processes, its workers.
+
+```bash
+just docker-stop
+```
+
+Docker prints the name of the container, `cheesecracker-run`, and the server stops.
 
 Check your files against this move. The command prints nothing when they match, and otherwise shows what differs:
 
 ```bash
-git check fef4a5302b17
+git check d444e0387d25
 ```
 
 If you are stuck, this command puts the files of this move in place of yours. A file that you made yourself stays:
 
 ```bash
-git restore --source b01d2392b453 --staged -- :/ && git restore --source fef4a5302b17 --staged --worktree -- :/
+git restore --source 0acb4556f724 --staged -- :/ && git restore --source d444e0387d25 --staged --worktree -- :/
 ```
 
 ### What changed {#step-07.3-what-changed-182c57}
 
-- <a id="step-07.3-justfile-424f0b"></a>`justfile`: the recipes `docker-build` and `docker-serve`. 8 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/fef4a5302b176458216aa960487c1662a1e9f795/justfile).
-  - look at `docker run --rm --name cheesecracker-run -p 9000:9000 cheesecracker-run`
+- <a id="step-07.3-justfile-424f0b"></a>`justfile`: the recipes `docker-build`, `docker-serve` and `docker-stop`. 20 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/d444e0387d256c62024581e98f59d670cbc93296/justfile).
+  - look at `docker run --rm --detach --name cheesecracker-run --publish 9000:9000 cheesecracker-run > /dev/null || exit 1`
 
 <details open><summary>The patch to <code>justfile</code></summary>
 
 ```diff
-@@ -40,3 +40,11 @@ check:
+@@ -62,3 +62,23 @@ check:
      just fmt --check
      just lint
      just test -q
@@ -230,11 +240,23 @@ git restore --source b01d2392b453 --staged -- :/ && git restore --source fef4a53
 +docker-build kind:
 +    docker build --target "$1" --tag "cheesecracker-$1" .
 +
-+# Run the server in the run image, at http://localhost:9000, as it runs in production. Ctrl-C stops it
++# Start the server in the run image, in the background, at http://localhost:9000, as it runs in production. just docker-stop stops it
 +docker-serve:
-+    docker run --rm --name cheesecracker-run -p 9000:9000 cheesecracker-run
++    #!/usr/bin/env sh
++    if curl -sf localhost:9000/health > /dev/null; then echo "docker-serve: a server already answers at http://localhost:9000" >&2; exit 1; fi
++    docker run --rm --detach --name cheesecracker-run --publish 9000:9000 cheesecracker-run > /dev/null || exit 1
++    for i in $(seq 1 30); do
++        if curl -sf localhost:9000/health > /dev/null; then echo "docker-serve: http://localhost:9000, in the container cheesecracker-run"; exit 0; fi
++        sleep 1
++    done
++    echo "docker-serve: no answer after 30 seconds; read docker logs cheesecracker-run" >&2
++    exit 1
++
++# Stop the server of just docker-serve, and remove its container
++docker-stop:
++    docker stop cheesecracker-run
 ```
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/fef4a5302b176458216aa960487c1662a1e9f795). [The code after it](https://github.com/rahuldave/cheesecracker/tree/fef4a5302b176458216aa960487c1662a1e9f795).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/d444e0387d256c62024581e98f59d670cbc93296). [The code after it](https://github.com/rahuldave/cheesecracker/tree/d444e0387d256c62024581e98f59d670cbc93296).

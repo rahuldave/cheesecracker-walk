@@ -36,7 +36,7 @@ website:
                 href: read/step-02.qmd#step-02.1
               - text: "2.2 the API server, with / and /health"
                 href: read/step-02.qmd#step-02.2
-              - text: "2.3 just serve runs the server on this machine"
+              - text: "2.3 just serve and just stop, the server on this machine"
                 href: read/step-02.qmd#step-02.3
           - section: "3 The distance endpoint, and integration tests"
             href: read/step-03.qmd
@@ -89,15 +89,19 @@ website:
                 href: read/step-07.qmd#step-07.1
               - text: "7.2 the run image, the server as it runs in production"
                 href: read/step-07.qmd#step-07.2
-              - text: "7.3 just docker-build and just docker-serve"
+              - text: "7.3 just docker-build, just docker-serve and just docker-stop"
                 href: read/step-07.qmd#step-07.3
           - section: "8 System tests"
             href: read/step-08.qmd
             contents:
               - text: "8.1 requests, for tests that send real HTTP requests"
                 href: read/step-08.qmd#step-08.1
-              - text: "8.2 system tests, against the server in Docker"
+              - text: "8.2 the tests that run by default: unit and integration"
                 href: read/step-08.qmd#step-08.2
+              - text: "8.3 system tests, against the server in Docker"
+                href: read/step-08.qmd#step-08.3
+              - text: "8.4 just test-system runs the system tests"
+                href: read/step-08.qmd#step-08.4
           - section: "9 The dev image"
             href: read/step-09.qmd
             contents:
@@ -131,7 +135,7 @@ website:
                 href: build/step-02.qmd#step-02.1
               - text: "2.2 the API server, with / and /health"
                 href: build/step-02.qmd#step-02.2
-              - text: "2.3 just serve runs the server on this machine"
+              - text: "2.3 just serve and just stop, the server on this machine"
                 href: build/step-02.qmd#step-02.3
           - section: "3 The distance endpoint, and integration tests"
             href: build/step-03.qmd
@@ -184,15 +188,19 @@ website:
                 href: build/step-07.qmd#step-07.1
               - text: "7.2 the run image, the server as it runs in production"
                 href: build/step-07.qmd#step-07.2
-              - text: "7.3 just docker-build and just docker-serve"
+              - text: "7.3 just docker-build, just docker-serve and just docker-stop"
                 href: build/step-07.qmd#step-07.3
           - section: "8 System tests"
             href: build/step-08.qmd
             contents:
               - text: "8.1 requests, for tests that send real HTTP requests"
                 href: build/step-08.qmd#step-08.1
-              - text: "8.2 system tests, against the server in Docker"
+              - text: "8.2 the tests that run by default: unit and integration"
                 href: build/step-08.qmd#step-08.2
+              - text: "8.3 system tests, against the server in Docker"
+                href: build/step-08.qmd#step-08.3
+              - text: "8.4 just test-system runs the system tests"
+                href: build/step-08.qmd#step-08.4
           - section: "9 The dev image"
             href: build/step-09.qmd
             contents:

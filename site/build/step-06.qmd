@@ -9,7 +9,7 @@ title: "6 Checks before every commit"
 If you start at this part, make your clone as **Get the project** says, and then run this command. It puts in your clone the files that this part starts from. A file that the project deleted before this part stays, so delete it if `git check` lists it:
 
 ```bash
-git rm -rq --cached --ignore-unmatch -- :/ && git restore --source 56a13525d9d3 --staged --worktree -- :/
+git rm -rq --cached --ignore-unmatch -- :/ && git restore --source e89e0cfa9912 --staged --worktree -- :/
 ```
 
 ```bash
@@ -19,7 +19,7 @@ just setup
 `just check` works only when someone runs it. pre-commit runs checks before every `git commit`, and stops the commit
 when a check fails. The checks are in `.pre-commit-config.yaml`.
 
-[The code before this part](https://github.com/rahuldave/cheesecracker/tree/56a13525d9d3380d8190d2b029073d641e8ef3db). [The code after it](https://github.com/rahuldave/cheesecracker/tree/f6c2619eaa2b721a8bf6e830cced882b22770041).
+[The code before this part](https://github.com/rahuldave/cheesecracker/tree/e89e0cfa991257757c887f687087a9c77c093e20). [The code after it](https://github.com/rahuldave/cheesecracker/tree/57ec2e24ecd4946823edbfad27bc2296f80e3847).
 
 ## 6.1 pre-commit, in the group lint {#step-06.1}
 
@@ -38,20 +38,20 @@ uv prints the version of pre-commit.
 Check your files against this move. The command prints nothing when they match, and otherwise shows what differs:
 
 ```bash
-git check ee12a45b7d6b
+git check f3ad230bf911
 ```
 
 If you are stuck, this command puts the files of this move in place of yours. A file that you made yourself stays:
 
 ```bash
-git restore --source 56a13525d9d3 --staged -- :/ && git restore --source ee12a45b7d6b --staged --worktree -- :/
+git restore --source e89e0cfa9912 --staged -- :/ && git restore --source f3ad230bf911 --staged --worktree -- :/
 ```
 
 ### What changed {#step-06.1-what-changed-182c57}
 
-- <a id="step-06.1-pyproject.toml-5d07e7"></a>`pyproject.toml`: pre-commit, in the group `lint`. 1 line added. It comes from `uv add --group lint pre-commit`. [The file](https://github.com/rahuldave/cheesecracker/blob/ee12a45b7d6b32be63e845737f71631fbcedf4aa/pyproject.toml).
+- <a id="step-06.1-pyproject.toml-5d07e7"></a>`pyproject.toml`: pre-commit, in the group `lint`. 1 line added. It comes from `uv add --group lint pre-commit`. [The file](https://github.com/rahuldave/cheesecracker/blob/f3ad230bf911e0c446eb6752ec2718b910d9e851/pyproject.toml).
   - look at `"pre-commit>=4.7.0",`
-- <a id="step-06.1-uv.lock-8356d8"></a>`uv.lock`: the exact versions of pre-commit, and of the packages that it needs. 149 lines added, 1 removed. It comes from `uv add --group lint pre-commit`. [The file](https://github.com/rahuldave/cheesecracker/blob/ee12a45b7d6b32be63e845737f71631fbcedf4aa/uv.lock).
+- <a id="step-06.1-uv.lock-8356d8"></a>`uv.lock`: the exact versions of pre-commit, and of the packages that it needs. 149 lines added, 1 removed. It comes from `uv add --group lint pre-commit`. [The file](https://github.com/rahuldave/cheesecracker/blob/f3ad230bf911e0c446eb6752ec2718b910d9e851/uv.lock).
 
 <details><summary>The diff that <code>uv add --group lint pre-commit</code> makes in <code>pyproject.toml</code></summary>
 
@@ -68,7 +68,7 @@ git restore --source 56a13525d9d3 --staged -- :/ && git restore --source ee12a45
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/ee12a45b7d6b32be63e845737f71631fbcedf4aa). [The code after it](https://github.com/rahuldave/cheesecracker/tree/ee12a45b7d6b32be63e845737f71631fbcedf4aa).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/f3ad230bf911e0c446eb6752ec2718b910d9e851). [The code after it](https://github.com/rahuldave/cheesecracker/tree/f3ad230bf911e0c446eb6752ec2718b910d9e851).
 
 ## 6.2 the checks that run before every commit {#step-06.2}
 
@@ -79,7 +79,7 @@ pre-commit-hooks, checks any file. The second, ruff-pre-commit, runs ruff's lint
 Apply the patch to [`.pre-commit-config.yaml`](#step-06.2-.pre-commit-config.yaml-e7d14d), from the top of the project:
 
 ```bash
-curl -fsSL https://github.com/rahuldave/cheesecracker/commit/20a744c7e7faa41aac234d64bee6c2eea717e1da.diff | git apply --include=.pre-commit-config.yaml
+curl -fsSL https://github.com/rahuldave/cheesecracker/commit/009d77653eadfde09e438656cde77b5eac489115.diff | git apply --include=.pre-commit-config.yaml
 ```
 
 Apply the patch, and read the two entries under `repos`. Each has an address, a version after `rev`, and its checks
@@ -95,24 +95,26 @@ uv run pre-commit run --all-files
 pre-commit prints a line for each check, `Passed` or `Skipped`.
 
 `.pre-commit-config.yaml` is new, and git does not track it yet. So `check yaml` says `(no files to check)Skipped`.
-`ruff check` and `ruff format` check the Python files, and say `Passed`. `check json` says `Skipped`, because the
-project has no JSON file.
+`check json` says `Skipped`, because the project has no JSON file.
+
+`ruff check` checks only the Python files that git tracks. When git knows them, it says `Passed`. If you made the Python files by hand and never ran `git add`
+on them, git does not know them, so `ruff check` says `Skipped` too. `ruff format` says `Passed` in both cases.
 
 Check your files against this move. The command prints nothing when they match, and otherwise shows what differs:
 
 ```bash
-git check 20a744c7e7fa
+git check 009d77653ead
 ```
 
 If you are stuck, this command puts the files of this move in place of yours. A file that you made yourself stays:
 
 ```bash
-git restore --source ee12a45b7d6b --staged -- :/ && git restore --source 20a744c7e7fa --staged --worktree -- :/
+git restore --source f3ad230bf911 --staged -- :/ && git restore --source 009d77653ead --staged --worktree -- :/
 ```
 
 ### What changed {#step-06.2-what-changed-182c57}
 
-- <a id="step-06.2-.pre-commit-config.yaml-e7d14d"></a>`.pre-commit-config.yaml`: the checks that run before every commit. New, 22 lines. [The file](https://github.com/rahuldave/cheesecracker/blob/20a744c7e7faa41aac234d64bee6c2eea717e1da/.pre-commit-config.yaml).
+- <a id="step-06.2-.pre-commit-config.yaml-e7d14d"></a>`.pre-commit-config.yaml`: the checks that run before every commit. New, 22 lines. [The file](https://github.com/rahuldave/cheesecracker/blob/009d77653eadfde09e438656cde77b5eac489115/.pre-commit-config.yaml).
   - look at `- id: ruff-check`
 
 <details open><summary>The patch to <code>.pre-commit-config.yaml</code></summary>
@@ -145,7 +147,7 @@ git restore --source ee12a45b7d6b --staged -- :/ && git restore --source 20a744c
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/20a744c7e7faa41aac234d64bee6c2eea717e1da). [The code after it](https://github.com/rahuldave/cheesecracker/tree/20a744c7e7faa41aac234d64bee6c2eea717e1da).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/009d77653eadfde09e438656cde77b5eac489115). [The code after it](https://github.com/rahuldave/cheesecracker/tree/009d77653eadfde09e438656cde77b5eac489115).
 
 ## 6.3 just hook installs the checks as a git hook {#step-06.3}
 
@@ -155,7 +157,7 @@ so the hook has a recipe of its own, `hook`. You run it once in each clone.
 Apply the patch to [`justfile`](#step-06.3-justfile-424f0b), from the top of the project:
 
 ```bash
-curl -fsSL https://github.com/rahuldave/cheesecracker/commit/f6c2619eaa2b721a8bf6e830cced882b22770041.diff | git apply --include=justfile
+curl -fsSL https://github.com/rahuldave/cheesecracker/commit/57ec2e24ecd4946823edbfad27bc2296f80e3847.diff | git apply --include=justfile
 ```
 
 Read the recipe `hook`, after the recipe `setup`.
@@ -169,18 +171,18 @@ pre-commit prints `pre-commit installed at .git/hooks/pre-commit`. From now on, 
 Check your files against this move. The command prints nothing when they match, and otherwise shows what differs:
 
 ```bash
-git check f6c2619eaa2b
+git check 57ec2e24ecd4
 ```
 
 If you are stuck, this command puts the files of this move in place of yours. A file that you made yourself stays:
 
 ```bash
-git restore --source 20a744c7e7fa --staged -- :/ && git restore --source f6c2619eaa2b --staged --worktree -- :/
+git restore --source 009d77653ead --staged -- :/ && git restore --source 57ec2e24ecd4 --staged --worktree -- :/
 ```
 
 ### What changed {#step-06.3-what-changed-182c57}
 
-- <a id="step-06.3-justfile-424f0b"></a>`justfile`: the recipe `hook`. 4 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/f6c2619eaa2b721a8bf6e830cced882b22770041/justfile).
+- <a id="step-06.3-justfile-424f0b"></a>`justfile`: the recipe `hook`. 4 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/57ec2e24ecd4946823edbfad27bc2296f80e3847/justfile).
   - look at `uv run pre-commit install`
 
 <details open><summary>The patch to <code>justfile</code></summary>
@@ -201,4 +203,4 @@ git restore --source 20a744c7e7fa --staged -- :/ && git restore --source f6c2619
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/f6c2619eaa2b721a8bf6e830cced882b22770041). [The code after it](https://github.com/rahuldave/cheesecracker/tree/f6c2619eaa2b721a8bf6e830cced882b22770041).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/57ec2e24ecd4946823edbfad27bc2296f80e3847). [The code after it](https://github.com/rahuldave/cheesecracker/tree/57ec2e24ecd4946823edbfad27bc2296f80e3847).

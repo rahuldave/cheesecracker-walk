@@ -14,7 +14,7 @@ Code that works can still be hard to read, and a reader can miss a bug in it. A 
 layout. A linter checks the code against rules, such as "no import that nothing uses". ruff is both, and it has the
 rules of flake8.
 
-[The code before this part](https://github.com/rahuldave/cheesecracker/tree/c6cded7960c6db2cd396d279a68856e4b097bd3c). [The code after it](https://github.com/rahuldave/cheesecracker/tree/56a13525d9d3380d8190d2b029073d641e8ef3db).
+[The code before this part](https://github.com/rahuldave/cheesecracker/tree/bfb9c783c67c31254ce8136784738c0f2fc17fb5). [The code after it](https://github.com/rahuldave/cheesecracker/tree/e89e0cfa991257757c887f687087a9c77c093e20).
 
 ## 5.1 a change in a hurry: the code still works, and reads worse {#step-05.1}
 
@@ -37,9 +37,9 @@ pytest still prints `21 passed`. The tests check what the code does, not how it 
 
 ### What changed {#step-05.1-what-changed-182c57}
 
-- <a id="step-05.1-src-api-service-api-service.py-1e1e71"></a>`src/api-service/api/service.py`: an import that nothing uses, missing spaces and blank lines, and a long line. 3 lines added, 5 removed. [The file](https://github.com/rahuldave/cheesecracker/blob/3d685aa15a0d5ecf909c39887d082fccc11087d1/src/api-service/api/service.py).
+- <a id="step-05.1-src-api-service-api-service.py-1e1e71"></a>`src/api-service/api/service.py`: an import that nothing uses, missing spaces and blank lines, and a long line. 3 lines added, 5 removed. [The file](https://github.com/rahuldave/cheesecracker/blob/f77650600c1176caa9aaee86e6cddfccc43fc69c/src/api-service/api/service.py).
   - look at `z=power(x,2)+power(y,2)`
-- <a id="step-05.1-src-api-service-api-utils.py-18f1f8"></a>`src/api-service/api/utils.py`: a missing space, extra blank lines, and a function that nothing calls. 6 lines added, 1 removed. [The file](https://github.com/rahuldave/cheesecracker/blob/3d685aa15a0d5ecf909c39887d082fccc11087d1/src/api-service/api/utils.py).
+- <a id="step-05.1-src-api-service-api-utils.py-18f1f8"></a>`src/api-service/api/utils.py`: a missing space, extra blank lines, and a function that nothing calls. 6 lines added, 1 removed. [The file](https://github.com/rahuldave/cheesecracker/blob/f77650600c1176caa9aaee86e6cddfccc43fc69c/src/api-service/api/utils.py).
   - look at `def unused_function():`
 
 <details><summary>The diff of <code>src/api-service/api/service.py</code></summary>
@@ -100,7 +100,7 @@ pytest still prints `21 passed`. The tests check what the code does, not how it 
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/3d685aa15a0d5ecf909c39887d082fccc11087d1). [The code after it](https://github.com/rahuldave/cheesecracker/tree/3d685aa15a0d5ecf909c39887d082fccc11087d1).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/f77650600c1176caa9aaee86e6cddfccc43fc69c). [The code after it](https://github.com/rahuldave/cheesecracker/tree/f77650600c1176caa9aaee86e6cddfccc43fc69c).
 
 ## 5.2 ruff, the formatter and the linter, in the group lint {#step-05.2}
 
@@ -116,9 +116,9 @@ uv prints the version of ruff, `ruff 0.17.1` on the day of the class.
 
 ### What changed {#step-05.2-what-changed-182c57}
 
-- <a id="step-05.2-pyproject.toml-5d07e7"></a>`pyproject.toml`: ruff, in the group `lint`. 3 lines added. It comes from `uv add --group lint ruff`. [The file](https://github.com/rahuldave/cheesecracker/blob/b62c42863146fff1835f5b087f935a730d550f89/pyproject.toml).
+- <a id="step-05.2-pyproject.toml-5d07e7"></a>`pyproject.toml`: ruff, in the group `lint`. 3 lines added. It comes from `uv add --group lint ruff`. [The file](https://github.com/rahuldave/cheesecracker/blob/9662828462ba2a21ca04a79c412e83ac070767f6/pyproject.toml).
   - look at `"ruff>=0.17.1",`
-- <a id="step-05.2-uv.lock-8356d8"></a>`uv.lock`: the exact version of ruff. 29 lines added. It comes from `uv add --group lint ruff`. [The file](https://github.com/rahuldave/cheesecracker/blob/b62c42863146fff1835f5b087f935a730d550f89/uv.lock).
+- <a id="step-05.2-uv.lock-8356d8"></a>`uv.lock`: the exact version of ruff. 29 lines added. It comes from `uv add --group lint ruff`. [The file](https://github.com/rahuldave/cheesecracker/blob/9662828462ba2a21ca04a79c412e83ac070767f6/uv.lock).
 
 <details><summary>The diff of <code>pyproject.toml</code></summary>
 
@@ -137,7 +137,7 @@ uv prints the version of ruff, `ruff 0.17.1` on the day of the class.
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/b62c42863146fff1835f5b087f935a730d550f89). [The code after it](https://github.com/rahuldave/cheesecracker/tree/b62c42863146fff1835f5b087f935a730d550f89).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/9662828462ba2a21ca04a79c412e83ac070767f6). [The code after it](https://github.com/rahuldave/cheesecracker/tree/9662828462ba2a21ca04a79c412e83ac070767f6).
 
 ## 5.3 ruff's settings: lines of 120 characters, and flake8's rules {#step-05.3}
 
@@ -164,7 +164,7 @@ ruff says `2 files would be reformatted`, and fails. `--check` changes no file.
 
 ### What changed {#step-05.3-what-changed-182c57}
 
-- <a id="step-05.3-pyproject.toml-5d07e7"></a>`pyproject.toml`: the settings of ruff, the length of a line and the rules of the linter. 8 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/b24ec768b50d48684fef4992b332c9d70f8af45b/pyproject.toml).
+- <a id="step-05.3-pyproject.toml-5d07e7"></a>`pyproject.toml`: the settings of ruff, the length of a line and the rules of the linter. 8 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/7c1670fd52a0f62f414f31d415d10f2efb5a8405/pyproject.toml).
   - look at `select = ["E", "W", "F"]`
 
 <details><summary>The diff of <code>pyproject.toml</code></summary>
@@ -186,7 +186,7 @@ ruff says `2 files would be reformatted`, and fails. `--check` changes no file.
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/b24ec768b50d48684fef4992b332c9d70f8af45b). [The code after it](https://github.com/rahuldave/cheesecracker/tree/b24ec768b50d48684fef4992b332c9d70f8af45b).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/7c1670fd52a0f62f414f31d415d10f2efb5a8405). [The code after it](https://github.com/rahuldave/cheesecracker/tree/7c1670fd52a0f62f414f31d415d10f2efb5a8405).
 
 ## 5.4 just fmt and just lint run ruff {#step-05.4}
 
@@ -205,13 +205,13 @@ The recipe fails as `ruff format --check` did, with `2 files would be reformatte
 
 ### What changed {#step-05.4-what-changed-182c57}
 
-- <a id="step-05.4-justfile-424f0b"></a>`justfile`: the recipes `fmt` and `lint`. 8 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/b7faca476ae42677c92f582c0a7bf1a6d48a9adb/justfile).
+- <a id="step-05.4-justfile-424f0b"></a>`justfile`: the recipes `fmt` and `lint`. 8 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/b947593e84b71486902b3ff1c7f9e1458b70e3f7/justfile).
   - look at `uv run ruff check "$@"`
 
 <details><summary>The diff of <code>justfile</code></summary>
 
 ```diff
-@@ -22,3 +22,11 @@ serve:
+@@ -44,3 +44,11 @@ stop:
  # Run the tests, and show which lines of the package api they ran. Extra arguments go to pytest: just cov tests/unit
  cov *args:
      uv run pytest --cov=api --cov-report=term-missing "$@"
@@ -227,7 +227,7 @@ The recipe fails as `ruff format --check` did, with `2 files would be reformatte
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/b7faca476ae42677c92f582c0a7bf1a6d48a9adb). [The code after it](https://github.com/rahuldave/cheesecracker/tree/b7faca476ae42677c92f582c0a7bf1a6d48a9adb).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/b947593e84b71486902b3ff1c7f9e1458b70e3f7). [The code after it](https://github.com/rahuldave/cheesecracker/tree/b947593e84b71486902b3ff1c7f9e1458b70e3f7).
 
 ## 5.5 the formatter fixes the spaces, the blank lines and the line breaks {#step-05.5}
 
@@ -246,9 +246,9 @@ ruff prints `6 files already formatted`.
 
 ### What changed {#step-05.5-what-changed-182c57}
 
-- <a id="step-05.5-src-api-service-api-service.py-1e1e71"></a>`src/api-service/api/service.py`: the spaces, the blank lines, and the long `return` on six lines. 10 lines added, 2 removed. It comes from `just fmt`. [The file](https://github.com/rahuldave/cheesecracker/blob/0b947e39deb164c74a75486ca2f17a65bb933305/src/api-service/api/service.py).
+- <a id="step-05.5-src-api-service-api-service.py-1e1e71"></a>`src/api-service/api/service.py`: the spaces, the blank lines, and the long `return` on six lines. 10 lines added, 2 removed. It comes from `just fmt`. [The file](https://github.com/rahuldave/cheesecracker/blob/42642115394d8e19ead4c27bafaf4d90d991b0c9/src/api-service/api/service.py).
   - look at `z = power(x, 2) + power(y, 2)`
-- <a id="step-05.5-src-api-service-api-utils.py-18f1f8"></a>`src/api-service/api/utils.py`: the space after the comma, and two blank lines before `unused_function()`. 1 line added, 2 removed. It comes from `just fmt`. [The file](https://github.com/rahuldave/cheesecracker/blob/0b947e39deb164c74a75486ca2f17a65bb933305/src/api-service/api/utils.py).
+- <a id="step-05.5-src-api-service-api-utils.py-18f1f8"></a>`src/api-service/api/utils.py`: the space after the comma, and two blank lines before `unused_function()`. 1 line added, 2 removed. It comes from `just fmt`. [The file](https://github.com/rahuldave/cheesecracker/blob/42642115394d8e19ead4c27bafaf4d90d991b0c9/src/api-service/api/utils.py).
   - look at `def power(base, exponent):`
 
 <details><summary>The diff of <code>src/api-service/api/service.py</code></summary>
@@ -306,7 +306,7 @@ ruff prints `6 files already formatted`.
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/0b947e39deb164c74a75486ca2f17a65bb933305). [The code after it](https://github.com/rahuldave/cheesecracker/tree/0b947e39deb164c74a75486ca2f17a65bb933305).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/42642115394d8e19ead4c27bafaf4d90d991b0c9). [The code after it](https://github.com/rahuldave/cheesecracker/tree/42642115394d8e19ead4c27bafaf4d90d991b0c9).
 
 ## 5.6 the linter removes the import that nothing uses {#step-05.6}
 
@@ -325,7 +325,7 @@ ruff finds 1 error, `E501`, and fails. The line of the message is 147 characters
 
 ### What changed {#step-05.6-what-changed-182c57}
 
-- <a id="step-05.6-src-api-service-api-service.py-1e1e71"></a>`src/api-service/api/service.py`: the import of `os`, removed. 0 lines added, 1 removed. It comes from `just lint --fix || true`. [The file](https://github.com/rahuldave/cheesecracker/blob/e80057d7bc3d2fafb164827f68741ff9fe989911/src/api-service/api/service.py).
+- <a id="step-05.6-src-api-service-api-service.py-1e1e71"></a>`src/api-service/api/service.py`: the import of `os`, removed. 0 lines added, 1 removed. It comes from `just lint --fix || true`. [The file](https://github.com/rahuldave/cheesecracker/blob/cfd2ebb050dda3ce951f0f28e84b9ae09fbe14d5/src/api-service/api/service.py).
 
 <details><summary>The diff of <code>src/api-service/api/service.py</code></summary>
 
@@ -342,7 +342,7 @@ ruff finds 1 error, `E501`, and fails. The line of the message is 147 characters
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/e80057d7bc3d2fafb164827f68741ff9fe989911). [The code after it](https://github.com/rahuldave/cheesecracker/tree/e80057d7bc3d2fafb164827f68741ff9fe989911).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/cfd2ebb050dda3ce951f0f28e84b9ae09fbe14d5). [The code after it](https://github.com/rahuldave/cheesecracker/tree/cfd2ebb050dda3ce951f0f28e84b9ae09fbe14d5).
 
 ## 5.7 a shorter line, by hand {#step-05.7}
 
@@ -361,7 +361,7 @@ a function that nothing calls.
 
 ### What changed {#step-05.7-what-changed-182c57}
 
-- <a id="step-05.7-src-api-service-api-service.py-1e1e71"></a>`src/api-service/api/service.py`: a shorter message. 1 line added, 1 removed. [The file](https://github.com/rahuldave/cheesecracker/blob/b8f5794bb9f399c8e37c853fd985669d1706bf8f/src/api-service/api/service.py).
+- <a id="step-05.7-src-api-service-api-service.py-1e1e71"></a>`src/api-service/api/service.py`: a shorter message. 1 line added, 1 removed. [The file](https://github.com/rahuldave/cheesecracker/blob/693a713a458db01debdd7ebc3b084ed1b0350b08/src/api-service/api/service.py).
   - look at `"message": "This is a very long line that exceeds 120 characters blah",`
 
 <details><summary>The diff of <code>src/api-service/api/service.py</code></summary>
@@ -378,7 +378,7 @@ a function that nothing calls.
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/b8f5794bb9f399c8e37c853fd985669d1706bf8f). [The code after it](https://github.com/rahuldave/cheesecracker/tree/b8f5794bb9f399c8e37c853fd985669d1706bf8f).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/693a713a458db01debdd7ebc3b084ed1b0350b08). [The code after it](https://github.com/rahuldave/cheesecracker/tree/693a713a458db01debdd7ebc3b084ed1b0350b08).
 
 ## 5.8 just check runs every check {#step-05.8}
 
@@ -398,13 +398,13 @@ just prints each command, and the last line is `21 passed`.
 
 ### What changed {#step-05.8-what-changed-182c57}
 
-- <a id="step-05.8-justfile-424f0b"></a>`justfile`: the recipe `check`. 6 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/56a13525d9d3380d8190d2b029073d641e8ef3db/justfile).
+- <a id="step-05.8-justfile-424f0b"></a>`justfile`: the recipe `check`. 6 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/e89e0cfa991257757c887f687087a9c77c093e20/justfile).
   - look at `just fmt --check`
 
 <details><summary>The diff of <code>justfile</code></summary>
 
 ```diff
-@@ -30,3 +30,9 @@ fmt *args:
+@@ -52,3 +52,9 @@ fmt *args:
  # Check the code against the rules in pyproject.toml. Extra arguments go to ruff: just lint --fix
  lint *args:
      uv run ruff check "$@"
@@ -418,4 +418,4 @@ just prints each command, and the last line is `21 passed`.
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/56a13525d9d3380d8190d2b029073d641e8ef3db). [The code after it](https://github.com/rahuldave/cheesecracker/tree/56a13525d9d3380d8190d2b029073d641e8ef3db).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/e89e0cfa991257757c887f687087a9c77c093e20). [The code after it](https://github.com/rahuldave/cheesecracker/tree/e89e0cfa991257757c887f687087a9c77c093e20).

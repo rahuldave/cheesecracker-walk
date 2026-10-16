@@ -31,7 +31,8 @@ FastAPI turns Python functions into answers to HTTP requests. uvicorn runs the a
 | `/` | a welcome |
 | `/health` | `{"status": "healthy"}` |
 
-`just serve` runs it at `http://localhost:9000`, and restarts it on each change.
+`just serve` starts it in the background at `http://localhost:9000`, and it restarts on each change. `just stop` stops
+it.
 
 ---
 
@@ -100,9 +101,14 @@ The run image has no uv, no tests and no ruff. It is 173 MB.
 
 Real HTTP requests go to the server in the run image, the server as it runs for the users of the app.
 
-- `just docker-serve` runs the server at port 9000.
-- `uv run pytest tests/system` sends the requests.
-- With no server, four of the five tests skip. A skip is not a pass.
+| Recipe | Does | Needs a server |
+|---|---|---|
+| `just test`, `just check` | the unit and integration tests | no |
+| `just docker-serve` | starts the run image at port 9000 | |
+| `just test-system` | sends the requests | yes, and fails without one |
+| `just docker-stop` | stops the server | |
+
+A server is a fixture of the commands that need it. Start it, use it, and stop it.
 
 ---
 
@@ -123,5 +129,5 @@ Real HTTP requests go to the server in the run image, the server as it runs for 
 
 1. `just check` on this machine
 2. `just docker-test` in the dev image
-3. `just docker-build run` builds the run image again, with the new code, and `just docker-serve` runs it
-4. `uv run pytest tests/system` against the new run image
+3. `just docker-build run` builds the run image again, with the new code, and `just docker-serve` starts it
+4. `just test-system` against the new run image, then `just docker-stop`

@@ -14,7 +14,7 @@ The checks run on this machine. Another person, or a CI service, runs them on an
 the tools. The dev image holds the whole project with every group of dependencies, and uv, just and git. So the
 checks run in the same Linux, anywhere Docker runs.
 
-[The code before this part](https://github.com/rahuldave/cheesecracker/tree/d0082e00de28a4ffad591fa0035f7d83d15f6a04). [The code after it](https://github.com/rahuldave/cheesecracker/tree/365a077828f17f964bb47d90ed35a940c101098c).
+[The code before this part](https://github.com/rahuldave/cheesecracker/tree/ada469682ca5e1ba62c65d14b08778392e27ea2c). [The code after it](https://github.com/rahuldave/cheesecracker/tree/7289b1614eae3831f3523d44d49be3b3a77188d9).
 
 ## 9.1 the dev image, to work on the project in Linux {#step-09.1}
 
@@ -31,7 +31,7 @@ The stage `dev` installs git and curl, copies uv, and installs just as a package
 docker build --target dev --tag cheesecracker-dev .
 ```
 
-The last line names the image `cheesecracker-dev`.
+Near the end, the line `naming to docker.io/library/cheesecracker-dev` names the image.
 
 ```bash
 docker image ls cheesecracker-dev
@@ -41,7 +41,7 @@ The image is about 353 MB, twice the run image, because it has every tool.
 
 ### What changed {#step-09.1-what-changed-182c57}
 
-- <a id="step-09.1-Dockerfile-6651dd"></a>`Dockerfile`: the stage `dev`, and its lines in the comment at the top. 26 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/4df0b7818255a35a80bfd7e3bac8d375a9160446/Dockerfile).
+- <a id="step-09.1-Dockerfile-6651dd"></a>`Dockerfile`: the stage `dev`, and its lines in the comment at the top. 26 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/5135b59c9dcd3520e5622e30c0f6cbe9c2c65c81/Dockerfile).
   - look at `FROM python:3.12-slim-bookworm AS dev`
 
 <details><summary>The diff of <code>Dockerfile</code></summary>
@@ -88,7 +88,7 @@ The image is about 353 MB, twice the run image, because it has every tool.
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/4df0b7818255a35a80bfd7e3bac8d375a9160446). [The code after it](https://github.com/rahuldave/cheesecracker/tree/4df0b7818255a35a80bfd7e3bac8d375a9160446).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/5135b59c9dcd3520e5622e30c0f6cbe9c2c65c81). [The code after it](https://github.com/rahuldave/cheesecracker/tree/5135b59c9dcd3520e5622e30c0f6cbe9c2c65c81).
 
 ## 9.2 just docker-shell and just docker-test {#step-09.2}
 
@@ -105,8 +105,8 @@ A patch to [`justfile`](#step-09.2-justfile-424f0b).
 just docker-test
 ```
 
-`just check` runs in Linux. The last line is `22 passed, 4 skipped`. The four system tests skip, because inside the
-container `localhost:9000` is the container itself, and no server answers there.
+`just check` runs in Linux. The last line is `21 passed`. The system tests do not run, because `just check` leaves them
+out.
 
 ```bash
 just docker-test test tests/unit -q
@@ -116,16 +116,16 @@ The eleven unit tests pass in Linux.
 
 ### What changed {#step-09.2-what-changed-182c57}
 
-- <a id="step-09.2-justfile-424f0b"></a>`justfile`: the recipes `docker-shell` and `docker-test`. 8 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/365a077828f17f964bb47d90ed35a940c101098c/justfile).
+- <a id="step-09.2-justfile-424f0b"></a>`justfile`: the recipes `docker-shell` and `docker-test`. 8 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/7289b1614eae3831f3523d44d49be3b3a77188d9/justfile).
   - look at `docker run --rm -v "$PWD":/work cheesecracker-dev just "${@:-check}"`
 
 <details><summary>The diff of <code>justfile</code></summary>
 
 ```diff
-@@ -48,3 +48,11 @@ docker-build kind:
- # Run the server in the run image, at http://localhost:9000, as it runs in production. Ctrl-C stops it
- docker-serve:
-     docker run --rm --name cheesecracker-run -p 9000:9000 cheesecracker-run
+@@ -86,3 +86,11 @@ docker-stop:
+ # Run the system tests against the server at http://localhost:9000. They fail when no server answers there
+ test-system *args:
+     uv run pytest tests/system "$@"
 +
 +# A shell in the dev image, with this folder mounted at /work: an edit here shows in there at once
 +docker-shell:
@@ -138,4 +138,4 @@ The eleven unit tests pass in Linux.
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/365a077828f17f964bb47d90ed35a940c101098c). [The code after it](https://github.com/rahuldave/cheesecracker/tree/365a077828f17f964bb47d90ed35a940c101098c).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/7289b1614eae3831f3523d44d49be3b3a77188d9). [The code after it](https://github.com/rahuldave/cheesecracker/tree/7289b1614eae3831f3523d44d49be3b3a77188d9).

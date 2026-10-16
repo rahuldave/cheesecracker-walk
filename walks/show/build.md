@@ -730,7 +730,7 @@ just setup
 The Cheese App talks to its server over HTTP. FastAPI turns Python functions into the answers of HTTP requests, and
 uvicorn is the server that runs a FastAPI app. We write an app that answers two requests, and run it on this machine.
 
-[The code before this part](https://github.com/rahuldave/cheesecracker/tree/e86e0c3d10bbe9409674f1c65ce4afdc38e7f76f). [The code after it](https://github.com/rahuldave/cheesecracker/tree/8ac2a5642843003cfb2e619e459088265071ac18).
+[The code before this part](https://github.com/rahuldave/cheesecracker/tree/e86e0c3d10bbe9409674f1c65ce4afdc38e7f76f). [The code after it](https://github.com/rahuldave/cheesecracker/tree/69c3bf65c78cf8e96bf8f9ea1dde29279db1351a).
 
 <a id="step-02.1"></a>
 
@@ -870,27 +870,31 @@ git restore --source 18dd9dfb1c95 --staged -- :/ && git restore --source acee14f
 
 <a id="step-02.3"></a>
 
-### 2.3 just serve runs the server on this machine
+### 2.3 just serve and just stop, the server on this machine
 
-The app does nothing until a server runs it. The recipe `serve` runs uvicorn at port 9000. `--app-dir` tells uvicorn
-where the package `api` is, and `--reload` restarts the server when a file of the code changes.
+The app does nothing until a server runs it. The recipe `serve` starts uvicorn at port 9000, in the background, and
+waits until the server answers. The recipe `stop` stops it. A server is a fixture of the commands that need it. We start
+it before them, and stop it after them.
 
 Apply the patch to [`justfile`](#step-02.3-justfile-424f0b), from the top of the project:
 
 ```bash
-curl -fsSL https://github.com/rahuldave/cheesecracker/commit/8ac2a5642843003cfb2e619e459088265071ac18.diff | git apply --include=justfile
+curl -fsSL https://github.com/rahuldave/cheesecracker/commit/69c3bf65c78cf8e96bf8f9ea1dde29279db1351a.diff | git apply --include=justfile
 ```
 
-Read the recipe `serve` at the end of the `justfile`.
-
-The server runs until you stop it, so it gets a terminal of its own. Leave it running.
+Apply the patch to [`.gitignore`](#step-02.3-.gitignore-a5cc29), from the top of the project:
 
 ```bash
-# in a second terminal
+curl -fsSL https://github.com/rahuldave/cheesecracker/commit/69c3bf65c78cf8e96bf8f9ea1dde29279db1351a.diff | git apply --include=.gitignore
+```
+
+Read the recipes `serve` and `stop` at the end of the `justfile`. Then read the two new lines of `.gitignore`.
+
+```bash
 just serve
 ```
 
-In another terminal, ask the server for its health.
+The recipe prints `serve: http://localhost:9000, its log in .serve.log`. Ask the server for its health.
 
 ```bash
 curl -s localhost:9000/health
@@ -899,39 +903,93 @@ curl -s localhost:9000/health
 The server answers `{"status":"healthy"}`. Open `http://localhost:9000/docs` in a browser to see the pages that
 FastAPI makes for each route.
 
+```bash
+just stop
+```
+
+The recipe prints `stop: stopped`. Ask for the health again.
+
+```bash
+curl -s localhost:9000/health
+```
+
+`curl` prints nothing, and fails with the code 7, because no server answers.
+
 Check your files against this move. The command prints nothing when they match, and otherwise shows what differs:
 
 ```bash
-git check 8ac2a5642843
+git check 69c3bf65c78c
 ```
 
 If you are stuck, this command puts the files of this move in place of yours. A file that you made yourself stays:
 
 ```bash
-git restore --source acee14f7dff4 --staged -- :/ && git restore --source 8ac2a5642843 --staged --worktree -- :/
+git restore --source acee14f7dff4 --staged -- :/ && git restore --source 69c3bf65c78c --staged --worktree -- :/
 ```
 
 #### What changed
 
-- <a id="step-02.3-justfile-424f0b"></a>`justfile`: the recipe `serve`. 4 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/8ac2a5642843003cfb2e619e459088265071ac18/justfile).
-  - look at `uv run uvicorn api.service:app --app-dir src/api-service --host 0.0.0.0 --port 9000 --reload`
+- <a id="step-02.3-.gitignore-a5cc29"></a>`.gitignore`: the log of the server and the number of its process. 4 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/69c3bf65c78cf8e96bf8f9ea1dde29279db1351a/.gitignore).
+  - look at `.serve.pid`
+- <a id="step-02.3-justfile-424f0b"></a>`justfile`: the recipes `serve` and `stop`. 26 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/69c3bf65c78cf8e96bf8f9ea1dde29279db1351a/justfile).
+  - look at `uv run uvicorn api.service:app --app-dir src/api-service --host 0.0.0.0 --port 9000 --reload > .serve.log 2>&1 &`
 
-<details open><summary>The patch to <code>justfile</code></summary>
+<details open><summary>The patch to <code>.gitignore</code></summary>
 
 ```diff
-@@ -14,3 +14,7 @@ setup:
- # Run the tests. Extra arguments go to pytest: just test tests/unit
- test *args:
-     uv run pytest "$@"
+@@ -9,6 +9,10 @@ __pycache__/
+ htmlcov/
+ .ruff_cache/
+ 
++# What just serve writes: the log of the server, and its process id
++.serve.log
++.serve.pid
 +
-+# Run the server on this machine, at http://localhost:9000. It restarts when a file of the code changes
-+serve:
-+    uv run uvicorn api.service:app --app-dir src/api-service --host 0.0.0.0 --port 9000 --reload
+ # Secrets: never commit them
+ secrets/
+ .env
 ```
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/8ac2a5642843003cfb2e619e459088265071ac18). [The code after it](https://github.com/rahuldave/cheesecracker/tree/8ac2a5642843003cfb2e619e459088265071ac18).
+<details open><summary>The patch to <code>justfile</code></summary>
+
+```diff
+@@ -14,3 +14,29 @@ setup:
+ # Run the tests. Extra arguments go to pytest: just test tests/unit
+ test *args:
+     uv run pytest "$@"
++
++# Start the server on this machine, in the background, at http://localhost:9000. It restarts when a file of the code changes. just stop stops it
++serve:
++    #!/usr/bin/env sh
++    if curl -sf localhost:9000/health > /dev/null; then echo "serve: a server already answers at http://localhost:9000" >&2; exit 1; fi
++    uv run uvicorn api.service:app --app-dir src/api-service --host 0.0.0.0 --port 9000 --reload > .serve.log 2>&1 &
++    echo $! > .serve.pid
++    for i in $(seq 1 30); do
++        if curl -sf localhost:9000/health > /dev/null; then echo "serve: http://localhost:9000, its log in .serve.log"; exit 0; fi
++        sleep 1
++    done
++    echo "serve: no answer after 30 seconds; read .serve.log" >&2
++    exit 1
++
++# Stop the server of just serve
++stop:
++    #!/usr/bin/env sh
++    if [ ! -f .serve.pid ]; then echo "stop: no server of just serve runs here" >&2; exit 1; fi
++    kill "$(cat .serve.pid)" && rm .serve.pid
++    # Wait until the server no longer answers, so that the port is free for the next one
++    for i in $(seq 1 30); do
++        if ! curl -s localhost:9000/health > /dev/null; then echo "stop: stopped"; exit 0; fi
++        sleep 1
++    done
++    echo "stop: the server still answers after 30 seconds" >&2
++    exit 1
+```
+
+</details>
+
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/69c3bf65c78cf8e96bf8f9ea1dde29279db1351a). [The code after it](https://github.com/rahuldave/cheesecracker/tree/69c3bf65c78cf8e96bf8f9ea1dde29279db1351a).
 
 <a id="step-03"></a>
 
@@ -939,13 +997,14 @@ git restore --source acee14f7dff4 --staged -- :/ && git restore --source 8ac2a56
 
 ```bash
 just setup
+just serve
 ```
 
 The app needs an endpoint that does some work, and tests that call it. The endpoint computes the distance of a point
 from the origin with `power()`. An integration test sends requests to the app and checks the answers, with no server
-and no network.
+and no network. The server of `just serve` runs during this part, so we can ask it for each new answer.
 
-[The code before this part](https://github.com/rahuldave/cheesecracker/tree/8ac2a5642843003cfb2e619e459088265071ac18). [The code after it](https://github.com/rahuldave/cheesecracker/tree/6cc53ab584dd820f401d0dcb51f95877538f996c).
+[The code before this part](https://github.com/rahuldave/cheesecracker/tree/69c3bf65c78cf8e96bf8f9ea1dde29279db1351a). [The code after it](https://github.com/rahuldave/cheesecracker/tree/5862780b44d2f4ec87088c971dec57f23c11139e).
 
 <a id="step-03.1"></a>
 
@@ -957,15 +1016,16 @@ square root of x squared plus y squared.
 Apply the patch to [`src/api-service/api/service.py`](#step-03.1-src-api-service-api-service.py-1e1e71), from the top of the project:
 
 ```bash
-curl -fsSL https://github.com/rahuldave/cheesecracker/commit/a05f377cdf717ac79ca5c39cab76727b755c94c0.diff | git apply --include=src/api-service/api/service.py
+curl -fsSL https://github.com/rahuldave/cheesecracker/commit/e576e7bb9e550b1a572a764b15f8d0bfde229d97.diff | git apply --include=src/api-service/api/service.py
 ```
 
 Read the two imports after `CORSMiddleware`, and the new function at the end of the file.
 
-If `just serve` still runs, it has restarted with the new code. Ask it for the distance of the point (3, 4).
+The server of `just serve` restarts with the new code, because of `--reload`. The restart takes a moment, so the
+command waits a second before it asks for the distance of the point (3, 4).
 
 ```bash
-curl -s "localhost:9000/euclidean_distance/?x=3&y=4"
+sleep 1 && curl -s "localhost:9000/euclidean_distance/?x=3&y=4"
 ```
 
 The server answers `{"x":3.0,"y":4.0,"distance":5.0}`.
@@ -973,18 +1033,18 @@ The server answers `{"x":3.0,"y":4.0,"distance":5.0}`.
 Check your files against this move. The command prints nothing when they match, and otherwise shows what differs:
 
 ```bash
-git check a05f377cdf71
+git check e576e7bb9e55
 ```
 
 If you are stuck, this command puts the files of this move in place of yours. A file that you made yourself stays:
 
 ```bash
-git restore --source 8ac2a5642843 --staged -- :/ && git restore --source a05f377cdf71 --staged --worktree -- :/
+git restore --source 69c3bf65c78c --staged -- :/ && git restore --source e576e7bb9e55 --staged --worktree -- :/
 ```
 
 #### What changed
 
-- <a id="step-03.1-src-api-service-api-service.py-1e1e71"></a>`src/api-service/api/service.py`: the imports of `math` and `power()`, and the endpoint `/euclidean_distance/`. 12 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/a05f377cdf717ac79ca5c39cab76727b755c94c0/src/api-service/api/service.py).
+- <a id="step-03.1-src-api-service-api-service.py-1e1e71"></a>`src/api-service/api/service.py`: the imports of `math` and `power()`, and the endpoint `/euclidean_distance/`. 12 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/e576e7bb9e550b1a572a764b15f8d0bfde229d97/src/api-service/api/service.py).
   - look at `z = power(x, 2) + power(y, 2)`
 
 <details open><summary>The patch to <code>src/api-service/api/service.py</code></summary>
@@ -1017,7 +1077,7 @@ git restore --source 8ac2a5642843 --staged -- :/ && git restore --source a05f377
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/a05f377cdf717ac79ca5c39cab76727b755c94c0). [The code after it](https://github.com/rahuldave/cheesecracker/tree/a05f377cdf717ac79ca5c39cab76727b755c94c0).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/e576e7bb9e550b1a572a764b15f8d0bfde229d97). [The code after it](https://github.com/rahuldave/cheesecracker/tree/e576e7bb9e550b1a572a764b15f8d0bfde229d97).
 
 <a id="step-03.2"></a>
 
@@ -1041,20 +1101,20 @@ pytest still prints `11 passed`. The new packages change no test.
 Check your files against this move. The command prints nothing when they match, and otherwise shows what differs:
 
 ```bash
-git check 5d285f5ab4c1
+git check 3c75ffb1a089
 ```
 
 If you are stuck, this command puts the files of this move in place of yours. A file that you made yourself stays:
 
 ```bash
-git restore --source a05f377cdf71 --staged -- :/ && git restore --source 5d285f5ab4c1 --staged --worktree -- :/
+git restore --source e576e7bb9e55 --staged -- :/ && git restore --source 3c75ffb1a089 --staged --worktree -- :/
 ```
 
 #### What changed
 
-- <a id="step-03.2-pyproject.toml-5d07e7"></a>`pyproject.toml`: httpx2 and pytest-asyncio, in the group `test`. 2 lines added. It comes from `uv add --group test httpx2 pytest-asyncio`. [The file](https://github.com/rahuldave/cheesecracker/blob/5d285f5ab4c1c8683197091e1a09c1795dbe21c8/pyproject.toml).
+- <a id="step-03.2-pyproject.toml-5d07e7"></a>`pyproject.toml`: httpx2 and pytest-asyncio, in the group `test`. 2 lines added. It comes from `uv add --group test httpx2 pytest-asyncio`. [The file](https://github.com/rahuldave/cheesecracker/blob/3c75ffb1a089431a2455a69e9bcb3ec0302224f0/pyproject.toml).
   - look at `"httpx2>=2.13.1",`
-- <a id="step-03.2-uv.lock-8356d8"></a>`uv.lock`: the exact versions of httpx2, pytest-asyncio, and the packages that they need. 68 lines added, 1 removed. It comes from `uv add --group test httpx2 pytest-asyncio`. [The file](https://github.com/rahuldave/cheesecracker/blob/5d285f5ab4c1c8683197091e1a09c1795dbe21c8/uv.lock).
+- <a id="step-03.2-uv.lock-8356d8"></a>`uv.lock`: the exact versions of httpx2, pytest-asyncio, and the packages that they need. 68 lines added, 1 removed. It comes from `uv add --group test httpx2 pytest-asyncio`. [The file](https://github.com/rahuldave/cheesecracker/blob/3c75ffb1a089431a2455a69e9bcb3ec0302224f0/uv.lock).
 
 <details><summary>The diff that <code>uv add --group test httpx2 pytest-asyncio</code> makes in <code>pyproject.toml</code></summary>
 
@@ -1073,7 +1133,7 @@ git restore --source a05f377cdf71 --staged -- :/ && git restore --source 5d285f5
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/5d285f5ab4c1c8683197091e1a09c1795dbe21c8). [The code after it](https://github.com/rahuldave/cheesecracker/tree/5d285f5ab4c1c8683197091e1a09c1795dbe21c8).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/3c75ffb1a089431a2455a69e9bcb3ec0302224f0). [The code after it](https://github.com/rahuldave/cheesecracker/tree/3c75ffb1a089431a2455a69e9bcb3ec0302224f0).
 
 <a id="step-03.3"></a>
 
@@ -1086,7 +1146,7 @@ answer.
 Apply the patch to [`tests/integration/test_api.py`](#step-03.3-tests-integration-test_api.py-596674), from the top of the project:
 
 ```bash
-curl -fsSL https://github.com/rahuldave/cheesecracker/commit/6cc53ab584dd820f401d0dcb51f95877538f996c.diff | git apply --include=tests/integration/test_api.py
+curl -fsSL https://github.com/rahuldave/cheesecracker/commit/5862780b44d2f4ec87088c971dec57f23c11139e.diff | git apply --include=tests/integration/test_api.py
 ```
 
 Make the folder `tests/integration/`, and apply the patch. Read the line `client = TestClient(app)`, then the classes
@@ -1096,23 +1156,28 @@ Make the folder `tests/integration/`, and apply the patch. Read the line `client
 just test -q
 ```
 
-pytest prints `21 passed`, the eleven unit tests and the ten integration tests.
+pytest prints `21 passed`, the eleven unit tests and the ten integration tests. The tests needed no server, so we
+stop the one of `just serve`.
+
+```bash
+just stop
+```
 
 Check your files against this move. The command prints nothing when they match, and otherwise shows what differs:
 
 ```bash
-git check 6cc53ab584dd
+git check 5862780b44d2
 ```
 
 If you are stuck, this command puts the files of this move in place of yours. A file that you made yourself stays:
 
 ```bash
-git restore --source 5d285f5ab4c1 --staged -- :/ && git restore --source 6cc53ab584dd --staged --worktree -- :/
+git restore --source 3c75ffb1a089 --staged -- :/ && git restore --source 5862780b44d2 --staged --worktree -- :/
 ```
 
 #### What changed
 
-- <a id="step-03.3-tests-integration-test_api.py-596674"></a>`tests/integration/test_api.py`: ten integration tests, through FastAPI's `TestClient`. New, 89 lines. [The file](https://github.com/rahuldave/cheesecracker/blob/6cc53ab584dd820f401d0dcb51f95877538f996c/tests/integration/test_api.py).
+- <a id="step-03.3-tests-integration-test_api.py-596674"></a>`tests/integration/test_api.py`: ten integration tests, through FastAPI's `TestClient`. New, 89 lines. [The file](https://github.com/rahuldave/cheesecracker/blob/5862780b44d2f4ec87088c971dec57f23c11139e/tests/integration/test_api.py).
   - look at `response = client.get("/euclidean_distance/?x=3&y=4")`
 
 <details open><summary>The patch to <code>tests/integration/test_api.py</code></summary>
@@ -1212,7 +1277,7 @@ git restore --source 5d285f5ab4c1 --staged -- :/ && git restore --source 6cc53ab
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/6cc53ab584dd820f401d0dcb51f95877538f996c). [The code after it](https://github.com/rahuldave/cheesecracker/tree/6cc53ab584dd820f401d0dcb51f95877538f996c).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/5862780b44d2f4ec87088c971dec57f23c11139e). [The code after it](https://github.com/rahuldave/cheesecracker/tree/5862780b44d2f4ec87088c971dec57f23c11139e).
 
 <a id="step-04"></a>
 
@@ -1225,7 +1290,7 @@ just setup
 Twenty-one tests pass, and we still do not know which lines of the app they run. Coverage counts the lines of the
 package `api` that run during the tests, and lists the lines that no test ran.
 
-[The code before this part](https://github.com/rahuldave/cheesecracker/tree/6cc53ab584dd820f401d0dcb51f95877538f996c). [The code after it](https://github.com/rahuldave/cheesecracker/tree/c6cded7960c6db2cd396d279a68856e4b097bd3c).
+[The code before this part](https://github.com/rahuldave/cheesecracker/tree/5862780b44d2f4ec87088c971dec57f23c11139e). [The code after it](https://github.com/rahuldave/cheesecracker/tree/bfb9c783c67c31254ce8136784738c0f2fc17fb5).
 
 <a id="step-04.1"></a>
 
@@ -1248,20 +1313,20 @@ The table shows `utils.py` at 100% and `service.py` at 0%. The unit tests call `
 Check your files against this move. The command prints nothing when they match, and otherwise shows what differs:
 
 ```bash
-git check 50f2f82f0d43
+git check 54de20e8055e
 ```
 
 If you are stuck, this command puts the files of this move in place of yours. A file that you made yourself stays:
 
 ```bash
-git restore --source 6cc53ab584dd --staged -- :/ && git restore --source 50f2f82f0d43 --staged --worktree -- :/
+git restore --source 5862780b44d2 --staged -- :/ && git restore --source 54de20e8055e --staged --worktree -- :/
 ```
 
 #### What changed
 
-- <a id="step-04.1-pyproject.toml-5d07e7"></a>`pyproject.toml`: pytest-cov, in the group `test`. 1 line added. It comes from `uv add --group test pytest-cov`. [The file](https://github.com/rahuldave/cheesecracker/blob/50f2f82f0d43aa073fc82f7631390f3d435f13f7/pyproject.toml).
+- <a id="step-04.1-pyproject.toml-5d07e7"></a>`pyproject.toml`: pytest-cov, in the group `test`. 1 line added. It comes from `uv add --group test pytest-cov`. [The file](https://github.com/rahuldave/cheesecracker/blob/54de20e8055ec62726d8956cac3a944433dc404c/pyproject.toml).
   - look at `"pytest-cov>=7.1.0",`
-- <a id="step-04.1-uv.lock-8356d8"></a>`uv.lock`: the exact versions of pytest-cov, and of coverage, which it uses. 115 lines added. It comes from `uv add --group test pytest-cov`. [The file](https://github.com/rahuldave/cheesecracker/blob/50f2f82f0d43aa073fc82f7631390f3d435f13f7/uv.lock).
+- <a id="step-04.1-uv.lock-8356d8"></a>`uv.lock`: the exact versions of pytest-cov, and of coverage, which it uses. 115 lines added. It comes from `uv add --group test pytest-cov`. [The file](https://github.com/rahuldave/cheesecracker/blob/54de20e8055ec62726d8956cac3a944433dc404c/uv.lock).
 
 <details><summary>The diff that <code>uv add --group test pytest-cov</code> makes in <code>pyproject.toml</code></summary>
 
@@ -1278,7 +1343,7 @@ git restore --source 6cc53ab584dd --staged -- :/ && git restore --source 50f2f82
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/50f2f82f0d43aa073fc82f7631390f3d435f13f7). [The code after it](https://github.com/rahuldave/cheesecracker/tree/50f2f82f0d43aa073fc82f7631390f3d435f13f7).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/54de20e8055ec62726d8956cac3a944433dc404c). [The code after it](https://github.com/rahuldave/cheesecracker/tree/54de20e8055ec62726d8956cac3a944433dc404c).
 
 <a id="step-04.2"></a>
 
@@ -1290,7 +1355,7 @@ test ran.
 Apply the patch to [`justfile`](#step-04.2-justfile-424f0b), from the top of the project:
 
 ```bash
-curl -fsSL https://github.com/rahuldave/cheesecracker/commit/c6cded7960c6db2cd396d279a68856e4b097bd3c.diff | git apply --include=justfile
+curl -fsSL https://github.com/rahuldave/cheesecracker/commit/bfb9c783c67c31254ce8136784738c0f2fc17fb5.diff | git apply --include=justfile
 ```
 
 Read the recipe `cov` at the end of the `justfile`.
@@ -1304,27 +1369,27 @@ The total is 95%. `service.py` misses line 31, the answer of `/health`, because 
 Check your files against this move. The command prints nothing when they match, and otherwise shows what differs:
 
 ```bash
-git check c6cded7960c6
+git check bfb9c783c67c
 ```
 
 If you are stuck, this command puts the files of this move in place of yours. A file that you made yourself stays:
 
 ```bash
-git restore --source 50f2f82f0d43 --staged -- :/ && git restore --source c6cded7960c6 --staged --worktree -- :/
+git restore --source 54de20e8055e --staged -- :/ && git restore --source bfb9c783c67c --staged --worktree -- :/
 ```
 
 #### What changed
 
-- <a id="step-04.2-justfile-424f0b"></a>`justfile`: the recipe `cov`. 4 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/c6cded7960c6db2cd396d279a68856e4b097bd3c/justfile).
+- <a id="step-04.2-justfile-424f0b"></a>`justfile`: the recipe `cov`. 4 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/bfb9c783c67c31254ce8136784738c0f2fc17fb5/justfile).
   - look at `uv run pytest --cov=api --cov-report=term-missing "$@"`
 
 <details open><summary>The patch to <code>justfile</code></summary>
 
 ```diff
-@@ -18,3 +18,7 @@ test *args:
- # Run the server on this machine, at http://localhost:9000. It restarts when a file of the code changes
- serve:
-     uv run uvicorn api.service:app --app-dir src/api-service --host 0.0.0.0 --port 9000 --reload
+@@ -40,3 +40,7 @@ stop:
+     done
+     echo "stop: the server still answers after 30 seconds" >&2
+     exit 1
 +
 +# Run the tests, and show which lines of the package api they ran. Extra arguments go to pytest: just cov tests/unit
 +cov *args:
@@ -1333,7 +1398,7 @@ git restore --source 50f2f82f0d43 --staged -- :/ && git restore --source c6cded7
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/c6cded7960c6db2cd396d279a68856e4b097bd3c). [The code after it](https://github.com/rahuldave/cheesecracker/tree/c6cded7960c6db2cd396d279a68856e4b097bd3c).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/bfb9c783c67c31254ce8136784738c0f2fc17fb5). [The code after it](https://github.com/rahuldave/cheesecracker/tree/bfb9c783c67c31254ce8136784738c0f2fc17fb5).
 
 <a id="step-05"></a>
 
@@ -1347,7 +1412,7 @@ Code that works can still be hard to read, and a reader can miss a bug in it. A 
 layout. A linter checks the code against rules, such as "no import that nothing uses". ruff is both, and it has the
 rules of flake8.
 
-[The code before this part](https://github.com/rahuldave/cheesecracker/tree/c6cded7960c6db2cd396d279a68856e4b097bd3c). [The code after it](https://github.com/rahuldave/cheesecracker/tree/56a13525d9d3380d8190d2b029073d641e8ef3db).
+[The code before this part](https://github.com/rahuldave/cheesecracker/tree/bfb9c783c67c31254ce8136784738c0f2fc17fb5). [The code after it](https://github.com/rahuldave/cheesecracker/tree/e89e0cfa991257757c887f687087a9c77c093e20).
 
 <a id="step-05.1"></a>
 
@@ -1359,13 +1424,13 @@ out spaces and blank lines. It also makes one line 187 characters long, and adds
 Apply the patch to [`src/api-service/api/service.py`](#step-05.1-src-api-service-api-service.py-1e1e71), from the top of the project:
 
 ```bash
-curl -fsSL https://github.com/rahuldave/cheesecracker/commit/3d685aa15a0d5ecf909c39887d082fccc11087d1.diff | git apply --include=src/api-service/api/service.py
+curl -fsSL https://github.com/rahuldave/cheesecracker/commit/f77650600c1176caa9aaee86e6cddfccc43fc69c.diff | git apply --include=src/api-service/api/service.py
 ```
 
 Apply the patch to [`src/api-service/api/utils.py`](#step-05.1-src-api-service-api-utils.py-18f1f8), from the top of the project:
 
 ```bash
-curl -fsSL https://github.com/rahuldave/cheesecracker/commit/3d685aa15a0d5ecf909c39887d082fccc11087d1.diff | git apply --include=src/api-service/api/utils.py
+curl -fsSL https://github.com/rahuldave/cheesecracker/commit/f77650600c1176caa9aaee86e6cddfccc43fc69c.diff | git apply --include=src/api-service/api/utils.py
 ```
 
 Apply both patches. In `service.py`, read the line `import os`, the line `z=power(x,2)+power(y,2)`, and the `return` at
@@ -1380,20 +1445,20 @@ pytest still prints `21 passed`. The tests check what the code does, not how it 
 Check your files against this move. The command prints nothing when they match, and otherwise shows what differs:
 
 ```bash
-git check 3d685aa15a0d
+git check f77650600c11
 ```
 
 If you are stuck, this command puts the files of this move in place of yours. A file that you made yourself stays:
 
 ```bash
-git restore --source c6cded7960c6 --staged -- :/ && git restore --source 3d685aa15a0d --staged --worktree -- :/
+git restore --source bfb9c783c67c --staged -- :/ && git restore --source f77650600c11 --staged --worktree -- :/
 ```
 
 #### What changed
 
-- <a id="step-05.1-src-api-service-api-service.py-1e1e71"></a>`src/api-service/api/service.py`: an import that nothing uses, missing spaces and blank lines, and a long line. 3 lines added, 5 removed. [The file](https://github.com/rahuldave/cheesecracker/blob/3d685aa15a0d5ecf909c39887d082fccc11087d1/src/api-service/api/service.py).
+- <a id="step-05.1-src-api-service-api-service.py-1e1e71"></a>`src/api-service/api/service.py`: an import that nothing uses, missing spaces and blank lines, and a long line. 3 lines added, 5 removed. [The file](https://github.com/rahuldave/cheesecracker/blob/f77650600c1176caa9aaee86e6cddfccc43fc69c/src/api-service/api/service.py).
   - look at `z=power(x,2)+power(y,2)`
-- <a id="step-05.1-src-api-service-api-utils.py-18f1f8"></a>`src/api-service/api/utils.py`: a missing space, extra blank lines, and a function that nothing calls. 6 lines added, 1 removed. [The file](https://github.com/rahuldave/cheesecracker/blob/3d685aa15a0d5ecf909c39887d082fccc11087d1/src/api-service/api/utils.py).
+- <a id="step-05.1-src-api-service-api-utils.py-18f1f8"></a>`src/api-service/api/utils.py`: a missing space, extra blank lines, and a function that nothing calls. 6 lines added, 1 removed. [The file](https://github.com/rahuldave/cheesecracker/blob/f77650600c1176caa9aaee86e6cddfccc43fc69c/src/api-service/api/utils.py).
   - look at `def unused_function():`
 
 <details open><summary>The patch to <code>src/api-service/api/service.py</code></summary>
@@ -1454,7 +1519,7 @@ git restore --source c6cded7960c6 --staged -- :/ && git restore --source 3d685aa
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/3d685aa15a0d5ecf909c39887d082fccc11087d1). [The code after it](https://github.com/rahuldave/cheesecracker/tree/3d685aa15a0d5ecf909c39887d082fccc11087d1).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/f77650600c1176caa9aaee86e6cddfccc43fc69c). [The code after it](https://github.com/rahuldave/cheesecracker/tree/f77650600c1176caa9aaee86e6cddfccc43fc69c).
 
 <a id="step-05.2"></a>
 
@@ -1475,20 +1540,20 @@ uv prints the version of ruff, `ruff 0.17.1` on the day of the class.
 Check your files against this move. The command prints nothing when they match, and otherwise shows what differs:
 
 ```bash
-git check b62c42863146
+git check 9662828462ba
 ```
 
 If you are stuck, this command puts the files of this move in place of yours. A file that you made yourself stays:
 
 ```bash
-git restore --source 3d685aa15a0d --staged -- :/ && git restore --source b62c42863146 --staged --worktree -- :/
+git restore --source f77650600c11 --staged -- :/ && git restore --source 9662828462ba --staged --worktree -- :/
 ```
 
 #### What changed
 
-- <a id="step-05.2-pyproject.toml-5d07e7"></a>`pyproject.toml`: ruff, in the group `lint`. 3 lines added. It comes from `uv add --group lint ruff`. [The file](https://github.com/rahuldave/cheesecracker/blob/b62c42863146fff1835f5b087f935a730d550f89/pyproject.toml).
+- <a id="step-05.2-pyproject.toml-5d07e7"></a>`pyproject.toml`: ruff, in the group `lint`. 3 lines added. It comes from `uv add --group lint ruff`. [The file](https://github.com/rahuldave/cheesecracker/blob/9662828462ba2a21ca04a79c412e83ac070767f6/pyproject.toml).
   - look at `"ruff>=0.17.1",`
-- <a id="step-05.2-uv.lock-8356d8"></a>`uv.lock`: the exact version of ruff. 29 lines added. It comes from `uv add --group lint ruff`. [The file](https://github.com/rahuldave/cheesecracker/blob/b62c42863146fff1835f5b087f935a730d550f89/uv.lock).
+- <a id="step-05.2-uv.lock-8356d8"></a>`uv.lock`: the exact version of ruff. 29 lines added. It comes from `uv add --group lint ruff`. [The file](https://github.com/rahuldave/cheesecracker/blob/9662828462ba2a21ca04a79c412e83ac070767f6/uv.lock).
 
 <details><summary>The diff that <code>uv add --group lint ruff</code> makes in <code>pyproject.toml</code></summary>
 
@@ -1507,7 +1572,7 @@ git restore --source 3d685aa15a0d --staged -- :/ && git restore --source b62c428
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/b62c42863146fff1835f5b087f935a730d550f89). [The code after it](https://github.com/rahuldave/cheesecracker/tree/b62c42863146fff1835f5b087f935a730d550f89).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/9662828462ba2a21ca04a79c412e83ac070767f6). [The code after it](https://github.com/rahuldave/cheesecracker/tree/9662828462ba2a21ca04a79c412e83ac070767f6).
 
 <a id="step-05.3"></a>
 
@@ -1563,18 +1628,18 @@ ruff says `2 files would be reformatted`, and fails. `--check` changes no file.
 Check your files against this move. The command prints nothing when they match, and otherwise shows what differs:
 
 ```bash
-git check b24ec768b50d
+git check 7c1670fd52a0
 ```
 
 If you are stuck, this command puts the files of this move in place of yours. A file that you made yourself stays:
 
 ```bash
-git restore --source b62c42863146 --staged -- :/ && git restore --source b24ec768b50d --staged --worktree -- :/
+git restore --source 9662828462ba --staged -- :/ && git restore --source 7c1670fd52a0 --staged --worktree -- :/
 ```
 
 #### What changed
 
-- <a id="step-05.3-pyproject.toml-5d07e7"></a>`pyproject.toml`: the settings of ruff, the length of a line and the rules of the linter. 8 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/b24ec768b50d48684fef4992b332c9d70f8af45b/pyproject.toml).
+- <a id="step-05.3-pyproject.toml-5d07e7"></a>`pyproject.toml`: the settings of ruff, the length of a line and the rules of the linter. 8 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/7c1670fd52a0f62f414f31d415d10f2efb5a8405/pyproject.toml).
   - look at `select = ["E", "W", "F"]`
 
 <details open><summary>The patch to <code>pyproject.toml</code></summary>
@@ -1596,7 +1661,7 @@ git restore --source b62c42863146 --staged -- :/ && git restore --source b24ec76
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/b24ec768b50d48684fef4992b332c9d70f8af45b). [The code after it](https://github.com/rahuldave/cheesecracker/tree/b24ec768b50d48684fef4992b332c9d70f8af45b).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/7c1670fd52a0f62f414f31d415d10f2efb5a8405). [The code after it](https://github.com/rahuldave/cheesecracker/tree/7c1670fd52a0f62f414f31d415d10f2efb5a8405).
 
 <a id="step-05.4"></a>
 
@@ -1607,7 +1672,7 @@ Two recipes give the formatter and the linter short names. Each passes on to ruf
 Apply the patch to [`justfile`](#step-05.4-justfile-424f0b), from the top of the project:
 
 ```bash
-curl -fsSL https://github.com/rahuldave/cheesecracker/commit/b7faca476ae42677c92f582c0a7bf1a6d48a9adb.diff | git apply --include=justfile
+curl -fsSL https://github.com/rahuldave/cheesecracker/commit/b947593e84b71486902b3ff1c7f9e1458b70e3f7.diff | git apply --include=justfile
 ```
 
 Read the recipes `fmt` and `lint` at the end of the `justfile`.
@@ -1621,24 +1686,24 @@ The recipe fails as `ruff format --check` did, with `2 files would be reformatte
 Check your files against this move. The command prints nothing when they match, and otherwise shows what differs:
 
 ```bash
-git check b7faca476ae4
+git check b947593e84b7
 ```
 
 If you are stuck, this command puts the files of this move in place of yours. A file that you made yourself stays:
 
 ```bash
-git restore --source b24ec768b50d --staged -- :/ && git restore --source b7faca476ae4 --staged --worktree -- :/
+git restore --source 7c1670fd52a0 --staged -- :/ && git restore --source b947593e84b7 --staged --worktree -- :/
 ```
 
 #### What changed
 
-- <a id="step-05.4-justfile-424f0b"></a>`justfile`: the recipes `fmt` and `lint`. 8 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/b7faca476ae42677c92f582c0a7bf1a6d48a9adb/justfile).
+- <a id="step-05.4-justfile-424f0b"></a>`justfile`: the recipes `fmt` and `lint`. 8 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/b947593e84b71486902b3ff1c7f9e1458b70e3f7/justfile).
   - look at `uv run ruff check "$@"`
 
 <details open><summary>The patch to <code>justfile</code></summary>
 
 ```diff
-@@ -22,3 +22,11 @@ serve:
+@@ -44,3 +44,11 @@ stop:
  # Run the tests, and show which lines of the package api they ran. Extra arguments go to pytest: just cov tests/unit
  cov *args:
      uv run pytest --cov=api --cov-report=term-missing "$@"
@@ -1654,7 +1719,7 @@ git restore --source b24ec768b50d --staged -- :/ && git restore --source b7faca4
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/b7faca476ae42677c92f582c0a7bf1a6d48a9adb). [The code after it](https://github.com/rahuldave/cheesecracker/tree/b7faca476ae42677c92f582c0a7bf1a6d48a9adb).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/b947593e84b71486902b3ff1c7f9e1458b70e3f7). [The code after it](https://github.com/rahuldave/cheesecracker/tree/b947593e84b71486902b3ff1c7f9e1458b70e3f7).
 
 <a id="step-05.5"></a>
 
@@ -1678,20 +1743,20 @@ ruff prints `6 files already formatted`.
 Check your files against this move. The command prints nothing when they match, and otherwise shows what differs:
 
 ```bash
-git check 0b947e39deb1
+git check 42642115394d
 ```
 
 If you are stuck, this command puts the files of this move in place of yours. A file that you made yourself stays:
 
 ```bash
-git restore --source b7faca476ae4 --staged -- :/ && git restore --source 0b947e39deb1 --staged --worktree -- :/
+git restore --source b947593e84b7 --staged -- :/ && git restore --source 42642115394d --staged --worktree -- :/
 ```
 
 #### What changed
 
-- <a id="step-05.5-src-api-service-api-service.py-1e1e71"></a>`src/api-service/api/service.py`: the spaces, the blank lines, and the long `return` on six lines. 10 lines added, 2 removed. It comes from `just fmt`. [The file](https://github.com/rahuldave/cheesecracker/blob/0b947e39deb164c74a75486ca2f17a65bb933305/src/api-service/api/service.py).
+- <a id="step-05.5-src-api-service-api-service.py-1e1e71"></a>`src/api-service/api/service.py`: the spaces, the blank lines, and the long `return` on six lines. 10 lines added, 2 removed. It comes from `just fmt`. [The file](https://github.com/rahuldave/cheesecracker/blob/42642115394d8e19ead4c27bafaf4d90d991b0c9/src/api-service/api/service.py).
   - look at `z = power(x, 2) + power(y, 2)`
-- <a id="step-05.5-src-api-service-api-utils.py-18f1f8"></a>`src/api-service/api/utils.py`: the space after the comma, and two blank lines before `unused_function()`. 1 line added, 2 removed. It comes from `just fmt`. [The file](https://github.com/rahuldave/cheesecracker/blob/0b947e39deb164c74a75486ca2f17a65bb933305/src/api-service/api/utils.py).
+- <a id="step-05.5-src-api-service-api-utils.py-18f1f8"></a>`src/api-service/api/utils.py`: the space after the comma, and two blank lines before `unused_function()`. 1 line added, 2 removed. It comes from `just fmt`. [The file](https://github.com/rahuldave/cheesecracker/blob/42642115394d8e19ead4c27bafaf4d90d991b0c9/src/api-service/api/utils.py).
   - look at `def power(base, exponent):`
 
 <details><summary>The diff that <code>just fmt</code> makes in <code>src/api-service/api/service.py</code></summary>
@@ -1749,7 +1814,7 @@ git restore --source b7faca476ae4 --staged -- :/ && git restore --source 0b947e3
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/0b947e39deb164c74a75486ca2f17a65bb933305). [The code after it](https://github.com/rahuldave/cheesecracker/tree/0b947e39deb164c74a75486ca2f17a65bb933305).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/42642115394d8e19ead4c27bafaf4d90d991b0c9). [The code after it](https://github.com/rahuldave/cheesecracker/tree/42642115394d8e19ead4c27bafaf4d90d991b0c9).
 
 <a id="step-05.6"></a>
 
@@ -1773,18 +1838,18 @@ ruff finds 1 error, `E501`, and fails. The line of the message is 147 characters
 Check your files against this move. The command prints nothing when they match, and otherwise shows what differs:
 
 ```bash
-git check e80057d7bc3d
+git check cfd2ebb050dd
 ```
 
 If you are stuck, this command puts the files of this move in place of yours. A file that you made yourself stays:
 
 ```bash
-git restore --source 0b947e39deb1 --staged -- :/ && git restore --source e80057d7bc3d --staged --worktree -- :/
+git restore --source 42642115394d --staged -- :/ && git restore --source cfd2ebb050dd --staged --worktree -- :/
 ```
 
 #### What changed
 
-- <a id="step-05.6-src-api-service-api-service.py-1e1e71"></a>`src/api-service/api/service.py`: the import of `os`, removed. 0 lines added, 1 removed. It comes from `just lint --fix || true`. [The file](https://github.com/rahuldave/cheesecracker/blob/e80057d7bc3d2fafb164827f68741ff9fe989911/src/api-service/api/service.py).
+- <a id="step-05.6-src-api-service-api-service.py-1e1e71"></a>`src/api-service/api/service.py`: the import of `os`, removed. 0 lines added, 1 removed. It comes from `just lint --fix || true`. [The file](https://github.com/rahuldave/cheesecracker/blob/cfd2ebb050dda3ce951f0f28e84b9ae09fbe14d5/src/api-service/api/service.py).
 
 <details><summary>The diff that <code>just lint --fix || true</code> makes in <code>src/api-service/api/service.py</code></summary>
 
@@ -1801,7 +1866,7 @@ git restore --source 0b947e39deb1 --staged -- :/ && git restore --source e80057d
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/e80057d7bc3d2fafb164827f68741ff9fe989911). [The code after it](https://github.com/rahuldave/cheesecracker/tree/e80057d7bc3d2fafb164827f68741ff9fe989911).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/cfd2ebb050dda3ce951f0f28e84b9ae09fbe14d5). [The code after it](https://github.com/rahuldave/cheesecracker/tree/cfd2ebb050dda3ce951f0f28e84b9ae09fbe14d5).
 
 <a id="step-05.7"></a>
 
@@ -1812,7 +1877,7 @@ A long message is a choice of words, so a person has to shorten it. The new mess
 Apply the patch to [`src/api-service/api/service.py`](#step-05.7-src-api-service-api-service.py-1e1e71), from the top of the project:
 
 ```bash
-curl -fsSL https://github.com/rahuldave/cheesecracker/commit/b8f5794bb9f399c8e37c853fd985669d1706bf8f.diff | git apply --include=src/api-service/api/service.py
+curl -fsSL https://github.com/rahuldave/cheesecracker/commit/693a713a458db01debdd7ebc3b084ed1b0350b08.diff | git apply --include=src/api-service/api/service.py
 ```
 
 Apply the patch. It changes the value of `"message"` in the `return` at the end of the file.
@@ -1827,18 +1892,18 @@ a function that nothing calls.
 Check your files against this move. The command prints nothing when they match, and otherwise shows what differs:
 
 ```bash
-git check b8f5794bb9f3
+git check 693a713a458d
 ```
 
 If you are stuck, this command puts the files of this move in place of yours. A file that you made yourself stays:
 
 ```bash
-git restore --source e80057d7bc3d --staged -- :/ && git restore --source b8f5794bb9f3 --staged --worktree -- :/
+git restore --source cfd2ebb050dd --staged -- :/ && git restore --source 693a713a458d --staged --worktree -- :/
 ```
 
 #### What changed
 
-- <a id="step-05.7-src-api-service-api-service.py-1e1e71"></a>`src/api-service/api/service.py`: a shorter message. 1 line added, 1 removed. [The file](https://github.com/rahuldave/cheesecracker/blob/b8f5794bb9f399c8e37c853fd985669d1706bf8f/src/api-service/api/service.py).
+- <a id="step-05.7-src-api-service-api-service.py-1e1e71"></a>`src/api-service/api/service.py`: a shorter message. 1 line added, 1 removed. [The file](https://github.com/rahuldave/cheesecracker/blob/693a713a458db01debdd7ebc3b084ed1b0350b08/src/api-service/api/service.py).
   - look at `"message": "This is a very long line that exceeds 120 characters blah",`
 
 <details open><summary>The patch to <code>src/api-service/api/service.py</code></summary>
@@ -1855,7 +1920,7 @@ git restore --source e80057d7bc3d --staged -- :/ && git restore --source b8f5794
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/b8f5794bb9f399c8e37c853fd985669d1706bf8f). [The code after it](https://github.com/rahuldave/cheesecracker/tree/b8f5794bb9f399c8e37c853fd985669d1706bf8f).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/693a713a458db01debdd7ebc3b084ed1b0350b08). [The code after it](https://github.com/rahuldave/cheesecracker/tree/693a713a458db01debdd7ebc3b084ed1b0350b08).
 
 <a id="step-05.8"></a>
 
@@ -1867,7 +1932,7 @@ first that fails.
 Apply the patch to [`justfile`](#step-05.8-justfile-424f0b), from the top of the project:
 
 ```bash
-curl -fsSL https://github.com/rahuldave/cheesecracker/commit/56a13525d9d3380d8190d2b029073d641e8ef3db.diff | git apply --include=justfile
+curl -fsSL https://github.com/rahuldave/cheesecracker/commit/e89e0cfa991257757c887f687087a9c77c093e20.diff | git apply --include=justfile
 ```
 
 Read the recipe `check` at the end of the `justfile`.
@@ -1881,24 +1946,24 @@ just prints each command, and the last line is `21 passed`.
 Check your files against this move. The command prints nothing when they match, and otherwise shows what differs:
 
 ```bash
-git check 56a13525d9d3
+git check e89e0cfa9912
 ```
 
 If you are stuck, this command puts the files of this move in place of yours. A file that you made yourself stays:
 
 ```bash
-git restore --source b8f5794bb9f3 --staged -- :/ && git restore --source 56a13525d9d3 --staged --worktree -- :/
+git restore --source 693a713a458d --staged -- :/ && git restore --source e89e0cfa9912 --staged --worktree -- :/
 ```
 
 #### What changed
 
-- <a id="step-05.8-justfile-424f0b"></a>`justfile`: the recipe `check`. 6 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/56a13525d9d3380d8190d2b029073d641e8ef3db/justfile).
+- <a id="step-05.8-justfile-424f0b"></a>`justfile`: the recipe `check`. 6 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/e89e0cfa991257757c887f687087a9c77c093e20/justfile).
   - look at `just fmt --check`
 
 <details open><summary>The patch to <code>justfile</code></summary>
 
 ```diff
-@@ -30,3 +30,9 @@ fmt *args:
+@@ -52,3 +52,9 @@ fmt *args:
  # Check the code against the rules in pyproject.toml. Extra arguments go to ruff: just lint --fix
  lint *args:
      uv run ruff check "$@"
@@ -1912,7 +1977,7 @@ git restore --source b8f5794bb9f3 --staged -- :/ && git restore --source 56a1352
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/56a13525d9d3380d8190d2b029073d641e8ef3db). [The code after it](https://github.com/rahuldave/cheesecracker/tree/56a13525d9d3380d8190d2b029073d641e8ef3db).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/e89e0cfa991257757c887f687087a9c77c093e20). [The code after it](https://github.com/rahuldave/cheesecracker/tree/e89e0cfa991257757c887f687087a9c77c093e20).
 
 <a id="step-06"></a>
 
@@ -1925,7 +1990,7 @@ just setup
 `just check` works only when someone runs it. pre-commit runs checks before every `git commit`, and stops the commit
 when a check fails. The checks are in `.pre-commit-config.yaml`.
 
-[The code before this part](https://github.com/rahuldave/cheesecracker/tree/56a13525d9d3380d8190d2b029073d641e8ef3db). [The code after it](https://github.com/rahuldave/cheesecracker/tree/f6c2619eaa2b721a8bf6e830cced882b22770041).
+[The code before this part](https://github.com/rahuldave/cheesecracker/tree/e89e0cfa991257757c887f687087a9c77c093e20). [The code after it](https://github.com/rahuldave/cheesecracker/tree/57ec2e24ecd4946823edbfad27bc2296f80e3847).
 
 <a id="step-06.1"></a>
 
@@ -1946,20 +2011,20 @@ uv prints the version of pre-commit.
 Check your files against this move. The command prints nothing when they match, and otherwise shows what differs:
 
 ```bash
-git check ee12a45b7d6b
+git check f3ad230bf911
 ```
 
 If you are stuck, this command puts the files of this move in place of yours. A file that you made yourself stays:
 
 ```bash
-git restore --source 56a13525d9d3 --staged -- :/ && git restore --source ee12a45b7d6b --staged --worktree -- :/
+git restore --source e89e0cfa9912 --staged -- :/ && git restore --source f3ad230bf911 --staged --worktree -- :/
 ```
 
 #### What changed
 
-- <a id="step-06.1-pyproject.toml-5d07e7"></a>`pyproject.toml`: pre-commit, in the group `lint`. 1 line added. It comes from `uv add --group lint pre-commit`. [The file](https://github.com/rahuldave/cheesecracker/blob/ee12a45b7d6b32be63e845737f71631fbcedf4aa/pyproject.toml).
+- <a id="step-06.1-pyproject.toml-5d07e7"></a>`pyproject.toml`: pre-commit, in the group `lint`. 1 line added. It comes from `uv add --group lint pre-commit`. [The file](https://github.com/rahuldave/cheesecracker/blob/f3ad230bf911e0c446eb6752ec2718b910d9e851/pyproject.toml).
   - look at `"pre-commit>=4.7.0",`
-- <a id="step-06.1-uv.lock-8356d8"></a>`uv.lock`: the exact versions of pre-commit, and of the packages that it needs. 149 lines added, 1 removed. It comes from `uv add --group lint pre-commit`. [The file](https://github.com/rahuldave/cheesecracker/blob/ee12a45b7d6b32be63e845737f71631fbcedf4aa/uv.lock).
+- <a id="step-06.1-uv.lock-8356d8"></a>`uv.lock`: the exact versions of pre-commit, and of the packages that it needs. 149 lines added, 1 removed. It comes from `uv add --group lint pre-commit`. [The file](https://github.com/rahuldave/cheesecracker/blob/f3ad230bf911e0c446eb6752ec2718b910d9e851/uv.lock).
 
 <details><summary>The diff that <code>uv add --group lint pre-commit</code> makes in <code>pyproject.toml</code></summary>
 
@@ -1976,7 +2041,7 @@ git restore --source 56a13525d9d3 --staged -- :/ && git restore --source ee12a45
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/ee12a45b7d6b32be63e845737f71631fbcedf4aa). [The code after it](https://github.com/rahuldave/cheesecracker/tree/ee12a45b7d6b32be63e845737f71631fbcedf4aa).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/f3ad230bf911e0c446eb6752ec2718b910d9e851). [The code after it](https://github.com/rahuldave/cheesecracker/tree/f3ad230bf911e0c446eb6752ec2718b910d9e851).
 
 <a id="step-06.2"></a>
 
@@ -1989,7 +2054,7 @@ pre-commit-hooks, checks any file. The second, ruff-pre-commit, runs ruff's lint
 Apply the patch to [`.pre-commit-config.yaml`](#step-06.2-.pre-commit-config.yaml-e7d14d), from the top of the project:
 
 ```bash
-curl -fsSL https://github.com/rahuldave/cheesecracker/commit/20a744c7e7faa41aac234d64bee6c2eea717e1da.diff | git apply --include=.pre-commit-config.yaml
+curl -fsSL https://github.com/rahuldave/cheesecracker/commit/009d77653eadfde09e438656cde77b5eac489115.diff | git apply --include=.pre-commit-config.yaml
 ```
 
 Apply the patch, and read the two entries under `repos`. Each has an address, a version after `rev`, and its checks
@@ -2005,24 +2070,26 @@ uv run pre-commit run --all-files
 pre-commit prints a line for each check, `Passed` or `Skipped`.
 
 `.pre-commit-config.yaml` is new, and git does not track it yet. So `check yaml` says `(no files to check)Skipped`.
-`ruff check` and `ruff format` check the Python files, and say `Passed`. `check json` says `Skipped`, because the
-project has no JSON file.
+`check json` says `Skipped`, because the project has no JSON file.
+
+`ruff check` checks only the Python files that git tracks. When git knows them, it says `Passed`. If you made the Python files by hand and never ran `git add`
+on them, git does not know them, so `ruff check` says `Skipped` too. `ruff format` says `Passed` in both cases.
 
 Check your files against this move. The command prints nothing when they match, and otherwise shows what differs:
 
 ```bash
-git check 20a744c7e7fa
+git check 009d77653ead
 ```
 
 If you are stuck, this command puts the files of this move in place of yours. A file that you made yourself stays:
 
 ```bash
-git restore --source ee12a45b7d6b --staged -- :/ && git restore --source 20a744c7e7fa --staged --worktree -- :/
+git restore --source f3ad230bf911 --staged -- :/ && git restore --source 009d77653ead --staged --worktree -- :/
 ```
 
 #### What changed
 
-- <a id="step-06.2-.pre-commit-config.yaml-e7d14d"></a>`.pre-commit-config.yaml`: the checks that run before every commit. New, 22 lines. [The file](https://github.com/rahuldave/cheesecracker/blob/20a744c7e7faa41aac234d64bee6c2eea717e1da/.pre-commit-config.yaml).
+- <a id="step-06.2-.pre-commit-config.yaml-e7d14d"></a>`.pre-commit-config.yaml`: the checks that run before every commit. New, 22 lines. [The file](https://github.com/rahuldave/cheesecracker/blob/009d77653eadfde09e438656cde77b5eac489115/.pre-commit-config.yaml).
   - look at `- id: ruff-check`
 
 <details open><summary>The patch to <code>.pre-commit-config.yaml</code></summary>
@@ -2055,7 +2122,7 @@ git restore --source ee12a45b7d6b --staged -- :/ && git restore --source 20a744c
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/20a744c7e7faa41aac234d64bee6c2eea717e1da). [The code after it](https://github.com/rahuldave/cheesecracker/tree/20a744c7e7faa41aac234d64bee6c2eea717e1da).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/009d77653eadfde09e438656cde77b5eac489115). [The code after it](https://github.com/rahuldave/cheesecracker/tree/009d77653eadfde09e438656cde77b5eac489115).
 
 <a id="step-06.3"></a>
 
@@ -2067,7 +2134,7 @@ so the hook has a recipe of its own, `hook`. You run it once in each clone.
 Apply the patch to [`justfile`](#step-06.3-justfile-424f0b), from the top of the project:
 
 ```bash
-curl -fsSL https://github.com/rahuldave/cheesecracker/commit/f6c2619eaa2b721a8bf6e830cced882b22770041.diff | git apply --include=justfile
+curl -fsSL https://github.com/rahuldave/cheesecracker/commit/57ec2e24ecd4946823edbfad27bc2296f80e3847.diff | git apply --include=justfile
 ```
 
 Read the recipe `hook`, after the recipe `setup`.
@@ -2081,18 +2148,18 @@ pre-commit prints `pre-commit installed at .git/hooks/pre-commit`. From now on, 
 Check your files against this move. The command prints nothing when they match, and otherwise shows what differs:
 
 ```bash
-git check f6c2619eaa2b
+git check 57ec2e24ecd4
 ```
 
 If you are stuck, this command puts the files of this move in place of yours. A file that you made yourself stays:
 
 ```bash
-git restore --source 20a744c7e7fa --staged -- :/ && git restore --source f6c2619eaa2b --staged --worktree -- :/
+git restore --source 009d77653ead --staged -- :/ && git restore --source 57ec2e24ecd4 --staged --worktree -- :/
 ```
 
 #### What changed
 
-- <a id="step-06.3-justfile-424f0b"></a>`justfile`: the recipe `hook`. 4 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/f6c2619eaa2b721a8bf6e830cced882b22770041/justfile).
+- <a id="step-06.3-justfile-424f0b"></a>`justfile`: the recipe `hook`. 4 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/57ec2e24ecd4946823edbfad27bc2296f80e3847/justfile).
   - look at `uv run pre-commit install`
 
 <details open><summary>The patch to <code>justfile</code></summary>
@@ -2113,7 +2180,7 @@ git restore --source 20a744c7e7fa --staged -- :/ && git restore --source f6c2619
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/f6c2619eaa2b721a8bf6e830cced882b22770041). [The code after it](https://github.com/rahuldave/cheesecracker/tree/f6c2619eaa2b721a8bf6e830cced882b22770041).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/57ec2e24ecd4946823edbfad27bc2296f80e3847). [The code after it](https://github.com/rahuldave/cheesecracker/tree/57ec2e24ecd4946823edbfad27bc2296f80e3847).
 
 <a id="step-07"></a>
 
@@ -2127,7 +2194,7 @@ The server runs on this machine, with its `.venv` and this version of macOS or L
 such as a server on Google Cloud. A Docker image holds the server with everything it needs, so it runs the same on
 any machine with Docker. The run image is the image that production runs, our deployment.
 
-[The code before this part](https://github.com/rahuldave/cheesecracker/tree/f6c2619eaa2b721a8bf6e830cced882b22770041). [The code after it](https://github.com/rahuldave/cheesecracker/tree/fef4a5302b176458216aa960487c1662a1e9f795).
+[The code before this part](https://github.com/rahuldave/cheesecracker/tree/57ec2e24ecd4946823edbfad27bc2296f80e3847). [The code after it](https://github.com/rahuldave/cheesecracker/tree/d444e0387d256c62024581e98f59d670cbc93296).
 
 <a id="step-07.1"></a>
 
@@ -2139,7 +2206,7 @@ secrets. None of them belongs in an image. `.dockerignore` lists them.
 Apply the patch to [`.dockerignore`](#step-07.1-.dockerignore-05a721), from the top of the project:
 
 ```bash
-curl -fsSL https://github.com/rahuldave/cheesecracker/commit/35ace6018539978332f1810b0c66f58428d6f71a.diff | git apply --include=.dockerignore
+curl -fsSL https://github.com/rahuldave/cheesecracker/commit/2a28a5c704d6d9ed8200aeb8962aa01e5c2ac552.diff | git apply --include=.dockerignore
 ```
 
 Apply the patch, and read its list.
@@ -2153,18 +2220,18 @@ cat .dockerignore
 Check your files against this move. The command prints nothing when they match, and otherwise shows what differs:
 
 ```bash
-git check 35ace6018539
+git check 2a28a5c704d6
 ```
 
 If you are stuck, this command puts the files of this move in place of yours. A file that you made yourself stays:
 
 ```bash
-git restore --source f6c2619eaa2b --staged -- :/ && git restore --source 35ace6018539 --staged --worktree -- :/
+git restore --source 57ec2e24ecd4 --staged -- :/ && git restore --source 2a28a5c704d6 --staged --worktree -- :/
 ```
 
 #### What changed
 
-- <a id="step-07.1-.dockerignore-05a721"></a>`.dockerignore`: what `docker build` never sends to Docker. New, 10 lines. [The file](https://github.com/rahuldave/cheesecracker/blob/35ace6018539978332f1810b0c66f58428d6f71a/.dockerignore).
+- <a id="step-07.1-.dockerignore-05a721"></a>`.dockerignore`: what `docker build` never sends to Docker. New, 10 lines. [The file](https://github.com/rahuldave/cheesecracker/blob/2a28a5c704d6d9ed8200aeb8962aa01e5c2ac552/.dockerignore).
   - look at `.venv/`
 
 <details open><summary>The patch to <code>.dockerignore</code></summary>
@@ -2185,7 +2252,7 @@ git restore --source f6c2619eaa2b --staged -- :/ && git restore --source 35ace60
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/35ace6018539978332f1810b0c66f58428d6f71a). [The code after it](https://github.com/rahuldave/cheesecracker/tree/35ace6018539978332f1810b0c66f58428d6f71a).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/2a28a5c704d6d9ed8200aeb8962aa01e5c2ac552). [The code after it](https://github.com/rahuldave/cheesecracker/tree/2a28a5c704d6d9ed8200aeb8962aa01e5c2ac552).
 
 <a id="step-07.2"></a>
 
@@ -2197,7 +2264,7 @@ pre-commit. The `Dockerfile` builds the image in stages, and the run image takes
 Apply the patch to [`Dockerfile`](#step-07.2-Dockerfile-6651dd), from the top of the project:
 
 ```bash
-curl -fsSL https://github.com/rahuldave/cheesecracker/commit/b01d2392b453ec410b2083111565c8c14f4ddf11.diff | git apply --include=Dockerfile
+curl -fsSL https://github.com/rahuldave/cheesecracker/commit/0acb4556f724cd94e4a71ab4fff739a974413fc0.diff | git apply --include=Dockerfile
 ```
 
 Apply the patch, and read the three stages, which start at each `FROM`. Read the line `RUN uv sync` in the stage
@@ -2207,7 +2274,8 @@ Apply the patch, and read the three stages, which start at each `FROM`. Read the
 docker build --target run --tag cheesecracker-run .
 ```
 
-Docker prints each line of the `Dockerfile` as it runs, and the last line names the image `cheesecracker-run`.
+Docker prints each line of the `Dockerfile` as it runs. Near the end, the line `naming to
+docker.io/library/cheesecracker-run` names the image.
 
 ```bash
 docker image ls cheesecracker-run
@@ -2218,18 +2286,18 @@ The image is about 173 MB, nearly all of it Python and the dependencies of the s
 Check your files against this move. The command prints nothing when they match, and otherwise shows what differs:
 
 ```bash
-git check b01d2392b453
+git check 0acb4556f724
 ```
 
 If you are stuck, this command puts the files of this move in place of yours. A file that you made yourself stays:
 
 ```bash
-git restore --source 35ace6018539 --staged -- :/ && git restore --source b01d2392b453 --staged --worktree -- :/
+git restore --source 2a28a5c704d6 --staged -- :/ && git restore --source 0acb4556f724 --staged --worktree -- :/
 ```
 
 #### What changed
 
-- <a id="step-07.2-Dockerfile-6651dd"></a>`Dockerfile`: the stages `uv`, `build` and `run`. New, 34 lines. [The file](https://github.com/rahuldave/cheesecracker/blob/b01d2392b453ec410b2083111565c8c14f4ddf11/Dockerfile).
+- <a id="step-07.2-Dockerfile-6651dd"></a>`Dockerfile`: the stages `uv`, `build` and `run`. New, 34 lines. [The file](https://github.com/rahuldave/cheesecracker/blob/0acb4556f724cd94e4a71ab4fff739a974413fc0/Dockerfile).
   - look at `RUN uv sync --locked --no-default-groups`
 
 <details open><summary>The patch to <code>Dockerfile</code></summary>
@@ -2274,22 +2342,22 @@ git restore --source 35ace6018539 --staged -- :/ && git restore --source b01d239
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/b01d2392b453ec410b2083111565c8c14f4ddf11). [The code after it](https://github.com/rahuldave/cheesecracker/tree/b01d2392b453ec410b2083111565c8c14f4ddf11).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/0acb4556f724cd94e4a71ab4fff739a974413fc0). [The code after it](https://github.com/rahuldave/cheesecracker/tree/0acb4556f724cd94e4a71ab4fff739a974413fc0).
 
 <a id="step-07.3"></a>
 
-### 7.3 just docker-build and just docker-serve
+### 7.3 just docker-build, just docker-serve and just docker-stop
 
-Two recipes give the Docker commands short names. `docker-build` builds an image of the `Dockerfile`, and
-`docker-serve` runs the server in the run image at port 9000.
+Three recipes give the Docker commands short names. `docker-build` builds an image of the `Dockerfile`.
+`docker-serve` starts the server of the run image in the background, at port 9000, and `docker-stop` stops it.
 
 Apply the patch to [`justfile`](#step-07.3-justfile-424f0b), from the top of the project:
 
 ```bash
-curl -fsSL https://github.com/rahuldave/cheesecracker/commit/fef4a5302b176458216aa960487c1662a1e9f795.diff | git apply --include=justfile
+curl -fsSL https://github.com/rahuldave/cheesecracker/commit/d444e0387d256c62024581e98f59d670cbc93296.diff | git apply --include=justfile
 ```
 
-Read the recipes `docker-build` and `docker-serve` at the end of the `justfile`.
+Read the recipes `docker-build`, `docker-serve` and `docker-stop` at the end of the `justfile`.
 
 ```bash
 just docker-build run
@@ -2297,44 +2365,53 @@ just docker-build run
 
 The build takes a second, because Docker has every layer in its cache.
 
-The server of `just serve` uses port 9000. Stop it with Ctrl-C in its terminal. Then run the server in Docker, in that
-terminal.
-
 ```bash
-# in a second terminal
 just docker-serve
 ```
 
-uvicorn prints `Uvicorn running on http://0.0.0.0:9000`, and starts four workers. In another terminal, ask it for its
+The recipe prints `docker-serve: http://localhost:9000, in the container cheesecracker-run`. Ask the server for its
 health.
 
 ```bash
 curl -s localhost:9000/health
 ```
 
-The server in Docker answers `{"status":"healthy"}`, as the server on this machine did.
+The server in Docker answers `{"status":"healthy"}`, as the server on this machine did. The container runs in the
+background, so you do not see what it prints. Docker keeps that output, and `docker logs` shows it.
+
+```bash
+docker logs cheesecracker-run
+```
+
+uvicorn printed `Uvicorn running on http://0.0.0.0:9000`, and started four server processes, its workers.
+
+```bash
+just docker-stop
+```
+
+Docker prints the name of the container, `cheesecracker-run`, and the server stops.
 
 Check your files against this move. The command prints nothing when they match, and otherwise shows what differs:
 
 ```bash
-git check fef4a5302b17
+git check d444e0387d25
 ```
 
 If you are stuck, this command puts the files of this move in place of yours. A file that you made yourself stays:
 
 ```bash
-git restore --source b01d2392b453 --staged -- :/ && git restore --source fef4a5302b17 --staged --worktree -- :/
+git restore --source 0acb4556f724 --staged -- :/ && git restore --source d444e0387d25 --staged --worktree -- :/
 ```
 
 #### What changed
 
-- <a id="step-07.3-justfile-424f0b"></a>`justfile`: the recipes `docker-build` and `docker-serve`. 8 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/fef4a5302b176458216aa960487c1662a1e9f795/justfile).
-  - look at `docker run --rm --name cheesecracker-run -p 9000:9000 cheesecracker-run`
+- <a id="step-07.3-justfile-424f0b"></a>`justfile`: the recipes `docker-build`, `docker-serve` and `docker-stop`. 20 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/d444e0387d256c62024581e98f59d670cbc93296/justfile).
+  - look at `docker run --rm --detach --name cheesecracker-run --publish 9000:9000 cheesecracker-run > /dev/null || exit 1`
 
 <details open><summary>The patch to <code>justfile</code></summary>
 
 ```diff
-@@ -40,3 +40,11 @@ check:
+@@ -62,3 +62,23 @@ check:
      just fmt --check
      just lint
      just test -q
@@ -2343,14 +2420,26 @@ git restore --source b01d2392b453 --staged -- :/ && git restore --source fef4a53
 +docker-build kind:
 +    docker build --target "$1" --tag "cheesecracker-$1" .
 +
-+# Run the server in the run image, at http://localhost:9000, as it runs in production. Ctrl-C stops it
++# Start the server in the run image, in the background, at http://localhost:9000, as it runs in production. just docker-stop stops it
 +docker-serve:
-+    docker run --rm --name cheesecracker-run -p 9000:9000 cheesecracker-run
++    #!/usr/bin/env sh
++    if curl -sf localhost:9000/health > /dev/null; then echo "docker-serve: a server already answers at http://localhost:9000" >&2; exit 1; fi
++    docker run --rm --detach --name cheesecracker-run --publish 9000:9000 cheesecracker-run > /dev/null || exit 1
++    for i in $(seq 1 30); do
++        if curl -sf localhost:9000/health > /dev/null; then echo "docker-serve: http://localhost:9000, in the container cheesecracker-run"; exit 0; fi
++        sleep 1
++    done
++    echo "docker-serve: no answer after 30 seconds; read docker logs cheesecracker-run" >&2
++    exit 1
++
++# Stop the server of just docker-serve, and remove its container
++docker-stop:
++    docker stop cheesecracker-run
 ```
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/fef4a5302b176458216aa960487c1662a1e9f795). [The code after it](https://github.com/rahuldave/cheesecracker/tree/fef4a5302b176458216aa960487c1662a1e9f795).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/d444e0387d256c62024581e98f59d670cbc93296). [The code after it](https://github.com/rahuldave/cheesecracker/tree/d444e0387d256c62024581e98f59d670cbc93296).
 
 <a id="step-08"></a>
 
@@ -2358,13 +2447,15 @@ git restore --source b01d2392b453 --staged -- :/ && git restore --source fef4a53
 
 ```bash
 just setup
+just docker-build run
+just docker-serve
 ```
 
 The integration tests call the app in the same process as the tests. They cannot tell whether the image starts, or
 whether the server answers on its port. A system test sends real HTTP requests to the running server, as the Cheese
-App does. Here the server is the run image, our deployment.
+App does. Here the server is the run image, our deployment, which `just docker-serve` starts.
 
-[The code before this part](https://github.com/rahuldave/cheesecracker/tree/fef4a5302b176458216aa960487c1662a1e9f795). [The code after it](https://github.com/rahuldave/cheesecracker/tree/d0082e00de28a4ffad591fa0035f7d83d15f6a04).
+[The code before this part](https://github.com/rahuldave/cheesecracker/tree/d444e0387d256c62024581e98f59d670cbc93296). [The code after it](https://github.com/rahuldave/cheesecracker/tree/ada469682ca5e1ba62c65d14b08778392e27ea2c).
 
 <a id="step-08.1"></a>
 
@@ -2386,20 +2477,20 @@ Python prints the version of requests.
 Check your files against this move. The command prints nothing when they match, and otherwise shows what differs:
 
 ```bash
-git check a3868e0a2fde
+git check de0780b72a5c
 ```
 
 If you are stuck, this command puts the files of this move in place of yours. A file that you made yourself stays:
 
 ```bash
-git restore --source fef4a5302b17 --staged -- :/ && git restore --source a3868e0a2fde --staged --worktree -- :/
+git restore --source d444e0387d25 --staged -- :/ && git restore --source de0780b72a5c --staged --worktree -- :/
 ```
 
 #### What changed
 
-- <a id="step-08.1-pyproject.toml-5d07e7"></a>`pyproject.toml`: requests, in the group `test`. 1 line added. It comes from `uv add --group test requests`. [The file](https://github.com/rahuldave/cheesecracker/blob/a3868e0a2fdec755cffc4c13d7cfcfd2262ee6c6/pyproject.toml).
+- <a id="step-08.1-pyproject.toml-5d07e7"></a>`pyproject.toml`: requests, in the group `test`. 1 line added. It comes from `uv add --group test requests`. [The file](https://github.com/rahuldave/cheesecracker/blob/de0780b72a5cad4f0ed70e9c0cdcdee9d1028562/pyproject.toml).
   - look at `"requests>=2.34.2",`
-- <a id="step-08.1-uv.lock-8356d8"></a>`uv.lock`: the exact versions of requests, and of the packages that it needs. 166 lines added. It comes from `uv add --group test requests`. [The file](https://github.com/rahuldave/cheesecracker/blob/a3868e0a2fdec755cffc4c13d7cfcfd2262ee6c6/uv.lock).
+- <a id="step-08.1-uv.lock-8356d8"></a>`uv.lock`: the exact versions of requests, and of the packages that it needs. 166 lines added. It comes from `uv add --group test requests`. [The file](https://github.com/rahuldave/cheesecracker/blob/de0780b72a5cad4f0ed70e9c0cdcdee9d1028562/uv.lock).
 
 <details><summary>The diff that <code>uv add --group test requests</code> makes in <code>pyproject.toml</code></summary>
 
@@ -2416,25 +2507,107 @@ git restore --source fef4a5302b17 --staged -- :/ && git restore --source a3868e0
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/a3868e0a2fdec755cffc4c13d7cfcfd2262ee6c6). [The code after it](https://github.com/rahuldave/cheesecracker/tree/a3868e0a2fdec755cffc4c13d7cfcfd2262ee6c6).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/de0780b72a5cad4f0ed70e9c0cdcdee9d1028562). [The code after it](https://github.com/rahuldave/cheesecracker/tree/de0780b72a5cad4f0ed70e9c0cdcdee9d1028562).
 
 <a id="step-08.2"></a>
 
-### 8.2 system tests, against the server in Docker
+### 8.2 the tests that run by default: unit and integration
 
-Five system tests send requests to `localhost:9000`. Four of them need a server there, and skip when none answers. The
-fifth imports the app, and needs no server.
+The system tests need a running server, and the other tests do not. `just test`, `just check`, the git hook and the
+dev image run every test of `testpaths`. They must not depend on a server, so `testpaths` names the two folders of
+tests that need none. The system tests then run only when we ask for them.
 
-Apply the patch to [`tests/system/test_system_api.py`](#step-08.2-tests-system-test_system_api.py-780a11), from the top of the project:
+Set the values that this change sets in [`pyproject.toml`](#step-08.2-pyproject.toml-5d07e7). Run this command from the top of the project. It reads your file with tomlkit, a library for TOML files. It sets each of these values as the project has it, and keeps the rest of your file:
 
 ```bash
-curl -fsSL https://github.com/rahuldave/cheesecracker/commit/d0082e00de28a4ffad591fa0035f7d83d15f6a04.diff | git apply --include=tests/system/test_system_api.py
+uv run --quiet --no-config --no-project --with tomlkit python - <<'PY'
+import pathlib, tomlkit
+path = pathlib.Path('pyproject.toml')
+doc = tomlkit.parse(path.read_text(encoding='utf-8')) if path.exists() else tomlkit.document()
+# Each value that the change sets, by its keys
+SET = [
+    (('tool', 'pytest', 'ini_options', 'testpaths'), ['tests/unit', 'tests/integration']),
+]
+
+def put(table, keys, value):   # make each table on the way; a table goes into the one there, key by key
+    for key in keys[:-1]:
+        if key not in table:
+            table[key] = tomlkit.table(True)
+        table = table[key]
+    if isinstance(value, dict) and isinstance(table.get(keys[-1]), dict):
+        for key, item in value.items():
+            put(table[keys[-1]], [key], item)
+    else:
+        table[keys[-1]] = value
+
+for keys, value in SET:
+    put(doc, keys, value)
+path.write_text(tomlkit.dumps(doc), encoding='utf-8')
+PY
 ```
 
-Make the folder `tests/system/`, and apply the patch. Read the function `is_api_running()`, then the line
-`@pytest.mark.skipif` above the class `TestAPIEndpoints`.
+Read the line `testpaths` in the table `[tool.pytest.ini_options]` of `pyproject.toml`, and the comment above it.
 
-The server of `just docker-serve` must still run. Run the system tests against it.
+```bash
+just test -q
+```
+
+pytest prints `21 passed`, as before.
+
+Check your files against this move. The command prints nothing when they match, and otherwise shows what differs:
+
+```bash
+git check f6df5edbeffb
+```
+
+If you are stuck, this command puts the files of this move in place of yours. A file that you made yourself stays:
+
+```bash
+git restore --source de0780b72a5c --staged -- :/ && git restore --source f6df5edbeffb --staged --worktree -- :/
+```
+
+#### What changed
+
+- <a id="step-08.2-pyproject.toml-5d07e7"></a>`pyproject.toml`: the two folders of tests that run by default. 2 lines added, 2 removed. [The file](https://github.com/rahuldave/cheesecracker/blob/f6df5edbeffb588784804bf2147645d5ede6aaca/pyproject.toml).
+  - look at `testpaths = ["tests/unit", "tests/integration"]`
+
+<details open><summary>The patch to <code>pyproject.toml</code></summary>
+
+```diff
+@@ -29,8 +29,8 @@ test = [
+ ]
+ 
+ [tool.pytest.ini_options]
+-# The tests are in tests/, and import the package api from src/api-service/
+-testpaths = ["tests"]
++# The tests that run by default, which need no server. They import the package api from src/api-service/
++testpaths = ["tests/unit", "tests/integration"]
+ pythonpath = ["src/api-service"]
+ 
+ [tool.ruff]
+```
+
+</details>
+
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/f6df5edbeffb588784804bf2147645d5ede6aaca). [The code after it](https://github.com/rahuldave/cheesecracker/tree/f6df5edbeffb588784804bf2147645d5ede6aaca).
+
+<a id="step-08.3"></a>
+
+### 8.3 system tests, against the server in Docker
+
+Five system tests send requests to `localhost:9000`. Four of them need a server there, and the fifth imports the app.
+A test that needs a server must fail when none answers, as a test fails without its data. A fixture does that.
+
+Apply the patch to [`tests/system/test_system_api.py`](#step-08.3-tests-system-test_system_api.py-780a11), from the top of the project:
+
+```bash
+curl -fsSL https://github.com/rahuldave/cheesecracker/commit/e32704d961be53d188b08349a0270696878a1db0.diff | git apply --include=tests/system/test_system_api.py
+```
+
+Make the folder `tests/system/`, and apply the patch. Read the fixture `server`, then the line
+`@pytest.mark.usefixtures("server")` above the class `TestAPIEndpoints`.
+
+The server of `just docker-serve` runs. Run the system tests against it.
 
 ```bash
 uv run pytest tests/system -v
@@ -2442,22 +2615,28 @@ uv run pytest tests/system -v
 
 pytest prints `5 passed`. The four tests of `TestAPIEndpoints` sent their requests to the server in Docker.
 
+```bash
+just test -q
+```
+
+`just test` still prints `21 passed`, because `testpaths` leaves out `tests/system`.
+
 Check your files against this move. The command prints nothing when they match, and otherwise shows what differs:
 
 ```bash
-git check d0082e00de28
+git check e32704d961be
 ```
 
 If you are stuck, this command puts the files of this move in place of yours. A file that you made yourself stays:
 
 ```bash
-git restore --source a3868e0a2fde --staged -- :/ && git restore --source d0082e00de28 --staged --worktree -- :/
+git restore --source f6df5edbeffb --staged -- :/ && git restore --source e32704d961be --staged --worktree -- :/
 ```
 
 #### What changed
 
-- <a id="step-08.2-tests-system-test_system_api.py-780a11"></a>`tests/system/test_system_api.py`: five system tests, through real HTTP requests to `localhost:9000`. New, 69 lines. [The file](https://github.com/rahuldave/cheesecracker/blob/d0082e00de28a4ffad591fa0035f7d83d15f6a04/tests/system/test_system_api.py).
-  - look at `@pytest.mark.skipif(not is_api_running(), reason="API not running at localhost:9000")`
+- <a id="step-08.3-tests-system-test_system_api.py-780a11"></a>`tests/system/test_system_api.py`: five system tests, through real HTTP requests to `localhost:9000`. New, 69 lines. [The file](https://github.com/rahuldave/cheesecracker/blob/e32704d961be53d188b08349a0270696878a1db0/tests/system/test_system_api.py).
+  - look at `pytest.fail(f"no server at {API_BASE_URL}: start one with just docker-serve", pytrace=False)`
 
 <details open><summary>The patch to <code>tests/system/test_system_api.py</code></summary>
 
@@ -2476,16 +2655,16 @@ git restore --source a3868e0a2fde --staged -- :/ && git restore --source d0082e0
 +API_BASE_URL = "http://localhost:9000"
 +
 +
-+def is_api_running():
-+    """Check if API is accessible"""
++@pytest.fixture(scope="module")
++def server():
++    """Fail the tests that use it when no server answers at localhost:9000"""
 +    try:
-+        response = requests.get(f"{API_BASE_URL}/health", timeout=2)
-+        return response.status_code == 200
++        requests.get(f"{API_BASE_URL}/health", timeout=2)
 +    except requests.RequestException:
-+        return False
++        pytest.fail(f"no server at {API_BASE_URL}: start one with just docker-serve", pytrace=False)
 +
 +
-+@pytest.mark.skipif(not is_api_running(), reason="API not running at localhost:9000")
++@pytest.mark.usefixtures("server")
 +class TestAPIEndpoints:
 +    """System tests of the endpoints, through the running server"""
 +
@@ -2536,7 +2715,70 @@ git restore --source a3868e0a2fde --staged -- :/ && git restore --source d0082e0
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/d0082e00de28a4ffad591fa0035f7d83d15f6a04). [The code after it](https://github.com/rahuldave/cheesecracker/tree/d0082e00de28a4ffad591fa0035f7d83d15f6a04).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/e32704d961be53d188b08349a0270696878a1db0). [The code after it](https://github.com/rahuldave/cheesecracker/tree/e32704d961be53d188b08349a0270696878a1db0).
+
+<a id="step-08.4"></a>
+
+### 8.4 just test-system runs the system tests
+
+The system tests have a recipe of their own, `test-system`, apart from `just test` and `just check`. A missing server
+fails them, and never stops a commit.
+
+Apply the patch to [`justfile`](#step-08.4-justfile-424f0b), from the top of the project:
+
+```bash
+curl -fsSL https://github.com/rahuldave/cheesecracker/commit/ada469682ca5e1ba62c65d14b08778392e27ea2c.diff | git apply --include=justfile
+```
+
+Read the recipe `test-system` at the end of the `justfile`.
+
+```bash
+just test-system -q
+```
+
+pytest prints `5 passed`. Then stop the server, and run the system tests again.
+
+```bash
+just docker-stop
+just test-system -q
+```
+
+pytest fails, with `1 passed, 4 errors`. Each error says `no server at http://localhost:9000: start one with just
+docker-serve`.
+
+Check your files against this move. The command prints nothing when they match, and otherwise shows what differs:
+
+```bash
+git check ada469682ca5
+```
+
+If you are stuck, this command puts the files of this move in place of yours. A file that you made yourself stays:
+
+```bash
+git restore --source e32704d961be --staged -- :/ && git restore --source ada469682ca5 --staged --worktree -- :/
+```
+
+#### What changed
+
+- <a id="step-08.4-justfile-424f0b"></a>`justfile`: the recipe `test-system`. 4 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/ada469682ca5e1ba62c65d14b08778392e27ea2c/justfile).
+  - look at `uv run pytest tests/system "$@"`
+
+<details open><summary>The patch to <code>justfile</code></summary>
+
+```diff
+@@ -82,3 +82,7 @@ docker-serve:
+ # Stop the server of just docker-serve, and remove its container
+ docker-stop:
+     docker stop cheesecracker-run
++
++# Run the system tests against the server at http://localhost:9000. They fail when no server answers there
++test-system *args:
++    uv run pytest tests/system "$@"
+```
+
+</details>
+
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/ada469682ca5e1ba62c65d14b08778392e27ea2c). [The code after it](https://github.com/rahuldave/cheesecracker/tree/ada469682ca5e1ba62c65d14b08778392e27ea2c).
 
 <a id="step-09"></a>
 
@@ -2550,7 +2792,7 @@ The checks run on this machine. Another person, or a CI service, runs them on an
 the tools. The dev image holds the whole project with every group of dependencies, and uv, just and git. So the
 checks run in the same Linux, anywhere Docker runs.
 
-[The code before this part](https://github.com/rahuldave/cheesecracker/tree/d0082e00de28a4ffad591fa0035f7d83d15f6a04). [The code after it](https://github.com/rahuldave/cheesecracker/tree/365a077828f17f964bb47d90ed35a940c101098c).
+[The code before this part](https://github.com/rahuldave/cheesecracker/tree/ada469682ca5e1ba62c65d14b08778392e27ea2c). [The code after it](https://github.com/rahuldave/cheesecracker/tree/7289b1614eae3831f3523d44d49be3b3a77188d9).
 
 <a id="step-09.1"></a>
 
@@ -2562,7 +2804,7 @@ run image.
 Apply the patch to [`Dockerfile`](#step-09.1-Dockerfile-6651dd), from the top of the project:
 
 ```bash
-curl -fsSL https://github.com/rahuldave/cheesecracker/commit/4df0b7818255a35a80bfd7e3bac8d375a9160446.diff | git apply --include=Dockerfile
+curl -fsSL https://github.com/rahuldave/cheesecracker/commit/5135b59c9dcd3520e5622e30c0f6cbe9c2c65c81.diff | git apply --include=Dockerfile
 ```
 
 Apply the patch. Read the new lines at the top of the file, then the stage `dev` at the end. Read its line `RUN uv
@@ -2572,7 +2814,7 @@ tool install`, and its line `RUN uv sync --locked`, which installs every group.
 docker build --target dev --tag cheesecracker-dev .
 ```
 
-The last line names the image `cheesecracker-dev`.
+Near the end, the line `naming to docker.io/library/cheesecracker-dev` names the image.
 
 ```bash
 docker image ls cheesecracker-dev
@@ -2583,18 +2825,18 @@ The image is about 353 MB, twice the run image, because it has every tool.
 Check your files against this move. The command prints nothing when they match, and otherwise shows what differs:
 
 ```bash
-git check 4df0b7818255
+git check 5135b59c9dcd
 ```
 
 If you are stuck, this command puts the files of this move in place of yours. A file that you made yourself stays:
 
 ```bash
-git restore --source d0082e00de28 --staged -- :/ && git restore --source 4df0b7818255 --staged --worktree -- :/
+git restore --source ada469682ca5 --staged -- :/ && git restore --source 5135b59c9dcd --staged --worktree -- :/
 ```
 
 #### What changed
 
-- <a id="step-09.1-Dockerfile-6651dd"></a>`Dockerfile`: the stage `dev`, and its lines in the comment at the top. 26 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/4df0b7818255a35a80bfd7e3bac8d375a9160446/Dockerfile).
+- <a id="step-09.1-Dockerfile-6651dd"></a>`Dockerfile`: the stage `dev`, and its lines in the comment at the top. 26 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/5135b59c9dcd3520e5622e30c0f6cbe9c2c65c81/Dockerfile).
   - look at `FROM python:3.12-slim-bookworm AS dev`
 
 <details open><summary>The patch to <code>Dockerfile</code></summary>
@@ -2641,7 +2883,7 @@ git restore --source d0082e00de28 --staged -- :/ && git restore --source 4df0b78
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/4df0b7818255a35a80bfd7e3bac8d375a9160446). [The code after it](https://github.com/rahuldave/cheesecracker/tree/4df0b7818255a35a80bfd7e3bac8d375a9160446).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/5135b59c9dcd3520e5622e30c0f6cbe9c2c65c81). [The code after it](https://github.com/rahuldave/cheesecracker/tree/5135b59c9dcd3520e5622e30c0f6cbe9c2c65c81).
 
 <a id="step-09.2"></a>
 
@@ -2654,7 +2896,7 @@ that you name in the image, or `just check` if you name none.
 Apply the patch to [`justfile`](#step-09.2-justfile-424f0b), from the top of the project:
 
 ```bash
-curl -fsSL https://github.com/rahuldave/cheesecracker/commit/365a077828f17f964bb47d90ed35a940c101098c.diff | git apply --include=justfile
+curl -fsSL https://github.com/rahuldave/cheesecracker/commit/7289b1614eae3831f3523d44d49be3b3a77188d9.diff | git apply --include=justfile
 ```
 
 Read the recipes `docker-shell` and `docker-test` at the end of the `justfile`.
@@ -2663,8 +2905,8 @@ Read the recipes `docker-shell` and `docker-test` at the end of the `justfile`.
 just docker-test
 ```
 
-`just check` runs in Linux. The last line is `22 passed, 4 skipped`. The four system tests skip, because inside the
-container `localhost:9000` is the container itself, and no server answers there.
+`just check` runs in Linux. The last line is `21 passed`. The system tests do not run, because `just check` leaves them
+out.
 
 ```bash
 just docker-test test tests/unit -q
@@ -2675,27 +2917,27 @@ The eleven unit tests pass in Linux.
 Check your files against this move. The command prints nothing when they match, and otherwise shows what differs:
 
 ```bash
-git check 365a077828f1
+git check 7289b1614eae
 ```
 
 If you are stuck, this command puts the files of this move in place of yours. A file that you made yourself stays:
 
 ```bash
-git restore --source 4df0b7818255 --staged -- :/ && git restore --source 365a077828f1 --staged --worktree -- :/
+git restore --source 5135b59c9dcd --staged -- :/ && git restore --source 7289b1614eae --staged --worktree -- :/
 ```
 
 #### What changed
 
-- <a id="step-09.2-justfile-424f0b"></a>`justfile`: the recipes `docker-shell` and `docker-test`. 8 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/365a077828f17f964bb47d90ed35a940c101098c/justfile).
+- <a id="step-09.2-justfile-424f0b"></a>`justfile`: the recipes `docker-shell` and `docker-test`. 8 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/7289b1614eae3831f3523d44d49be3b3a77188d9/justfile).
   - look at `docker run --rm -v "$PWD":/work cheesecracker-dev just "${@:-check}"`
 
 <details open><summary>The patch to <code>justfile</code></summary>
 
 ```diff
-@@ -48,3 +48,11 @@ docker-build kind:
- # Run the server in the run image, at http://localhost:9000, as it runs in production. Ctrl-C stops it
- docker-serve:
-     docker run --rm --name cheesecracker-run -p 9000:9000 cheesecracker-run
+@@ -86,3 +86,11 @@ docker-stop:
+ # Run the system tests against the server at http://localhost:9000. They fail when no server answers there
+ test-system *args:
+     uv run pytest tests/system "$@"
 +
 +# A shell in the dev image, with this folder mounted at /work: an edit here shows in there at once
 +docker-shell:
@@ -2708,7 +2950,7 @@ git restore --source 4df0b7818255 --staged -- :/ && git restore --source 365a077
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/365a077828f17f964bb47d90ed35a940c101098c). [The code after it](https://github.com/rahuldave/cheesecracker/tree/365a077828f17f964bb47d90ed35a940c101098c).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/7289b1614eae3831f3523d44d49be3b3a77188d9). [The code after it](https://github.com/rahuldave/cheesecracker/tree/7289b1614eae3831f3523d44d49be3b3a77188d9).
 
 <a id="step-10"></a>
 
@@ -2725,13 +2967,13 @@ image.
 Apply the patch to [`src/api-service/api/service.py`](#step-10-src-api-service-api-service.py-1e1e71), from the top of the project:
 
 ```bash
-curl -fsSL https://github.com/rahuldave/cheesecracker/compare/365a077828f17f964bb47d90ed35a940c101098c...20887d935c37a6de9b0acfe902dacb15588dd5c0.diff | git apply --include=src/api-service/api/service.py
+curl -fsSL https://github.com/rahuldave/cheesecracker/compare/7289b1614eae3831f3523d44d49be3b3a77188d9...effff204ad0d917d40da0c370f2f4fec4833b0dd.diff | git apply --include=src/api-service/api/service.py
 ```
 
 Apply the patch to [`tests/integration/test_api.py`](#step-10-tests-integration-test_api.py-596674), from the top of the project:
 
 ```bash
-curl -fsSL https://github.com/rahuldave/cheesecracker/compare/365a077828f17f964bb47d90ed35a940c101098c...20887d935c37a6de9b0acfe902dacb15588dd5c0.diff | git apply --include=tests/integration/test_api.py
+curl -fsSL https://github.com/rahuldave/cheesecracker/compare/7289b1614eae3831f3523d44d49be3b3a77188d9...effff204ad0d917d40da0c370f2f4fec4833b0dd.diff | git apply --include=tests/integration/test_api.py
 ```
 
 Apply both patches. Read the function `add_numbers()` at the end of `service.py`, and `test_add_endpoint()` at the end
@@ -2749,12 +2991,11 @@ just docker-test
 
 The same checks pass in the dev image.
 
-The run image still has the old code, because an image is built once and does not change. Build it again, stop the old
-server with Ctrl-C, and run the new one.
+The run image still has the old code, because an image is built once and does not change. Build it again, and start
+its server.
 
 ```bash
 just docker-build run
-# in a second terminal
 just docker-serve
 curl -s "localhost:9000/add/?x=10&y=20"
 ```
@@ -2762,28 +3003,32 @@ curl -s "localhost:9000/add/?x=10&y=20"
 The server in Docker answers `{"result":30.0}`.
 
 ```bash
-uv run pytest tests/system -q
+just test-system -q
 ```
 
 The system tests print `5 passed` against the new run image.
 
+```bash
+just docker-stop
+```
+
 Check your files against this part. The command prints nothing when they match, and otherwise shows what differs:
 
 ```bash
-git check 20887d935c37
+git check effff204ad0d
 ```
 
 If you are stuck, this command puts the files of this part in place of yours. A file that you made yourself stays:
 
 ```bash
-git restore --source 365a077828f1 --staged -- :/ && git restore --source 20887d935c37 --staged --worktree -- :/
+git restore --source 7289b1614eae --staged -- :/ && git restore --source effff204ad0d --staged --worktree -- :/
 ```
 
 ### What changed
 
-- <a id="step-10-src-api-service-api-service.py-1e1e71"></a>`src/api-service/api/service.py`: the endpoint `/add/`. 6 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/20887d935c37a6de9b0acfe902dacb15588dd5c0/src/api-service/api/service.py).
+- <a id="step-10-src-api-service-api-service.py-1e1e71"></a>`src/api-service/api/service.py`: the endpoint `/add/`. 6 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/effff204ad0d917d40da0c370f2f4fec4833b0dd/src/api-service/api/service.py).
   - look at `return {"result": x + y}`
-- <a id="step-10-tests-integration-test_api.py-596674"></a>`tests/integration/test_api.py`: the test of `/add/`. 6 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/20887d935c37a6de9b0acfe902dacb15588dd5c0/tests/integration/test_api.py).
+- <a id="step-10-tests-integration-test_api.py-596674"></a>`tests/integration/test_api.py`: the test of `/add/`. 6 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/effff204ad0d917d40da0c370f2f4fec4833b0dd/tests/integration/test_api.py).
   - look at `response = client.get("/add/?x=10&y=20")`
 
 <details open><summary>The patch to <code>src/api-service/api/service.py</code></summary>
@@ -2820,4 +3065,4 @@ git restore --source 365a077828f1 --staged -- :/ && git restore --source 20887d9
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/compare/365a077828f17f964bb47d90ed35a940c101098c...20887d935c37a6de9b0acfe902dacb15588dd5c0). [The code after it](https://github.com/rahuldave/cheesecracker/tree/20887d935c37a6de9b0acfe902dacb15588dd5c0).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/compare/7289b1614eae3831f3523d44d49be3b3a77188d9...effff204ad0d917d40da0c370f2f4fec4833b0dd). [The code after it](https://github.com/rahuldave/cheesecracker/tree/effff204ad0d917d40da0c370f2f4fec4833b0dd).

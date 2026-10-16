@@ -8,13 +8,15 @@ title: "8 System tests"
 
 ```bash
 just setup
+just docker-build run
+just docker-serve
 ```
 
 The integration tests call the app in the same process as the tests. They cannot tell whether the image starts, or
 whether the server answers on its port. A system test sends real HTTP requests to the running server, as the Cheese
-App does. Here the server is the run image, our deployment.
+App does. Here the server is the run image, our deployment, which `just docker-serve` starts.
 
-[The code before this part](https://github.com/rahuldave/cheesecracker/tree/fef4a5302b176458216aa960487c1662a1e9f795). [The code after it](https://github.com/rahuldave/cheesecracker/tree/d0082e00de28a4ffad591fa0035f7d83d15f6a04).
+[The code before this part](https://github.com/rahuldave/cheesecracker/tree/d444e0387d256c62024581e98f59d670cbc93296). [The code after it](https://github.com/rahuldave/cheesecracker/tree/ada469682ca5e1ba62c65d14b08778392e27ea2c).
 
 ## 8.1 requests, for tests that send real HTTP requests {#step-08.1}
 
@@ -31,9 +33,9 @@ Python prints the version of requests.
 
 ### What changed {#step-08.1-what-changed-182c57}
 
-- <a id="step-08.1-pyproject.toml-5d07e7"></a>`pyproject.toml`: requests, in the group `test`. 1 line added. It comes from `uv add --group test requests`. [The file](https://github.com/rahuldave/cheesecracker/blob/a3868e0a2fdec755cffc4c13d7cfcfd2262ee6c6/pyproject.toml).
+- <a id="step-08.1-pyproject.toml-5d07e7"></a>`pyproject.toml`: requests, in the group `test`. 1 line added. It comes from `uv add --group test requests`. [The file](https://github.com/rahuldave/cheesecracker/blob/de0780b72a5cad4f0ed70e9c0cdcdee9d1028562/pyproject.toml).
   - look at `"requests>=2.34.2",`
-- <a id="step-08.1-uv.lock-8356d8"></a>`uv.lock`: the exact versions of requests, and of the packages that it needs. 166 lines added. It comes from `uv add --group test requests`. [The file](https://github.com/rahuldave/cheesecracker/blob/a3868e0a2fdec755cffc4c13d7cfcfd2262ee6c6/uv.lock).
+- <a id="step-08.1-uv.lock-8356d8"></a>`uv.lock`: the exact versions of requests, and of the packages that it needs. 166 lines added. It comes from `uv add --group test requests`. [The file](https://github.com/rahuldave/cheesecracker/blob/de0780b72a5cad4f0ed70e9c0cdcdee9d1028562/uv.lock).
 
 <details><summary>The diff of <code>pyproject.toml</code></summary>
 
@@ -50,20 +52,62 @@ Python prints the version of requests.
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/a3868e0a2fdec755cffc4c13d7cfcfd2262ee6c6). [The code after it](https://github.com/rahuldave/cheesecracker/tree/a3868e0a2fdec755cffc4c13d7cfcfd2262ee6c6).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/de0780b72a5cad4f0ed70e9c0cdcdee9d1028562). [The code after it](https://github.com/rahuldave/cheesecracker/tree/de0780b72a5cad4f0ed70e9c0cdcdee9d1028562).
 
-## 8.2 system tests, against the server in Docker {#step-08.2}
+## 8.2 the tests that run by default: unit and integration {#step-08.2}
 
-Five system tests send requests to `localhost:9000`. Four of them need a server there, and skip when none answers. The
-fifth imports the app, and needs no server.
+The system tests need a running server, and the other tests do not. `just test`, `just check`, the git hook and the
+dev image run every test of `testpaths`. They must not depend on a server, so `testpaths` names the two folders of
+tests that need none. The system tests then run only when we ask for them.
 
-A patch to [`tests/system/test_system_api.py`](#step-08.2-tests-system-test_system_api.py-780a11).
+A patch to [`pyproject.toml`](#step-08.2-pyproject.toml-5d07e7).
 
-The new file `tests/system/test_system_api.py` sets `API_BASE_URL` to `http://localhost:9000`. `is_api_running()` asks
-for `/health`. The decorator `@pytest.mark.skipif` skips the class `TestAPIEndpoints` when no server answers. The
-class `TestAPIWithoutServer` imports the app.
+`testpaths` in `[tool.pytest.ini_options]` now names `tests/unit` and `tests/integration`, in place of `tests`. A
+folder that pytest gets on its command line, such as `tests/system`, still runs.
 
-The server of `just docker-serve` must still run. Run the system tests against it.
+```bash
+just test -q
+```
+
+pytest prints `21 passed`, as before.
+
+### What changed {#step-08.2-what-changed-182c57}
+
+- <a id="step-08.2-pyproject.toml-5d07e7"></a>`pyproject.toml`: the two folders of tests that run by default. 2 lines added, 2 removed. [The file](https://github.com/rahuldave/cheesecracker/blob/f6df5edbeffb588784804bf2147645d5ede6aaca/pyproject.toml).
+  - look at `testpaths = ["tests/unit", "tests/integration"]`
+
+<details><summary>The diff of <code>pyproject.toml</code></summary>
+
+```diff
+@@ -29,8 +29,8 @@ test = [
+ ]
+ 
+ [tool.pytest.ini_options]
+-# The tests are in tests/, and import the package api from src/api-service/
+-testpaths = ["tests"]
++# The tests that run by default, which need no server. They import the package api from src/api-service/
++testpaths = ["tests/unit", "tests/integration"]
+ pythonpath = ["src/api-service"]
+ 
+ [tool.ruff]
+```
+
+</details>
+
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/f6df5edbeffb588784804bf2147645d5ede6aaca). [The code after it](https://github.com/rahuldave/cheesecracker/tree/f6df5edbeffb588784804bf2147645d5ede6aaca).
+
+## 8.3 system tests, against the server in Docker {#step-08.3}
+
+Five system tests send requests to `localhost:9000`. Four of them need a server there, and the fifth imports the app.
+A test that needs a server must fail when none answers, as a test fails without its data. A fixture does that.
+
+A patch to [`tests/system/test_system_api.py`](#step-08.3-tests-system-test_system_api.py-780a11).
+
+The new file `tests/system/test_system_api.py` sets `API_BASE_URL` to `http://localhost:9000`. The fixture `server`
+asks for `/health`, and fails with "no server at http://localhost:9000" when nothing answers. The four tests of
+`TestAPIEndpoints` use it. `TestAPIWithoutServer` imports the app, and needs no server.
+
+The server of `just docker-serve` runs. Run the system tests against it.
 
 ```bash
 uv run pytest tests/system -v
@@ -71,10 +115,16 @@ uv run pytest tests/system -v
 
 pytest prints `5 passed`. The four tests of `TestAPIEndpoints` sent their requests to the server in Docker.
 
-### What changed {#step-08.2-what-changed-182c57}
+```bash
+just test -q
+```
 
-- <a id="step-08.2-tests-system-test_system_api.py-780a11"></a>`tests/system/test_system_api.py`: five system tests, through real HTTP requests to `localhost:9000`. New, 69 lines. [The file](https://github.com/rahuldave/cheesecracker/blob/d0082e00de28a4ffad591fa0035f7d83d15f6a04/tests/system/test_system_api.py).
-  - look at `@pytest.mark.skipif(not is_api_running(), reason="API not running at localhost:9000")`
+`just test` still prints `21 passed`, because `testpaths` leaves out `tests/system`.
+
+### What changed {#step-08.3-what-changed-182c57}
+
+- <a id="step-08.3-tests-system-test_system_api.py-780a11"></a>`tests/system/test_system_api.py`: five system tests, through real HTTP requests to `localhost:9000`. New, 69 lines. [The file](https://github.com/rahuldave/cheesecracker/blob/e32704d961be53d188b08349a0270696878a1db0/tests/system/test_system_api.py).
+  - look at `pytest.fail(f"no server at {API_BASE_URL}: start one with just docker-serve", pytrace=False)`
 
 <details><summary>The diff of <code>tests/system/test_system_api.py</code></summary>
 
@@ -93,16 +143,16 @@ pytest prints `5 passed`. The four tests of `TestAPIEndpoints` sent their reques
 +API_BASE_URL = "http://localhost:9000"
 +
 +
-+def is_api_running():
-+    """Check if API is accessible"""
++@pytest.fixture(scope="module")
++def server():
++    """Fail the tests that use it when no server answers at localhost:9000"""
 +    try:
-+        response = requests.get(f"{API_BASE_URL}/health", timeout=2)
-+        return response.status_code == 200
++        requests.get(f"{API_BASE_URL}/health", timeout=2)
 +    except requests.RequestException:
-+        return False
++        pytest.fail(f"no server at {API_BASE_URL}: start one with just docker-serve", pytrace=False)
 +
 +
-+@pytest.mark.skipif(not is_api_running(), reason="API not running at localhost:9000")
++@pytest.mark.usefixtures("server")
 +class TestAPIEndpoints:
 +    """System tests of the endpoints, through the running server"""
 +
@@ -153,4 +203,50 @@ pytest prints `5 passed`. The four tests of `TestAPIEndpoints` sent their reques
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/d0082e00de28a4ffad591fa0035f7d83d15f6a04). [The code after it](https://github.com/rahuldave/cheesecracker/tree/d0082e00de28a4ffad591fa0035f7d83d15f6a04).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/e32704d961be53d188b08349a0270696878a1db0). [The code after it](https://github.com/rahuldave/cheesecracker/tree/e32704d961be53d188b08349a0270696878a1db0).
+
+## 8.4 just test-system runs the system tests {#step-08.4}
+
+The system tests have a recipe of their own, `test-system`, apart from `just test` and `just check`. A missing server
+fails them, and never stops a commit.
+
+A patch to [`justfile`](#step-08.4-justfile-424f0b).
+
+The recipe `test-system`, at the end of the `justfile`, runs `uv run pytest tests/system`, and passes on to pytest any
+words that you type after it.
+
+```bash
+just test-system -q
+```
+
+pytest prints `5 passed`. Then stop the server, and run the system tests again.
+
+```bash
+just docker-stop
+just test-system -q
+```
+
+pytest fails, with `1 passed, 4 errors`. Each error says `no server at http://localhost:9000: start one with just
+docker-serve`.
+
+### What changed {#step-08.4-what-changed-182c57}
+
+- <a id="step-08.4-justfile-424f0b"></a>`justfile`: the recipe `test-system`. 4 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/ada469682ca5e1ba62c65d14b08778392e27ea2c/justfile).
+  - look at `uv run pytest tests/system "$@"`
+
+<details><summary>The diff of <code>justfile</code></summary>
+
+```diff
+@@ -82,3 +82,7 @@ docker-serve:
+ # Stop the server of just docker-serve, and remove its container
+ docker-stop:
+     docker stop cheesecracker-run
++
++# Run the system tests against the server at http://localhost:9000. They fail when no server answers there
++test-system *args:
++    uv run pytest tests/system "$@"
+```
+
+</details>
+
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/ada469682ca5e1ba62c65d14b08778392e27ea2c). [The code after it](https://github.com/rahuldave/cheesecracker/tree/ada469682ca5e1ba62c65d14b08778392e27ea2c).

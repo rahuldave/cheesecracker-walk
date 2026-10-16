@@ -227,44 +227,58 @@ files:
 - file `src/api-service/api/service.py`: the FastAPI app, its CORS middleware, and the routes `/` and `/health`.
   show: `return {"status": "healthy"}`
 
-### step-02.3 just serve runs the server on this machine
+### step-02.3 just serve and just stop, the server on this machine
 
-The app does nothing until a server runs it. The recipe `serve` runs uvicorn at port 9000. `--app-dir` tells uvicorn
-where the package `api` is, and `--reload` restarts the server when a file of the code changes.
+The app does nothing until a server runs it. The recipe `serve` starts uvicorn at port 9000, in the background, and
+waits until the server answers. The recipe `stop` stops it. A server is a fixture of the commands that need it. We start
+it before them, and stop it after them.
 
 patch$ justfile
+patch$ .gitignore
 
 ::: do
-Read the recipe `serve` at the end of the `justfile`.
+Read the recipes `serve` and `stop` at the end of the `justfile`. Then read the two new lines of `.gitignore`.
 :::
 
 ::: watch
-The recipe `serve`, at the end of the `justfile`, runs `uvicorn api.service:app` at port 9000 of every address of this
-machine. `api.service:app` names the object `app` in the module `api.service`.
+The recipe `serve` runs `uvicorn api.service:app` with `&`, so the server runs in the background. `--app-dir` tells
+uvicorn where the package `api` is, and `--reload` restarts the server when a file of the code changes. The recipe
+keeps the number of the process in `.serve.pid`, and asks `/health` once a second until the server answers. `stop`
+stops that process, and waits until the port is free. `.gitignore` now lists `.serve.log` and `.serve.pid`, which git never takes.
 :::
 
-The server runs until you stop it, so it gets a terminal of its own. Leave it running.
+$ just serve
 
-runs$ just serve
-
-In another terminal, ask the server for its health.
+The recipe prints `serve: http://localhost:9000, its log in .serve.log`. Ask the server for its health.
 
 $ curl -s localhost:9000/health
 
 The server answers `{"status":"healthy"}`. Open `http://localhost:9000/docs` in a browser to see the pages that
 FastAPI makes for each route.
 
+$ just stop
+
+The recipe prints `stop: stopped`. Ask for the health again.
+
+$ curl -s localhost:9000/health
+
+`curl` prints nothing, and fails with the code 7, because no server answers.
+
 files:
-- diff `justfile`: the recipe `serve`.
-  show: `uv run uvicorn api.service:app --app-dir src/api-service --host 0.0.0.0 --port 9000 --reload`
+- diff `justfile`: the recipes `serve` and `stop`.
+  show: `uv run uvicorn api.service:app --app-dir src/api-service --host 0.0.0.0 --port 9000 --reload > .serve.log 2>&1 &`
+- diff `.gitignore`: the log of the server and the number of its process.
+  show: `.serve.pid`
 
 ## step-03 The distance endpoint, and integration tests
 
 $ just setup
 
+$ just serve
+
 The app needs an endpoint that does some work, and tests that call it. The endpoint computes the distance of a point
 from the origin with `power()`. An integration test sends requests to the app and checks the answers, with no server
-and no network.
+and no network. The server of `just serve` runs during this part, so we can ask it for each new answer.
 
 ### step-03.1 /euclidean_distance/, the distance of a point from the origin
 
@@ -283,9 +297,10 @@ Read the two imports after `CORSMiddleware`, and the new function at the end of 
 and returns them with the distance.
 :::
 
-If `just serve` still runs, it has restarted with the new code. Ask it for the distance of the point (3, 4).
+The server of `just serve` restarts with the new code, because of `--reload`. The restart takes a moment, so the
+command waits a second before it asks for the distance of the point (3, 4).
 
-$ curl -s "localhost:9000/euclidean_distance/?x=3&y=4"
+$ sleep 1 && curl -s "localhost:9000/euclidean_distance/?x=3&y=4"
 
 The server answers `{"x":3.0,"y":4.0,"distance":5.0}`.
 
@@ -332,7 +347,10 @@ that is not allowed (405). The class `TestCORS` checks the CORS headers.
 
 $ just test -q
 
-pytest prints `21 passed`, the eleven unit tests and the ten integration tests.
+pytest prints `21 passed`, the eleven unit tests and the ten integration tests. The tests needed no server, so we
+stop the one of `just serve`.
+
+$ just stop
 
 files:
 - file `tests/integration/test_api.py`: ten integration tests, through FastAPI's `TestClient`.
@@ -622,8 +640,10 @@ pre-commit prints a line for each check, `Passed` or `Skipped`.
 
 ::: do
 `.pre-commit-config.yaml` is new, and git does not track it yet. So `check yaml` says `(no files to check)Skipped`.
-`ruff check` and `ruff format` check the Python files, and say `Passed`. `check json` says `Skipped`, because the
-project has no JSON file.
+`check json` says `Skipped`, because the project has no JSON file.
+
+`ruff check` checks only the Python files that git tracks. When git knows them, it says `Passed`. If you made the Python files by hand and never ran `git add`
+on them, git does not know them, so `ruff check` says `Skipped` too. `ruff format` says `Passed` in both cases.
 :::
 
 ::: watch
@@ -709,7 +729,8 @@ package `api`, and runs uvicorn as the user `app`, with four workers.
 
 $ docker build --target run --tag cheesecracker-run .
 
-Docker prints each line of the `Dockerfile` as it runs, and the last line names the image `cheesecracker-run`.
+Docker prints each line of the `Dockerfile` as it runs. Near the end, the line `naming to
+docker.io/library/cheesecracker-run` names the image.
 
 $ docker image ls cheesecracker-run
 
@@ -719,50 +740,61 @@ files:
 - file `Dockerfile`: the stages `uv`, `build` and `run`.
   show: `RUN uv sync --locked --no-default-groups`
 
-### step-07.3 just docker-build and just docker-serve
+### step-07.3 just docker-build, just docker-serve and just docker-stop
 
-Two recipes give the Docker commands short names. `docker-build` builds an image of the `Dockerfile`, and
-`docker-serve` runs the server in the run image at port 9000.
+Three recipes give the Docker commands short names. `docker-build` builds an image of the `Dockerfile`.
+`docker-serve` starts the server of the run image in the background, at port 9000, and `docker-stop` stops it.
 
 patch$ justfile
 
 ::: do
-Read the recipes `docker-build` and `docker-serve` at the end of the `justfile`.
+Read the recipes `docker-build`, `docker-serve` and `docker-stop` at the end of the `justfile`.
 :::
 
 ::: watch
 The recipe `docker-build` takes the name of a stage, and runs `docker build --target` with it. `docker-serve` runs the
-image `cheesecracker-run`, and publishes its port 9000 at port 9000 of this machine. `--rm` removes the container
-when it stops.
+image `cheesecracker-run` with `--detach`, so the container runs in the background, as in the original tutorial's
+`docker run -d`. `--publish` connects its port 9000 to port 9000 of this machine. The recipe then asks `/health`
+until the server answers. `docker-stop` stops the container, and `--rm` removes it.
 :::
 
 $ just docker-build run
 
 The build takes a second, because Docker has every layer in its cache.
 
-The server of `just serve` uses port 9000. Stop it with Ctrl-C in its terminal. Then run the server in Docker, in that
-terminal.
+$ just docker-serve
 
-runs$ just docker-serve
-
-uvicorn prints `Uvicorn running on http://0.0.0.0:9000`, and starts four workers. In another terminal, ask it for its
+The recipe prints `docker-serve: http://localhost:9000, in the container cheesecracker-run`. Ask the server for its
 health.
 
 $ curl -s localhost:9000/health
 
-The server in Docker answers `{"status":"healthy"}`, as the server on this machine did.
+The server in Docker answers `{"status":"healthy"}`, as the server on this machine did. The container runs in the
+background, so you do not see what it prints. Docker keeps that output, and `docker logs` shows it.
+
+$ docker logs cheesecracker-run
+
+uvicorn printed `Uvicorn running on http://0.0.0.0:9000`, and started four server processes, its workers.
+
+$ just docker-stop
+
+Docker prints the name of the container, `cheesecracker-run`, and the server stops.
 
 files:
-- diff `justfile`: the recipes `docker-build` and `docker-serve`.
-  show: `docker run --rm --name cheesecracker-run -p 9000:9000 cheesecracker-run`
+- diff `justfile`: the recipes `docker-build`, `docker-serve` and `docker-stop`.
+  show: `docker run --rm --detach --name cheesecracker-run --publish 9000:9000 cheesecracker-run > /dev/null || exit 1`
 
 ## step-08 System tests
 
 $ just setup
 
+$ just docker-build run
+
+$ just docker-serve
+
 The integration tests call the app in the same process as the tests. They cannot tell whether the image starts, or
 whether the server answers on its port. A system test sends real HTTP requests to the running server, as the Cheese
-App does. Here the server is the run image, our deployment.
+App does. Here the server is the run image, our deployment, which `just docker-serve` starts.
 
 ### step-08.1 requests, for tests that send real HTTP requests
 
@@ -780,33 +812,93 @@ files:
   show: `"requests>=2.34.2",`
 - diff `uv.lock`: the exact versions of requests, and of the packages that it needs.
 
-### step-08.2 system tests, against the server in Docker
+### step-08.2 the tests that run by default: unit and integration
 
-Five system tests send requests to `localhost:9000`. Four of them need a server there, and skip when none answers. The
-fifth imports the app, and needs no server.
+The system tests need a running server, and the other tests do not. `just test`, `just check`, the git hook and the
+dev image run every test of `testpaths`. They must not depend on a server, so `testpaths` names the two folders of
+tests that need none. The system tests then run only when we ask for them.
+
+patch$ pyproject.toml
+
+::: do
+Read the line `testpaths` in the table `[tool.pytest.ini_options]` of `pyproject.toml`, and the comment above it.
+:::
+
+::: watch
+`testpaths` in `[tool.pytest.ini_options]` now names `tests/unit` and `tests/integration`, in place of `tests`. A
+folder that pytest gets on its command line, such as `tests/system`, still runs.
+:::
+
+$ just test -q
+
+pytest prints `21 passed`, as before.
+
+files:
+- diff `pyproject.toml`: the two folders of tests that run by default.
+  show: `testpaths = ["tests/unit", "tests/integration"]`
+
+### step-08.3 system tests, against the server in Docker
+
+Five system tests send requests to `localhost:9000`. Four of them need a server there, and the fifth imports the app.
+A test that needs a server must fail when none answers, as a test fails without its data. A fixture does that.
 
 patch$ tests/system/test_system_api.py
 
 ::: do
-Make the folder `tests/system/`, and apply the patch. Read the function `is_api_running()`, then the line
-`@pytest.mark.skipif` above the class `TestAPIEndpoints`.
+Make the folder `tests/system/`, and apply the patch. Read the fixture `server`, then the line
+`@pytest.mark.usefixtures("server")` above the class `TestAPIEndpoints`.
 :::
 
 ::: watch
-The new file `tests/system/test_system_api.py` sets `API_BASE_URL` to `http://localhost:9000`. `is_api_running()` asks
-for `/health`. The decorator `@pytest.mark.skipif` skips the class `TestAPIEndpoints` when no server answers. The
-class `TestAPIWithoutServer` imports the app.
+The new file `tests/system/test_system_api.py` sets `API_BASE_URL` to `http://localhost:9000`. The fixture `server`
+asks for `/health`, and fails with "no server at http://localhost:9000" when nothing answers. The four tests of
+`TestAPIEndpoints` use it. `TestAPIWithoutServer` imports the app, and needs no server.
 :::
 
-The server of `just docker-serve` must still run. Run the system tests against it.
+The server of `just docker-serve` runs. Run the system tests against it.
 
 $ uv run pytest tests/system -v
 
 pytest prints `5 passed`. The four tests of `TestAPIEndpoints` sent their requests to the server in Docker.
 
+$ just test -q
+
+`just test` still prints `21 passed`, because `testpaths` leaves out `tests/system`.
+
 files:
 - file `tests/system/test_system_api.py`: five system tests, through real HTTP requests to `localhost:9000`.
-  show: `@pytest.mark.skipif(not is_api_running(), reason="API not running at localhost:9000")`
+  show: `pytest.fail(f"no server at {API_BASE_URL}: start one with just docker-serve", pytrace=False)`
+
+### step-08.4 just test-system runs the system tests
+
+The system tests have a recipe of their own, `test-system`, apart from `just test` and `just check`. A missing server
+fails them, and never stops a commit.
+
+patch$ justfile
+
+::: do
+Read the recipe `test-system` at the end of the `justfile`.
+:::
+
+::: watch
+The recipe `test-system`, at the end of the `justfile`, runs `uv run pytest tests/system`, and passes on to pytest any
+words that you type after it.
+:::
+
+$ just test-system -q
+
+pytest prints `5 passed`. Then stop the server, and run the system tests again.
+
+$ just docker-stop
+
+$ just test-system -q
+
+pytest fails, with `1 passed, 4 errors`. Each error says `no server at http://localhost:9000: start one with just
+docker-serve`.
+
+files:
+- diff `justfile`: the recipe `test-system`.
+  show: `uv run pytest tests/system "$@"`
 
 ## step-09 The dev image
 
@@ -836,7 +928,7 @@ The stage `dev` installs git and curl, copies uv, and installs just as a package
 
 $ docker build --target dev --tag cheesecracker-dev .
 
-The last line names the image `cheesecracker-dev`.
+Near the end, the line `naming to docker.io/library/cheesecracker-dev` names the image.
 
 $ docker image ls cheesecracker-dev
 
@@ -865,8 +957,8 @@ Read the recipes `docker-shell` and `docker-test` at the end of the `justfile`.
 
 $ just docker-test
 
-`just check` runs in Linux. The last line is `22 passed, 4 skipped`. The four system tests skip, because inside the
-container `localhost:9000` is the container itself, and no server answers there.
+`just check` runs in Linux. The last line is `21 passed`. The system tests do not run, because `just check` leaves them
+out.
 
 $ just docker-test test tests/unit -q
 
@@ -905,20 +997,22 @@ $ just docker-test
 
 The same checks pass in the dev image.
 
-The run image still has the old code, because an image is built once and does not change. Build it again, stop the old
-server with Ctrl-C, and run the new one.
+The run image still has the old code, because an image is built once and does not change. Build it again, and start
+its server.
 
 $ just docker-build run
 
-runs$ just docker-serve
+$ just docker-serve
 
 $ curl -s "localhost:9000/add/?x=10&y=20"
 
 The server in Docker answers `{"result":30.0}`.
 
-$ uv run pytest tests/system -q
+$ just test-system -q
 
 The system tests print `5 passed` against the new run image.
+
+$ just docker-stop
 
 files:
 - diff `src/api-service/api/service.py`: the endpoint `/add/`.
