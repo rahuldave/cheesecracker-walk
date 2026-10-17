@@ -2089,8 +2089,9 @@ pre-commit prints a line for each check, `Passed` or `Skipped`.
 `.pre-commit-config.yaml` is new, and git does not track it yet. So `check yaml` says `(no files to check)Skipped`.
 `check json` says `Skipped`, because the project has no JSON file.
 
-`ruff check` checks only the Python files that git tracks. When git knows them, it says `Passed`. If you made the Python files by hand and never ran `git add`
-on them, git does not know them, so `ruff check` says `Skipped` too. `ruff format` says `Passed` in both cases.
+`ruff check` checks only the Python files that git tracks. A patch and an edit by hand do not run `git add`, so git
+does not know the Python files yet, and `ruff check` says `(no files to check)Skipped` too. After a `git add` of them,
+it says `Passed`. `ruff format` says `Passed` in both cases.
 
 Check your files against this move. The command prints nothing when they match, and otherwise shows what differs:
 
