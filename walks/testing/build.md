@@ -9,7 +9,8 @@ Each part ends with a section called **What changed**. It lists every file that 
 In Build it yourself, a file that a command makes says which command. A diff that is open is a patch. Apply it with the command in the text, or make the same change in your editor.
 
 We build the tests of cheesecracker, the API server of the Cheese App. A test runs the code and checks what it gives
-back, so a later change cannot break the server without a failure. This tutorial takes the parts about tests out of
+back, so a later change cannot break the server without a failure. [pytest](https://docs.pytest.org/) runs the tests. It finds the
+test functions of a project, runs them, and reports each failure. This tutorial takes the parts about tests out of
 the whole tutorial of cheesecracker. It leaves out ruff, pre-commit and the dev image.
 
 We make the project in moves. A move is one small change, made by one patch or by one command. You make each move,

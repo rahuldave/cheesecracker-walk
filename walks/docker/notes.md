@@ -1,6 +1,13 @@
-We put cheesecracker, the API server of the Cheese App, into Docker. A Docker image holds a small Linux system with
-the server and everything it needs, so it runs the same on any machine with Docker. We build two images from one
-lockfile. The run image is the server as it runs for the
+We put cheesecracker, the API server of the Cheese App, into Docker.
+
+[Docker](https://docs.docker.com/) runs programs in containers. A container is a process with its own files, cut off
+from the rest of the machine. It starts from an image, a small Linux system with the program and everything that the
+program needs. A file named `Dockerfile` lists the instructions that build an image. `docker build` makes the image,
+and `docker run` starts a container from it. On macOS and Windows, the app Docker Desktop runs Docker.
+
+An image runs the same on any machine with Docker, so the server runs for the real users of the app as it runs here.
+We build two images from one lockfile, `uv.lock`, which names the exact version of each package of the project. So
+both images hold the same versions. The run image is the server as it runs for the
 real users of the app, which we call production. It is our deployment.
 
 The dev image holds the project with every tool. This tutorial is the part of the whole tutorial of cheesecracker that adds Docker.

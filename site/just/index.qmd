@@ -6,12 +6,19 @@ title: "just, the recipes of cheesecracker"
 
 This walk is one of several through the project. The website of the first, [cheesecracker](../), lists them all.
 
-We follow the `justfile` of cheesecracker, the API server of the Cheese App. The program [just](https://just.systems/)
-reads this file. The
-file gives each task of the project a short name, and each named task is a recipe.
+We follow the `justfile` of cheesecracker, the API server of the Cheese App.
 
-The recipes keep the commands in one place, so a person, a git hook and Docker run the same
-thing. `just` alone lists them, and `just --show NAME` prints one. This tutorial takes the recipes out of the whole
+[just](https://just.systems/) is a command runner. A project keeps its commands in a file named `justfile`, and gives
+each one a short name. Each named command is a recipe. `just NAME` runs a recipe, `just` alone lists them, and
+`just --show NAME` prints one.
+
+A recipe can take more words after its name, as in `just test tests/unit`, and it can run several lines of
+commands. The program `just` is small, and its authors wrote it in Rust. Older projects often use a program named `make` for the same job.
+
+The recipes keep the long commands of the project in one place. Everyone on the project runs them by the same short
+names. Later, the project also runs in [Docker](https://docs.docker.com/), which runs a program in a container, a
+sealed copy of a small Linux system. The dev image of the project holds `just` and the other tools, so Docker runs
+the same recipes. This tutorial takes the recipes out of the whole
 tutorial of cheesecracker, one at a time, as each one comes in. Every recipe here is in the `justfile` of the project
 cheesecracker, in the folder of its code.
 

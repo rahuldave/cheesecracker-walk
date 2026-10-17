@@ -8,8 +8,12 @@ Each part ends with a section called **What changed**. It lists every file that 
 
 In Build it yourself, a file that a command makes says which command. A diff that is open is a patch. Apply it with the command in the text, or make the same change in your editor.
 
-We follow the dependencies of cheesecracker, the API server of the Cheese App. uv installs Python and the packages of
-the project, and writes their exact versions into one lockfile, `uv.lock`. The packages come in groups. The server
+We follow the dependencies of cheesecracker, the API server of the Cheese App. [uv](https://docs.astral.sh/uv/) is
+a tool that manages a Python project, written in Rust by Astral. It installs Python and the packages of the project
+into the folder `.venv`, and writes their exact versions into one lockfile, `uv.lock`. So every machine gets the same
+versions. `uv add` adds a package, and `uv run` runs a command with the project's Python.
+
+The packages come in groups. The server
 needs some of them to run. The tests and the checks need the others. This tutorial takes these parts out of the whole
 tutorial of cheesecracker, and ends with the two Docker images, which install different groups.
 

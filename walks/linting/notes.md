@@ -1,6 +1,10 @@
 We check the code of cheesecracker, the API server of the Cheese App. Code that works can still be hard to read, and
-a reader can miss a bug in it. A formatter writes the code in one layout, and a linter checks it against rules. ruff is
-both. pre-commit then runs the checks before every `git commit`. This tutorial takes these parts out of the whole
+a reader can miss a bug in it. A formatter writes the code in one layout, and a linter checks it against rules.
+[ruff](https://docs.astral.sh/ruff/) is both, in one fast tool written in Rust by Astral. It takes the place of black,
+the usual formatter, and of flake8, the usual linter. [pre-commit](https://pre-commit.com/) then runs the checks before
+every `git commit`, and stops the commit when one fails.
+
+This tutorial takes these parts out of the whole
 tutorial of cheesecracker.
 
 We make the project in moves. A move is one small change, made by one patch or by one command. You make each move,

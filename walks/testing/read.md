@@ -7,7 +7,8 @@
 Each part ends with a section called **What changed**. It lists every file that the part changes, with a link to the file, and then the whole diff of each file, folded. A lockfile and a binary file have a link alone. The text above it explains the change.
 
 We build the tests of cheesecracker, the API server of the Cheese App. A test runs the code and checks what it gives
-back, so a later change cannot break the server without a failure. This tutorial takes the parts about tests out of
+back, so a later change cannot break the server without a failure. [pytest](https://docs.pytest.org/) runs the tests. It finds the
+test functions of a project, runs them, and reports each failure. This tutorial takes the parts about tests out of
 the whole tutorial of cheesecracker. It leaves out ruff, pre-commit and the dev image.
 
 We make the project in moves. A move is one small change, made by one patch or by one command. You make each move,
