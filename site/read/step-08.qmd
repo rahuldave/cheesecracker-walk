@@ -27,7 +27,8 @@ App does. Here the server is the run image, our deployment, which `just docker-s
 
 ## 8.1 requests, for tests that send real HTTP requests {#step-08.1}
 
-The system tests send their requests with the package requests. It is a tool of the tests, so it goes into the group
+The system tests send their requests with the package [requests](https://requests.readthedocs.io/), the most used
+HTTP library of Python. It is a tool of the tests, so it goes into the group
 `test`.
 
 This change came from running `uv add --group test requests`.
@@ -67,7 +68,7 @@ The system tests need a running server, and the other tests do not. `just test`,
 dev image run every test of `testpaths`. They must not depend on a server, so `testpaths` names the two folders of
 tests that need none. The system tests then run only when we ask for them.
 
-A patch to [`pyproject.toml`](#step-08.2-pyproject.toml-5d07e7).
+[± See the change to `pyproject.toml`](#step-08.2-pyproject.toml-5d07e7){.btn .btn-sm .btn-secondary}
 
 `testpaths` in `[tool.pytest.ini_options]` now names `tests/unit` and `tests/integration`, in place of `tests`. A
 folder that pytest gets on its command line, such as `tests/system`, still runs.
@@ -106,7 +107,7 @@ pytest prints `21 passed`, as before.
 Five system tests send requests to `localhost:9000`. Four of them need a server there, and the fifth imports the app.
 A test that needs a server must fail when none answers, as a test fails without its data. A fixture does that.
 
-A patch to [`tests/system/test_system_api.py`](#step-08.3-tests-system-test_system_api.py-780a11).
+[± See the new file `tests/system/test_system_api.py`](#step-08.3-tests-system-test_system_api.py-780a11){.btn .btn-sm .btn-secondary}
 
 The new file `tests/system/test_system_api.py` sets `API_BASE_URL` to `http://localhost:9000`. The fixture `server`
 asks for `/health`, and fails with "no server at http://localhost:9000" when nothing answers. The four tests of
@@ -217,7 +218,7 @@ just test -q
 The system tests have a recipe of their own, `test-system`, apart from `just test` and `just check`. A missing server
 fails them, and never stops a commit.
 
-A patch to [`justfile`](#step-08.4-justfile-424f0b).
+[± See the change to `justfile`](#step-08.4-justfile-424f0b){.btn .btn-sm .btn-secondary}
 
 The recipe `test-system`, at the end of the `justfile`, runs `uv run pytest tests/system`, and passes on to pytest any
 words that you type after it.

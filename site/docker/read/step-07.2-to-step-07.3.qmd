@@ -29,7 +29,7 @@ it, start it and stop it.
 The run image needs Python, the dependencies of the server, and the code. It does not need uv, the tests, ruff or
 pre-commit. The `Dockerfile` builds the image in stages, and the run image takes only what the server needs.
 
-A patch to [`Dockerfile`](#step-07.2-Dockerfile-6651dd).
+[± See the new file `Dockerfile`](#step-07.2-Dockerfile-6651dd){.btn .btn-sm .btn-secondary}
 
 The stage `uv` takes uv from its own image. The stage `build` installs the dependencies of `uv.lock` into
 `/opt/venv`, with `--no-default-groups`, so no test tool and no ruff. The stage `run` copies `/opt/venv` and the
@@ -102,7 +102,7 @@ The image is about 173 MB, nearly all of it Python and the dependencies of the s
 Three recipes give the Docker commands short names. `docker-build` builds an image of the `Dockerfile`.
 `docker-serve` starts the server of the run image in the background, at port 9000, and `docker-stop` stops it.
 
-A patch to [`justfile`](#step-07.3-justfile-424f0b).
+[± See the change to `justfile`](#step-07.3-justfile-424f0b){.btn .btn-sm .btn-secondary}
 
 The recipe `docker-build` takes the name of a stage, and runs `docker build --target` with it. `docker-serve` runs the
 image `cheesecracker-run` with `--detach`, so the container runs in the background, as in the original tutorial's

@@ -24,6 +24,11 @@ linter.
 
 ## 5.2 ruff, the formatter and the linter, in the group lint {#step-05.2}
 
+[ruff](https://docs.astral.sh/ruff/) is a formatter and a linter in one tool, written in Rust by Astral, the makers
+of uv. `ruff format` writes the code in the layout of black, the formatter of most Python projects. `ruff check`
+checks the rules of flake8 and of many other linters, and can fix some of them. It takes the place of both black and
+flake8, and runs much faster.
+
 ruff checks the code, and the server does not need it to run. So ruff goes into a group of its own, `lint`.
 
 ```bash

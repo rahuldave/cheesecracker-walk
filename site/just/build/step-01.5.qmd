@@ -24,8 +24,8 @@ git rm -rq --cached --ignore-unmatch -- :/ && git restore --source cbc98b162671 
 just setup
 ```
 
-The whole tutorial first writes the function `power()`, adds pytest, tells pytest where the tests are, and writes
-eleven unit tests. The command that runs them gets a recipe.
+The whole tutorial first writes the function `power()`, and adds [pytest](https://docs.pytest.org/), a program that
+runs tests. It tells pytest where the tests are, and writes eleven unit tests. The command that runs them gets a recipe.
 
 ## 1.5 just test runs the tests {#step-01.5}
 

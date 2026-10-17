@@ -25,6 +25,13 @@ uvicorn is the server that runs a FastAPI app. We write an app that answers two 
 
 ## 2.1 FastAPI, and uvicorn to serve it {#step-02.1}
 
+[FastAPI](https://fastapi.tiangolo.com/) is a library for web APIs. A path is the part of an address after the name of the
+server, such as `/health`. A Python function answers the requests to one path when a line such as `@app.get("/health")` stands just above it. FastAPI uses the type written next to each argument, such
+as `float`, to check the values of each request. It also writes the pages of the API's docs.
+
+[uvicorn](https://uvicorn.dev/) is the server. It waits for requests on a numbered port of the machine, such as 9000,
+and hands each request to the app.
+
 The server needs FastAPI and uvicorn to run, so they are dependencies of the project itself, and not of a group.
 
 ```bash
@@ -185,7 +192,8 @@ The recipe prints `serve: http://localhost:9000, its log in .serve.log`. Ask the
 curl -s localhost:9000/health
 ```
 
-The server answers `{"status":"healthy"}`. Open `http://localhost:9000/docs` in a browser to see the pages that
+[curl](https://curl.se/) sends an HTTP request from the terminal, and prints the answer. macOS and most Linux systems
+have it. The server answers `{"status":"healthy"}`. Open `http://localhost:9000/docs` in a browser to see the pages that
 FastAPI makes for each route.
 
 ```bash

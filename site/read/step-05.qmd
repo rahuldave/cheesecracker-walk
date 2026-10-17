@@ -30,9 +30,9 @@ rules of flake8.
 A change made in a hurry leaves code that works and reads badly. The change adds an import that nothing uses, and takes
 out spaces and blank lines. It also makes one line 187 characters long, and adds a function that nothing calls.
 
-A patch to [`src/api-service/api/service.py`](#step-05.1-src-api-service-api-service.py-1e1e71).
+[± See the change to `src/api-service/api/service.py`](#step-05.1-src-api-service-api-service.py-1e1e71){.btn .btn-sm .btn-secondary}
 
-A patch to [`src/api-service/api/utils.py`](#step-05.1-src-api-service-api-utils.py-18f1f8).
+[± See the change to `src/api-service/api/utils.py`](#step-05.1-src-api-service-api-utils.py-18f1f8){.btn .btn-sm .btn-secondary}
 
 `service.py` now imports `os`, which nothing uses. `/health` follows `/` with no blank line. The line
 `z=power(x,2)+power(y,2)` has no spaces, and the `return` at the end is 187 characters long. `utils.py` has a missing
@@ -113,6 +113,11 @@ pytest still prints `21 passed`. The tests check what the code does, not how it 
 
 ## 5.2 ruff, the formatter and the linter, in the group lint {#step-05.2}
 
+[ruff](https://docs.astral.sh/ruff/) is a formatter and a linter in one tool, written in Rust by Astral, the makers
+of uv. `ruff format` writes the code in the layout of black, the formatter of most Python projects. `ruff check`
+checks the rules of flake8 and of many other linters, and can fix some of them. It takes the place of both black and
+flake8, and runs much faster.
+
 ruff checks the code, and the server does not need it to run. So ruff goes into a group of its own, `lint`.
 
 This change came from running `uv add --group lint ruff`.
@@ -153,7 +158,7 @@ uv prints the version of ruff, `ruff 0.17.1` on the day of the class.
 By default, ruff allows lines of up to 88 characters, and this project allows 120. Its default rules also leave out
 some rules of flake8. Two tables in `pyproject.toml` set both.
 
-A patch to [`pyproject.toml`](#step-05.3-pyproject.toml-5d07e7).
+[± See the change to `pyproject.toml`](#step-05.3-pyproject.toml-5d07e7){.btn .btn-sm .btn-secondary}
 
 `[tool.ruff]` sets `line-length = 120`, for the formatter and the linter. `[tool.ruff.lint]` selects the rules `E`, `W`
 and `F`. They are the errors and warnings of pycodestyle, and the rules of pyflakes, which flake8 checks.
@@ -201,7 +206,7 @@ ruff says `2 files would be reformatted`, and fails. `--check` changes no file.
 
 Two recipes give the formatter and the linter short names. Each passes on to ruff any words that you type after it.
 
-A patch to [`justfile`](#step-05.4-justfile-424f0b).
+[± See the change to `justfile`](#step-05.4-justfile-424f0b){.btn .btn-sm .btn-secondary}
 
 The recipe `fmt` runs `uv run ruff format`, and `lint` runs `uv run ruff check`. So `just fmt --check` checks the
 layout, and `just lint --fix` fixes what ruff can fix.
@@ -357,7 +362,7 @@ ruff finds 1 error, `E501`, and fails. The line of the message is 147 characters
 
 A long message is a choice of words, so a person has to shorten it. The new message is short enough for one line.
 
-A patch to [`src/api-service/api/service.py`](#step-05.7-src-api-service-api-service.py-1e1e71).
+[± See the change to `src/api-service/api/service.py`](#step-05.7-src-api-service-api-service.py-1e1e71){.btn .btn-sm .btn-secondary}
 
 The value of `"message"` in the `return` of `calculate_euclidean_distance()` is now shorter than 120 characters.
 
@@ -394,7 +399,7 @@ a function that nothing calls.
 The layout, the rules and the tests each have a recipe now. The recipe `check` runs all three, and stops at the
 first that fails.
 
-A patch to [`justfile`](#step-05.8-justfile-424f0b).
+[± See the change to `justfile`](#step-05.8-justfile-424f0b){.btn .btn-sm .btn-secondary}
 
 The recipe `check`, at the end of the `justfile`, runs `just fmt --check`, `just lint` and `just test -q`, in that
 order.

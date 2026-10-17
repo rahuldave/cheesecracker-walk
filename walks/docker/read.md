@@ -17,6 +17,11 @@ The images depend on the groups of dependencies of the project. The group `test`
 group `lint` holds ruff and pre-commit. The run image installs no group, and the dev image installs every group. The
 tutorial uv, beside this one, shows how the groups came to be.
 
+Two tools run the project on this machine. [uv](https://docs.astral.sh/uv/) installs Python and the packages of the
+project into the folder `.venv`, at the exact versions of `uv.lock`. [just](https://just.systems/) runs each task of
+the project by a short name. Each task is a recipe in the file `justfile`. `just setup` runs `uv sync --locked`,
+which makes uv install everything into `.venv`, and `just` alone lists the recipes.
+
 We make the project in moves. A move is one small change, made by one patch or by one command. You make each move,
 and the page checks your files against it.
 
@@ -38,10 +43,15 @@ Our first file for Docker, `.dockerignore`, lists the files that never go into a
 
 ### 7.1 what docker build leaves out
 
+[Docker](https://docs.docker.com/) runs programs in containers. A container is a process with its own files, cut off
+from the rest of the machine. A `Dockerfile` lists the steps that build an image. It starts from a base system, such
+as Debian with Python, and adds the files and the commands. `docker build` makes the image, and `docker run` starts a
+container from it. On macOS and Windows, the app Docker Desktop runs Docker.
+
 `docker build` sends the files of the folder to Docker. The folder has `.venv`, the caches of the tools, git and maybe
 secrets. None of them belongs in an image. `.dockerignore` lists them.
 
-A patch to [`.dockerignore`](#step-07.1-.dockerignore-05a721).
+[± See the new file `.dockerignore`](#step-07.1-.dockerignore-05a721)
 
 The new file `.dockerignore` lists `.venv/`, the caches of pytest, ruff and coverage, `.git/`, `secrets/` and `.env`.
 
@@ -98,7 +108,7 @@ it, start it and stop it.
 The run image needs Python, the dependencies of the server, and the code. It does not need uv, the tests, ruff or
 pre-commit. The `Dockerfile` builds the image in stages, and the run image takes only what the server needs.
 
-A patch to [`Dockerfile`](#step-07.2-Dockerfile-6651dd).
+[± See the new file `Dockerfile`](#step-07.2-Dockerfile-6651dd)
 
 The stage `uv` takes uv from its own image. The stage `build` installs the dependencies of `uv.lock` into
 `/opt/venv`, with `--no-default-groups`, so no test tool and no ruff. The stage `run` copies `/opt/venv` and the
@@ -173,7 +183,7 @@ The image is about 173 MB, nearly all of it Python and the dependencies of the s
 Three recipes give the Docker commands short names. `docker-build` builds an image of the `Dockerfile`.
 `docker-serve` starts the server of the run image in the background, at port 9000, and `docker-stop` stops it.
 
-A patch to [`justfile`](#step-07.3-justfile-424f0b).
+[± See the change to `justfile`](#step-07.3-justfile-424f0b)
 
 The recipe `docker-build` takes the name of a stage, and runs `docker build --target` with it. `docker-serve` runs the
 image `cheesecracker-run` with `--detach`, so the container runs in the background, as in the original tutorial's
@@ -273,7 +283,8 @@ App does. Here the server is the run image, our deployment, which `just docker-s
 
 ### 8.1 requests, for tests that send real HTTP requests
 
-The system tests send their requests with the package requests. It is a tool of the tests, so it goes into the group
+The system tests send their requests with the package [requests](https://requests.readthedocs.io/), the most used
+HTTP library of Python. It is a tool of the tests, so it goes into the group
 `test`.
 
 This change came from running `uv add --group test requests`.
@@ -315,7 +326,7 @@ The system tests need a running server, and the other tests do not. `just test`,
 dev image run every test of `testpaths`. They must not depend on a server, so `testpaths` names the two folders of
 tests that need none. The system tests then run only when we ask for them.
 
-A patch to [`pyproject.toml`](#step-08.2-pyproject.toml-5d07e7).
+[± See the change to `pyproject.toml`](#step-08.2-pyproject.toml-5d07e7)
 
 `testpaths` in `[tool.pytest.ini_options]` now names `tests/unit` and `tests/integration`, in place of `tests`. A
 folder that pytest gets on its command line, such as `tests/system`, still runs.
@@ -356,7 +367,7 @@ pytest prints `21 passed`, as before.
 Five system tests send requests to `localhost:9000`. Four of them need a server there, and the fifth imports the app.
 A test that needs a server must fail when none answers, as a test fails without its data. A fixture does that.
 
-A patch to [`tests/system/test_system_api.py`](#step-08.3-tests-system-test_system_api.py-780a11).
+[± See the new file `tests/system/test_system_api.py`](#step-08.3-tests-system-test_system_api.py-780a11)
 
 The new file `tests/system/test_system_api.py` sets `API_BASE_URL` to `http://localhost:9000`. The fixture `server`
 asks for `/health`, and fails with "no server at http://localhost:9000" when nothing answers. The four tests of
@@ -469,7 +480,7 @@ just test -q
 The system tests have a recipe of their own, `test-system`, apart from `just test` and `just check`. A missing server
 fails them, and never stops a commit.
 
-A patch to [`justfile`](#step-08.4-justfile-424f0b).
+[± See the change to `justfile`](#step-08.4-justfile-424f0b)
 
 The recipe `test-system`, at the end of the `justfile`, runs `uv run pytest tests/system`, and passes on to pytest any
 words that you type after it.
@@ -535,7 +546,7 @@ checks run in the same Linux, anywhere Docker runs.
 The dev image is a fourth stage of the `Dockerfile`, `dev`. It takes uv from the stage `uv`, and nothing from the
 run image.
 
-A patch to [`Dockerfile`](#step-09.1-Dockerfile-6651dd).
+[± See the change to `Dockerfile`](#step-09.1-Dockerfile-6651dd)
 
 The stage `dev` installs git and curl, copies uv, and installs just as a package of PyPI. It installs every group of
 `uv.lock` into `/opt/venv`, copies the project into `/work`, and starts a shell. `/opt/venv` is outside `/work`, so a
@@ -612,7 +623,7 @@ Two recipes run the dev image with this folder mounted at `/work`. An edit here 
 needs no rebuild after a change of the code. `docker-shell` opens a shell in the image. `docker-test` runs the recipe
 that you name in the image, or `just check` if you name none.
 
-A patch to [`justfile`](#step-09.2-justfile-424f0b).
+[± See the change to `justfile`](#step-09.2-justfile-424f0b)
 
 `docker-shell` runs `docker run --rm -it -v "$PWD":/work cheesecracker-dev`. `-v` mounts this folder at `/work`, and
 `-it` gives the shell a terminal. `docker-test` runs `just` in the image, with its words, or with `check`.
@@ -674,9 +685,9 @@ The Cheese App needs to add two numbers. The endpoint `/add/` takes `x` and `y`,
 test calls it. Then every check of the project runs again, on this machine, in the dev image, and against a new run
 image.
 
-A patch to [`src/api-service/api/service.py`](#step-10-src-api-service-api-service.py-1e1e71).
+[± See the change to `src/api-service/api/service.py`](#step-10-src-api-service-api-service.py-1e1e71)
 
-A patch to [`tests/integration/test_api.py`](#step-10-tests-integration-test_api.py-596674).
+[± See the change to `tests/integration/test_api.py`](#step-10-tests-integration-test_api.py-596674)
 
 `add_numbers()`, at the end of `service.py`, answers `/add/` with `{"result": x + y}`. `test_add_endpoint()`, at the
 end of `test_api.py`, asks for `/add/?x=10&y=20`, and expects 30.

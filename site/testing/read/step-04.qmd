@@ -28,7 +28,9 @@ package `api` that run during the tests, and lists the lines that no test ran.
 
 ## 4.1 pytest-cov, to measure what the tests run {#step-04.1}
 
-pytest-cov adds the option `--cov` to pytest. It is a tool of the tests, so it goes into the group `test`.
+A line that no test runs can break with no test failing. [pytest-cov](https://pytest-cov.readthedocs.io/) adds the
+option `--cov` to pytest. The option prints a table with each file and the share of its lines that ran. It is a tool
+of the tests, so it goes into the group `test`.
 
 This change came from running `uv add --group test pytest-cov`.
 
@@ -68,7 +70,7 @@ The table shows `utils.py` at 100% and `service.py` at 0%. The unit tests call `
 The recipe `cov` runs every test with coverage, and adds the column `Missing`, with the numbers of the lines that no
 test ran.
 
-A patch to [`justfile`](#step-04.2-justfile-424f0b).
+[± See the change to `justfile`](#step-04.2-justfile-424f0b){.btn .btn-sm .btn-secondary}
 
 The recipe `cov`, at the end of the `justfile`, runs pytest with `--cov=api --cov-report=term-missing`, and passes
 on to pytest any words that you type after `just cov`.

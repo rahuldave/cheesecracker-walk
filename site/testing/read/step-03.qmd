@@ -33,7 +33,7 @@ and no network.
 The Cheese App asks the server for the distance of a point `(x, y)` from the origin `(0, 0)`. That distance is the
 square root of x squared plus y squared.
 
-A patch to [`src/api-service/api/service.py`](#step-03.1-src-api-service-api-service.py-1e1e71).
+[± See the change to `src/api-service/api/service.py`](#step-03.1-src-api-service-api-service.py-1e1e71){.btn .btn-sm .btn-secondary}
 
 `service.py` now imports `math`, and `power()` from `api.utils`. The new function at the end,
 `calculate_euclidean_distance()`, answers `/euclidean_distance/`. It takes `x` and `y`, with 1 and 2 as defaults,
@@ -88,8 +88,10 @@ The server answers `{"x":3.0,"y":4.0,"distance":5.0}`.
 
 ## 3.2 httpx2 and pytest-asyncio, for tests of the app {#step-03.2}
 
-FastAPI's `TestClient` sends requests to the app in the same process, with no server. It needs the package httpx2.
-One test of the app is a coroutine, an `async` function, and pytest-asyncio runs it.
+FastAPI's [`TestClient`](https://fastapi.tiangolo.com/tutorial/testing/) sends requests to the app in the same
+process, with no server. It needs [httpx2](https://github.com/pydantic/httpx2), a library that sends HTTP requests.
+One test of the app is a coroutine, an `async` function. pytest cannot run an `async` function by itself, so
+[pytest-asyncio](https://pytest-asyncio.readthedocs.io/) runs it.
 
 This change came from running `uv add --group test httpx2 pytest-asyncio`.
 
@@ -132,7 +134,7 @@ A unit test of `power()` cannot tell whether the app routes a request to the rig
 parameters, or answers in JSON. Ten integration tests send requests to the app through `TestClient`, and check each
 answer.
 
-A patch to [`tests/integration/test_api.py`](#step-03.3-tests-integration-test_api.py-596674).
+[± See the new file `tests/integration/test_api.py`](#step-03.3-tests-integration-test_api.py-596674){.btn .btn-sm .btn-secondary}
 
 The new file `tests/integration/test_api.py` makes `client = TestClient(app)`. The class `TestAPIEndpoints` checks
 the welcome, the distance of (3, 4) and the defaults. It also checks a route that does not exist (404), and a method

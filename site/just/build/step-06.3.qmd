@@ -24,7 +24,7 @@ git rm -rq --cached --ignore-unmatch -- :/ && git restore --source 009d77653ead 
 just setup
 ```
 
-The whole tutorial then adds pre-commit, a tool that runs checks before every commit. git runs them through a hook, a
+The whole tutorial then adds [pre-commit](https://pre-commit.com/), a tool that runs checks before every commit. git runs them through a hook, a
 file in git's own folder. `just setup` installs only Python and the packages, so the hook gets a recipe of its own.
 
 ## 6.3 just hook installs the checks as a git hook {#step-06.3}

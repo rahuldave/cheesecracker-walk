@@ -25,9 +25,9 @@ The Cheese App needs to add two numbers. The endpoint `/add/` takes `x` and `y`,
 test calls it. Then every check of the project runs again, on this machine, in the dev image, and against a new run
 image.
 
-A patch to [`src/api-service/api/service.py`](#step-10-src-api-service-api-service.py-1e1e71).
+[± See the change to `src/api-service/api/service.py`](#step-10-src-api-service-api-service.py-1e1e71){.btn .btn-sm .btn-secondary}
 
-A patch to [`tests/integration/test_api.py`](#step-10-tests-integration-test_api.py-596674).
+[± See the change to `tests/integration/test_api.py`](#step-10-tests-integration-test_api.py-596674){.btn .btn-sm .btn-secondary}
 
 `add_numbers()`, at the end of `service.py`, answers `/add/` with `{"result": x + y}`. `test_add_endpoint()`, at the
 end of `test_api.py`, asks for `/add/?x=10&y=20`, and expects 30.

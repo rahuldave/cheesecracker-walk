@@ -31,9 +31,9 @@ Then someone changes the code in a hurry. It still works, and it reads worse.
 A change made in a hurry leaves code that works and reads badly. The change adds an import that nothing uses, and takes
 out spaces and blank lines. It also makes one line 187 characters long, and adds a function that nothing calls.
 
-A patch to [`src/api-service/api/service.py`](#step-05.1-src-api-service-api-service.py-1e1e71).
+[± See the change to `src/api-service/api/service.py`](#step-05.1-src-api-service-api-service.py-1e1e71){.btn .btn-sm .btn-secondary}
 
-A patch to [`src/api-service/api/utils.py`](#step-05.1-src-api-service-api-utils.py-18f1f8).
+[± See the change to `src/api-service/api/utils.py`](#step-05.1-src-api-service-api-utils.py-18f1f8){.btn .btn-sm .btn-secondary}
 
 `service.py` now imports `os`, which nothing uses. `/health` follows `/` with no blank line. The line
 `z=power(x,2)+power(y,2)` has no spaces, and the `return` at the end is 187 characters long. `utils.py` has a missing

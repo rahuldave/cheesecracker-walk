@@ -29,8 +29,12 @@ the server never does. So pytest goes into a group of its own.
 
 ## 1.2 pytest, in the dependency group test {#step-01.2}
 
-A test calls `power()` and compares the result with the answer that we expect. pytest finds the tests of a project,
-runs them, and reports each failure. The tests need pytest, but the server does not. So pytest goes into a group of
+A test calls `power()` and compares the result with the answer that we expect.
+[pytest](https://docs.pytest.org/) is the test runner of most Python projects. It finds each function whose name
+starts with `test_`, in the files `test_*.py`, and runs it. A test checks a result with a plain `assert`. pytest
+reports each failure with the values that it compared.
+
+The tests need pytest, but the server does not. So pytest goes into a group of
 dependencies of its own, `test`.
 
 ```bash

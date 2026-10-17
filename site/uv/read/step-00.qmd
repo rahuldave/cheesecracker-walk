@@ -24,9 +24,22 @@ The project starts as a `pyproject.toml`, a `.python-version` and a lockfile. `j
 just setup
 ```
 
+Two tools run everything in this project, uv and just.
+
+[uv](https://docs.astral.sh/uv/) manages a Python project. It installs Python, and the packages that the project
+needs, into the folder `.venv` of the project. `pyproject.toml` lists the packages, and `uv.lock` holds the exact
+version of each. So every machine gets the same versions.
+
+`uv run CMD` runs a command with that Python and those
+packages. uv is written in Rust by Astral. It does the work of several older Python tools, such as pip, which installs packages.
+
+[just](https://just.systems/) runs the commands of a project by short names. Each name is a recipe in the file
+`justfile`, with the commands that it runs. `just NAME` runs a recipe, and `just` alone lists them. A recipe keeps
+a long command in one place, so everyone on the project runs it by the same short name.
+
 The project is empty. It has a `pyproject.toml` with no dependencies, an empty `uv.lock`, a `README.md`, a
-`.gitignore`, and a `justfile` with one recipe, `setup`. `just setup` runs `uv sync --locked`. uv is the tool that installs Python and
-packages. The command makes the folder `.venv`, with Python 3.12 and every package of `uv.lock` in it.
+`.gitignore`, and a `justfile` with one recipe, `setup`. `just setup` runs `uv sync --locked`. The command makes the
+folder `.venv`, with Python 3.12 and every package of `uv.lock` in it.
 
 Run it a second time. With nothing new in `uv.lock`, it changes nothing.
 

@@ -29,9 +29,22 @@ The project starts empty, with a `pyproject.toml`, a lockfile and a `justfile`.
 just setup
 ```
 
+Two tools run everything in this project, uv and just.
+
+[uv](https://docs.astral.sh/uv/) manages a Python project. It installs Python, and the packages that the project
+needs, into the folder `.venv` of the project. `pyproject.toml` lists the packages, and `uv.lock` holds the exact
+version of each. So every machine gets the same versions.
+
+`uv run CMD` runs a command with that Python and those
+packages. uv is written in Rust by Astral. It does the work of several older Python tools, such as pip, which installs packages.
+
+[just](https://just.systems/) runs the commands of a project by short names. Each name is a recipe in the file
+`justfile`, with the commands that it runs. `just NAME` runs a recipe, and `just` alone lists them. A recipe keeps
+a long command in one place, so everyone on the project runs it by the same short name.
+
 The project is empty. It has a `pyproject.toml` with no dependencies, an empty `uv.lock`, a `README.md`, a
-`.gitignore`, and a `justfile` with one recipe, `setup`. `just setup` runs `uv sync --locked`. uv is the tool that installs Python and
-packages. The command makes the folder `.venv`, with Python 3.12 and every package of `uv.lock` in it.
+`.gitignore`, and a `justfile` with one recipe, `setup`. `just setup` runs `uv sync --locked`. The command makes the
+folder `.venv`, with Python 3.12 and every package of `uv.lock` in it.
 
 Run it a second time. With nothing new in `uv.lock`, it changes nothing.
 
@@ -187,9 +200,9 @@ milliseconds.
 The code of the API is a Python package, `api`, in the folder `src/api-service/`. Its first function, `power()`,
 returns its first argument raised to the power of its second.
 
-A patch to [`src/api-service/api/__init__.py`](#step-01.1-src-api-service-api-__init__.py-e2e18a).
+[± See the new file `src/api-service/api/__init__.py`](#step-01.1-src-api-service-api-__init__.py-e2e18a)
 
-A patch to [`src/api-service/api/utils.py`](#step-01.1-src-api-service-api-utils.py-18f1f8).
+[± See the new file `src/api-service/api/utils.py`](#step-01.1-src-api-service-api-utils.py-18f1f8)
 
 The new file `src/api-service/api/utils.py` has a docstring and one function, `power(base, exponent)`. It returns
 `base**exponent`. `src/api-service/api/__init__.py` has one comment, and makes `api` a package.
@@ -241,8 +254,12 @@ Python prints `8`, which is 2 to the power of 3.
 
 ### 1.2 pytest, in the dependency group test
 
-A test calls `power()` and compares the result with the answer that we expect. pytest finds the tests of a project,
-runs them, and reports each failure. The tests need pytest, but the server does not. So pytest goes into a group of
+A test calls `power()` and compares the result with the answer that we expect.
+[pytest](https://docs.pytest.org/) is the test runner of most Python projects. It finds each function whose name
+starts with `test_`, in the files `test_*.py`, and runs it. A test checks a result with a plain `assert`. pytest
+reports each failure with the values that it compared.
+
+The tests need pytest, but the server does not. So pytest goes into a group of
 dependencies of its own, `test`.
 
 This change came from running `uv add --group test pytest`.
@@ -287,7 +304,7 @@ uv prints the version of pytest, `pytest 9.1.1` on the day of the class.
 pytest looks for tests in every folder of the project, `.venv` too, which is slow. Also, the tests cannot import
 `api`, because the folder `src/api-service/` is not on the import path. Two settings of pytest, in `pyproject.toml`, solve both problems.
 
-A patch to [`pyproject.toml`](#step-01.3-pyproject.toml-5d07e7).
+[± See the change to `pyproject.toml`](#step-01.3-pyproject.toml-5d07e7)
 
 The new table `[tool.pytest.ini_options]` of `pyproject.toml` has two settings. `testpaths` makes pytest
 look for tests in `tests/` only. `pythonpath` puts `src/api-service/` on the import path, so a test can import `api`.
@@ -329,7 +346,7 @@ files in `tests/`, which does not exist yet.
 We do not know whether `power()` gives the right answer for every kind of input. Eleven tests try it with integers,
 zero, one, negative numbers, floats, the special values of floats, and inputs of the wrong type.
 
-A patch to [`tests/unit/test_utils.py`](#step-01.4-tests-unit-test_utils.py-3d93fe).
+[± See the new file `tests/unit/test_utils.py`](#step-01.4-tests-unit-test_utils.py-3d93fe)
 
 The new file `tests/unit/test_utils.py` has the class `TestPower`, with eleven tests. Each `assert` compares a result
 of `power()` with its answer. `test_power_invalid_inputs` expects a `TypeError` for a string, `None`, a list or a
@@ -454,7 +471,7 @@ pytest prints `11 passed`. So `power()` gives the answer that each test expects.
 The command `uv run pytest` is long, and every task of the project gets a recipe in the `justfile`, so that one
 short command runs it. The recipe `test` runs pytest through uv, and passes on to pytest any words that you type after `just test`.
 
-A patch to [`justfile`](#step-01.5-justfile-424f0b).
+[± See the change to `justfile`](#step-01.5-justfile-424f0b)
 
 The recipe `test`, at the end of the `justfile`, runs `uv run pytest "$@"`. `"$@"` stands for the words after
 `just test`, so `just test tests/unit` runs the unit tests alone.
@@ -508,6 +525,13 @@ uvicorn is the server that runs a FastAPI app. We write an app that answers two 
 
 ### 2.1 FastAPI, and uvicorn to serve it
 
+[FastAPI](https://fastapi.tiangolo.com/) is a library for web APIs. A path is the part of an address after the name of the
+server, such as `/health`. A Python function answers the requests to one path when a line such as `@app.get("/health")` stands just above it. FastAPI uses the type written next to each argument, such
+as `float`, to check the values of each request. It also writes the pages of the API's docs.
+
+[uvicorn](https://uvicorn.dev/) is the server. It waits for requests on a numbered port of the machine, such as 9000,
+and hands each request to the app.
+
 The server needs FastAPI and uvicorn to run, so they are dependencies of the project itself, and not of a group.
 
 This change came from running `uv add fastapi uvicorn`.
@@ -554,7 +578,7 @@ uvicorn prints its version, and the version of Python that runs it.
 The app needs a first answer, and a way to tell that it runs. `service.py` makes the FastAPI app, and answers two
 requests. The request `/` gets a welcome, and `/health` gets the status of the server.
 
-A patch to [`src/api-service/api/service.py`](#step-02.2-src-api-service-api-service.py-1e1e71).
+[± See the new file `src/api-service/api/service.py`](#step-02.2-src-api-service-api-service.py-1e1e71)
 
 The new file `src/api-service/api/service.py` makes `app`, with a title and a version. The CORS middleware lets a web
 page from any address call the server. After the comment `# Routes`, `get_index()` answers `/`, and `health_check()`
@@ -619,9 +643,9 @@ The app does nothing until a server runs it. The recipe `serve` starts uvicorn a
 waits until the server answers. The recipe `stop` stops it. A server is a fixture of the commands that need it. We start
 it before them, and stop it after them.
 
-A patch to [`justfile`](#step-02.3-justfile-424f0b).
+[± See the change to `justfile`](#step-02.3-justfile-424f0b)
 
-A patch to [`.gitignore`](#step-02.3-.gitignore-a5cc29).
+[± See the change to `.gitignore`](#step-02.3-.gitignore-a5cc29)
 
 The recipe `serve` runs `uvicorn api.service:app` with `&`, so the server runs in the background. `--app-dir` tells
 uvicorn where the package `api` is, and `--reload` restarts the server when a file of the code changes. The recipe
@@ -638,7 +662,8 @@ The recipe prints `serve: http://localhost:9000, its log in .serve.log`. Ask the
 curl -s localhost:9000/health
 ```
 
-The server answers `{"status":"healthy"}`. Open `http://localhost:9000/docs` in a browser to see the pages that
+[curl](https://curl.se/) sends an HTTP request from the terminal, and prints the answer. macOS and most Linux systems
+have it. The server answers `{"status":"healthy"}`. Open `http://localhost:9000/docs` in a browser to see the pages that
 FastAPI makes for each route.
 
 ```bash
@@ -743,7 +768,7 @@ and no network.
 The Cheese App asks the server for the distance of a point `(x, y)` from the origin `(0, 0)`. That distance is the
 square root of x squared plus y squared.
 
-A patch to [`src/api-service/api/service.py`](#step-03.1-src-api-service-api-service.py-1e1e71).
+[± See the change to `src/api-service/api/service.py`](#step-03.1-src-api-service-api-service.py-1e1e71)
 
 `service.py` now imports `math`, and `power()` from `api.utils`. The new function at the end,
 `calculate_euclidean_distance()`, answers `/euclidean_distance/`. It takes `x` and `y`, with 1 and 2 as defaults,
@@ -800,8 +825,10 @@ The server answers `{"x":3.0,"y":4.0,"distance":5.0}`.
 
 ### 3.2 httpx2 and pytest-asyncio, for tests of the app
 
-FastAPI's `TestClient` sends requests to the app in the same process, with no server. It needs the package httpx2.
-One test of the app is a coroutine, an `async` function, and pytest-asyncio runs it.
+FastAPI's [`TestClient`](https://fastapi.tiangolo.com/tutorial/testing/) sends requests to the app in the same
+process, with no server. It needs [httpx2](https://github.com/pydantic/httpx2), a library that sends HTTP requests.
+One test of the app is a coroutine, an `async` function. pytest cannot run an `async` function by itself, so
+[pytest-asyncio](https://pytest-asyncio.readthedocs.io/) runs it.
 
 This change came from running `uv add --group test httpx2 pytest-asyncio`.
 
@@ -846,7 +873,7 @@ A unit test of `power()` cannot tell whether the app routes a request to the rig
 parameters, or answers in JSON. Ten integration tests send requests to the app through `TestClient`, and check each
 answer.
 
-A patch to [`tests/integration/test_api.py`](#step-03.3-tests-integration-test_api.py-596674).
+[± See the new file `tests/integration/test_api.py`](#step-03.3-tests-integration-test_api.py-596674)
 
 The new file `tests/integration/test_api.py` makes `client = TestClient(app)`. The class `TestAPIEndpoints` checks
 the welcome, the distance of (3, 4) and the defaults. It also checks a route that does not exist (404), and a method
@@ -989,9 +1016,9 @@ Then someone changes the code in a hurry. It still works, and it reads worse.
 A change made in a hurry leaves code that works and reads badly. The change adds an import that nothing uses, and takes
 out spaces and blank lines. It also makes one line 187 characters long, and adds a function that nothing calls.
 
-A patch to [`src/api-service/api/service.py`](#step-05.1-src-api-service-api-service.py-1e1e71).
+[± See the change to `src/api-service/api/service.py`](#step-05.1-src-api-service-api-service.py-1e1e71)
 
-A patch to [`src/api-service/api/utils.py`](#step-05.1-src-api-service-api-utils.py-18f1f8).
+[± See the change to `src/api-service/api/utils.py`](#step-05.1-src-api-service-api-utils.py-18f1f8)
 
 `service.py` now imports `os`, which nothing uses. `/health` follows `/` with no blank line. The line
 `z=power(x,2)+power(y,2)` has no spaces, and the `return` at the end is 187 characters long. `utils.py` has a missing
@@ -1090,6 +1117,11 @@ linter.
 
 ### 5.2 ruff, the formatter and the linter, in the group lint
 
+[ruff](https://docs.astral.sh/ruff/) is a formatter and a linter in one tool, written in Rust by Astral, the makers
+of uv. `ruff format` writes the code in the layout of black, the formatter of most Python projects. `ruff check`
+checks the rules of flake8 and of many other linters, and can fix some of them. It takes the place of both black and
+flake8, and runs much faster.
+
 ruff checks the code, and the server does not need it to run. So ruff goes into a group of its own, `lint`.
 
 This change came from running `uv add --group lint ruff`.
@@ -1132,7 +1164,7 @@ uv prints the version of ruff, `ruff 0.17.1` on the day of the class.
 By default, ruff allows lines of up to 88 characters, and this project allows 120. Its default rules also leave out
 some rules of flake8. Two tables in `pyproject.toml` set both.
 
-A patch to [`pyproject.toml`](#step-05.3-pyproject.toml-5d07e7).
+[± See the change to `pyproject.toml`](#step-05.3-pyproject.toml-5d07e7)
 
 `[tool.ruff]` sets `line-length = 120`, for the formatter and the linter. `[tool.ruff.lint]` selects the rules `E`, `W`
 and `F`. They are the errors and warnings of pycodestyle, and the rules of pyflakes, which flake8 checks.
@@ -1182,7 +1214,7 @@ ruff says `2 files would be reformatted`, and fails. `--check` changes no file.
 
 Two recipes give the formatter and the linter short names. Each passes on to ruff any words that you type after it.
 
-A patch to [`justfile`](#step-05.4-justfile-424f0b).
+[± See the change to `justfile`](#step-05.4-justfile-424f0b)
 
 The recipe `fmt` runs `uv run ruff format`, and `lint` runs `uv run ruff check`. So `just fmt --check` checks the
 layout, and `just lint --fix` fixes what ruff can fix.
@@ -1358,7 +1390,7 @@ ruff finds 1 error, `E501`, and fails. The line of the message is 147 characters
 
 A long message is a choice of words, so a person has to shorten it. The new message is short enough for one line.
 
-A patch to [`src/api-service/api/service.py`](#step-05.7-src-api-service-api-service.py-1e1e71).
+[± See the change to `src/api-service/api/service.py`](#step-05.7-src-api-service-api-service.py-1e1e71)
 
 The value of `"message"` in the `return` of `calculate_euclidean_distance()` is now shorter than 120 characters.
 
@@ -1409,7 +1441,7 @@ The layout, the rules and the tests each have a recipe. One recipe, `just check`
 The layout, the rules and the tests each have a recipe now. The recipe `check` runs all three, and stops at the
 first that fails.
 
-A patch to [`justfile`](#step-05.8-justfile-424f0b).
+[± See the change to `justfile`](#step-05.8-justfile-424f0b)
 
 The recipe `check`, at the end of the `justfile`, runs `just fmt --check`, `just lint` and `just test -q`, in that
 order.
@@ -1465,6 +1497,14 @@ when a check fails. The checks are in `.pre-commit-config.yaml`.
 
 ### 6.1 pre-commit, in the group lint
 
+[pre-commit](https://pre-commit.com/) runs checks on the files of a commit, before git makes it. pre-commit calls
+each check a hook. git has hooks of its own, scripts that it runs before a commit, and a later move installs one of
+them to start pre-commit.
+
+`.pre-commit-config.yaml` names the repository that each hook comes from, and the exact version to use.
+The first time pre-commit runs, it downloads each hook and installs it in a folder of its own. A failed check stops the commit. If a hook fixes a file, the commit stops
+too, and the fixed file waits for `git add` before the next try.
+
 pre-commit checks the code, and the server does not need it to run. So it goes into the group `lint`, with ruff.
 
 This change came from running `uv add --group lint pre-commit`.
@@ -1506,7 +1546,7 @@ pre-commit needs a list of checks. `.pre-commit-config.yaml` names two repositor
 pre-commit-hooks, checks any file. The second, ruff-pre-commit, runs ruff's linter and formatter with the settings of
 `pyproject.toml`.
 
-A patch to [`.pre-commit-config.yaml`](#step-06.2-.pre-commit-config.yaml-e7d14d).
+[± See the new file `.pre-commit-config.yaml`](#step-06.2-.pre-commit-config.yaml-e7d14d)
 
 The new file `.pre-commit-config.yaml` names pre-commit-hooks at `v6.0.0`, with seven checks of any file, such as
 `trailing-whitespace` and `detect-private-key`. Then it names ruff-pre-commit at `v0.17.1`, with `ruff-check` and
@@ -1568,7 +1608,7 @@ Every other check says `Passed`.
 pre-commit runs before every commit only after it installs a hook in `.git/hooks/`. `just setup` never changes git,
 so the hook has a recipe of its own, `hook`. You run it once in each clone.
 
-A patch to [`justfile`](#step-06.3-justfile-424f0b).
+[± See the change to `justfile`](#step-06.3-justfile-424f0b)
 
 The recipe `hook`, after the recipe `setup`, runs `uv run pre-commit install`.
 

@@ -24,7 +24,8 @@ git rm -rq --cached --ignore-unmatch -- :/ && git restore --source 54de20e8055e 
 just setup
 ```
 
-The whole tutorial then adds an endpoint, ten integration tests, and pytest-cov. Coverage gets a recipe.
+The whole tutorial then adds an endpoint, ten integration tests, and [pytest-cov](https://pytest-cov.readthedocs.io/), which measures
+the lines that the tests run. Coverage gets a recipe.
 
 ## 4.2 just cov shows which lines the tests run {#step-04.2}
 

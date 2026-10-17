@@ -6,7 +6,8 @@
 
 Each part ends with a section called **What changed**. It lists every file that the part changes, with a link to the file, and then the whole diff of each file, folded. A lockfile and a binary file have a link alone. The text above it explains the change.
 
-We follow the `justfile` of cheesecracker, the API server of the Cheese App. The program `just` reads this file. The
+We follow the `justfile` of cheesecracker, the API server of the Cheese App. The program [just](https://just.systems/)
+reads this file. The
 file gives each task of the project a short name, and each named task is a recipe.
 
 The recipes keep the commands in one place, so a person, a git hook and Docker run the same
@@ -32,9 +33,22 @@ The first recipe, `setup`, makes the environment of the project.
 just setup
 ```
 
+Two tools run everything in this project, uv and just.
+
+[uv](https://docs.astral.sh/uv/) manages a Python project. It installs Python, and the packages that the project
+needs, into the folder `.venv` of the project. `pyproject.toml` lists the packages, and `uv.lock` holds the exact
+version of each. So every machine gets the same versions.
+
+`uv run CMD` runs a command with that Python and those
+packages. uv is written in Rust by Astral. It does the work of several older Python tools, such as pip, which installs packages.
+
+[just](https://just.systems/) runs the commands of a project by short names. Each name is a recipe in the file
+`justfile`, with the commands that it runs. `just NAME` runs a recipe, and `just` alone lists them. A recipe keeps
+a long command in one place, so everyone on the project runs it by the same short name.
+
 The project is empty. It has a `pyproject.toml` with no dependencies, an empty `uv.lock`, a `README.md`, a
-`.gitignore`, and a `justfile` with one recipe, `setup`. `just setup` runs `uv sync --locked`. uv is the tool that installs Python and
-packages. The command makes the folder `.venv`, with Python 3.12 and every package of `uv.lock` in it.
+`.gitignore`, and a `justfile` with one recipe, `setup`. `just setup` runs `uv sync --locked`. The command makes the
+folder `.venv`, with Python 3.12 and every package of `uv.lock` in it.
 
 Run it a second time. With nothing new in `uv.lock`, it changes nothing.
 
@@ -177,15 +191,15 @@ This walk goes through [rahuldave/cheesecracker](https://github.com/rahuldave/ch
 just setup
 ```
 
-The whole tutorial first writes the function `power()`, adds pytest, tells pytest where the tests are, and writes
-eleven unit tests. The command that runs them gets a recipe.
+The whole tutorial first writes the function `power()`, and adds [pytest](https://docs.pytest.org/), a program that
+runs tests. It tells pytest where the tests are, and writes eleven unit tests. The command that runs them gets a recipe.
 
 ### 1.5 just test runs the tests
 
 The command `uv run pytest` is long, and every task of the project gets a recipe in the `justfile`, so that one
 short command runs it. The recipe `test` runs pytest through uv, and passes on to pytest any words that you type after `just test`.
 
-A patch to [`justfile`](#step-01.5-justfile-424f0b).
+[± See the change to `justfile`](#step-01.5-justfile-424f0b)
 
 The recipe `test`, at the end of the `justfile`, runs `uv run pytest "$@"`. `"$@"` stands for the words after
 `just test`, so `just test tests/unit` runs the unit tests alone.
@@ -230,7 +244,8 @@ This walk goes through [rahuldave/cheesecracker](https://github.com/rahuldave/ch
 just setup
 ```
 
-The whole tutorial then adds FastAPI and uvicorn, and writes the app. Two recipes start the server and stop it.
+The whole tutorial then adds [FastAPI](https://fastapi.tiangolo.com/), a library for web APIs, and writes the app
+with it. It also adds [uvicorn](https://uvicorn.dev/), the server that runs the app. Two recipes start the server and stop it.
 
 ### 2.3 just serve and just stop, the server on this machine
 
@@ -238,9 +253,9 @@ The app does nothing until a server runs it. The recipe `serve` starts uvicorn a
 waits until the server answers. The recipe `stop` stops it. A server is a fixture of the commands that need it. We start
 it before them, and stop it after them.
 
-A patch to [`justfile`](#step-02.3-justfile-424f0b).
+[± See the change to `justfile`](#step-02.3-justfile-424f0b)
 
-A patch to [`.gitignore`](#step-02.3-.gitignore-a5cc29).
+[± See the change to `.gitignore`](#step-02.3-.gitignore-a5cc29)
 
 The recipe `serve` runs `uvicorn api.service:app` with `&`, so the server runs in the background. `--app-dir` tells
 uvicorn where the package `api` is, and `--reload` restarts the server when a file of the code changes. The recipe
@@ -257,7 +272,8 @@ The recipe prints `serve: http://localhost:9000, its log in .serve.log`. Ask the
 curl -s localhost:9000/health
 ```
 
-The server answers `{"status":"healthy"}`. Open `http://localhost:9000/docs` in a browser to see the pages that
+[curl](https://curl.se/) sends an HTTP request from the terminal, and prints the answer. macOS and most Linux systems
+have it. The server answers `{"status":"healthy"}`. Open `http://localhost:9000/docs` in a browser to see the pages that
 FastAPI makes for each route.
 
 ```bash
@@ -348,14 +364,15 @@ This walk goes through [rahuldave/cheesecracker](https://github.com/rahuldave/ch
 just setup
 ```
 
-The whole tutorial then adds an endpoint, ten integration tests, and pytest-cov. Coverage gets a recipe.
+The whole tutorial then adds an endpoint, ten integration tests, and [pytest-cov](https://pytest-cov.readthedocs.io/), which measures
+the lines that the tests run. Coverage gets a recipe.
 
 ### 4.2 just cov shows which lines the tests run
 
 The recipe `cov` runs every test with coverage, and adds the column `Missing`, with the numbers of the lines that no
 test ran.
 
-A patch to [`justfile`](#step-04.2-justfile-424f0b).
+[± See the change to `justfile`](#step-04.2-justfile-424f0b)
 
 The recipe `cov`, at the end of the `justfile`, runs pytest with `--cov=api --cov-report=term-missing`, and passes
 on to pytest any words that you type after `just cov`.
@@ -400,14 +417,15 @@ This walk goes through [rahuldave/cheesecracker](https://github.com/rahuldave/ch
 just setup
 ```
 
-The whole tutorial then makes a change in a hurry, adds ruff, and gives it the rules of flake8. The formatter and the
-linter get a recipe each.
+The whole tutorial then makes a change in a hurry. It adds [ruff](https://docs.astral.sh/ruff/), one tool that does two
+jobs. As a formatter, it lays out the code in one fixed way. As a linter, it checks the code against rules. The
+tutorial gives ruff the rules of flake8, an older linter. The formatter and the linter get a recipe each.
 
 ### 5.4 just fmt and just lint run ruff
 
 Two recipes give the formatter and the linter short names. Each passes on to ruff any words that you type after it.
 
-A patch to [`justfile`](#step-05.4-justfile-424f0b).
+[± See the change to `justfile`](#step-05.4-justfile-424f0b)
 
 The recipe `fmt` runs `uv run ruff format`, and `lint` runs `uv run ruff check`. So `just fmt --check` checks the
 layout, and `just lint --fix` fixes what ruff can fix.
@@ -463,7 +481,7 @@ The whole tutorial then fixes the code with ruff, and shortens a long line. One 
 The layout, the rules and the tests each have a recipe now. The recipe `check` runs all three, and stops at the
 first that fails.
 
-A patch to [`justfile`](#step-05.8-justfile-424f0b).
+[± See the change to `justfile`](#step-05.8-justfile-424f0b)
 
 The recipe `check`, at the end of the `justfile`, runs `just fmt --check`, `just lint` and `just test -q`, in that
 order.
@@ -510,7 +528,7 @@ This walk goes through [rahuldave/cheesecracker](https://github.com/rahuldave/ch
 just setup
 ```
 
-The whole tutorial then adds pre-commit, a tool that runs checks before every commit. git runs them through a hook, a
+The whole tutorial then adds [pre-commit](https://pre-commit.com/), a tool that runs checks before every commit. git runs them through a hook, a
 file in git's own folder. `just setup` installs only Python and the packages, so the hook gets a recipe of its own.
 
 ### 6.3 just hook installs the checks as a git hook
@@ -518,7 +536,7 @@ file in git's own folder. `just setup` installs only Python and the packages, so
 pre-commit runs before every commit only after it installs a hook in `.git/hooks/`. `just setup` never changes git,
 so the hook has a recipe of its own, `hook`. You run it once in each clone.
 
-A patch to [`justfile`](#step-06.3-justfile-424f0b).
+[± See the change to `justfile`](#step-06.3-justfile-424f0b)
 
 The recipe `hook`, after the recipe `setup`, runs `uv run pre-commit install`.
 
@@ -565,15 +583,17 @@ This walk goes through [rahuldave/cheesecracker](https://github.com/rahuldave/ch
 just setup
 ```
 
-The whole tutorial then writes `.dockerignore`, and a `Dockerfile` with the run image. Three recipes build an image,
-start its server and stop it.
+[Docker](https://docs.docker.com/) packs the server, with Python and its packages, into an image. It builds the image
+from a file called `Dockerfile`, and runs it as a container, a process kept apart from the rest of the machine. The
+whole tutorial then writes `.dockerignore`, and a `Dockerfile` that makes the run image, the image that runs the
+server. Three recipes build an image, start its server and stop it.
 
 ### 7.3 just docker-build, just docker-serve and just docker-stop
 
 Three recipes give the Docker commands short names. `docker-build` builds an image of the `Dockerfile`.
 `docker-serve` starts the server of the run image in the background, at port 9000, and `docker-stop` stops it.
 
-A patch to [`justfile`](#step-07.3-justfile-424f0b).
+[± See the change to `justfile`](#step-07.3-justfile-424f0b)
 
 The recipe `docker-build` takes the name of a stage, and runs `docker build --target` with it. `docker-serve` runs the
 image `cheesecracker-run` with `--detach`, so the container runs in the background, as in the original tutorial's
@@ -664,7 +684,8 @@ just docker-build run
 just docker-serve
 ```
 
-The whole tutorial then adds the package requests, and writes system tests. A system test sends real HTTP requests to
+The whole tutorial then adds the package [requests](https://requests.readthedocs.io/), which lets Python code send
+HTTP requests, and writes system tests. A system test sends real HTTP requests to
 the server at port 9000 of this machine. The system tests need a running server, so `just test` leaves them out, and
 `just docker-serve` above starts one. The system tests get a recipe of their own, apart from `just check`.
 
@@ -673,7 +694,7 @@ the server at port 9000 of this machine. The system tests need a running server,
 The system tests have a recipe of their own, `test-system`, apart from `just test` and `just check`. A missing server
 fails them, and never stops a commit.
 
-A patch to [`justfile`](#step-08.4-justfile-424f0b).
+[± See the change to `justfile`](#step-08.4-justfile-424f0b)
 
 The recipe `test-system`, at the end of the `justfile`, runs `uv run pytest tests/system`, and passes on to pytest any
 words that you type after it.
@@ -736,7 +757,7 @@ Two recipes run the dev image with this folder mounted at `/work`. An edit here 
 needs no rebuild after a change of the code. `docker-shell` opens a shell in the image. `docker-test` runs the recipe
 that you name in the image, or `just check` if you name none.
 
-A patch to [`justfile`](#step-09.2-justfile-424f0b).
+[± See the change to `justfile`](#step-09.2-justfile-424f0b)
 
 `docker-shell` runs `docker run --rm -it -v "$PWD":/work cheesecracker-dev`. `-v` mounts this folder at `/work`, and
 `-it` gives the shell a terminal. `docker-test` runs `just` in the image, with its words, or with `check`.

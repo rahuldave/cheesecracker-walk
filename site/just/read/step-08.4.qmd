@@ -23,7 +23,8 @@ just docker-build run
 just docker-serve
 ```
 
-The whole tutorial then adds the package requests, and writes system tests. A system test sends real HTTP requests to
+The whole tutorial then adds the package [requests](https://requests.readthedocs.io/), which lets Python code send
+HTTP requests, and writes system tests. A system test sends real HTTP requests to
 the server at port 9000 of this machine. The system tests need a running server, so `just test` leaves them out, and
 `just docker-serve` above starts one. The system tests get a recipe of their own, apart from `just check`.
 
@@ -32,7 +33,7 @@ the server at port 9000 of this machine. The system tests need a running server,
 The system tests have a recipe of their own, `test-system`, apart from `just test` and `just check`. A missing server
 fails them, and never stops a commit.
 
-A patch to [`justfile`](#step-08.4-justfile-424f0b).
+[± See the change to `justfile`](#step-08.4-justfile-424f0b){.btn .btn-sm .btn-secondary}
 
 The recipe `test-system`, at the end of the `justfile`, runs `uv run pytest tests/system`, and passes on to pytest any
 words that you type after it.

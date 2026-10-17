@@ -38,6 +38,11 @@ any machine with Docker. The run image is the image that production runs, our de
 
 ## 7.1 what docker build leaves out {#step-07.1}
 
+[Docker](https://docs.docker.com/) runs programs in containers. A container is a process with its own files, cut off
+from the rest of the machine. A `Dockerfile` lists the steps that build an image. It starts from a base system, such
+as Debian with Python, and adds the files and the commands. `docker build` makes the image, and `docker run` starts a
+container from it. On macOS and Windows, the app Docker Desktop runs Docker.
+
 `docker build` sends the files of the folder to Docker. The folder has `.venv`, the caches of the tools, git and maybe
 secrets. None of them belongs in an image. `.dockerignore` lists them.
 

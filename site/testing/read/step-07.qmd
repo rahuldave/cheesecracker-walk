@@ -35,10 +35,15 @@ any machine with Docker. The run image is the image that production runs, our de
 
 ## 7.1 what docker build leaves out {#step-07.1}
 
+[Docker](https://docs.docker.com/) runs programs in containers. A container is a process with its own files, cut off
+from the rest of the machine. A `Dockerfile` lists the steps that build an image. It starts from a base system, such
+as Debian with Python, and adds the files and the commands. `docker build` makes the image, and `docker run` starts a
+container from it. On macOS and Windows, the app Docker Desktop runs Docker.
+
 `docker build` sends the files of the folder to Docker. The folder has `.venv`, the caches of the tools, git and maybe
 secrets. None of them belongs in an image. `.dockerignore` lists them.
 
-A patch to [`.dockerignore`](#step-07.1-.dockerignore-05a721).
+[± See the new file `.dockerignore`](#step-07.1-.dockerignore-05a721){.btn .btn-sm .btn-secondary}
 
 The new file `.dockerignore` lists `.venv/`, the caches of pytest, ruff and coverage, `.git/`, `secrets/` and `.env`.
 
@@ -78,7 +83,7 @@ cat .dockerignore
 The run image needs Python, the dependencies of the server, and the code. It does not need uv, the tests, ruff or
 pre-commit. The `Dockerfile` builds the image in stages, and the run image takes only what the server needs.
 
-A patch to [`Dockerfile`](#step-07.2-Dockerfile-6651dd).
+[± See the new file `Dockerfile`](#step-07.2-Dockerfile-6651dd){.btn .btn-sm .btn-secondary}
 
 The stage `uv` takes uv from its own image. The stage `build` installs the dependencies of `uv.lock` into
 `/opt/venv`, with `--no-default-groups`, so no test tool and no ruff. The stage `run` copies `/opt/venv` and the
@@ -151,7 +156,7 @@ The image is about 173 MB, nearly all of it Python and the dependencies of the s
 Three recipes give the Docker commands short names. `docker-build` builds an image of the `Dockerfile`.
 `docker-serve` starts the server of the run image in the background, at port 9000, and `docker-stop` stops it.
 
-A patch to [`justfile`](#step-07.3-justfile-424f0b).
+[± See the change to `justfile`](#step-07.3-justfile-424f0b){.btn .btn-sm .btn-secondary}
 
 The recipe `docker-build` takes the name of a stage, and runs `docker build --target` with it. `docker-serve` runs the
 image `cheesecracker-run` with `--detach`, so the container runs in the background, as in the original tutorial's

@@ -30,7 +30,7 @@ checks run in the same Linux, anywhere Docker runs.
 The dev image is a fourth stage of the `Dockerfile`, `dev`. It takes uv from the stage `uv`, and nothing from the
 run image.
 
-A patch to [`Dockerfile`](#step-09.1-Dockerfile-6651dd).
+[± See the change to `Dockerfile`](#step-09.1-Dockerfile-6651dd){.btn .btn-sm .btn-secondary}
 
 The stage `dev` installs git and curl, copies uv, and installs just as a package of PyPI. It installs every group of
 `uv.lock` into `/opt/venv`, copies the project into `/work`, and starts a shell. `/opt/venv` is outside `/work`, so a
@@ -105,7 +105,7 @@ Two recipes run the dev image with this folder mounted at `/work`. An edit here 
 needs no rebuild after a change of the code. `docker-shell` opens a shell in the image. `docker-test` runs the recipe
 that you name in the image, or `just check` if you name none.
 
-A patch to [`justfile`](#step-09.2-justfile-424f0b).
+[± See the change to `justfile`](#step-09.2-justfile-424f0b){.btn .btn-sm .btn-secondary}
 
 `docker-shell` runs `docker run --rm -it -v "$PWD":/work cheesecracker-dev`. `-v` mounts this folder at `/work`, and
 `-it` gives the shell a terminal. `docker-test` runs `just` in the image, with its words, or with `check`.

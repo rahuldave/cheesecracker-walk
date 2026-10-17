@@ -29,6 +29,14 @@ it joins ruff in the group `lint`.
 
 ## 6.1 pre-commit, in the group lint {#step-06.1}
 
+[pre-commit](https://pre-commit.com/) runs checks on the files of a commit, before git makes it. pre-commit calls
+each check a hook. git has hooks of its own, scripts that it runs before a commit, and a later move installs one of
+them to start pre-commit.
+
+`.pre-commit-config.yaml` names the repository that each hook comes from, and the exact version to use.
+The first time pre-commit runs, it downloads each hook and installs it in a folder of its own. A failed check stops the commit. If a hook fixes a file, the commit stops
+too, and the fixed file waits for `git add` before the next try.
+
 pre-commit checks the code, and the server does not need it to run. So it goes into the group `lint`, with ruff.
 
 ```bash

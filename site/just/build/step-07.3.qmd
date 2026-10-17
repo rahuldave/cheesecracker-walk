@@ -24,8 +24,10 @@ git rm -rq --cached --ignore-unmatch -- :/ && git restore --source 0acb4556f724 
 just setup
 ```
 
-The whole tutorial then writes `.dockerignore`, and a `Dockerfile` with the run image. Three recipes build an image,
-start its server and stop it.
+[Docker](https://docs.docker.com/) packs the server, with Python and its packages, into an image. It builds the image
+from a file called `Dockerfile`, and runs it as a container, a process kept apart from the rest of the machine. The
+whole tutorial then writes `.dockerignore`, and a `Dockerfile` that makes the run image, the image that runs the
+server. Three recipes build an image, start its server and stop it.
 
 ## 7.3 just docker-build, just docker-serve and just docker-stop {#step-07.3}
 

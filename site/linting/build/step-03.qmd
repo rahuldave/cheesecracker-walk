@@ -99,8 +99,10 @@ git fetch --quiet --tags --force origin; git restore --source step-02 --staged -
 
 ## 3.2 httpx2 and pytest-asyncio, for tests of the app {#step-03.2}
 
-FastAPI's `TestClient` sends requests to the app in the same process, with no server. It needs the package httpx2.
-One test of the app is a coroutine, an `async` function, and pytest-asyncio runs it.
+FastAPI's [`TestClient`](https://fastapi.tiangolo.com/tutorial/testing/) sends requests to the app in the same
+process, with no server. It needs [httpx2](https://github.com/pydantic/httpx2), a library that sends HTTP requests.
+One test of the app is a coroutine, an `async` function. pytest cannot run an `async` function by itself, so
+[pytest-asyncio](https://pytest-asyncio.readthedocs.io/) runs it.
 
 ```bash
 uv add --group test httpx2 pytest-asyncio

@@ -6,7 +6,8 @@ title: "just, the recipes of cheesecracker"
 
 This walk is one of several through the project. The website of the first, [cheesecracker](../), lists them all.
 
-We follow the `justfile` of cheesecracker, the API server of the Cheese App. The program `just` reads this file. The
+We follow the `justfile` of cheesecracker, the API server of the Cheese App. The program [just](https://just.systems/)
+reads this file. The
 file gives each task of the project a short name, and each named task is a recipe.
 
 The recipes keep the commands in one place, so a person, a git hook and Docker run the same

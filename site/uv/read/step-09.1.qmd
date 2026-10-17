@@ -29,7 +29,7 @@ project, so it installs every group.
 The dev image is a fourth stage of the `Dockerfile`, `dev`. It takes uv from the stage `uv`, and nothing from the
 run image.
 
-A patch to [`Dockerfile`](#step-09.1-Dockerfile-6651dd).
+[± See the change to `Dockerfile`](#step-09.1-Dockerfile-6651dd){.btn .btn-sm .btn-secondary}
 
 The stage `dev` installs git and curl, copies uv, and installs just as a package of PyPI. It installs every group of
 `uv.lock` into `/opt/venv`, copies the project into `/work`, and starts a shell. `/opt/venv` is outside `/work`, so a

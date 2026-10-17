@@ -21,15 +21,15 @@ git switch --detach cbc98b162671
 just setup
 ```
 
-The whole tutorial first writes the function `power()`, adds pytest, tells pytest where the tests are, and writes
-eleven unit tests. The command that runs them gets a recipe.
+The whole tutorial first writes the function `power()`, and adds [pytest](https://docs.pytest.org/), a program that
+runs tests. It tells pytest where the tests are, and writes eleven unit tests. The command that runs them gets a recipe.
 
 ## 1.5 just test runs the tests {#step-01.5}
 
 The command `uv run pytest` is long, and every task of the project gets a recipe in the `justfile`, so that one
 short command runs it. The recipe `test` runs pytest through uv, and passes on to pytest any words that you type after `just test`.
 
-A patch to [`justfile`](#step-01.5-justfile-424f0b).
+[± See the change to `justfile`](#step-01.5-justfile-424f0b){.btn .btn-sm .btn-secondary}
 
 The recipe `test`, at the end of the `justfile`, runs `uv run pytest "$@"`. `"$@"` stands for the words after
 `just test`, so `just test tests/unit` runs the unit tests alone.

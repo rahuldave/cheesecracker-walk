@@ -24,7 +24,8 @@ App does. Here the server is the run image, our deployment, which `just docker-s
 
 ## 8.1 requests, for tests that send real HTTP requests {#step-08.1}
 
-The system tests send their requests with the package requests. It is a tool of the tests, so it goes into the group
+The system tests send their requests with the package [requests](https://requests.readthedocs.io/), the most used
+HTTP library of Python. It is a tool of the tests, so it goes into the group
 `test`.
 
 ```bash

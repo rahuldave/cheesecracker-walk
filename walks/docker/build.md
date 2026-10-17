@@ -19,6 +19,11 @@ The images depend on the groups of dependencies of the project. The group `test`
 group `lint` holds ruff and pre-commit. The run image installs no group, and the dev image installs every group. The
 tutorial uv, beside this one, shows how the groups came to be.
 
+Two tools run the project on this machine. [uv](https://docs.astral.sh/uv/) installs Python and the packages of the
+project into the folder `.venv`, at the exact versions of `uv.lock`. [just](https://just.systems/) runs each task of
+the project by a short name. Each task is a recipe in the file `justfile`. `just setup` runs `uv sync --locked`,
+which makes uv install everything into `.venv`, and `just` alone lists the recipes.
+
 We make the project in moves. A move is one small change, made by one patch or by one command. You make each move,
 and the page checks your files against it.
 
@@ -150,6 +155,11 @@ just setup
 Our first file for Docker, `.dockerignore`, lists the files that never go into an image.
 
 ### 7.1 what docker build leaves out
+
+[Docker](https://docs.docker.com/) runs programs in containers. A container is a process with its own files, cut off
+from the rest of the machine. A `Dockerfile` lists the steps that build an image. It starts from a base system, such
+as Debian with Python, and adds the files and the commands. `docker build` makes the image, and `docker run` starts a
+container from it. On macOS and Windows, the app Docker Desktop runs Docker.
 
 `docker build` sends the files of the folder to Docker. The folder has `.venv`, the caches of the tools, git and maybe
 secrets. None of them belongs in an image. `.dockerignore` lists them.
@@ -430,7 +440,8 @@ App does. Here the server is the run image, our deployment, which `just docker-s
 
 ### 8.1 requests, for tests that send real HTTP requests
 
-The system tests send their requests with the package requests. It is a tool of the tests, so it goes into the group
+The system tests send their requests with the package [requests](https://requests.readthedocs.io/), the most used
+HTTP library of Python. It is a tool of the tests, so it goes into the group
 `test`.
 
 ```bash

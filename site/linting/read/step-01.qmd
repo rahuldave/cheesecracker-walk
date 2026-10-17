@@ -32,9 +32,9 @@ milliseconds.
 The code of the API is a Python package, `api`, in the folder `src/api-service/`. Its first function, `power()`,
 returns its first argument raised to the power of its second.
 
-A patch to [`src/api-service/api/__init__.py`](#step-01.1-src-api-service-api-__init__.py-e2e18a).
+[± See the new file `src/api-service/api/__init__.py`](#step-01.1-src-api-service-api-__init__.py-e2e18a){.btn .btn-sm .btn-secondary}
 
-A patch to [`src/api-service/api/utils.py`](#step-01.1-src-api-service-api-utils.py-18f1f8).
+[± See the new file `src/api-service/api/utils.py`](#step-01.1-src-api-service-api-utils.py-18f1f8){.btn .btn-sm .btn-secondary}
 
 The new file `src/api-service/api/utils.py` has a docstring and one function, `power(base, exponent)`. It returns
 `base**exponent`. `src/api-service/api/__init__.py` has one comment, and makes `api` a package.
@@ -84,8 +84,12 @@ Python prints `8`, which is 2 to the power of 3.
 
 ## 1.2 pytest, in the dependency group test {#step-01.2}
 
-A test calls `power()` and compares the result with the answer that we expect. pytest finds the tests of a project,
-runs them, and reports each failure. The tests need pytest, but the server does not. So pytest goes into a group of
+A test calls `power()` and compares the result with the answer that we expect.
+[pytest](https://docs.pytest.org/) is the test runner of most Python projects. It finds each function whose name
+starts with `test_`, in the files `test_*.py`, and runs it. A test checks a result with a plain `assert`. pytest
+reports each failure with the values that it compared.
+
+The tests need pytest, but the server does not. So pytest goes into a group of
 dependencies of its own, `test`.
 
 This change came from running `uv add --group test pytest`.
@@ -128,7 +132,7 @@ uv prints the version of pytest, `pytest 9.1.1` on the day of the class.
 pytest looks for tests in every folder of the project, `.venv` too, which is slow. Also, the tests cannot import
 `api`, because the folder `src/api-service/` is not on the import path. Two settings of pytest, in `pyproject.toml`, solve both problems.
 
-A patch to [`pyproject.toml`](#step-01.3-pyproject.toml-5d07e7).
+[± See the change to `pyproject.toml`](#step-01.3-pyproject.toml-5d07e7){.btn .btn-sm .btn-secondary}
 
 The new table `[tool.pytest.ini_options]` of `pyproject.toml` has two settings. `testpaths` makes pytest
 look for tests in `tests/` only. `pythonpath` puts `src/api-service/` on the import path, so a test can import `api`.
@@ -168,7 +172,7 @@ files in `tests/`, which does not exist yet.
 We do not know whether `power()` gives the right answer for every kind of input. Eleven tests try it with integers,
 zero, one, negative numbers, floats, the special values of floats, and inputs of the wrong type.
 
-A patch to [`tests/unit/test_utils.py`](#step-01.4-tests-unit-test_utils.py-3d93fe).
+[± See the new file `tests/unit/test_utils.py`](#step-01.4-tests-unit-test_utils.py-3d93fe){.btn .btn-sm .btn-secondary}
 
 The new file `tests/unit/test_utils.py` has the class `TestPower`, with eleven tests. Each `assert` compares a result
 of `power()` with its answer. `test_power_invalid_inputs` expects a `TypeError` for a string, `None`, a list or a
@@ -291,7 +295,7 @@ pytest prints `11 passed`. So `power()` gives the answer that each test expects.
 The command `uv run pytest` is long, and every task of the project gets a recipe in the `justfile`, so that one
 short command runs it. The recipe `test` runs pytest through uv, and passes on to pytest any words that you type after `just test`.
 
-A patch to [`justfile`](#step-01.5-justfile-424f0b).
+[± See the change to `justfile`](#step-01.5-justfile-424f0b){.btn .btn-sm .btn-secondary}
 
 The recipe `test`, at the end of the `justfile`, runs `uv run pytest "$@"`. `"$@"` stands for the words after
 `just test`, so `just test tests/unit` runs the unit tests alone.

@@ -26,6 +26,14 @@ when a check fails. The checks are in `.pre-commit-config.yaml`.
 
 ## 6.1 pre-commit, in the group lint {#step-06.1}
 
+[pre-commit](https://pre-commit.com/) runs checks on the files of a commit, before git makes it. pre-commit calls
+each check a hook. git has hooks of its own, scripts that it runs before a commit, and a later move installs one of
+them to start pre-commit.
+
+`.pre-commit-config.yaml` names the repository that each hook comes from, and the exact version to use.
+The first time pre-commit runs, it downloads each hook and installs it in a folder of its own. A failed check stops the commit. If a hook fixes a file, the commit stops
+too, and the fixed file waits for `git add` before the next try.
+
 pre-commit checks the code, and the server does not need it to run. So it goes into the group `lint`, with ruff.
 
 This change came from running `uv add --group lint pre-commit`.
@@ -65,7 +73,7 @@ pre-commit needs a list of checks. `.pre-commit-config.yaml` names two repositor
 pre-commit-hooks, checks any file. The second, ruff-pre-commit, runs ruff's linter and formatter with the settings of
 `pyproject.toml`.
 
-A patch to [`.pre-commit-config.yaml`](#step-06.2-.pre-commit-config.yaml-e7d14d).
+[± See the new file `.pre-commit-config.yaml`](#step-06.2-.pre-commit-config.yaml-e7d14d){.btn .btn-sm .btn-secondary}
 
 The new file `.pre-commit-config.yaml` names pre-commit-hooks at `v6.0.0`, with seven checks of any file, such as
 `trailing-whitespace` and `detect-private-key`. Then it names ruff-pre-commit at `v0.17.1`, with `ruff-check` and
@@ -125,7 +133,7 @@ Every other check says `Passed`.
 pre-commit runs before every commit only after it installs a hook in `.git/hooks/`. `just setup` never changes git,
 so the hook has a recipe of its own, `hook`. You run it once in each clone.
 
-A patch to [`justfile`](#step-06.3-justfile-424f0b).
+[± See the change to `justfile`](#step-06.3-justfile-424f0b){.btn .btn-sm .btn-secondary}
 
 The recipe `hook`, after the recipe `setup`, runs `uv run pre-commit install`.
 

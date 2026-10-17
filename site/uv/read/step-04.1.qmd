@@ -26,7 +26,9 @@ run, and it goes into the group `test`.
 
 ## 4.1 pytest-cov, to measure what the tests run {#step-04.1}
 
-pytest-cov adds the option `--cov` to pytest. It is a tool of the tests, so it goes into the group `test`.
+A line that no test runs can break with no test failing. [pytest-cov](https://pytest-cov.readthedocs.io/) adds the
+option `--cov` to pytest. The option prints a table with each file and the share of its lines that ran. It is a tool
+of the tests, so it goes into the group `test`.
 
 This change came from running `uv add --group test pytest-cov`.
 

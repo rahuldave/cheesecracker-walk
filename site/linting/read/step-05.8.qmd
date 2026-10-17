@@ -28,7 +28,7 @@ The layout, the rules and the tests each have a recipe. One recipe, `just check`
 The layout, the rules and the tests each have a recipe now. The recipe `check` runs all three, and stops at the
 first that fails.
 
-A patch to [`justfile`](#step-05.8-justfile-424f0b).
+[± See the change to `justfile`](#step-05.8-justfile-424f0b){.btn .btn-sm .btn-secondary}
 
 The recipe `check`, at the end of the `justfile`, runs `just fmt --check`, `just lint` and `just test -q`, in that
 order.

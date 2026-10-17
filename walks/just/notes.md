@@ -1,4 +1,5 @@
-We follow the `justfile` of cheesecracker, the API server of the Cheese App. The program `just` reads this file. The
+We follow the `justfile` of cheesecracker, the API server of the Cheese App. The program [just](https://just.systems/)
+reads this file. The
 file gives each task of the project a short name, and each named task is a recipe.
 
 The recipes keep the commands in one place, so a person, a git hook and Docker run the same
@@ -22,8 +23,8 @@ The first recipe, `setup`, makes the environment of the project.
 
 $ just setup
 
-The whole tutorial first writes the function `power()`, adds pytest, tells pytest where the tests are, and writes
-eleven unit tests. The command that runs them gets a recipe.
+The whole tutorial first writes the function `power()`, and adds [pytest](https://docs.pytest.org/), a program that
+runs tests. It tells pytest where the tests are, and writes eleven unit tests. The command that runs them gets a recipe.
 
 {{include step-01.5}}
 
@@ -31,7 +32,8 @@ eleven unit tests. The command that runs them gets a recipe.
 
 $ just setup
 
-The whole tutorial then adds FastAPI and uvicorn, and writes the app. Two recipes start the server and stop it.
+The whole tutorial then adds [FastAPI](https://fastapi.tiangolo.com/), a library for web APIs, and writes the app
+with it. It also adds [uvicorn](https://uvicorn.dev/), the server that runs the app. Two recipes start the server and stop it.
 
 {{include step-02.3}}
 
@@ -39,7 +41,8 @@ The whole tutorial then adds FastAPI and uvicorn, and writes the app. Two recipe
 
 $ just setup
 
-The whole tutorial then adds an endpoint, ten integration tests, and pytest-cov. Coverage gets a recipe.
+The whole tutorial then adds an endpoint, ten integration tests, and [pytest-cov](https://pytest-cov.readthedocs.io/), which measures
+the lines that the tests run. Coverage gets a recipe.
 
 {{include step-04.2}}
 
@@ -47,8 +50,9 @@ The whole tutorial then adds an endpoint, ten integration tests, and pytest-cov.
 
 $ just setup
 
-The whole tutorial then makes a change in a hurry, adds ruff, and gives it the rules of flake8. The formatter and the
-linter get a recipe each.
+The whole tutorial then makes a change in a hurry. It adds [ruff](https://docs.astral.sh/ruff/), one tool that does two
+jobs. As a formatter, it lays out the code in one fixed way. As a linter, it checks the code against rules. The
+tutorial gives ruff the rules of flake8, an older linter. The formatter and the linter get a recipe each.
 
 {{include step-05.4}}
 
@@ -64,7 +68,7 @@ The whole tutorial then fixes the code with ruff, and shortens a long line. One 
 
 $ just setup
 
-The whole tutorial then adds pre-commit, a tool that runs checks before every commit. git runs them through a hook, a
+The whole tutorial then adds [pre-commit](https://pre-commit.com/), a tool that runs checks before every commit. git runs them through a hook, a
 file in git's own folder. `just setup` installs only Python and the packages, so the hook gets a recipe of its own.
 
 {{include step-06.3}}
@@ -73,8 +77,10 @@ file in git's own folder. `just setup` installs only Python and the packages, so
 
 $ just setup
 
-The whole tutorial then writes `.dockerignore`, and a `Dockerfile` with the run image. Three recipes build an image,
-start its server and stop it.
+[Docker](https://docs.docker.com/) packs the server, with Python and its packages, into an image. It builds the image
+from a file called `Dockerfile`, and runs it as a container, a process kept apart from the rest of the machine. The
+whole tutorial then writes `.dockerignore`, and a `Dockerfile` that makes the run image, the image that runs the
+server. Three recipes build an image, start its server and stop it.
 
 {{include step-07.3}}
 
@@ -86,7 +92,8 @@ $ just docker-build run
 
 $ just docker-serve
 
-The whole tutorial then adds the package requests, and writes system tests. A system test sends real HTTP requests to
+The whole tutorial then adds the package [requests](https://requests.readthedocs.io/), which lets Python code send
+HTTP requests, and writes system tests. A system test sends real HTTP requests to
 the server at port 9000 of this machine. The system tests need a running server, so `just test` leaves them out, and
 `just docker-serve` above starts one. The system tests get a recipe of their own, apart from `just check`.
 

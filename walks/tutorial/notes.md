@@ -20,9 +20,22 @@ right of the page.
 
 $ just setup
 
+Two tools run everything in this project, uv and just.
+
+[uv](https://docs.astral.sh/uv/) manages a Python project. It installs Python, and the packages that the project
+needs, into the folder `.venv` of the project. `pyproject.toml` lists the packages, and `uv.lock` holds the exact
+version of each. So every machine gets the same versions.
+
+`uv run CMD` runs a command with that Python and those
+packages. uv is written in Rust by Astral. It does the work of several older Python tools, such as pip, which installs packages.
+
+[just](https://just.systems/) runs the commands of a project by short names. Each name is a recipe in the file
+`justfile`, with the commands that it runs. `just NAME` runs a recipe, and `just` alone lists them. A recipe keeps
+a long command in one place, so everyone on the project runs it by the same short name.
+
 The project is empty. It has a `pyproject.toml` with no dependencies, an empty `uv.lock`, a `README.md`, a
-`.gitignore`, and a `justfile` with one recipe, `setup`. `just setup` runs `uv sync --locked`. uv is the tool that installs Python and
-packages. The command makes the folder `.venv`, with Python 3.12 and every package of `uv.lock` in it.
+`.gitignore`, and a `justfile` with one recipe, `setup`. `just setup` runs `uv sync --locked`. The command makes the
+folder `.venv`, with Python 3.12 and every package of `uv.lock` in it.
 
 Run it a second time. With nothing new in `uv.lock`, it changes nothing.
 
@@ -89,8 +102,12 @@ files:
 
 ### step-01.2 pytest, in the dependency group test
 
-A test calls `power()` and compares the result with the answer that we expect. pytest finds the tests of a project,
-runs them, and reports each failure. The tests need pytest, but the server does not. So pytest goes into a group of
+A test calls `power()` and compares the result with the answer that we expect.
+[pytest](https://docs.pytest.org/) is the test runner of most Python projects. It finds each function whose name
+starts with `test_`, in the files `test_*.py`, and runs it. A test checks a result with a plain `assert`. pytest
+reports each failure with the values that it compared.
+
+The tests need pytest, but the server does not. So pytest goes into a group of
 dependencies of its own, `test`.
 
 do$ uv add --group test pytest
@@ -191,6 +208,13 @@ uvicorn is the server that runs a FastAPI app. We write an app that answers two 
 
 ### step-02.1 FastAPI, and uvicorn to serve it
 
+[FastAPI](https://fastapi.tiangolo.com/) is a library for web APIs. A path is the part of an address after the name of the
+server, such as `/health`. A Python function answers the requests to one path when a line such as `@app.get("/health")` stands just above it. FastAPI uses the type written next to each argument, such
+as `float`, to check the values of each request. It also writes the pages of the API's docs.
+
+[uvicorn](https://uvicorn.dev/) is the server. It waits for requests on a numbered port of the machine, such as 9000,
+and hands each request to the app.
+
 The server needs FastAPI and uvicorn to run, so they are dependencies of the project itself, and not of a group.
 
 do$ uv add fastapi uvicorn
@@ -259,7 +283,8 @@ The recipe prints `serve: http://localhost:9000, its log in .serve.log`. Ask the
 
 $ curl -s localhost:9000/health
 
-The server answers `{"status":"healthy"}`. Open `http://localhost:9000/docs` in a browser to see the pages that
+[curl](https://curl.se/) sends an HTTP request from the terminal, and prints the answer. macOS and most Linux systems
+have it. The server answers `{"status":"healthy"}`. Open `http://localhost:9000/docs` in a browser to see the pages that
 FastAPI makes for each route.
 
 $ just stop
@@ -316,8 +341,10 @@ files:
 
 ### step-03.2 httpx2 and pytest-asyncio, for tests of the app
 
-FastAPI's `TestClient` sends requests to the app in the same process, with no server. It needs the package httpx2.
-One test of the app is a coroutine, an `async` function, and pytest-asyncio runs it.
+FastAPI's [`TestClient`](https://fastapi.tiangolo.com/tutorial/testing/) sends requests to the app in the same
+process, with no server. It needs [httpx2](https://github.com/pydantic/httpx2), a library that sends HTTP requests.
+One test of the app is a coroutine, an `async` function. pytest cannot run an `async` function by itself, so
+[pytest-asyncio](https://pytest-asyncio.readthedocs.io/) runs it.
 
 do$ uv add --group test httpx2 pytest-asyncio
 
@@ -371,7 +398,9 @@ package `api` that run during the tests, and lists the lines that no test ran.
 
 ### step-04.1 pytest-cov, to measure what the tests run
 
-pytest-cov adds the option `--cov` to pytest. It is a tool of the tests, so it goes into the group `test`.
+A line that no test runs can break with no test failing. [pytest-cov](https://pytest-cov.readthedocs.io/) adds the
+option `--cov` to pytest. The option prints a table with each file and the share of its lines that ran. It is a tool
+of the tests, so it goes into the group `test`.
 
 do$ uv add --group test pytest-cov
 
@@ -448,6 +477,11 @@ files:
   show: `def unused_function():`
 
 ### step-05.2 ruff, the formatter and the linter, in the group lint
+
+[ruff](https://docs.astral.sh/ruff/) is a formatter and a linter in one tool, written in Rust by Astral, the makers
+of uv. `ruff format` writes the code in the layout of black, the formatter of most Python projects. `ruff check`
+checks the rules of flake8 and of many other linters, and can fix some of them. It takes the place of both black and
+flake8, and runs much faster.
 
 ruff checks the code, and the server does not need it to run. So ruff goes into a group of its own, `lint`.
 
@@ -605,6 +639,14 @@ when a check fails. The checks are in `.pre-commit-config.yaml`.
 
 ### step-06.1 pre-commit, in the group lint
 
+[pre-commit](https://pre-commit.com/) runs checks on the files of a commit, before git makes it. pre-commit calls
+each check a hook. git has hooks of its own, scripts that it runs before a commit, and a later move installs one of
+them to start pre-commit.
+
+`.pre-commit-config.yaml` names the repository that each hook comes from, and the exact version to use.
+The first time pre-commit runs, it downloads each hook and installs it in a folder of its own. A failed check stops the commit. If a hook fixes a file, the commit stops
+too, and the fixed file waits for `git add` before the next try.
+
 pre-commit checks the code, and the server does not need it to run. So it goes into the group `lint`, with ruff.
 
 do$ uv add --group lint pre-commit
@@ -695,6 +737,11 @@ such as a server on Google Cloud. A Docker image holds the server with everythin
 any machine with Docker. The run image is the image that production runs, our deployment.
 
 ### step-07.1 what docker build leaves out
+
+[Docker](https://docs.docker.com/) runs programs in containers. A container is a process with its own files, cut off
+from the rest of the machine. A `Dockerfile` lists the steps that build an image. It starts from a base system, such
+as Debian with Python, and adds the files and the commands. `docker build` makes the image, and `docker run` starts a
+container from it. On macOS and Windows, the app Docker Desktop runs Docker.
 
 `docker build` sends the files of the folder to Docker. The folder has `.venv`, the caches of the tools, git and maybe
 secrets. None of them belongs in an image. `.dockerignore` lists them.
@@ -802,7 +849,8 @@ App does. Here the server is the run image, our deployment, which `just docker-s
 
 ### step-08.1 requests, for tests that send real HTTP requests
 
-The system tests send their requests with the package requests. It is a tool of the tests, so it goes into the group
+The system tests send their requests with the package [requests](https://requests.readthedocs.io/), the most used
+HTTP library of Python. It is a tool of the tests, so it goes into the group
 `test`.
 
 do$ uv add --group test requests

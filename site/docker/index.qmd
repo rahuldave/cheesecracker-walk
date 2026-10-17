@@ -17,6 +17,11 @@ The images depend on the groups of dependencies of the project. The group `test`
 group `lint` holds ruff and pre-commit. The run image installs no group, and the dev image installs every group. The
 tutorial uv, beside this one, shows how the groups came to be.
 
+Two tools run the project on this machine. [uv](https://docs.astral.sh/uv/) installs Python and the packages of the
+project into the folder `.venv`, at the exact versions of `uv.lock`. [just](https://just.systems/) runs each task of
+the project by a short name. Each task is a recipe in the file `justfile`. `just setup` runs `uv sync --locked`,
+which makes uv install everything into `.venv`, and `just` alone lists the recipes.
+
 We make the project in moves. A move is one small change, made by one patch or by one command. You make each move,
 and the page checks your files against it.
 

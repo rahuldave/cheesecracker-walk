@@ -26,6 +26,13 @@ uvicorn is the server that runs a FastAPI app. We write an app that answers two 
 
 ## 2.1 FastAPI, and uvicorn to serve it {#step-02.1}
 
+[FastAPI](https://fastapi.tiangolo.com/) is a library for web APIs. A path is the part of an address after the name of the
+server, such as `/health`. A Python function answers the requests to one path when a line such as `@app.get("/health")` stands just above it. FastAPI uses the type written next to each argument, such
+as `float`, to check the values of each request. It also writes the pages of the API's docs.
+
+[uvicorn](https://uvicorn.dev/) is the server. It waits for requests on a numbered port of the machine, such as 9000,
+and hands each request to the app.
+
 The server needs FastAPI and uvicorn to run, so they are dependencies of the project itself, and not of a group.
 
 This change came from running `uv add fastapi uvicorn`.
@@ -70,7 +77,7 @@ uvicorn prints its version, and the version of Python that runs it.
 The app needs a first answer, and a way to tell that it runs. `service.py` makes the FastAPI app, and answers two
 requests. The request `/` gets a welcome, and `/health` gets the status of the server.
 
-A patch to [`src/api-service/api/service.py`](#step-02.2-src-api-service-api-service.py-1e1e71).
+[± See the new file `src/api-service/api/service.py`](#step-02.2-src-api-service-api-service.py-1e1e71){.btn .btn-sm .btn-secondary}
 
 The new file `src/api-service/api/service.py` makes `app`, with a title and a version. The CORS middleware lets a web
 page from any address call the server. After the comment `# Routes`, `get_index()` answers `/`, and `health_check()`
@@ -133,9 +140,9 @@ The app does nothing until a server runs it. The recipe `serve` starts uvicorn a
 waits until the server answers. The recipe `stop` stops it. A server is a fixture of the commands that need it. We start
 it before them, and stop it after them.
 
-A patch to [`justfile`](#step-02.3-justfile-424f0b).
+[± See the change to `justfile`](#step-02.3-justfile-424f0b){.btn .btn-sm .btn-secondary}
 
-A patch to [`.gitignore`](#step-02.3-.gitignore-a5cc29).
+[± See the change to `.gitignore`](#step-02.3-.gitignore-a5cc29){.btn .btn-sm .btn-secondary}
 
 The recipe `serve` runs `uvicorn api.service:app` with `&`, so the server runs in the background. `--app-dir` tells
 uvicorn where the package `api` is, and `--reload` restarts the server when a file of the code changes. The recipe
@@ -152,7 +159,8 @@ The recipe prints `serve: http://localhost:9000, its log in .serve.log`. Ask the
 curl -s localhost:9000/health
 ```
 
-The server answers `{"status":"healthy"}`. Open `http://localhost:9000/docs` in a browser to see the pages that
+[curl](https://curl.se/) sends an HTTP request from the terminal, and prints the answer. macOS and most Linux systems
+have it. The server answers `{"status":"healthy"}`. Open `http://localhost:9000/docs` in a browser to see the pages that
 FastAPI makes for each route.
 
 ```bash

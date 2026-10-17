@@ -142,7 +142,7 @@ ruff finds 1 error, `E501`, and fails. The line of the message is 147 characters
 
 A long message is a choice of words, so a person has to shorten it. The new message is short enough for one line.
 
-A patch to [`src/api-service/api/service.py`](#step-05.7-src-api-service-api-service.py-1e1e71).
+[± See the change to `src/api-service/api/service.py`](#step-05.7-src-api-service-api-service.py-1e1e71){.btn .btn-sm .btn-secondary}
 
 The value of `"message"` in the `return` of `calculate_euclidean_distance()` is now shorter than 120 characters.
 

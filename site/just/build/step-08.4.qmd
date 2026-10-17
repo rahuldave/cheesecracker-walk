@@ -26,7 +26,8 @@ just docker-build run
 just docker-serve
 ```
 
-The whole tutorial then adds the package requests, and writes system tests. A system test sends real HTTP requests to
+The whole tutorial then adds the package [requests](https://requests.readthedocs.io/), which lets Python code send
+HTTP requests, and writes system tests. A system test sends real HTTP requests to
 the server at port 9000 of this machine. The system tests need a running server, so `just test` leaves them out, and
 `just docker-serve` above starts one. The system tests get a recipe of their own, apart from `just check`.
 

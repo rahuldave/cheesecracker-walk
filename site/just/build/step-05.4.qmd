@@ -24,8 +24,9 @@ git rm -rq --cached --ignore-unmatch -- :/ && git restore --source 7c1670fd52a0 
 just setup
 ```
 
-The whole tutorial then makes a change in a hurry, adds ruff, and gives it the rules of flake8. The formatter and the
-linter get a recipe each.
+The whole tutorial then makes a change in a hurry. It adds [ruff](https://docs.astral.sh/ruff/), one tool that does two
+jobs. As a formatter, it lays out the code in one fixed way. As a linter, it checks the code against rules. The
+tutorial gives ruff the rules of flake8, an older linter. The formatter and the linter get a recipe each.
 
 ## 5.4 just fmt and just lint run ruff {#step-05.4}
 

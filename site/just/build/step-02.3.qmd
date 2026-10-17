@@ -24,7 +24,8 @@ git rm -rq --cached --ignore-unmatch -- :/ && git restore --source acee14f7dff4 
 just setup
 ```
 
-The whole tutorial then adds FastAPI and uvicorn, and writes the app. Two recipes start the server and stop it.
+The whole tutorial then adds [FastAPI](https://fastapi.tiangolo.com/), a library for web APIs, and writes the app
+with it. It also adds [uvicorn](https://uvicorn.dev/), the server that runs the app. Two recipes start the server and stop it.
 
 ## 2.3 just serve and just stop, the server on this machine {#step-02.3}
 
@@ -56,7 +57,8 @@ The recipe prints `serve: http://localhost:9000, its log in .serve.log`. Ask the
 curl -s localhost:9000/health
 ```
 
-The server answers `{"status":"healthy"}`. Open `http://localhost:9000/docs` in a browser to see the pages that
+[curl](https://curl.se/) sends an HTTP request from the terminal, and prints the answer. macOS and most Linux systems
+have it. The server answers `{"status":"healthy"}`. Open `http://localhost:9000/docs` in a browser to see the pages that
 FastAPI makes for each route.
 
 ```bash
