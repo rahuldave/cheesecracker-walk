@@ -32,7 +32,7 @@ the run image of the server and the dev image with every tool.
 
 The repository keeps every saved version of the project, one change at a time, in the order that this tutorial builds it.
 
-Each page covers one part of the tutorial. The top of the page links to the code as it is when the
+On the website, each page covers one part of the tutorial. The top of the page links to the code as it is when the
 part starts. The bottom links to the code as it is when the part ends.
 
 The project grows by moves. A move is one small change, made by one command, or by one patch. A patch lists the lines to add to a file and the
