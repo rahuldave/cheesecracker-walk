@@ -22,12 +22,13 @@ $ just setup
 
 The project is empty. It has a `pyproject.toml` with no dependencies, an empty `uv.lock`, a `README.md`, a
 `.gitignore`, and a `justfile` with one recipe, `setup`. `just setup` runs `uv sync --locked`. uv is the tool that installs Python and
-packages. The command makes the folder `.venv`, with Python 3.12 and every package of `uv.lock` in it. Run it again.
+packages. The command makes the folder `.venv`, with Python 3.12 and every package of `uv.lock` in it.
+
+Run it a second time. With nothing new in `uv.lock`, it changes nothing.
 
 $ just setup
 
-uv prints `Resolved 1 package` and `Checked`, and no line `Creating virtual environment`. A second run changes
-nothing.
+uv prints `Resolved 1 package` and `Checked`, and no line `Creating virtual environment`.
 
 Two settings of `pyproject.toml`, in the table `[tool.uv]`, matter for the whole project. `package = false` says that
 cheesecracker is an application. uv installs its dependencies, and does not install the project as a package.
@@ -114,11 +115,11 @@ pytest looks for tests in every folder of the project, `.venv` too, which is slo
 patch$ pyproject.toml
 
 ::: do
-Read the patch. It adds the table `[tool.pytest.ini_options]` at the end of `pyproject.toml`.
+Read the patch. It adds the table `[tool.pytest.ini_options]` to `pyproject.toml`.
 :::
 
 ::: watch
-The new table `[tool.pytest.ini_options]` at the end of `pyproject.toml` has two settings. `testpaths` makes pytest
+The new table `[tool.pytest.ini_options]` of `pyproject.toml` has two settings. `testpaths` makes pytest
 look for tests in `tests/` only. `pythonpath` puts `src/api-service/` on the import path, so a test can import `api`.
 :::
 
@@ -469,7 +470,7 @@ some rules of flake8. Two tables in `pyproject.toml` set both.
 patch$ pyproject.toml
 
 ::: do
-Read the tables `[tool.ruff]` and `[tool.ruff.lint]` at the end of `pyproject.toml`.
+Read the tables `[tool.ruff]` and `[tool.ruff.lint]` of `pyproject.toml`.
 :::
 
 ::: watch

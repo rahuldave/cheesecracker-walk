@@ -130,7 +130,7 @@ pytest looks for tests in every folder of the project, `.venv` too, which is slo
 
 A patch to [`pyproject.toml`](#step-01.3-pyproject.toml-5d07e7).
 
-The new table `[tool.pytest.ini_options]` at the end of `pyproject.toml` has two settings. `testpaths` makes pytest
+The new table `[tool.pytest.ini_options]` of `pyproject.toml` has two settings. `testpaths` makes pytest
 look for tests in `tests/` only. `pythonpath` puts `src/api-service/` on the import path, so a test can import `api`.
 
 ```bash

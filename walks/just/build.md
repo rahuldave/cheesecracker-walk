@@ -52,14 +52,15 @@ just setup
 
 The project is empty. It has a `pyproject.toml` with no dependencies, an empty `uv.lock`, a `README.md`, a
 `.gitignore`, and a `justfile` with one recipe, `setup`. `just setup` runs `uv sync --locked`. uv is the tool that installs Python and
-packages. The command makes the folder `.venv`, with Python 3.12 and every package of `uv.lock` in it. Run it again.
+packages. The command makes the folder `.venv`, with Python 3.12 and every package of `uv.lock` in it.
+
+Run it a second time. With nothing new in `uv.lock`, it changes nothing.
 
 ```bash
 just setup
 ```
 
-uv prints `Resolved 1 package` and `Checked`, and no line `Creating virtual environment`. A second run changes
-nothing.
+uv prints `Resolved 1 package` and `Checked`, and no line `Creating virtual environment`.
 
 Two settings of `pyproject.toml`, in the table `[tool.uv]`, matter for the whole project. `package = false` says that
 cheesecracker is an application. uv installs its dependencies, and does not install the project as a package.
