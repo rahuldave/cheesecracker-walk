@@ -2143,7 +2143,7 @@ pre-commit prints a line for each check, `Passed` or `Skipped`.
 `ruff check` checks only the Python files that git knows, which are those in a commit and those that are staged. A patch and an
 edit by hand stage nothing. So if you made every change here with patches or by hand, git knows none of the Python
 files, and `ruff check` says `(no files to check)Skipped`. A command that puts in the files of a part, at the top of a
-part or after a gap, stages them. If you ran one, `ruff check` says `Passed`. `ruff format` says `Passed` in both cases.
+part or after a gap, stages them. If you ran one, `ruff check` says `Passed`. `ruff format` says `Passed`.
 
 Check your files against this move. The command prints nothing when they match, and otherwise shows what differs:
 
