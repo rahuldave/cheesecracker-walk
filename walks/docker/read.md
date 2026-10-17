@@ -44,7 +44,7 @@ Our first file for Docker, `.dockerignore`, lists the files that never go into a
 ### 7.1 what docker build leaves out
 
 [Docker](https://docs.docker.com/) runs programs in containers. A container is a process with its own files, cut off
-from the rest of the machine. A `Dockerfile` lists the steps that build an image. It starts from a base system, such
+from the rest of the machine. A `Dockerfile` lists the instructions that build an image. It starts from a base system, such
 as Debian with Python, and adds the files and the commands. `docker build` makes the image, and `docker run` starts a
 container from it. On macOS and Windows, the app Docker Desktop runs Docker.
 
