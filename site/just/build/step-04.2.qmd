@@ -63,6 +63,8 @@ git fetch --quiet --tags --force origin; git restore --source 54de20e8055e --sta
 - <a id="step-04.2-justfile-424f0b"></a>`justfile`: the recipe `cov`. 4 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/bfb9c783c67c31254ce8136784738c0f2fc17fb5/justfile){.btn .btn-sm .btn-secondary}
   - look at `uv run pytest --cov=api --cov-report=term-missing "$@"`
 
+<a id="step-04.2-justfile-424f0b-diff"></a>
+
 <details open><summary>The patch to <code>justfile</code></summary>
 
 ```diff

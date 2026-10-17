@@ -63,6 +63,8 @@ git restore --source 7c1670fd52a0 --staged -- :/ && git restore --source b947593
 - <a id="step-05.4-justfile-424f0b"></a>`justfile`: the recipes `fmt` and `lint`. 8 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/b947593e84b71486902b3ff1c7f9e1458b70e3f7/justfile){.btn .btn-sm .btn-secondary}
   - look at `uv run ruff check "$@"`
 
+<a id="step-05.4-justfile-424f0b-diff"></a>
+
 <details open><summary>The patch to <code>justfile</code></summary>
 
 ```diff

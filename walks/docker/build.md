@@ -195,6 +195,8 @@ git fetch --quiet --tags --force origin; git restore --source step-06 --staged -
 - <a id="step-07.1-.dockerignore-05a721"></a>`.dockerignore`: what `docker build` never sends to Docker. New, 10 lines. [The file](https://github.com/rahuldave/cheesecracker/blob/2a28a5c704d6d9ed8200aeb8962aa01e5c2ac552/.dockerignore).
   - look at `.venv/`
 
+<a id="step-07.1-.dockerignore-05a721-diff"></a>
+
 <details open><summary>The patch to <code>.dockerignore</code></summary>
 
 ```diff
@@ -275,6 +277,8 @@ git restore --source 2a28a5c704d6 --staged -- :/ && git restore --source 0acb455
 
 - <a id="step-07.2-Dockerfile-6651dd"></a>`Dockerfile`: the stages `uv`, `build` and `run`. New, 34 lines. [The file](https://github.com/rahuldave/cheesecracker/blob/0acb4556f724cd94e4a71ab4fff739a974413fc0/Dockerfile).
   - look at `RUN uv sync --locked --no-default-groups`
+
+<a id="step-07.2-Dockerfile-6651dd-diff"></a>
 
 <details open><summary>The patch to <code>Dockerfile</code></summary>
 
@@ -384,6 +388,8 @@ git fetch --quiet --tags --force origin; git restore --source 0acb4556f724 --sta
 - <a id="step-07.3-justfile-424f0b"></a>`justfile`: the recipes `docker-build`, `docker-serve` and `docker-stop`. 20 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/d444e0387d256c62024581e98f59d670cbc93296/justfile).
   - look at `docker run --rm --detach --name cheesecracker-run --publish 9000:9000 cheesecracker-run > /dev/null || exit 1`
 
+<a id="step-07.3-justfile-424f0b-diff"></a>
+
 <details open><summary>The patch to <code>justfile</code></summary>
 
 ```diff
@@ -471,6 +477,8 @@ git fetch --quiet --tags --force origin; git restore --source step-07 --staged -
 - <a id="step-08.1-pyproject.toml-5d07e7"></a>`pyproject.toml`: requests, in the group `test`. 1 line added. It comes from `uv add --group test requests`. [The file](https://github.com/rahuldave/cheesecracker/blob/de0780b72a5cad4f0ed70e9c0cdcdee9d1028562/pyproject.toml).
   - look at `"requests>=2.34.2",`
 - <a id="step-08.1-uv.lock-8356d8"></a>`uv.lock`: the exact versions of requests, and of the packages that it needs. 166 lines added. It comes from `uv add --group test requests`. [The file](https://github.com/rahuldave/cheesecracker/blob/de0780b72a5cad4f0ed70e9c0cdcdee9d1028562/uv.lock).
+
+<a id="step-08.1-pyproject.toml-5d07e7-diff"></a>
 
 <details><summary>The diff that <code>uv add --group test requests</code> makes in <code>pyproject.toml</code></summary>
 
@@ -568,6 +576,8 @@ git restore --source de0780b72a5c --staged -- :/ && git restore --source c8302b4
 - <a id="step-08.2-pyproject.toml-5d07e7"></a>`pyproject.toml`: the two folders of tests that run by default. 1 line added, 1 removed. [The file](https://github.com/rahuldave/cheesecracker/blob/c8302b4cff8bd9fc480ba4f74a0c7d34c769fef6/pyproject.toml).
   - look at `testpaths = ["tests/unit", "tests/integration"]`
 
+<a id="step-08.2-pyproject.toml-5d07e7-diff"></a>
+
 <details open><summary>The patch to <code>pyproject.toml</code></summary>
 
 ```diff
@@ -634,6 +644,8 @@ git restore --source c8302b4cff8b --staged -- :/ && git restore --source 19813cf
 
 - <a id="step-08.3-tests-system-test_system_api.py-780a11"></a>`tests/system/test_system_api.py`: five system tests, through real HTTP requests to `localhost:9000`. New, 69 lines. [The file](https://github.com/rahuldave/cheesecracker/blob/19813cf32d0843eea486048243e1eaf62b16a0fe/tests/system/test_system_api.py).
   - look at `pytest.fail(f"no server at {API_BASE_URL}: start one with just docker-serve", pytrace=False)`
+
+<a id="step-08.3-tests-system-test_system_api.py-780a11-diff"></a>
 
 <details open><summary>The patch to <code>tests/system/test_system_api.py</code></summary>
 
@@ -760,6 +772,8 @@ git fetch --quiet --tags --force origin; git restore --source 19813cf32d08 --sta
 - <a id="step-08.4-justfile-424f0b"></a>`justfile`: the recipe `test-system`. 4 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/277d54eebce4a1727ed3d8a5c46570ca4a95f75d/justfile).
   - look at `uv run pytest tests/system "$@"`
 
+<a id="step-08.4-justfile-424f0b-diff"></a>
+
 <details open><summary>The patch to <code>justfile</code></summary>
 
 ```diff
@@ -839,6 +853,8 @@ git fetch --quiet --tags --force origin; git restore --source step-08 --staged -
 
 - <a id="step-09.1-Dockerfile-6651dd"></a>`Dockerfile`: the stage `dev`, and its lines in the comment at the top. 26 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/ccf62d330f28c6eec4c0b993e1a71e2c11a8b5af/Dockerfile).
   - look at `FROM python:3.12-slim-bookworm AS dev`
+
+<a id="step-09.1-Dockerfile-6651dd-diff"></a>
 
 <details open><summary>The patch to <code>Dockerfile</code></summary>
 
@@ -931,6 +947,8 @@ git fetch --quiet --tags --force origin; git restore --source ccf62d330f28 --sta
 
 - <a id="step-09.2-justfile-424f0b"></a>`justfile`: the recipes `docker-shell` and `docker-test`. 8 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/0701e9244ab2384538eda4d623e1d047ff3f8258/justfile).
   - look at `docker run --rm -v "$PWD":/work cheesecracker-dev just "${@:-check}"`
+
+<a id="step-09.2-justfile-424f0b-diff"></a>
 
 <details open><summary>The patch to <code>justfile</code></summary>
 
@@ -1038,6 +1056,8 @@ git fetch --quiet --tags --force origin; git restore --source step-09 --staged -
 - <a id="step-10-tests-integration-test_api.py-596674"></a>`tests/integration/test_api.py`: the test of `/add/`. 6 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/e706255d9c0fee3b6fded40376e7ac8829d1654a/tests/integration/test_api.py).
   - look at `response = client.get("/add/?x=10&y=20")`
 
+<a id="step-10-src-api-service-api-service.py-1e1e71-diff"></a>
+
 <details open><summary>The patch to <code>src/api-service/api/service.py</code></summary>
 
 ```diff
@@ -1054,6 +1074,8 @@ git fetch --quiet --tags --force origin; git restore --source step-09 --staged -
 ```
 
 </details>
+
+<a id="step-10-tests-integration-test_api.py-596674-diff"></a>
 
 <details open><summary>The patch to <code>tests/integration/test_api.py</code></summary>
 

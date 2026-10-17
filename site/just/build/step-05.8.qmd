@@ -62,6 +62,8 @@ git fetch --quiet --tags --force origin; git restore --source 693a713a458d --sta
 - <a id="step-05.8-justfile-424f0b"></a>`justfile`: the recipe `check`. 6 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/e89e0cfa991257757c887f687087a9c77c093e20/justfile){.btn .btn-sm .btn-secondary}
   - look at `just fmt --check`
 
+<a id="step-05.8-justfile-424f0b-diff"></a>
+
 <details open><summary>The patch to <code>justfile</code></summary>
 
 ```diff

@@ -92,6 +92,8 @@ git fetch --quiet --tags --force origin; git restore --source acee14f7dff4 --sta
 - <a id="step-02.3-justfile-424f0b"></a>`justfile`: the recipes `serve` and `stop`. 26 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/69c3bf65c78cf8e96bf8f9ea1dde29279db1351a/justfile){.btn .btn-sm .btn-secondary}
   - look at `uv run uvicorn api.service:app --app-dir src/api-service --host 0.0.0.0 --port 9000 --reload > .serve.log 2>&1 &`
 
+<a id="step-02.3-.gitignore-a5cc29-diff"></a>
+
 <details open><summary>The patch to <code>.gitignore</code></summary>
 
 ```diff
@@ -109,6 +111,8 @@ git fetch --quiet --tags --force origin; git restore --source acee14f7dff4 --sta
 ```
 
 </details>
+
+<a id="step-02.3-justfile-424f0b-diff"></a>
 
 <details open><summary>The patch to <code>justfile</code></summary>
 

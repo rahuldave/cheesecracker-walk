@@ -29,7 +29,7 @@ in production. It needs the dependencies of the project, and no group.
 The run image needs Python, the dependencies of the server, and the code. It does not need uv, the tests, ruff or
 pre-commit. The `Dockerfile` builds the image in stages, and the run image takes only what the server needs.
 
-[± See the new file `Dockerfile`](#step-07.2-Dockerfile-6651dd){.btn .btn-sm .btn-secondary}
+[± See the new file `Dockerfile`](#step-07.2-Dockerfile-6651dd-diff){.btn .btn-sm .btn-secondary}
 
 The stage `uv` takes uv from its own image. The stage `build` installs the dependencies of `uv.lock` into
 `/opt/venv`, with `--no-default-groups`, so no test tool and no ruff. The stage `run` copies `/opt/venv` and the
@@ -52,6 +52,8 @@ The image is about 173 MB, nearly all of it Python and the dependencies of the s
 
 - <a id="step-07.2-Dockerfile-6651dd"></a>`Dockerfile`: the stages `uv`, `build` and `run`. New, 34 lines. [The file](https://github.com/rahuldave/cheesecracker/blob/0acb4556f724cd94e4a71ab4fff739a974413fc0/Dockerfile){.btn .btn-sm .btn-secondary}
   - look at `RUN uv sync --locked --no-default-groups`
+
+<a id="step-07.2-Dockerfile-6651dd-diff"></a>
 
 <details><summary>The diff of <code>Dockerfile</code></summary>
 

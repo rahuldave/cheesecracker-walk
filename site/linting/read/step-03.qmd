@@ -33,7 +33,7 @@ and no network.
 The Cheese App asks the server for the distance of a point `(x, y)` from the origin `(0, 0)`. That distance is the
 square root of x squared plus y squared.
 
-[± See the change to `src/api-service/api/service.py`](#step-03.1-src-api-service-api-service.py-1e1e71){.btn .btn-sm .btn-secondary}
+[± See the change to `src/api-service/api/service.py`](#step-03.1-src-api-service-api-service.py-1e1e71-diff){.btn .btn-sm .btn-secondary}
 
 `service.py` now imports `math`, and `power()` from `api.utils`. The new function at the end,
 `calculate_euclidean_distance()`, answers `/euclidean_distance/`. It takes `x` and `y`, with 1 and 2 as defaults,
@@ -53,6 +53,8 @@ The server answers `{"x":3.0,"y":4.0,"distance":5.0}`.
 
 - <a id="step-03.1-src-api-service-api-service.py-1e1e71"></a>`src/api-service/api/service.py`: the imports of `math` and `power()`, and the endpoint `/euclidean_distance/`. 12 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/e576e7bb9e550b1a572a764b15f8d0bfde229d97/src/api-service/api/service.py){.btn .btn-sm .btn-secondary}
   - look at `z = power(x, 2) + power(y, 2)`
+
+<a id="step-03.1-src-api-service-api-service.py-1e1e71-diff"></a>
 
 <details><summary>The diff of <code>src/api-service/api/service.py</code></summary>
 
@@ -109,6 +111,8 @@ pytest still prints `11 passed`. The new packages change no test.
   - look at `"httpx2>=2.13.1",`
 - <a id="step-03.2-uv.lock-8356d8"></a>`uv.lock`: the exact versions of httpx2, pytest-asyncio, and the packages that they need. 68 lines added, 1 removed. It comes from `uv add --group test httpx2 pytest-asyncio`. [The file](https://github.com/rahuldave/cheesecracker/blob/3c75ffb1a089431a2455a69e9bcb3ec0302224f0/uv.lock){.btn .btn-sm .btn-secondary}
 
+<a id="step-03.2-pyproject.toml-5d07e7-diff"></a>
+
 <details><summary>The diff of <code>pyproject.toml</code></summary>
 
 ```diff
@@ -134,7 +138,7 @@ A unit test of `power()` cannot tell whether the app routes a request to the rig
 parameters, or answers in JSON. Ten integration tests send requests to the app through `TestClient`, and check each
 answer.
 
-[± See the new file `tests/integration/test_api.py`](#step-03.3-tests-integration-test_api.py-596674){.btn .btn-sm .btn-secondary}
+[± See the new file `tests/integration/test_api.py`](#step-03.3-tests-integration-test_api.py-596674-diff){.btn .btn-sm .btn-secondary}
 
 The new file `tests/integration/test_api.py` makes `client = TestClient(app)`. The class `TestAPIEndpoints` checks
 the welcome, the distance of (3, 4) and the defaults. It also checks a route that does not exist (404), and a method
@@ -155,6 +159,8 @@ just stop
 
 - <a id="step-03.3-tests-integration-test_api.py-596674"></a>`tests/integration/test_api.py`: ten integration tests, through FastAPI's `TestClient`. New, 89 lines. [The file](https://github.com/rahuldave/cheesecracker/blob/5862780b44d2f4ec87088c971dec57f23c11139e/tests/integration/test_api.py){.btn .btn-sm .btn-secondary}
   - look at `response = client.get("/euclidean_distance/?x=3&y=4")`
+
+<a id="step-03.3-tests-integration-test_api.py-596674-diff"></a>
 
 <details><summary>The diff of <code>tests/integration/test_api.py</code></summary>
 

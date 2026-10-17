@@ -61,6 +61,8 @@ git fetch --quiet --tags --force origin; git restore --source step-06 --staged -
 - <a id="step-07.1-.dockerignore-05a721"></a>`.dockerignore`: what `docker build` never sends to Docker. New, 10 lines. [The file](https://github.com/rahuldave/cheesecracker/blob/2a28a5c704d6d9ed8200aeb8962aa01e5c2ac552/.dockerignore){.btn .btn-sm .btn-secondary}
   - look at `.venv/`
 
+<a id="step-07.1-.dockerignore-05a721-diff"></a>
+
 <details open><summary>The patch to <code>.dockerignore</code></summary>
 
 ```diff

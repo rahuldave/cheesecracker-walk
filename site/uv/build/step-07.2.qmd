@@ -71,6 +71,8 @@ git restore --source 2a28a5c704d6 --staged -- :/ && git restore --source 0acb455
 - <a id="step-07.2-Dockerfile-6651dd"></a>`Dockerfile`: the stages `uv`, `build` and `run`. New, 34 lines. [The file](https://github.com/rahuldave/cheesecracker/blob/0acb4556f724cd94e4a71ab4fff739a974413fc0/Dockerfile){.btn .btn-sm .btn-secondary}
   - look at `RUN uv sync --locked --no-default-groups`
 
+<a id="step-07.2-Dockerfile-6651dd-diff"></a>
+
 <details open><summary>The patch to <code>Dockerfile</code></summary>
 
 ```diff

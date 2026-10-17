@@ -77,6 +77,8 @@ just --list
   - look at `default-groups = "all"`
 - <a id="step-00-uv.lock-8356d8"></a>`uv.lock`: the lockfile, with the project and no packages yet. New, 8 lines. [The file](https://github.com/rahuldave/cheesecracker/blob/cf50a6ef5045e08ca727aeaffdb710fad2cae096/uv.lock).
 
+<a id="step-00-.gitignore-a5cc29-diff"></a>
+
 <details><summary>The diff of <code>.gitignore</code></summary>
 
 ```diff
@@ -106,6 +108,8 @@ just --list
 
 </details>
 
+<a id="step-00-.python-version-7696e9-diff"></a>
+
 <details><summary>The diff of <code>.python-version</code></summary>
 
 ```diff
@@ -114,6 +118,8 @@ just --list
 ```
 
 </details>
+
+<a id="step-00-README.md-8ec9a0-diff"></a>
 
 <details><summary>The diff of <code>README.md</code></summary>
 
@@ -137,6 +143,8 @@ just --list
 
 </details>
 
+<a id="step-00-justfile-424f0b-diff"></a>
+
 <details><summary>The diff of <code>justfile</code></summary>
 
 ```diff
@@ -156,6 +164,8 @@ just --list
 ```
 
 </details>
+
+<a id="step-00-pyproject.toml-5d07e7-diff"></a>
 
 <details><summary>The diff of <code>pyproject.toml</code></summary>
 
@@ -218,6 +228,8 @@ uv prints the version of pytest, `pytest 9.1.1` on the day of the class.
   - look at `"pytest>=9.1.1",`
 - <a id="step-01.2-uv.lock-8356d8"></a>`uv.lock`: the exact version of pytest, and of the packages that it needs. 71 lines added. It comes from `uv add --group test pytest`. [The file](https://github.com/rahuldave/cheesecracker/blob/fc8c3bce83604277393460c4eb243d176d51905c/uv.lock).
 
+<a id="step-01.2-pyproject.toml-5d07e7-diff"></a>
+
 <details><summary>The diff of <code>pyproject.toml</code></summary>
 
 ```diff
@@ -279,6 +291,8 @@ uvicorn prints its version, and the version of Python that runs it.
   - look at `"fastapi>=0.143.2",`
 - <a id="step-02.1-uv.lock-8356d8"></a>`uv.lock`: the exact versions of FastAPI, uvicorn, and the packages that they need. 263 lines added. It comes from `uv add fastapi uvicorn`. [The file](https://github.com/rahuldave/cheesecracker/blob/18dd9dfb1c9597e50a8b404a6cb6379c1c149320/uv.lock).
 
+<a id="step-02.1-pyproject.toml-5d07e7-diff"></a>
+
 <details><summary>The diff of <code>pyproject.toml</code></summary>
 
 ```diff
@@ -338,6 +352,8 @@ pytest still prints `11 passed`. The new packages change no test.
   - look at `"httpx2>=2.13.1",`
 - <a id="step-03.2-uv.lock-8356d8"></a>`uv.lock`: the exact versions of httpx2, pytest-asyncio, and the packages that they need. 68 lines added, 1 removed. It comes from `uv add --group test httpx2 pytest-asyncio`. [The file](https://github.com/rahuldave/cheesecracker/blob/3c75ffb1a089431a2455a69e9bcb3ec0302224f0/uv.lock).
 
+<a id="step-03.2-pyproject.toml-5d07e7-diff"></a>
+
 <details><summary>The diff of <code>pyproject.toml</code></summary>
 
 ```diff
@@ -394,6 +410,8 @@ The table shows `utils.py` at 100% and `service.py` at 0%. The unit tests call `
   - look at `"pytest-cov>=7.1.0",`
 - <a id="step-04.1-uv.lock-8356d8"></a>`uv.lock`: the exact versions of pytest-cov, and of coverage, which it uses. 115 lines added. It comes from `uv add --group test pytest-cov`. [The file](https://github.com/rahuldave/cheesecracker/blob/54de20e8055ec62726d8956cac3a944433dc404c/uv.lock).
 
+<a id="step-04.1-pyproject.toml-5d07e7-diff"></a>
+
 <details><summary>The diff of <code>pyproject.toml</code></summary>
 
 ```diff
@@ -448,6 +466,8 @@ uv prints the version of ruff, `ruff 0.17.1` on the day of the class.
 - <a id="step-05.2-pyproject.toml-5d07e7"></a>`pyproject.toml`: ruff, in the group `lint`. 3 lines added. It comes from `uv add --group lint ruff`. [The file](https://github.com/rahuldave/cheesecracker/blob/9662828462ba2a21ca04a79c412e83ac070767f6/pyproject.toml).
   - look at `"ruff>=0.17.1",`
 - <a id="step-05.2-uv.lock-8356d8"></a>`uv.lock`: the exact version of ruff. 29 lines added. It comes from `uv add --group lint ruff`. [The file](https://github.com/rahuldave/cheesecracker/blob/9662828462ba2a21ca04a79c412e83ac070767f6/uv.lock).
+
+<a id="step-05.2-pyproject.toml-5d07e7-diff"></a>
 
 <details><summary>The diff of <code>pyproject.toml</code></summary>
 
@@ -509,6 +529,8 @@ uv prints the version of pre-commit.
   - look at `"pre-commit>=4.7.0",`
 - <a id="step-06.1-uv.lock-8356d8"></a>`uv.lock`: the exact versions of pre-commit, and of the packages that it needs. 149 lines added, 1 removed. It comes from `uv add --group lint pre-commit`. [The file](https://github.com/rahuldave/cheesecracker/blob/f3ad230bf911e0c446eb6752ec2718b910d9e851/uv.lock).
 
+<a id="step-06.1-pyproject.toml-5d07e7-diff"></a>
+
 <details><summary>The diff of <code>pyproject.toml</code></summary>
 
 ```diff
@@ -546,7 +568,7 @@ in production. It needs the dependencies of the project, and no group.
 The run image needs Python, the dependencies of the server, and the code. It does not need uv, the tests, ruff or
 pre-commit. The `Dockerfile` builds the image in stages, and the run image takes only what the server needs.
 
-[± See the new file `Dockerfile`](#step-07.2-Dockerfile-6651dd)
+[± See the new file `Dockerfile`](#step-07.2-Dockerfile-6651dd-diff)
 
 The stage `uv` takes uv from its own image. The stage `build` installs the dependencies of `uv.lock` into
 `/opt/venv`, with `--no-default-groups`, so no test tool and no ruff. The stage `run` copies `/opt/venv` and the
@@ -569,6 +591,8 @@ The image is about 173 MB, nearly all of it Python and the dependencies of the s
 
 - <a id="step-07.2-Dockerfile-6651dd"></a>`Dockerfile`: the stages `uv`, `build` and `run`. New, 34 lines. [The file](https://github.com/rahuldave/cheesecracker/blob/0acb4556f724cd94e4a71ab4fff739a974413fc0/Dockerfile).
   - look at `RUN uv sync --locked --no-default-groups`
+
+<a id="step-07.2-Dockerfile-6651dd-diff"></a>
 
 <details><summary>The diff of <code>Dockerfile</code></summary>
 
@@ -649,6 +673,8 @@ Python prints the version of requests.
   - look at `"requests>=2.34.2",`
 - <a id="step-08.1-uv.lock-8356d8"></a>`uv.lock`: the exact versions of requests, and of the packages that it needs. 166 lines added. It comes from `uv add --group test requests`. [The file](https://github.com/rahuldave/cheesecracker/blob/de0780b72a5cad4f0ed70e9c0cdcdee9d1028562/uv.lock).
 
+<a id="step-08.1-pyproject.toml-5d07e7-diff"></a>
+
 <details><summary>The diff of <code>pyproject.toml</code></summary>
 
 ```diff
@@ -686,7 +712,7 @@ project, so it installs every group.
 The dev image is a fourth stage of the `Dockerfile`, `dev`. It takes uv from the stage `uv`, and nothing from the
 run image.
 
-[± See the change to `Dockerfile`](#step-09.1-Dockerfile-6651dd)
+[± See the change to `Dockerfile`](#step-09.1-Dockerfile-6651dd-diff)
 
 The stage `dev` installs git and curl, copies uv, and installs just as a package of PyPI. It installs every group of
 `uv.lock` into `/opt/venv`, copies the project into `/work`, and starts a shell. `/opt/venv` is outside `/work`, so a
@@ -708,6 +734,8 @@ The image is about 353 MB, twice the run image, because it has every tool.
 
 - <a id="step-09.1-Dockerfile-6651dd"></a>`Dockerfile`: the stage `dev`, and its lines in the comment at the top. 26 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/ccf62d330f28c6eec4c0b993e1a71e2c11a8b5af/Dockerfile).
   - look at `FROM python:3.12-slim-bookworm AS dev`
+
+<a id="step-09.1-Dockerfile-6651dd-diff"></a>
 
 <details><summary>The diff of <code>Dockerfile</code></summary>
 

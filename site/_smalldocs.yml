@@ -787,3 +787,20 @@ toc: true
 toc-depth: 2
 code-copy: true
 from: markdown-tex_math_dollars-smart  # a $ is a dollar, not mathematics; -- stays two hyphens
+include-after-body:   # a link to a diff of What changed opens it
+  - text: |
+      <script>
+      function openDiff(name) {   // the folded diff after the anchor that the address names, as a button to it opens it
+        const mark = name && document.getElementById(decodeURIComponent(name));
+        if (!mark) return;
+        const holder = mark.parentElement && mark.parentElement.tagName === "P" ? mark.parentElement : mark;
+        const diff = mark.closest("details") || holder.nextElementSibling;
+        if (diff && diff.tagName === "DETAILS") { diff.open = true; diff.scrollIntoView(); }
+      }
+      addEventListener("DOMContentLoaded", () => openDiff(location.hash.slice(1)));
+      addEventListener("hashchange", () => openDiff(location.hash.slice(1)));
+      document.addEventListener("click", (event) => {   // a second click on the same link changes no hash
+        const link = event.target.closest("a[href^='#']");
+        if (link) setTimeout(() => openDiff(link.getAttribute("href").slice(1)));
+      });
+      </script>

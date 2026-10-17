@@ -29,7 +29,7 @@ tutorial gives ruff the rules of flake8, an older linter. The formatter and the 
 
 Two recipes give the formatter and the linter short names. Each passes on to ruff any words that you type after it.
 
-[± See the change to `justfile`](#step-05.4-justfile-424f0b){.btn .btn-sm .btn-secondary}
+[± See the change to `justfile`](#step-05.4-justfile-424f0b-diff){.btn .btn-sm .btn-secondary}
 
 The recipe `fmt` runs `uv run ruff format`, and `lint` runs `uv run ruff check`. So `just fmt --check` checks the
 layout, and `just lint --fix` fixes what ruff can fix.
@@ -44,6 +44,8 @@ The recipe fails as `ruff format --check` did, with `2 files would be reformatte
 
 - <a id="step-05.4-justfile-424f0b"></a>`justfile`: the recipes `fmt` and `lint`. 8 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/b947593e84b71486902b3ff1c7f9e1458b70e3f7/justfile){.btn .btn-sm .btn-secondary}
   - look at `uv run ruff check "$@"`
+
+<a id="step-05.4-justfile-424f0b-diff"></a>
 
 <details><summary>The diff of <code>justfile</code></summary>
 

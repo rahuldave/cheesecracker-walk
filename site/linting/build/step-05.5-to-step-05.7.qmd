@@ -56,6 +56,8 @@ git restore --source b947593e84b7 --staged -- :/ && git restore --source 4264211
 - <a id="step-05.5-src-api-service-api-utils.py-18f1f8"></a>`src/api-service/api/utils.py`: the space after the comma, and two blank lines before `unused_function()`. 1 line added, 2 removed. It comes from `just fmt`. [The file](https://github.com/rahuldave/cheesecracker/blob/42642115394d8e19ead4c27bafaf4d90d991b0c9/src/api-service/api/utils.py){.btn .btn-sm .btn-secondary}
   - look at `def power(base, exponent):`
 
+<a id="step-05.5-src-api-service-api-service.py-1e1e71-diff"></a>
+
 <details><summary>The diff that <code>just fmt</code> makes in <code>src/api-service/api/service.py</code></summary>
 
 ```diff
@@ -90,6 +92,8 @@ git restore --source b947593e84b7 --staged -- :/ && git restore --source 4264211
 ```
 
 </details>
+
+<a id="step-05.5-src-api-service-api-utils.py-18f1f8-diff"></a>
 
 <details><summary>The diff that <code>just fmt</code> makes in <code>src/api-service/api/utils.py</code></summary>
 
@@ -146,6 +150,8 @@ git restore --source 42642115394d --staged -- :/ && git restore --source cfd2ebb
 
 - <a id="step-05.6-src-api-service-api-service.py-1e1e71"></a>`src/api-service/api/service.py`: the import of `os`, removed. 0 lines added, 1 removed. It comes from `just lint --fix || true`. [The file](https://github.com/rahuldave/cheesecracker/blob/cfd2ebb050dda3ce951f0f28e84b9ae09fbe14d5/src/api-service/api/service.py){.btn .btn-sm .btn-secondary}
 
+<a id="step-05.6-src-api-service-api-service.py-1e1e71-diff"></a>
+
 <details><summary>The diff that <code>just lint --fix || true</code> makes in <code>src/api-service/api/service.py</code></summary>
 
 ```diff
@@ -198,6 +204,8 @@ git restore --source cfd2ebb050dd --staged -- :/ && git restore --source 693a713
 
 - <a id="step-05.7-src-api-service-api-service.py-1e1e71"></a>`src/api-service/api/service.py`: a shorter message. 1 line added, 1 removed. [The file](https://github.com/rahuldave/cheesecracker/blob/693a713a458db01debdd7ebc3b084ed1b0350b08/src/api-service/api/service.py){.btn .btn-sm .btn-secondary}
   - look at `"message": "This is a very long line that exceeds 120 characters blah",`
+
+<a id="step-05.7-src-api-service-api-service.py-1e1e71-diff"></a>
 
 <details open><summary>The patch to <code>src/api-service/api/service.py</code></summary>
 

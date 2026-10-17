@@ -31,7 +31,7 @@ Two recipes run the dev image with this folder mounted at `/work`. An edit here 
 needs no rebuild after a change of the code. `docker-shell` opens a shell in the image. `docker-test` runs the recipe
 that you name in the image, or `just check` if you name none.
 
-[± See the change to `justfile`](#step-09.2-justfile-424f0b){.btn .btn-sm .btn-secondary}
+[± See the change to `justfile`](#step-09.2-justfile-424f0b-diff){.btn .btn-sm .btn-secondary}
 
 `docker-shell` runs `docker run --rm -it -v "$PWD":/work cheesecracker-dev`. `-v` mounts this folder at `/work`, and
 `-it` gives the shell a terminal. `docker-test` runs `just` in the image, with its words, or with `check`.
@@ -53,6 +53,8 @@ The eleven unit tests pass in Linux.
 
 - <a id="step-09.2-justfile-424f0b"></a>`justfile`: the recipes `docker-shell` and `docker-test`. 8 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/0701e9244ab2384538eda4d623e1d047ff3f8258/justfile){.btn .btn-sm .btn-secondary}
   - look at `docker run --rm -v "$PWD":/work cheesecracker-dev just "${@:-check}"`
+
+<a id="step-09.2-justfile-424f0b-diff"></a>
 
 <details><summary>The diff of <code>justfile</code></summary>
 

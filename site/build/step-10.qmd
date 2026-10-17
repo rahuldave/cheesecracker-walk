@@ -89,6 +89,8 @@ git fetch --quiet --tags --force origin; git restore --source step-09 --staged -
 - <a id="step-10-tests-integration-test_api.py-596674"></a>`tests/integration/test_api.py`: the test of `/add/`. 6 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/e706255d9c0fee3b6fded40376e7ac8829d1654a/tests/integration/test_api.py){.btn .btn-sm .btn-secondary}
   - look at `response = client.get("/add/?x=10&y=20")`
 
+<a id="step-10-src-api-service-api-service.py-1e1e71-diff"></a>
+
 <details open><summary>The patch to <code>src/api-service/api/service.py</code></summary>
 
 ```diff
@@ -105,6 +107,8 @@ git fetch --quiet --tags --force origin; git restore --source step-09 --staged -
 ```
 
 </details>
+
+<a id="step-10-tests-integration-test_api.py-596674-diff"></a>
 
 <details open><summary>The patch to <code>tests/integration/test_api.py</code></summary>
 

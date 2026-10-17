@@ -46,6 +46,8 @@ The table shows `utils.py` at 100% and `service.py` at 0%. The unit tests call `
   - look at `"pytest-cov>=7.1.0",`
 - <a id="step-04.1-uv.lock-8356d8"></a>`uv.lock`: the exact versions of pytest-cov, and of coverage, which it uses. 115 lines added. It comes from `uv add --group test pytest-cov`. [The file](https://github.com/rahuldave/cheesecracker/blob/54de20e8055ec62726d8956cac3a944433dc404c/uv.lock){.btn .btn-sm .btn-secondary}
 
+<a id="step-04.1-pyproject.toml-5d07e7-diff"></a>
+
 <details><summary>The diff of <code>pyproject.toml</code></summary>
 
 ```diff

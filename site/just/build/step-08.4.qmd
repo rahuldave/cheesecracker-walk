@@ -75,6 +75,8 @@ git fetch --quiet --tags --force origin; git restore --source 19813cf32d08 --sta
 - <a id="step-08.4-justfile-424f0b"></a>`justfile`: the recipe `test-system`. 4 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/277d54eebce4a1727ed3d8a5c46570ca4a95f75d/justfile){.btn .btn-sm .btn-secondary}
   - look at `uv run pytest tests/system "$@"`
 
+<a id="step-08.4-justfile-424f0b-diff"></a>
+
 <details open><summary>The patch to <code>justfile</code></summary>
 
 ```diff

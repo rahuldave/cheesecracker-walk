@@ -84,6 +84,8 @@ just --list
   - look at `default-groups = "all"`
 - <a id="step-00-uv.lock-8356d8"></a>`uv.lock`: the lockfile, with the project and no packages yet. New, 8 lines. [The file](https://github.com/rahuldave/cheesecracker/blob/cf50a6ef5045e08ca727aeaffdb710fad2cae096/uv.lock).
 
+<a id="step-00-.gitignore-a5cc29-diff"></a>
+
 <details><summary>The diff of <code>.gitignore</code></summary>
 
 ```diff
@@ -113,6 +115,8 @@ just --list
 
 </details>
 
+<a id="step-00-.python-version-7696e9-diff"></a>
+
 <details><summary>The diff of <code>.python-version</code></summary>
 
 ```diff
@@ -121,6 +125,8 @@ just --list
 ```
 
 </details>
+
+<a id="step-00-README.md-8ec9a0-diff"></a>
 
 <details><summary>The diff of <code>README.md</code></summary>
 
@@ -144,6 +150,8 @@ just --list
 
 </details>
 
+<a id="step-00-justfile-424f0b-diff"></a>
+
 <details><summary>The diff of <code>justfile</code></summary>
 
 ```diff
@@ -163,6 +171,8 @@ just --list
 ```
 
 </details>
+
+<a id="step-00-pyproject.toml-5d07e7-diff"></a>
 
 <details><summary>The diff of <code>pyproject.toml</code></summary>
 
@@ -208,9 +218,9 @@ milliseconds.
 The code of the API is a Python package, `api`, in the folder `src/api-service/`. Its first function, `power()`,
 returns its first argument raised to the power of its second.
 
-[± See the new file `src/api-service/api/__init__.py`](#step-01.1-src-api-service-api-__init__.py-e2e18a)
+[± See the new file `src/api-service/api/__init__.py`](#step-01.1-src-api-service-api-__init__.py-e2e18a-diff)
 
-[± See the new file `src/api-service/api/utils.py`](#step-01.1-src-api-service-api-utils.py-18f1f8)
+[± See the new file `src/api-service/api/utils.py`](#step-01.1-src-api-service-api-utils.py-18f1f8-diff)
 
 The new file `src/api-service/api/utils.py` has a docstring and one function, `power(base, exponent)`. It returns
 `base**exponent`. `src/api-service/api/__init__.py` has one comment, and makes `api` a package.
@@ -230,6 +240,8 @@ Python prints `8`, which is 2 to the power of 3.
 - <a id="step-01.1-src-api-service-api-utils.py-18f1f8"></a>`src/api-service/api/utils.py`: the function `power()`. New, 9 lines. [The file](https://github.com/rahuldave/cheesecracker/blob/bb1701fd54ba7c6aa9bd971c6651f34439f004d6/src/api-service/api/utils.py).
   - look at `return base**exponent`
 
+<a id="step-01.1-src-api-service-api-__init__.py-e2e18a-diff"></a>
+
 <details><summary>The diff of <code>src/api-service/api/__init__.py</code></summary>
 
 ```diff
@@ -238,6 +250,8 @@ Python prints `8`, which is 2 to the power of 3.
 ```
 
 </details>
+
+<a id="step-01.1-src-api-service-api-utils.py-18f1f8-diff"></a>
 
 <details><summary>The diff of <code>src/api-service/api/utils.py</code></summary>
 
@@ -287,6 +301,8 @@ uv prints the version of pytest, `pytest 9.1.1` on the day of the class.
   - look at `"pytest>=9.1.1",`
 - <a id="step-01.2-uv.lock-8356d8"></a>`uv.lock`: the exact version of pytest, and of the packages that it needs. 71 lines added. It comes from `uv add --group test pytest`. [The file](https://github.com/rahuldave/cheesecracker/blob/fc8c3bce83604277393460c4eb243d176d51905c/uv.lock).
 
+<a id="step-01.2-pyproject.toml-5d07e7-diff"></a>
+
 <details><summary>The diff of <code>pyproject.toml</code></summary>
 
 ```diff
@@ -312,7 +328,7 @@ uv prints the version of pytest, `pytest 9.1.1` on the day of the class.
 pytest looks for tests in every folder of the project, `.venv` too, which is slow. Also, the tests cannot import
 `api`, because the folder `src/api-service/` is not on the import path. Two settings of pytest, in `pyproject.toml`, solve both problems.
 
-[± See the change to `pyproject.toml`](#step-01.3-pyproject.toml-5d07e7)
+[± See the change to `pyproject.toml`](#step-01.3-pyproject.toml-5d07e7-diff)
 
 The new table `[tool.pytest.ini_options]` of `pyproject.toml` has two settings. `testpaths` makes pytest
 look for tests in `tests/` only. `pythonpath` puts `src/api-service/` on the import path, so a test can import `api`.
@@ -328,6 +344,8 @@ files in `tests/`, which does not exist yet.
 
 - <a id="step-01.3-pyproject.toml-5d07e7"></a>`pyproject.toml`: the table `[tool.pytest.ini_options]`, with the folder of the tests and the folder of the package. 5 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/ff82ac1870a7e1937a6fb4d25ac171249378f299/pyproject.toml).
   - look at `pythonpath = ["src/api-service"]`
+
+<a id="step-01.3-pyproject.toml-5d07e7-diff"></a>
 
 <details><summary>The diff of <code>pyproject.toml</code></summary>
 
@@ -354,7 +372,7 @@ files in `tests/`, which does not exist yet.
 We do not know whether `power()` gives the right answer for every kind of input. Eleven tests try it with integers,
 zero, one, negative numbers, floats, the special values of floats, and inputs of the wrong type.
 
-[± See the new file `tests/unit/test_utils.py`](#step-01.4-tests-unit-test_utils.py-3d93fe)
+[± See the new file `tests/unit/test_utils.py`](#step-01.4-tests-unit-test_utils.py-3d93fe-diff)
 
 The new file `tests/unit/test_utils.py` has the class `TestPower`, with eleven tests. Each `assert` compares a result
 of `power()` with its answer. `test_power_invalid_inputs` expects a `TypeError` for a string, `None`, a list or a
@@ -370,6 +388,8 @@ pytest prints `11 passed`. So `power()` gives the answer that each test expects.
 
 - <a id="step-01.4-tests-unit-test_utils.py-3d93fe"></a>`tests/unit/test_utils.py`: eleven unit tests of `power()`. New, 91 lines. [The file](https://github.com/rahuldave/cheesecracker/blob/cbc98b162671bce7a7ba82d7d18c7dc6d530b746/tests/unit/test_utils.py).
   - look at `assert power(2, 3) == 8`
+
+<a id="step-01.4-tests-unit-test_utils.py-3d93fe-diff"></a>
 
 <details><summary>The diff of <code>tests/unit/test_utils.py</code></summary>
 
@@ -479,7 +499,7 @@ pytest prints `11 passed`. So `power()` gives the answer that each test expects.
 The command `uv run pytest` is long, and every task of the project gets a recipe in the `justfile`, so that one
 short command runs it. The recipe `test` runs pytest through uv, and passes on to pytest any words that you type after `just test`.
 
-[± See the change to `justfile`](#step-01.5-justfile-424f0b)
+[± See the change to `justfile`](#step-01.5-justfile-424f0b-diff)
 
 The recipe `test`, at the end of the `justfile`, runs `uv run pytest "$@"`. `"$@"` stands for the words after
 `just test`, so `just test tests/unit` runs the unit tests alone.
@@ -494,6 +514,8 @@ just prints the command of the recipe, and pytest prints `11 passed`.
 
 - <a id="step-01.5-justfile-424f0b"></a>`justfile`: the recipe `test`. 4 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/e86e0c3d10bbe9409674f1c65ce4afdc38e7f76f/justfile).
   - look at `uv run pytest "$@"`
+
+<a id="step-01.5-justfile-424f0b-diff"></a>
 
 <details><summary>The diff of <code>justfile</code></summary>
 
@@ -559,6 +581,8 @@ uvicorn prints its version, and the version of Python that runs it.
   - look at `"fastapi>=0.143.2",`
 - <a id="step-02.1-uv.lock-8356d8"></a>`uv.lock`: the exact versions of FastAPI, uvicorn, and the packages that they need. 263 lines added. It comes from `uv add fastapi uvicorn`. [The file](https://github.com/rahuldave/cheesecracker/blob/18dd9dfb1c9597e50a8b404a6cb6379c1c149320/uv.lock).
 
+<a id="step-02.1-pyproject.toml-5d07e7-diff"></a>
+
 <details><summary>The diff of <code>pyproject.toml</code></summary>
 
 ```diff
@@ -587,7 +611,7 @@ uvicorn prints its version, and the version of Python that runs it.
 The app needs a first answer, and a way to tell that it runs. `service.py` makes the FastAPI app, and answers two
 requests. The request `/` gets a welcome, and `/health` gets the status of the server.
 
-[± See the new file `src/api-service/api/service.py`](#step-02.2-src-api-service-api-service.py-1e1e71)
+[± See the new file `src/api-service/api/service.py`](#step-02.2-src-api-service-api-service.py-1e1e71-diff)
 
 The new file `src/api-service/api/service.py` makes `app`, with a title and a version. The CORS middleware lets a web
 page from any address call the server. After the comment `# Routes`, `get_index()` answers `/`, and `health_check()`
@@ -604,6 +628,8 @@ documentation pages.
 
 - <a id="step-02.2-src-api-service-api-service.py-1e1e71"></a>`src/api-service/api/service.py`: the FastAPI app, its CORS middleware, and the routes `/` and `/health`. New, 29 lines. [The file](https://github.com/rahuldave/cheesecracker/blob/acee14f7dff43d6c5b76234b3a016985d74c60d2/src/api-service/api/service.py).
   - look at `return {"status": "healthy"}`
+
+<a id="step-02.2-src-api-service-api-service.py-1e1e71-diff"></a>
 
 <details><summary>The diff of <code>src/api-service/api/service.py</code></summary>
 
@@ -652,9 +678,9 @@ The app does nothing until a server runs it. The recipe `serve` starts uvicorn a
 waits until the server answers. The recipe `stop` stops it. A server is a fixture of the commands that need it. We start
 it before them, and stop it after them.
 
-[± See the change to `justfile`](#step-02.3-justfile-424f0b)
+[± See the change to `justfile`](#step-02.3-justfile-424f0b-diff)
 
-[± See the change to `.gitignore`](#step-02.3-.gitignore-a5cc29)
+[± See the change to `.gitignore`](#step-02.3-.gitignore-a5cc29-diff)
 
 The recipe `serve` runs `uvicorn api.service:app` with `&`, so the server runs in the background. `--app-dir` tells
 uvicorn where the package `api` is, and `--reload` restarts the server when a file of the code changes. The recipe
@@ -694,6 +720,8 @@ curl -s localhost:9000/health
 - <a id="step-02.3-justfile-424f0b"></a>`justfile`: the recipes `serve` and `stop`. 26 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/69c3bf65c78cf8e96bf8f9ea1dde29279db1351a/justfile).
   - look at `uv run uvicorn api.service:app --app-dir src/api-service --host 0.0.0.0 --port 9000 --reload > .serve.log 2>&1 &`
 
+<a id="step-02.3-.gitignore-a5cc29-diff"></a>
+
 <details><summary>The diff of <code>.gitignore</code></summary>
 
 ```diff
@@ -711,6 +739,8 @@ curl -s localhost:9000/health
 ```
 
 </details>
+
+<a id="step-02.3-justfile-424f0b-diff"></a>
 
 <details><summary>The diff of <code>justfile</code></summary>
 
@@ -777,7 +807,7 @@ and no network.
 The Cheese App asks the server for the distance of a point `(x, y)` from the origin `(0, 0)`. That distance is the
 square root of x squared plus y squared.
 
-[± See the change to `src/api-service/api/service.py`](#step-03.1-src-api-service-api-service.py-1e1e71)
+[± See the change to `src/api-service/api/service.py`](#step-03.1-src-api-service-api-service.py-1e1e71-diff)
 
 `service.py` now imports `math`, and `power()` from `api.utils`. The new function at the end,
 `calculate_euclidean_distance()`, answers `/euclidean_distance/`. It takes `x` and `y`, with 1 and 2 as defaults,
@@ -797,6 +827,8 @@ The server answers `{"x":3.0,"y":4.0,"distance":5.0}`.
 
 - <a id="step-03.1-src-api-service-api-service.py-1e1e71"></a>`src/api-service/api/service.py`: the imports of `math` and `power()`, and the endpoint `/euclidean_distance/`. 12 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/e576e7bb9e550b1a572a764b15f8d0bfde229d97/src/api-service/api/service.py).
   - look at `z = power(x, 2) + power(y, 2)`
+
+<a id="step-03.1-src-api-service-api-service.py-1e1e71-diff"></a>
 
 <details><summary>The diff of <code>src/api-service/api/service.py</code></summary>
 
@@ -855,6 +887,8 @@ pytest still prints `11 passed`. The new packages change no test.
   - look at `"httpx2>=2.13.1",`
 - <a id="step-03.2-uv.lock-8356d8"></a>`uv.lock`: the exact versions of httpx2, pytest-asyncio, and the packages that they need. 68 lines added, 1 removed. It comes from `uv add --group test httpx2 pytest-asyncio`. [The file](https://github.com/rahuldave/cheesecracker/blob/3c75ffb1a089431a2455a69e9bcb3ec0302224f0/uv.lock).
 
+<a id="step-03.2-pyproject.toml-5d07e7-diff"></a>
+
 <details><summary>The diff of <code>pyproject.toml</code></summary>
 
 ```diff
@@ -882,7 +916,7 @@ A unit test of `power()` cannot tell whether the app routes a request to the rig
 parameters, or answers in JSON. Ten integration tests send requests to the app through `TestClient`, and check each
 answer.
 
-[± See the new file `tests/integration/test_api.py`](#step-03.3-tests-integration-test_api.py-596674)
+[± See the new file `tests/integration/test_api.py`](#step-03.3-tests-integration-test_api.py-596674-diff)
 
 The new file `tests/integration/test_api.py` makes `client = TestClient(app)`. The class `TestAPIEndpoints` checks
 the welcome, the distance of (3, 4) and the defaults. It also checks a route that does not exist (404), and a method
@@ -903,6 +937,8 @@ just stop
 
 - <a id="step-03.3-tests-integration-test_api.py-596674"></a>`tests/integration/test_api.py`: ten integration tests, through FastAPI's `TestClient`. New, 89 lines. [The file](https://github.com/rahuldave/cheesecracker/blob/5862780b44d2f4ec87088c971dec57f23c11139e/tests/integration/test_api.py).
   - look at `response = client.get("/euclidean_distance/?x=3&y=4")`
+
+<a id="step-03.3-tests-integration-test_api.py-596674-diff"></a>
 
 <details><summary>The diff of <code>tests/integration/test_api.py</code></summary>
 
@@ -1044,6 +1080,8 @@ The table shows `utils.py` at 100% and `service.py` at 0%. The unit tests call `
   - look at `"pytest-cov>=7.1.0",`
 - <a id="step-04.1-uv.lock-8356d8"></a>`uv.lock`: the exact versions of pytest-cov, and of coverage, which it uses. 115 lines added. It comes from `uv add --group test pytest-cov`. [The file](https://github.com/rahuldave/cheesecracker/blob/54de20e8055ec62726d8956cac3a944433dc404c/uv.lock).
 
+<a id="step-04.1-pyproject.toml-5d07e7-diff"></a>
+
 <details><summary>The diff of <code>pyproject.toml</code></summary>
 
 ```diff
@@ -1068,7 +1106,7 @@ The table shows `utils.py` at 100% and `service.py` at 0%. The unit tests call `
 The recipe `cov` runs every test with coverage, and adds the column `Missing`, with the numbers of the lines that no
 test ran.
 
-[± See the change to `justfile`](#step-04.2-justfile-424f0b)
+[± See the change to `justfile`](#step-04.2-justfile-424f0b-diff)
 
 The recipe `cov`, at the end of the `justfile`, runs pytest with `--cov=api --cov-report=term-missing`, and passes
 on to pytest any words that you type after `just cov`.
@@ -1083,6 +1121,8 @@ The total is 95%. `service.py` misses line 31, the answer of `/health`, because 
 
 - <a id="step-04.2-justfile-424f0b"></a>`justfile`: the recipe `cov`. 4 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/bfb9c783c67c31254ce8136784738c0f2fc17fb5/justfile).
   - look at `uv run pytest --cov=api --cov-report=term-missing "$@"`
+
+<a id="step-04.2-justfile-424f0b-diff"></a>
 
 <details><summary>The diff of <code>justfile</code></summary>
 
@@ -1137,7 +1177,7 @@ container from it. On macOS and Windows, the app Docker Desktop runs Docker.
 `docker build` sends the files of the folder to Docker. The folder has `.venv`, the caches of the tools, git and maybe
 secrets. None of them belongs in an image. `.dockerignore` lists them.
 
-[± See the new file `.dockerignore`](#step-07.1-.dockerignore-05a721)
+[± See the new file `.dockerignore`](#step-07.1-.dockerignore-05a721-diff)
 
 The new file `.dockerignore` lists `.venv/`, the caches of pytest, ruff and coverage, `.git/`, `secrets/` and `.env`.
 
@@ -1151,6 +1191,8 @@ cat .dockerignore
 
 - <a id="step-07.1-.dockerignore-05a721"></a>`.dockerignore`: what `docker build` never sends to Docker. New, 10 lines. [The file](https://github.com/rahuldave/cheesecracker/blob/2a28a5c704d6d9ed8200aeb8962aa01e5c2ac552/.dockerignore).
   - look at `.venv/`
+
+<a id="step-07.1-.dockerignore-05a721-diff"></a>
 
 <details><summary>The diff of <code>.dockerignore</code></summary>
 
@@ -1179,7 +1221,7 @@ cat .dockerignore
 The run image needs Python, the dependencies of the server, and the code. It does not need uv, the tests, ruff or
 pre-commit. The `Dockerfile` builds the image in stages, and the run image takes only what the server needs.
 
-[± See the new file `Dockerfile`](#step-07.2-Dockerfile-6651dd)
+[± See the new file `Dockerfile`](#step-07.2-Dockerfile-6651dd-diff)
 
 The stage `uv` takes uv from its own image. The stage `build` installs the dependencies of `uv.lock` into
 `/opt/venv`, with `--no-default-groups`, so no test tool and no ruff. The stage `run` copies `/opt/venv` and the
@@ -1202,6 +1244,8 @@ The image is about 173 MB, nearly all of it Python and the dependencies of the s
 
 - <a id="step-07.2-Dockerfile-6651dd"></a>`Dockerfile`: the stages `uv`, `build` and `run`. New, 34 lines. [The file](https://github.com/rahuldave/cheesecracker/blob/0acb4556f724cd94e4a71ab4fff739a974413fc0/Dockerfile).
   - look at `RUN uv sync --locked --no-default-groups`
+
+<a id="step-07.2-Dockerfile-6651dd-diff"></a>
 
 <details><summary>The diff of <code>Dockerfile</code></summary>
 
@@ -1254,7 +1298,7 @@ The image is about 173 MB, nearly all of it Python and the dependencies of the s
 Three recipes give the Docker commands short names. `docker-build` builds an image of the `Dockerfile`.
 `docker-serve` starts the server of the run image in the background, at port 9000, and `docker-stop` stops it.
 
-[± See the change to `justfile`](#step-07.3-justfile-424f0b)
+[± See the change to `justfile`](#step-07.3-justfile-424f0b-diff)
 
 The recipe `docker-build` takes the name of a stage, and runs `docker build --target` with it. `docker-serve` runs the
 image `cheesecracker-run` with `--detach`, so the container runs in the background, as in the original tutorial's
@@ -1297,6 +1341,8 @@ Docker prints the name of the container, `cheesecracker-run`, and the server sto
 
 - <a id="step-07.3-justfile-424f0b"></a>`justfile`: the recipes `docker-build`, `docker-serve` and `docker-stop`. 20 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/d444e0387d256c62024581e98f59d670cbc93296/justfile).
   - look at `docker run --rm --detach --name cheesecracker-run --publish 9000:9000 cheesecracker-run > /dev/null || exit 1`
+
+<a id="step-07.3-justfile-424f0b-diff"></a>
 
 <details><summary>The diff of <code>justfile</code></summary>
 
@@ -1372,6 +1418,8 @@ Python prints the version of requests.
   - look at `"requests>=2.34.2",`
 - <a id="step-08.1-uv.lock-8356d8"></a>`uv.lock`: the exact versions of requests, and of the packages that it needs. 166 lines added. It comes from `uv add --group test requests`. [The file](https://github.com/rahuldave/cheesecracker/blob/de0780b72a5cad4f0ed70e9c0cdcdee9d1028562/uv.lock).
 
+<a id="step-08.1-pyproject.toml-5d07e7-diff"></a>
+
 <details><summary>The diff of <code>pyproject.toml</code></summary>
 
 ```diff
@@ -1397,7 +1445,7 @@ The system tests need a running server, and the other tests do not. `just test`,
 dev image run every test of `testpaths`. They must not depend on a server, so `testpaths` names the two folders of
 tests that need none. The system tests then run only when we ask for them.
 
-[± See the change to `pyproject.toml`](#step-08.2-pyproject.toml-5d07e7)
+[± See the change to `pyproject.toml`](#step-08.2-pyproject.toml-5d07e7-diff)
 
 `testpaths` in `[tool.pytest.ini_options]` now names `tests/unit` and `tests/integration`, in place of `tests`. A
 folder that pytest gets on its command line, such as `tests/system`, still runs.
@@ -1412,6 +1460,8 @@ pytest prints `21 passed`, as before.
 
 - <a id="step-08.2-pyproject.toml-5d07e7"></a>`pyproject.toml`: the two folders of tests that run by default. 1 line added, 1 removed. [The file](https://github.com/rahuldave/cheesecracker/blob/c8302b4cff8bd9fc480ba4f74a0c7d34c769fef6/pyproject.toml).
   - look at `testpaths = ["tests/unit", "tests/integration"]`
+
+<a id="step-08.2-pyproject.toml-5d07e7-diff"></a>
 
 <details><summary>The diff of <code>pyproject.toml</code></summary>
 
@@ -1438,7 +1488,7 @@ pytest prints `21 passed`, as before.
 Five system tests send requests to `localhost:9000`. Four of them need a server there, and the fifth imports the app.
 A test that needs a server must fail when none answers, as a test fails without its data. A fixture does that.
 
-[± See the new file `tests/system/test_system_api.py`](#step-08.3-tests-system-test_system_api.py-780a11)
+[± See the new file `tests/system/test_system_api.py`](#step-08.3-tests-system-test_system_api.py-780a11-diff)
 
 The new file `tests/system/test_system_api.py` sets `API_BASE_URL` to `http://localhost:9000`. The fixture `server`
 asks for `/health`, and fails with "no server at http://localhost:9000" when nothing answers. The four tests of
@@ -1464,6 +1514,8 @@ just test -q
 
 - <a id="step-08.3-tests-system-test_system_api.py-780a11"></a>`tests/system/test_system_api.py`: five system tests, through real HTTP requests to `localhost:9000`. New, 69 lines. [The file](https://github.com/rahuldave/cheesecracker/blob/19813cf32d0843eea486048243e1eaf62b16a0fe/tests/system/test_system_api.py).
   - look at `pytest.fail(f"no server at {API_BASE_URL}: start one with just docker-serve", pytrace=False)`
+
+<a id="step-08.3-tests-system-test_system_api.py-780a11-diff"></a>
 
 <details><summary>The diff of <code>tests/system/test_system_api.py</code></summary>
 
@@ -1551,7 +1603,7 @@ just test -q
 The system tests have a recipe of their own, `test-system`, apart from `just test` and `just check`. A missing server
 fails them, and never stops a commit.
 
-[± See the change to `justfile`](#step-08.4-justfile-424f0b)
+[± See the change to `justfile`](#step-08.4-justfile-424f0b-diff)
 
 The recipe `test-system`, at the end of the `justfile`, runs `uv run pytest tests/system`, and passes on to pytest any
 words that you type after it.
@@ -1574,6 +1626,8 @@ docker-serve`.
 
 - <a id="step-08.4-justfile-424f0b"></a>`justfile`: the recipe `test-system`. 4 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/277d54eebce4a1727ed3d8a5c46570ca4a95f75d/justfile).
   - look at `uv run pytest tests/system "$@"`
+
+<a id="step-08.4-justfile-424f0b-diff"></a>
 
 <details><summary>The diff of <code>justfile</code></summary>
 

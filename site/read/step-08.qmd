@@ -45,6 +45,8 @@ Python prints the version of requests.
   - look at `"requests>=2.34.2",`
 - <a id="step-08.1-uv.lock-8356d8"></a>`uv.lock`: the exact versions of requests, and of the packages that it needs. 166 lines added. It comes from `uv add --group test requests`. [The file](https://github.com/rahuldave/cheesecracker/blob/de0780b72a5cad4f0ed70e9c0cdcdee9d1028562/uv.lock){.btn .btn-sm .btn-secondary}
 
+<a id="step-08.1-pyproject.toml-5d07e7-diff"></a>
+
 <details><summary>The diff of <code>pyproject.toml</code></summary>
 
 ```diff
@@ -68,7 +70,7 @@ The system tests need a running server, and the other tests do not. `just test`,
 dev image run every test of `testpaths`. They must not depend on a server, so `testpaths` names the two folders of
 tests that need none. The system tests then run only when we ask for them.
 
-[± See the change to `pyproject.toml`](#step-08.2-pyproject.toml-5d07e7){.btn .btn-sm .btn-secondary}
+[± See the change to `pyproject.toml`](#step-08.2-pyproject.toml-5d07e7-diff){.btn .btn-sm .btn-secondary}
 
 `testpaths` in `[tool.pytest.ini_options]` now names `tests/unit` and `tests/integration`, in place of `tests`. A
 folder that pytest gets on its command line, such as `tests/system`, still runs.
@@ -83,6 +85,8 @@ pytest prints `21 passed`, as before.
 
 - <a id="step-08.2-pyproject.toml-5d07e7"></a>`pyproject.toml`: the two folders of tests that run by default. 1 line added, 1 removed. [The file](https://github.com/rahuldave/cheesecracker/blob/c8302b4cff8bd9fc480ba4f74a0c7d34c769fef6/pyproject.toml){.btn .btn-sm .btn-secondary}
   - look at `testpaths = ["tests/unit", "tests/integration"]`
+
+<a id="step-08.2-pyproject.toml-5d07e7-diff"></a>
 
 <details><summary>The diff of <code>pyproject.toml</code></summary>
 
@@ -107,7 +111,7 @@ pytest prints `21 passed`, as before.
 Five system tests send requests to `localhost:9000`. Four of them need a server there, and the fifth imports the app.
 A test that needs a server must fail when none answers, as a test fails without its data. A fixture does that.
 
-[± See the new file `tests/system/test_system_api.py`](#step-08.3-tests-system-test_system_api.py-780a11){.btn .btn-sm .btn-secondary}
+[± See the new file `tests/system/test_system_api.py`](#step-08.3-tests-system-test_system_api.py-780a11-diff){.btn .btn-sm .btn-secondary}
 
 The new file `tests/system/test_system_api.py` sets `API_BASE_URL` to `http://localhost:9000`. The fixture `server`
 asks for `/health`, and fails with "no server at http://localhost:9000" when nothing answers. The four tests of
@@ -133,6 +137,8 @@ just test -q
 
 - <a id="step-08.3-tests-system-test_system_api.py-780a11"></a>`tests/system/test_system_api.py`: five system tests, through real HTTP requests to `localhost:9000`. New, 69 lines. [The file](https://github.com/rahuldave/cheesecracker/blob/19813cf32d0843eea486048243e1eaf62b16a0fe/tests/system/test_system_api.py){.btn .btn-sm .btn-secondary}
   - look at `pytest.fail(f"no server at {API_BASE_URL}: start one with just docker-serve", pytrace=False)`
+
+<a id="step-08.3-tests-system-test_system_api.py-780a11-diff"></a>
 
 <details><summary>The diff of <code>tests/system/test_system_api.py</code></summary>
 
@@ -218,7 +224,7 @@ just test -q
 The system tests have a recipe of their own, `test-system`, apart from `just test` and `just check`. A missing server
 fails them, and never stops a commit.
 
-[± See the change to `justfile`](#step-08.4-justfile-424f0b){.btn .btn-sm .btn-secondary}
+[± See the change to `justfile`](#step-08.4-justfile-424f0b-diff){.btn .btn-sm .btn-secondary}
 
 The recipe `test-system`, at the end of the `justfile`, runs `uv run pytest tests/system`, and passes on to pytest any
 words that you type after it.
@@ -241,6 +247,8 @@ docker-serve`.
 
 - <a id="step-08.4-justfile-424f0b"></a>`justfile`: the recipe `test-system`. 4 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/277d54eebce4a1727ed3d8a5c46570ca4a95f75d/justfile){.btn .btn-sm .btn-secondary}
   - look at `uv run pytest tests/system "$@"`
+
+<a id="step-08.4-justfile-424f0b-diff"></a>
 
 <details><summary>The diff of <code>justfile</code></summary>
 

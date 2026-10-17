@@ -52,6 +52,8 @@ uvicorn prints its version, and the version of Python that runs it.
   - look at `"fastapi>=0.143.2",`
 - <a id="step-02.1-uv.lock-8356d8"></a>`uv.lock`: the exact versions of FastAPI, uvicorn, and the packages that they need. 263 lines added. It comes from `uv add fastapi uvicorn`. [The file](https://github.com/rahuldave/cheesecracker/blob/18dd9dfb1c9597e50a8b404a6cb6379c1c149320/uv.lock){.btn .btn-sm .btn-secondary}
 
+<a id="step-02.1-pyproject.toml-5d07e7-diff"></a>
+
 <details><summary>The diff of <code>pyproject.toml</code></summary>
 
 ```diff

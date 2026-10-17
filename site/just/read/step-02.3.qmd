@@ -30,9 +30,9 @@ The app does nothing until a server runs it. The recipe `serve` starts uvicorn a
 waits until the server answers. The recipe `stop` stops it. A server is a fixture of the commands that need it. We start
 it before them, and stop it after them.
 
-[± See the change to `justfile`](#step-02.3-justfile-424f0b){.btn .btn-sm .btn-secondary}
+[± See the change to `justfile`](#step-02.3-justfile-424f0b-diff){.btn .btn-sm .btn-secondary}
 
-[± See the change to `.gitignore`](#step-02.3-.gitignore-a5cc29){.btn .btn-sm .btn-secondary}
+[± See the change to `.gitignore`](#step-02.3-.gitignore-a5cc29-diff){.btn .btn-sm .btn-secondary}
 
 The recipe `serve` runs `uvicorn api.service:app` with `&`, so the server runs in the background. `--app-dir` tells
 uvicorn where the package `api` is, and `--reload` restarts the server when a file of the code changes. The recipe
@@ -72,6 +72,8 @@ curl -s localhost:9000/health
 - <a id="step-02.3-justfile-424f0b"></a>`justfile`: the recipes `serve` and `stop`. 26 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/69c3bf65c78cf8e96bf8f9ea1dde29279db1351a/justfile){.btn .btn-sm .btn-secondary}
   - look at `uv run uvicorn api.service:app --app-dir src/api-service --host 0.0.0.0 --port 9000 --reload > .serve.log 2>&1 &`
 
+<a id="step-02.3-.gitignore-a5cc29-diff"></a>
+
 <details><summary>The diff of <code>.gitignore</code></summary>
 
 ```diff
@@ -89,6 +91,8 @@ curl -s localhost:9000/health
 ```
 
 </details>
+
+<a id="step-02.3-justfile-424f0b-diff"></a>
 
 <details><summary>The diff of <code>justfile</code></summary>
 

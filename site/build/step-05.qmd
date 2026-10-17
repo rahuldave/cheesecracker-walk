@@ -67,6 +67,8 @@ git fetch --quiet --tags --force origin; git restore --source step-04 --staged -
 - <a id="step-05.1-src-api-service-api-utils.py-18f1f8"></a>`src/api-service/api/utils.py`: a missing space, extra blank lines, and a function that nothing calls. 6 lines added, 1 removed. [The file](https://github.com/rahuldave/cheesecracker/blob/f77650600c1176caa9aaee86e6cddfccc43fc69c/src/api-service/api/utils.py){.btn .btn-sm .btn-secondary}
   - look at `def unused_function():`
 
+<a id="step-05.1-src-api-service-api-service.py-1e1e71-diff"></a>
+
 <details open><summary>The patch to <code>src/api-service/api/service.py</code></summary>
 
 ```diff
@@ -104,6 +106,8 @@ git fetch --quiet --tags --force origin; git restore --source step-04 --staged -
 ```
 
 </details>
+
+<a id="step-05.1-src-api-service-api-utils.py-18f1f8-diff"></a>
 
 <details open><summary>The patch to <code>src/api-service/api/utils.py</code></summary>
 
@@ -163,6 +167,8 @@ git restore --source f77650600c11 --staged -- :/ && git restore --source 9662828
 - <a id="step-05.2-pyproject.toml-5d07e7"></a>`pyproject.toml`: ruff, in the group `lint`. 3 lines added. It comes from `uv add --group lint ruff`. [The file](https://github.com/rahuldave/cheesecracker/blob/9662828462ba2a21ca04a79c412e83ac070767f6/pyproject.toml){.btn .btn-sm .btn-secondary}
   - look at `"ruff>=0.17.1",`
 - <a id="step-05.2-uv.lock-8356d8"></a>`uv.lock`: the exact version of ruff. 29 lines added. It comes from `uv add --group lint ruff`. [The file](https://github.com/rahuldave/cheesecracker/blob/9662828462ba2a21ca04a79c412e83ac070767f6/uv.lock){.btn .btn-sm .btn-secondary}
+
+<a id="step-05.2-pyproject.toml-5d07e7-diff"></a>
 
 <details><summary>The diff that <code>uv add --group lint ruff</code> makes in <code>pyproject.toml</code></summary>
 
@@ -266,6 +272,8 @@ git restore --source 9662828462ba --staged -- :/ && git restore --source 7c1670f
 - <a id="step-05.3-pyproject.toml-5d07e7"></a>`pyproject.toml`: the settings of ruff, the length of a line and the rules of the linter. 8 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/7c1670fd52a0f62f414f31d415d10f2efb5a8405/pyproject.toml){.btn .btn-sm .btn-secondary}
   - look at `select = ["E", "W", "F"]`
 
+<a id="step-05.3-pyproject.toml-5d07e7-diff"></a>
+
 <details open><summary>The patch to <code>pyproject.toml</code></summary>
 
 ```diff
@@ -321,6 +329,8 @@ git restore --source 7c1670fd52a0 --staged -- :/ && git restore --source b947593
 
 - <a id="step-05.4-justfile-424f0b"></a>`justfile`: the recipes `fmt` and `lint`. 8 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/b947593e84b71486902b3ff1c7f9e1458b70e3f7/justfile){.btn .btn-sm .btn-secondary}
   - look at `uv run ruff check "$@"`
+
+<a id="step-05.4-justfile-424f0b-diff"></a>
 
 <details open><summary>The patch to <code>justfile</code></summary>
 
@@ -379,6 +389,8 @@ git restore --source b947593e84b7 --staged -- :/ && git restore --source 4264211
 - <a id="step-05.5-src-api-service-api-utils.py-18f1f8"></a>`src/api-service/api/utils.py`: the space after the comma, and two blank lines before `unused_function()`. 1 line added, 2 removed. It comes from `just fmt`. [The file](https://github.com/rahuldave/cheesecracker/blob/42642115394d8e19ead4c27bafaf4d90d991b0c9/src/api-service/api/utils.py){.btn .btn-sm .btn-secondary}
   - look at `def power(base, exponent):`
 
+<a id="step-05.5-src-api-service-api-service.py-1e1e71-diff"></a>
+
 <details><summary>The diff that <code>just fmt</code> makes in <code>src/api-service/api/service.py</code></summary>
 
 ```diff
@@ -413,6 +425,8 @@ git restore --source b947593e84b7 --staged -- :/ && git restore --source 4264211
 ```
 
 </details>
+
+<a id="step-05.5-src-api-service-api-utils.py-18f1f8-diff"></a>
 
 <details><summary>The diff that <code>just fmt</code> makes in <code>src/api-service/api/utils.py</code></summary>
 
@@ -469,6 +483,8 @@ git restore --source 42642115394d --staged -- :/ && git restore --source cfd2ebb
 
 - <a id="step-05.6-src-api-service-api-service.py-1e1e71"></a>`src/api-service/api/service.py`: the import of `os`, removed. 0 lines added, 1 removed. It comes from `just lint --fix || true`. [The file](https://github.com/rahuldave/cheesecracker/blob/cfd2ebb050dda3ce951f0f28e84b9ae09fbe14d5/src/api-service/api/service.py){.btn .btn-sm .btn-secondary}
 
+<a id="step-05.6-src-api-service-api-service.py-1e1e71-diff"></a>
+
 <details><summary>The diff that <code>just lint --fix || true</code> makes in <code>src/api-service/api/service.py</code></summary>
 
 ```diff
@@ -522,6 +538,8 @@ git restore --source cfd2ebb050dd --staged -- :/ && git restore --source 693a713
 - <a id="step-05.7-src-api-service-api-service.py-1e1e71"></a>`src/api-service/api/service.py`: a shorter message. 1 line added, 1 removed. [The file](https://github.com/rahuldave/cheesecracker/blob/693a713a458db01debdd7ebc3b084ed1b0350b08/src/api-service/api/service.py){.btn .btn-sm .btn-secondary}
   - look at `"message": "This is a very long line that exceeds 120 characters blah",`
 
+<a id="step-05.7-src-api-service-api-service.py-1e1e71-diff"></a>
+
 <details open><summary>The patch to <code>src/api-service/api/service.py</code></summary>
 
 ```diff
@@ -573,6 +591,8 @@ git fetch --quiet --tags --force origin; git restore --source 693a713a458d --sta
 
 - <a id="step-05.8-justfile-424f0b"></a>`justfile`: the recipe `check`. 6 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/e89e0cfa991257757c887f687087a9c77c093e20/justfile){.btn .btn-sm .btn-secondary}
   - look at `just fmt --check`
+
+<a id="step-05.8-justfile-424f0b-diff"></a>
 
 <details open><summary>The patch to <code>justfile</code></summary>
 

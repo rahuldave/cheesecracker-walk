@@ -32,9 +32,9 @@ milliseconds.
 The code of the API is a Python package, `api`, in the folder `src/api-service/`. Its first function, `power()`,
 returns its first argument raised to the power of its second.
 
-[± See the new file `src/api-service/api/__init__.py`](#step-01.1-src-api-service-api-__init__.py-e2e18a){.btn .btn-sm .btn-secondary}
+[± See the new file `src/api-service/api/__init__.py`](#step-01.1-src-api-service-api-__init__.py-e2e18a-diff){.btn .btn-sm .btn-secondary}
 
-[± See the new file `src/api-service/api/utils.py`](#step-01.1-src-api-service-api-utils.py-18f1f8){.btn .btn-sm .btn-secondary}
+[± See the new file `src/api-service/api/utils.py`](#step-01.1-src-api-service-api-utils.py-18f1f8-diff){.btn .btn-sm .btn-secondary}
 
 The new file `src/api-service/api/utils.py` has a docstring and one function, `power(base, exponent)`. It returns
 `base**exponent`. `src/api-service/api/__init__.py` has one comment, and makes `api` a package.
@@ -54,6 +54,8 @@ Python prints `8`, which is 2 to the power of 3.
 - <a id="step-01.1-src-api-service-api-utils.py-18f1f8"></a>`src/api-service/api/utils.py`: the function `power()`. New, 9 lines. [The file](https://github.com/rahuldave/cheesecracker/blob/bb1701fd54ba7c6aa9bd971c6651f34439f004d6/src/api-service/api/utils.py){.btn .btn-sm .btn-secondary}
   - look at `return base**exponent`
 
+<a id="step-01.1-src-api-service-api-__init__.py-e2e18a-diff"></a>
+
 <details><summary>The diff of <code>src/api-service/api/__init__.py</code></summary>
 
 ```diff
@@ -62,6 +64,8 @@ Python prints `8`, which is 2 to the power of 3.
 ```
 
 </details>
+
+<a id="step-01.1-src-api-service-api-utils.py-18f1f8-diff"></a>
 
 <details><summary>The diff of <code>src/api-service/api/utils.py</code></summary>
 
@@ -109,6 +113,8 @@ uv prints the version of pytest, `pytest 9.1.1` on the day of the class.
   - look at `"pytest>=9.1.1",`
 - <a id="step-01.2-uv.lock-8356d8"></a>`uv.lock`: the exact version of pytest, and of the packages that it needs. 71 lines added. It comes from `uv add --group test pytest`. [The file](https://github.com/rahuldave/cheesecracker/blob/fc8c3bce83604277393460c4eb243d176d51905c/uv.lock){.btn .btn-sm .btn-secondary}
 
+<a id="step-01.2-pyproject.toml-5d07e7-diff"></a>
+
 <details><summary>The diff of <code>pyproject.toml</code></summary>
 
 ```diff
@@ -132,7 +138,7 @@ uv prints the version of pytest, `pytest 9.1.1` on the day of the class.
 pytest looks for tests in every folder of the project, `.venv` too, which is slow. Also, the tests cannot import
 `api`, because the folder `src/api-service/` is not on the import path. Two settings of pytest, in `pyproject.toml`, solve both problems.
 
-[± See the change to `pyproject.toml`](#step-01.3-pyproject.toml-5d07e7){.btn .btn-sm .btn-secondary}
+[± See the change to `pyproject.toml`](#step-01.3-pyproject.toml-5d07e7-diff){.btn .btn-sm .btn-secondary}
 
 The new table `[tool.pytest.ini_options]` of `pyproject.toml` has two settings. `testpaths` makes pytest
 look for tests in `tests/` only. `pythonpath` puts `src/api-service/` on the import path, so a test can import `api`.
@@ -148,6 +154,8 @@ files in `tests/`, which does not exist yet.
 
 - <a id="step-01.3-pyproject.toml-5d07e7"></a>`pyproject.toml`: the table `[tool.pytest.ini_options]`, with the folder of the tests and the folder of the package. 5 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/ff82ac1870a7e1937a6fb4d25ac171249378f299/pyproject.toml){.btn .btn-sm .btn-secondary}
   - look at `pythonpath = ["src/api-service"]`
+
+<a id="step-01.3-pyproject.toml-5d07e7-diff"></a>
 
 <details><summary>The diff of <code>pyproject.toml</code></summary>
 
@@ -172,7 +180,7 @@ files in `tests/`, which does not exist yet.
 We do not know whether `power()` gives the right answer for every kind of input. Eleven tests try it with integers,
 zero, one, negative numbers, floats, the special values of floats, and inputs of the wrong type.
 
-[± See the new file `tests/unit/test_utils.py`](#step-01.4-tests-unit-test_utils.py-3d93fe){.btn .btn-sm .btn-secondary}
+[± See the new file `tests/unit/test_utils.py`](#step-01.4-tests-unit-test_utils.py-3d93fe-diff){.btn .btn-sm .btn-secondary}
 
 The new file `tests/unit/test_utils.py` has the class `TestPower`, with eleven tests. Each `assert` compares a result
 of `power()` with its answer. `test_power_invalid_inputs` expects a `TypeError` for a string, `None`, a list or a
@@ -188,6 +196,8 @@ pytest prints `11 passed`. So `power()` gives the answer that each test expects.
 
 - <a id="step-01.4-tests-unit-test_utils.py-3d93fe"></a>`tests/unit/test_utils.py`: eleven unit tests of `power()`. New, 91 lines. [The file](https://github.com/rahuldave/cheesecracker/blob/cbc98b162671bce7a7ba82d7d18c7dc6d530b746/tests/unit/test_utils.py){.btn .btn-sm .btn-secondary}
   - look at `assert power(2, 3) == 8`
+
+<a id="step-01.4-tests-unit-test_utils.py-3d93fe-diff"></a>
 
 <details><summary>The diff of <code>tests/unit/test_utils.py</code></summary>
 
@@ -295,7 +305,7 @@ pytest prints `11 passed`. So `power()` gives the answer that each test expects.
 The command `uv run pytest` is long, and every task of the project gets a recipe in the `justfile`, so that one
 short command runs it. The recipe `test` runs pytest through uv, and passes on to pytest any words that you type after `just test`.
 
-[± See the change to `justfile`](#step-01.5-justfile-424f0b){.btn .btn-sm .btn-secondary}
+[± See the change to `justfile`](#step-01.5-justfile-424f0b-diff){.btn .btn-sm .btn-secondary}
 
 The recipe `test`, at the end of the `justfile`, runs `uv run pytest "$@"`. `"$@"` stands for the words after
 `just test`, so `just test tests/unit` runs the unit tests alone.
@@ -310,6 +320,8 @@ just prints the command of the recipe, and pytest prints `11 passed`.
 
 - <a id="step-01.5-justfile-424f0b"></a>`justfile`: the recipe `test`. 4 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/e86e0c3d10bbe9409674f1c65ce4afdc38e7f76f/justfile){.btn .btn-sm .btn-secondary}
   - look at `uv run pytest "$@"`
+
+<a id="step-01.5-justfile-424f0b-diff"></a>
 
 <details><summary>The diff of <code>justfile</code></summary>
 

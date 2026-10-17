@@ -51,6 +51,8 @@ uvicorn prints its version, and the version of Python that runs it.
   - look at `"fastapi>=0.143.2",`
 - <a id="step-02.1-uv.lock-8356d8"></a>`uv.lock`: the exact versions of FastAPI, uvicorn, and the packages that they need. 263 lines added. It comes from `uv add fastapi uvicorn`. [The file](https://github.com/rahuldave/cheesecracker/blob/18dd9dfb1c9597e50a8b404a6cb6379c1c149320/uv.lock){.btn .btn-sm .btn-secondary}
 
+<a id="step-02.1-pyproject.toml-5d07e7-diff"></a>
+
 <details><summary>The diff of <code>pyproject.toml</code></summary>
 
 ```diff
@@ -77,7 +79,7 @@ uvicorn prints its version, and the version of Python that runs it.
 The app needs a first answer, and a way to tell that it runs. `service.py` makes the FastAPI app, and answers two
 requests. The request `/` gets a welcome, and `/health` gets the status of the server.
 
-[± See the new file `src/api-service/api/service.py`](#step-02.2-src-api-service-api-service.py-1e1e71){.btn .btn-sm .btn-secondary}
+[± See the new file `src/api-service/api/service.py`](#step-02.2-src-api-service-api-service.py-1e1e71-diff){.btn .btn-sm .btn-secondary}
 
 The new file `src/api-service/api/service.py` makes `app`, with a title and a version. The CORS middleware lets a web
 page from any address call the server. After the comment `# Routes`, `get_index()` answers `/`, and `health_check()`
@@ -94,6 +96,8 @@ documentation pages.
 
 - <a id="step-02.2-src-api-service-api-service.py-1e1e71"></a>`src/api-service/api/service.py`: the FastAPI app, its CORS middleware, and the routes `/` and `/health`. New, 29 lines. [The file](https://github.com/rahuldave/cheesecracker/blob/acee14f7dff43d6c5b76234b3a016985d74c60d2/src/api-service/api/service.py){.btn .btn-sm .btn-secondary}
   - look at `return {"status": "healthy"}`
+
+<a id="step-02.2-src-api-service-api-service.py-1e1e71-diff"></a>
 
 <details><summary>The diff of <code>src/api-service/api/service.py</code></summary>
 
@@ -140,9 +144,9 @@ The app does nothing until a server runs it. The recipe `serve` starts uvicorn a
 waits until the server answers. The recipe `stop` stops it. A server is a fixture of the commands that need it. We start
 it before them, and stop it after them.
 
-[± See the change to `justfile`](#step-02.3-justfile-424f0b){.btn .btn-sm .btn-secondary}
+[± See the change to `justfile`](#step-02.3-justfile-424f0b-diff){.btn .btn-sm .btn-secondary}
 
-[± See the change to `.gitignore`](#step-02.3-.gitignore-a5cc29){.btn .btn-sm .btn-secondary}
+[± See the change to `.gitignore`](#step-02.3-.gitignore-a5cc29-diff){.btn .btn-sm .btn-secondary}
 
 The recipe `serve` runs `uvicorn api.service:app` with `&`, so the server runs in the background. `--app-dir` tells
 uvicorn where the package `api` is, and `--reload` restarts the server when a file of the code changes. The recipe
@@ -182,6 +186,8 @@ curl -s localhost:9000/health
 - <a id="step-02.3-justfile-424f0b"></a>`justfile`: the recipes `serve` and `stop`. 26 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/69c3bf65c78cf8e96bf8f9ea1dde29279db1351a/justfile){.btn .btn-sm .btn-secondary}
   - look at `uv run uvicorn api.service:app --app-dir src/api-service --host 0.0.0.0 --port 9000 --reload > .serve.log 2>&1 &`
 
+<a id="step-02.3-.gitignore-a5cc29-diff"></a>
+
 <details><summary>The diff of <code>.gitignore</code></summary>
 
 ```diff
@@ -199,6 +205,8 @@ curl -s localhost:9000/health
 ```
 
 </details>
+
+<a id="step-02.3-justfile-424f0b-diff"></a>
 
 <details><summary>The diff of <code>justfile</code></summary>
 

@@ -76,6 +76,8 @@ just --list
   - look at `default-groups = "all"`
 - <a id="step-00-uv.lock-8356d8"></a>`uv.lock`: the lockfile, with the project and no packages yet. New, 8 lines. [The file](https://github.com/rahuldave/cheesecracker/blob/cf50a6ef5045e08ca727aeaffdb710fad2cae096/uv.lock).
 
+<a id="step-00-.gitignore-a5cc29-diff"></a>
+
 <details><summary>The diff of <code>.gitignore</code></summary>
 
 ```diff
@@ -105,6 +107,8 @@ just --list
 
 </details>
 
+<a id="step-00-.python-version-7696e9-diff"></a>
+
 <details><summary>The diff of <code>.python-version</code></summary>
 
 ```diff
@@ -113,6 +117,8 @@ just --list
 ```
 
 </details>
+
+<a id="step-00-README.md-8ec9a0-diff"></a>
 
 <details><summary>The diff of <code>README.md</code></summary>
 
@@ -136,6 +142,8 @@ just --list
 
 </details>
 
+<a id="step-00-justfile-424f0b-diff"></a>
+
 <details><summary>The diff of <code>justfile</code></summary>
 
 ```diff
@@ -155,6 +163,8 @@ just --list
 ```
 
 </details>
+
+<a id="step-00-pyproject.toml-5d07e7-diff"></a>
 
 <details><summary>The diff of <code>pyproject.toml</code></summary>
 
@@ -200,9 +210,9 @@ milliseconds.
 The code of the API is a Python package, `api`, in the folder `src/api-service/`. Its first function, `power()`,
 returns its first argument raised to the power of its second.
 
-[± See the new file `src/api-service/api/__init__.py`](#step-01.1-src-api-service-api-__init__.py-e2e18a)
+[± See the new file `src/api-service/api/__init__.py`](#step-01.1-src-api-service-api-__init__.py-e2e18a-diff)
 
-[± See the new file `src/api-service/api/utils.py`](#step-01.1-src-api-service-api-utils.py-18f1f8)
+[± See the new file `src/api-service/api/utils.py`](#step-01.1-src-api-service-api-utils.py-18f1f8-diff)
 
 The new file `src/api-service/api/utils.py` has a docstring and one function, `power(base, exponent)`. It returns
 `base**exponent`. `src/api-service/api/__init__.py` has one comment, and makes `api` a package.
@@ -222,6 +232,8 @@ Python prints `8`, which is 2 to the power of 3.
 - <a id="step-01.1-src-api-service-api-utils.py-18f1f8"></a>`src/api-service/api/utils.py`: the function `power()`. New, 9 lines. [The file](https://github.com/rahuldave/cheesecracker/blob/bb1701fd54ba7c6aa9bd971c6651f34439f004d6/src/api-service/api/utils.py).
   - look at `return base**exponent`
 
+<a id="step-01.1-src-api-service-api-__init__.py-e2e18a-diff"></a>
+
 <details><summary>The diff of <code>src/api-service/api/__init__.py</code></summary>
 
 ```diff
@@ -230,6 +242,8 @@ Python prints `8`, which is 2 to the power of 3.
 ```
 
 </details>
+
+<a id="step-01.1-src-api-service-api-utils.py-18f1f8-diff"></a>
 
 <details><summary>The diff of <code>src/api-service/api/utils.py</code></summary>
 
@@ -279,6 +293,8 @@ uv prints the version of pytest, `pytest 9.1.1` on the day of the class.
   - look at `"pytest>=9.1.1",`
 - <a id="step-01.2-uv.lock-8356d8"></a>`uv.lock`: the exact version of pytest, and of the packages that it needs. 71 lines added. It comes from `uv add --group test pytest`. [The file](https://github.com/rahuldave/cheesecracker/blob/fc8c3bce83604277393460c4eb243d176d51905c/uv.lock).
 
+<a id="step-01.2-pyproject.toml-5d07e7-diff"></a>
+
 <details><summary>The diff of <code>pyproject.toml</code></summary>
 
 ```diff
@@ -304,7 +320,7 @@ uv prints the version of pytest, `pytest 9.1.1` on the day of the class.
 pytest looks for tests in every folder of the project, `.venv` too, which is slow. Also, the tests cannot import
 `api`, because the folder `src/api-service/` is not on the import path. Two settings of pytest, in `pyproject.toml`, solve both problems.
 
-[± See the change to `pyproject.toml`](#step-01.3-pyproject.toml-5d07e7)
+[± See the change to `pyproject.toml`](#step-01.3-pyproject.toml-5d07e7-diff)
 
 The new table `[tool.pytest.ini_options]` of `pyproject.toml` has two settings. `testpaths` makes pytest
 look for tests in `tests/` only. `pythonpath` puts `src/api-service/` on the import path, so a test can import `api`.
@@ -320,6 +336,8 @@ files in `tests/`, which does not exist yet.
 
 - <a id="step-01.3-pyproject.toml-5d07e7"></a>`pyproject.toml`: the table `[tool.pytest.ini_options]`, with the folder of the tests and the folder of the package. 5 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/ff82ac1870a7e1937a6fb4d25ac171249378f299/pyproject.toml).
   - look at `pythonpath = ["src/api-service"]`
+
+<a id="step-01.3-pyproject.toml-5d07e7-diff"></a>
 
 <details><summary>The diff of <code>pyproject.toml</code></summary>
 
@@ -346,7 +364,7 @@ files in `tests/`, which does not exist yet.
 We do not know whether `power()` gives the right answer for every kind of input. Eleven tests try it with integers,
 zero, one, negative numbers, floats, the special values of floats, and inputs of the wrong type.
 
-[± See the new file `tests/unit/test_utils.py`](#step-01.4-tests-unit-test_utils.py-3d93fe)
+[± See the new file `tests/unit/test_utils.py`](#step-01.4-tests-unit-test_utils.py-3d93fe-diff)
 
 The new file `tests/unit/test_utils.py` has the class `TestPower`, with eleven tests. Each `assert` compares a result
 of `power()` with its answer. `test_power_invalid_inputs` expects a `TypeError` for a string, `None`, a list or a
@@ -362,6 +380,8 @@ pytest prints `11 passed`. So `power()` gives the answer that each test expects.
 
 - <a id="step-01.4-tests-unit-test_utils.py-3d93fe"></a>`tests/unit/test_utils.py`: eleven unit tests of `power()`. New, 91 lines. [The file](https://github.com/rahuldave/cheesecracker/blob/cbc98b162671bce7a7ba82d7d18c7dc6d530b746/tests/unit/test_utils.py).
   - look at `assert power(2, 3) == 8`
+
+<a id="step-01.4-tests-unit-test_utils.py-3d93fe-diff"></a>
 
 <details><summary>The diff of <code>tests/unit/test_utils.py</code></summary>
 
@@ -471,7 +491,7 @@ pytest prints `11 passed`. So `power()` gives the answer that each test expects.
 The command `uv run pytest` is long, and every task of the project gets a recipe in the `justfile`, so that one
 short command runs it. The recipe `test` runs pytest through uv, and passes on to pytest any words that you type after `just test`.
 
-[± See the change to `justfile`](#step-01.5-justfile-424f0b)
+[± See the change to `justfile`](#step-01.5-justfile-424f0b-diff)
 
 The recipe `test`, at the end of the `justfile`, runs `uv run pytest "$@"`. `"$@"` stands for the words after
 `just test`, so `just test tests/unit` runs the unit tests alone.
@@ -486,6 +506,8 @@ just prints the command of the recipe, and pytest prints `11 passed`.
 
 - <a id="step-01.5-justfile-424f0b"></a>`justfile`: the recipe `test`. 4 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/e86e0c3d10bbe9409674f1c65ce4afdc38e7f76f/justfile).
   - look at `uv run pytest "$@"`
+
+<a id="step-01.5-justfile-424f0b-diff"></a>
 
 <details><summary>The diff of <code>justfile</code></summary>
 
@@ -550,6 +572,8 @@ uvicorn prints its version, and the version of Python that runs it.
   - look at `"fastapi>=0.143.2",`
 - <a id="step-02.1-uv.lock-8356d8"></a>`uv.lock`: the exact versions of FastAPI, uvicorn, and the packages that they need. 263 lines added. It comes from `uv add fastapi uvicorn`. [The file](https://github.com/rahuldave/cheesecracker/blob/18dd9dfb1c9597e50a8b404a6cb6379c1c149320/uv.lock).
 
+<a id="step-02.1-pyproject.toml-5d07e7-diff"></a>
+
 <details><summary>The diff of <code>pyproject.toml</code></summary>
 
 ```diff
@@ -578,7 +602,7 @@ uvicorn prints its version, and the version of Python that runs it.
 The app needs a first answer, and a way to tell that it runs. `service.py` makes the FastAPI app, and answers two
 requests. The request `/` gets a welcome, and `/health` gets the status of the server.
 
-[± See the new file `src/api-service/api/service.py`](#step-02.2-src-api-service-api-service.py-1e1e71)
+[± See the new file `src/api-service/api/service.py`](#step-02.2-src-api-service-api-service.py-1e1e71-diff)
 
 The new file `src/api-service/api/service.py` makes `app`, with a title and a version. The CORS middleware lets a web
 page from any address call the server. After the comment `# Routes`, `get_index()` answers `/`, and `health_check()`
@@ -595,6 +619,8 @@ documentation pages.
 
 - <a id="step-02.2-src-api-service-api-service.py-1e1e71"></a>`src/api-service/api/service.py`: the FastAPI app, its CORS middleware, and the routes `/` and `/health`. New, 29 lines. [The file](https://github.com/rahuldave/cheesecracker/blob/acee14f7dff43d6c5b76234b3a016985d74c60d2/src/api-service/api/service.py).
   - look at `return {"status": "healthy"}`
+
+<a id="step-02.2-src-api-service-api-service.py-1e1e71-diff"></a>
 
 <details><summary>The diff of <code>src/api-service/api/service.py</code></summary>
 
@@ -643,9 +669,9 @@ The app does nothing until a server runs it. The recipe `serve` starts uvicorn a
 waits until the server answers. The recipe `stop` stops it. A server is a fixture of the commands that need it. We start
 it before them, and stop it after them.
 
-[± See the change to `justfile`](#step-02.3-justfile-424f0b)
+[± See the change to `justfile`](#step-02.3-justfile-424f0b-diff)
 
-[± See the change to `.gitignore`](#step-02.3-.gitignore-a5cc29)
+[± See the change to `.gitignore`](#step-02.3-.gitignore-a5cc29-diff)
 
 The recipe `serve` runs `uvicorn api.service:app` with `&`, so the server runs in the background. `--app-dir` tells
 uvicorn where the package `api` is, and `--reload` restarts the server when a file of the code changes. The recipe
@@ -685,6 +711,8 @@ curl -s localhost:9000/health
 - <a id="step-02.3-justfile-424f0b"></a>`justfile`: the recipes `serve` and `stop`. 26 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/69c3bf65c78cf8e96bf8f9ea1dde29279db1351a/justfile).
   - look at `uv run uvicorn api.service:app --app-dir src/api-service --host 0.0.0.0 --port 9000 --reload > .serve.log 2>&1 &`
 
+<a id="step-02.3-.gitignore-a5cc29-diff"></a>
+
 <details><summary>The diff of <code>.gitignore</code></summary>
 
 ```diff
@@ -702,6 +730,8 @@ curl -s localhost:9000/health
 ```
 
 </details>
+
+<a id="step-02.3-justfile-424f0b-diff"></a>
 
 <details><summary>The diff of <code>justfile</code></summary>
 
@@ -768,7 +798,7 @@ and no network.
 The Cheese App asks the server for the distance of a point `(x, y)` from the origin `(0, 0)`. That distance is the
 square root of x squared plus y squared.
 
-[± See the change to `src/api-service/api/service.py`](#step-03.1-src-api-service-api-service.py-1e1e71)
+[± See the change to `src/api-service/api/service.py`](#step-03.1-src-api-service-api-service.py-1e1e71-diff)
 
 `service.py` now imports `math`, and `power()` from `api.utils`. The new function at the end,
 `calculate_euclidean_distance()`, answers `/euclidean_distance/`. It takes `x` and `y`, with 1 and 2 as defaults,
@@ -788,6 +818,8 @@ The server answers `{"x":3.0,"y":4.0,"distance":5.0}`.
 
 - <a id="step-03.1-src-api-service-api-service.py-1e1e71"></a>`src/api-service/api/service.py`: the imports of `math` and `power()`, and the endpoint `/euclidean_distance/`. 12 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/e576e7bb9e550b1a572a764b15f8d0bfde229d97/src/api-service/api/service.py).
   - look at `z = power(x, 2) + power(y, 2)`
+
+<a id="step-03.1-src-api-service-api-service.py-1e1e71-diff"></a>
 
 <details><summary>The diff of <code>src/api-service/api/service.py</code></summary>
 
@@ -846,6 +878,8 @@ pytest still prints `11 passed`. The new packages change no test.
   - look at `"httpx2>=2.13.1",`
 - <a id="step-03.2-uv.lock-8356d8"></a>`uv.lock`: the exact versions of httpx2, pytest-asyncio, and the packages that they need. 68 lines added, 1 removed. It comes from `uv add --group test httpx2 pytest-asyncio`. [The file](https://github.com/rahuldave/cheesecracker/blob/3c75ffb1a089431a2455a69e9bcb3ec0302224f0/uv.lock).
 
+<a id="step-03.2-pyproject.toml-5d07e7-diff"></a>
+
 <details><summary>The diff of <code>pyproject.toml</code></summary>
 
 ```diff
@@ -873,7 +907,7 @@ A unit test of `power()` cannot tell whether the app routes a request to the rig
 parameters, or answers in JSON. Ten integration tests send requests to the app through `TestClient`, and check each
 answer.
 
-[± See the new file `tests/integration/test_api.py`](#step-03.3-tests-integration-test_api.py-596674)
+[± See the new file `tests/integration/test_api.py`](#step-03.3-tests-integration-test_api.py-596674-diff)
 
 The new file `tests/integration/test_api.py` makes `client = TestClient(app)`. The class `TestAPIEndpoints` checks
 the welcome, the distance of (3, 4) and the defaults. It also checks a route that does not exist (404), and a method
@@ -894,6 +928,8 @@ just stop
 
 - <a id="step-03.3-tests-integration-test_api.py-596674"></a>`tests/integration/test_api.py`: ten integration tests, through FastAPI's `TestClient`. New, 89 lines. [The file](https://github.com/rahuldave/cheesecracker/blob/5862780b44d2f4ec87088c971dec57f23c11139e/tests/integration/test_api.py).
   - look at `response = client.get("/euclidean_distance/?x=3&y=4")`
+
+<a id="step-03.3-tests-integration-test_api.py-596674-diff"></a>
 
 <details><summary>The diff of <code>tests/integration/test_api.py</code></summary>
 
@@ -1016,9 +1052,9 @@ Then someone changes the code in a hurry. It still works, and it reads worse.
 A change made in a hurry leaves code that works and reads badly. The change adds an import that nothing uses, and takes
 out spaces and blank lines. It also makes one line 187 characters long, and adds a function that nothing calls.
 
-[± See the change to `src/api-service/api/service.py`](#step-05.1-src-api-service-api-service.py-1e1e71)
+[± See the change to `src/api-service/api/service.py`](#step-05.1-src-api-service-api-service.py-1e1e71-diff)
 
-[± See the change to `src/api-service/api/utils.py`](#step-05.1-src-api-service-api-utils.py-18f1f8)
+[± See the change to `src/api-service/api/utils.py`](#step-05.1-src-api-service-api-utils.py-18f1f8-diff)
 
 `service.py` now imports `os`, which nothing uses. `/health` follows `/` with no blank line. The line
 `z=power(x,2)+power(y,2)` has no spaces, and the `return` at the end is 187 characters long. `utils.py` has a missing
@@ -1036,6 +1072,8 @@ pytest still prints `21 passed`. The tests check what the code does, not how it 
   - look at `z=power(x,2)+power(y,2)`
 - <a id="step-05.1-src-api-service-api-utils.py-18f1f8"></a>`src/api-service/api/utils.py`: a missing space, extra blank lines, and a function that nothing calls. 6 lines added, 1 removed. [The file](https://github.com/rahuldave/cheesecracker/blob/f77650600c1176caa9aaee86e6cddfccc43fc69c/src/api-service/api/utils.py).
   - look at `def unused_function():`
+
+<a id="step-05.1-src-api-service-api-service.py-1e1e71-diff"></a>
 
 <details><summary>The diff of <code>src/api-service/api/service.py</code></summary>
 
@@ -1074,6 +1112,8 @@ pytest still prints `21 passed`. The tests check what the code does, not how it 
 ```
 
 </details>
+
+<a id="step-05.1-src-api-service-api-utils.py-18f1f8-diff"></a>
 
 <details><summary>The diff of <code>src/api-service/api/utils.py</code></summary>
 
@@ -1138,6 +1178,8 @@ uv prints the version of ruff, `ruff 0.17.1` on the day of the class.
   - look at `"ruff>=0.17.1",`
 - <a id="step-05.2-uv.lock-8356d8"></a>`uv.lock`: the exact version of ruff. 29 lines added. It comes from `uv add --group lint ruff`. [The file](https://github.com/rahuldave/cheesecracker/blob/9662828462ba2a21ca04a79c412e83ac070767f6/uv.lock).
 
+<a id="step-05.2-pyproject.toml-5d07e7-diff"></a>
+
 <details><summary>The diff of <code>pyproject.toml</code></summary>
 
 ```diff
@@ -1164,7 +1206,7 @@ uv prints the version of ruff, `ruff 0.17.1` on the day of the class.
 By default, ruff allows lines of up to 88 characters, and this project allows 120. Its default rules also leave out
 some rules of flake8. Two tables in `pyproject.toml` set both.
 
-[± See the change to `pyproject.toml`](#step-05.3-pyproject.toml-5d07e7)
+[± See the change to `pyproject.toml`](#step-05.3-pyproject.toml-5d07e7-diff)
 
 `[tool.ruff]` sets `line-length = 120`, for the formatter and the linter. `[tool.ruff.lint]` selects the rules `E`, `W`
 and `F`. They are the errors and warnings of pycodestyle, and the rules of pyflakes, which flake8 checks.
@@ -1186,6 +1228,8 @@ ruff says `2 files would be reformatted`, and fails. `--check` changes no file.
 
 - <a id="step-05.3-pyproject.toml-5d07e7"></a>`pyproject.toml`: the settings of ruff, the length of a line and the rules of the linter. 8 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/7c1670fd52a0f62f414f31d415d10f2efb5a8405/pyproject.toml).
   - look at `select = ["E", "W", "F"]`
+
+<a id="step-05.3-pyproject.toml-5d07e7-diff"></a>
 
 <details><summary>The diff of <code>pyproject.toml</code></summary>
 
@@ -1214,7 +1258,7 @@ ruff says `2 files would be reformatted`, and fails. `--check` changes no file.
 
 Two recipes give the formatter and the linter short names. Each passes on to ruff any words that you type after it.
 
-[± See the change to `justfile`](#step-05.4-justfile-424f0b)
+[± See the change to `justfile`](#step-05.4-justfile-424f0b-diff)
 
 The recipe `fmt` runs `uv run ruff format`, and `lint` runs `uv run ruff check`. So `just fmt --check` checks the
 layout, and `just lint --fix` fixes what ruff can fix.
@@ -1229,6 +1273,8 @@ The recipe fails as `ruff format --check` did, with `2 files would be reformatte
 
 - <a id="step-05.4-justfile-424f0b"></a>`justfile`: the recipes `fmt` and `lint`. 8 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/b947593e84b71486902b3ff1c7f9e1458b70e3f7/justfile).
   - look at `uv run ruff check "$@"`
+
+<a id="step-05.4-justfile-424f0b-diff"></a>
 
 <details><summary>The diff of <code>justfile</code></summary>
 
@@ -1289,6 +1335,8 @@ ruff prints `6 files already formatted`.
 - <a id="step-05.5-src-api-service-api-utils.py-18f1f8"></a>`src/api-service/api/utils.py`: the space after the comma, and two blank lines before `unused_function()`. 1 line added, 2 removed. It comes from `just fmt`. [The file](https://github.com/rahuldave/cheesecracker/blob/42642115394d8e19ead4c27bafaf4d90d991b0c9/src/api-service/api/utils.py).
   - look at `def power(base, exponent):`
 
+<a id="step-05.5-src-api-service-api-service.py-1e1e71-diff"></a>
+
 <details><summary>The diff of <code>src/api-service/api/service.py</code></summary>
 
 ```diff
@@ -1323,6 +1371,8 @@ ruff prints `6 files already formatted`.
 ```
 
 </details>
+
+<a id="step-05.5-src-api-service-api-utils.py-18f1f8-diff"></a>
 
 <details><summary>The diff of <code>src/api-service/api/utils.py</code></summary>
 
@@ -1367,6 +1417,8 @@ ruff finds 1 error, `E501`, and fails. The line of the message is 147 characters
 
 - <a id="step-05.6-src-api-service-api-service.py-1e1e71"></a>`src/api-service/api/service.py`: the import of `os`, removed. 0 lines added, 1 removed. It comes from `just lint --fix || true`. [The file](https://github.com/rahuldave/cheesecracker/blob/cfd2ebb050dda3ce951f0f28e84b9ae09fbe14d5/src/api-service/api/service.py).
 
+<a id="step-05.6-src-api-service-api-service.py-1e1e71-diff"></a>
+
 <details><summary>The diff of <code>src/api-service/api/service.py</code></summary>
 
 ```diff
@@ -1390,7 +1442,7 @@ ruff finds 1 error, `E501`, and fails. The line of the message is 147 characters
 
 A long message is a choice of words, so a person has to shorten it. The new message is short enough for one line.
 
-[± See the change to `src/api-service/api/service.py`](#step-05.7-src-api-service-api-service.py-1e1e71)
+[± See the change to `src/api-service/api/service.py`](#step-05.7-src-api-service-api-service.py-1e1e71-diff)
 
 The value of `"message"` in the `return` of `calculate_euclidean_distance()` is now shorter than 120 characters.
 
@@ -1405,6 +1457,8 @@ a function that nothing calls.
 
 - <a id="step-05.7-src-api-service-api-service.py-1e1e71"></a>`src/api-service/api/service.py`: a shorter message. 1 line added, 1 removed. [The file](https://github.com/rahuldave/cheesecracker/blob/693a713a458db01debdd7ebc3b084ed1b0350b08/src/api-service/api/service.py).
   - look at `"message": "This is a very long line that exceeds 120 characters blah",`
+
+<a id="step-05.7-src-api-service-api-service.py-1e1e71-diff"></a>
 
 <details><summary>The diff of <code>src/api-service/api/service.py</code></summary>
 
@@ -1441,7 +1495,7 @@ The layout, the rules and the tests each have a recipe. One recipe, `just check`
 The layout, the rules and the tests each have a recipe now. The recipe `check` runs all three, and stops at the
 first that fails.
 
-[± See the change to `justfile`](#step-05.8-justfile-424f0b)
+[± See the change to `justfile`](#step-05.8-justfile-424f0b-diff)
 
 The recipe `check`, at the end of the `justfile`, runs `just fmt --check`, `just lint` and `just test -q`, in that
 order.
@@ -1456,6 +1510,8 @@ just prints each command, and the last line is `21 passed`.
 
 - <a id="step-05.8-justfile-424f0b"></a>`justfile`: the recipe `check`. 6 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/e89e0cfa991257757c887f687087a9c77c093e20/justfile).
   - look at `just fmt --check`
+
+<a id="step-05.8-justfile-424f0b-diff"></a>
 
 <details><summary>The diff of <code>justfile</code></summary>
 
@@ -1521,6 +1577,8 @@ uv prints the version of pre-commit.
   - look at `"pre-commit>=4.7.0",`
 - <a id="step-06.1-uv.lock-8356d8"></a>`uv.lock`: the exact versions of pre-commit, and of the packages that it needs. 149 lines added, 1 removed. It comes from `uv add --group lint pre-commit`. [The file](https://github.com/rahuldave/cheesecracker/blob/f3ad230bf911e0c446eb6752ec2718b910d9e851/uv.lock).
 
+<a id="step-06.1-pyproject.toml-5d07e7-diff"></a>
+
 <details><summary>The diff of <code>pyproject.toml</code></summary>
 
 ```diff
@@ -1546,7 +1604,7 @@ pre-commit needs a list of checks. `.pre-commit-config.yaml` names two repositor
 pre-commit-hooks, checks any file. The second, ruff-pre-commit, runs ruff's linter and formatter with the settings of
 `pyproject.toml`.
 
-[± See the new file `.pre-commit-config.yaml`](#step-06.2-.pre-commit-config.yaml-e7d14d)
+[± See the new file `.pre-commit-config.yaml`](#step-06.2-.pre-commit-config.yaml-e7d14d-diff)
 
 The new file `.pre-commit-config.yaml` names pre-commit-hooks at `v6.0.0`, with seven checks of any file, such as
 `trailing-whitespace` and `detect-private-key`. Then it names ruff-pre-commit at `v0.17.1`, with `ruff-check` and
@@ -1568,6 +1626,8 @@ Every other check says `Passed`.
 
 - <a id="step-06.2-.pre-commit-config.yaml-e7d14d"></a>`.pre-commit-config.yaml`: the checks that run before every commit. New, 22 lines. [The file](https://github.com/rahuldave/cheesecracker/blob/009d77653eadfde09e438656cde77b5eac489115/.pre-commit-config.yaml).
   - look at `- id: ruff-check`
+
+<a id="step-06.2-.pre-commit-config.yaml-e7d14d-diff"></a>
 
 <details><summary>The diff of <code>.pre-commit-config.yaml</code></summary>
 
@@ -1608,7 +1668,7 @@ Every other check says `Passed`.
 pre-commit runs before every commit only after it installs a hook in `.git/hooks/`. `just setup` never changes git,
 so the hook has a recipe of its own, `hook`. You run it once in each clone.
 
-[± See the change to `justfile`](#step-06.3-justfile-424f0b)
+[± See the change to `justfile`](#step-06.3-justfile-424f0b-diff)
 
 The recipe `hook`, after the recipe `setup`, runs `uv run pre-commit install`.
 
@@ -1622,6 +1682,8 @@ pre-commit prints `pre-commit installed at .git/hooks/pre-commit`. From now on, 
 
 - <a id="step-06.3-justfile-424f0b"></a>`justfile`: the recipe `hook`. 4 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/57ec2e24ecd4946823edbfad27bc2296f80e3847/justfile).
   - look at `uv run pre-commit install`
+
+<a id="step-06.3-justfile-424f0b-diff"></a>
 
 <details><summary>The diff of <code>justfile</code></summary>
 

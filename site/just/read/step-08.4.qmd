@@ -33,7 +33,7 @@ the server at port 9000 of this machine. The system tests need a running server,
 The system tests have a recipe of their own, `test-system`, apart from `just test` and `just check`. A missing server
 fails them, and never stops a commit.
 
-[± See the change to `justfile`](#step-08.4-justfile-424f0b){.btn .btn-sm .btn-secondary}
+[± See the change to `justfile`](#step-08.4-justfile-424f0b-diff){.btn .btn-sm .btn-secondary}
 
 The recipe `test-system`, at the end of the `justfile`, runs `uv run pytest tests/system`, and passes on to pytest any
 words that you type after it.
@@ -56,6 +56,8 @@ docker-serve`.
 
 - <a id="step-08.4-justfile-424f0b"></a>`justfile`: the recipe `test-system`. 4 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/277d54eebce4a1727ed3d8a5c46570ca4a95f75d/justfile){.btn .btn-sm .btn-secondary}
   - look at `uv run pytest tests/system "$@"`
+
+<a id="step-08.4-justfile-424f0b-diff"></a>
 
 <details><summary>The diff of <code>justfile</code></summary>
 

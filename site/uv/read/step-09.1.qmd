@@ -29,7 +29,7 @@ project, so it installs every group.
 The dev image is a fourth stage of the `Dockerfile`, `dev`. It takes uv from the stage `uv`, and nothing from the
 run image.
 
-[± See the change to `Dockerfile`](#step-09.1-Dockerfile-6651dd){.btn .btn-sm .btn-secondary}
+[± See the change to `Dockerfile`](#step-09.1-Dockerfile-6651dd-diff){.btn .btn-sm .btn-secondary}
 
 The stage `dev` installs git and curl, copies uv, and installs just as a package of PyPI. It installs every group of
 `uv.lock` into `/opt/venv`, copies the project into `/work`, and starts a shell. `/opt/venv` is outside `/work`, so a
@@ -51,6 +51,8 @@ The image is about 353 MB, twice the run image, because it has every tool.
 
 - <a id="step-09.1-Dockerfile-6651dd"></a>`Dockerfile`: the stage `dev`, and its lines in the comment at the top. 26 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/ccf62d330f28c6eec4c0b993e1a71e2c11a8b5af/Dockerfile){.btn .btn-sm .btn-secondary}
   - look at `FROM python:3.12-slim-bookworm AS dev`
+
+<a id="step-09.1-Dockerfile-6651dd-diff"></a>
 
 <details><summary>The diff of <code>Dockerfile</code></summary>
 

@@ -30,7 +30,7 @@ checks run in the same Linux, anywhere Docker runs.
 The dev image is a fourth stage of the `Dockerfile`, `dev`. It takes uv from the stage `uv`, and nothing from the
 run image.
 
-[± See the change to `Dockerfile`](#step-09.1-Dockerfile-6651dd){.btn .btn-sm .btn-secondary}
+[± See the change to `Dockerfile`](#step-09.1-Dockerfile-6651dd-diff){.btn .btn-sm .btn-secondary}
 
 The stage `dev` installs git and curl, copies uv, and installs just as a package of PyPI. It installs every group of
 `uv.lock` into `/opt/venv`, copies the project into `/work`, and starts a shell. `/opt/venv` is outside `/work`, so a
@@ -52,6 +52,8 @@ The image is about 353 MB, twice the run image, because it has every tool.
 
 - <a id="step-09.1-Dockerfile-6651dd"></a>`Dockerfile`: the stage `dev`, and its lines in the comment at the top. 26 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/ccf62d330f28c6eec4c0b993e1a71e2c11a8b5af/Dockerfile){.btn .btn-sm .btn-secondary}
   - look at `FROM python:3.12-slim-bookworm AS dev`
+
+<a id="step-09.1-Dockerfile-6651dd-diff"></a>
 
 <details><summary>The diff of <code>Dockerfile</code></summary>
 
@@ -105,7 +107,7 @@ Two recipes run the dev image with this folder mounted at `/work`. An edit here 
 needs no rebuild after a change of the code. `docker-shell` opens a shell in the image. `docker-test` runs the recipe
 that you name in the image, or `just check` if you name none.
 
-[± See the change to `justfile`](#step-09.2-justfile-424f0b){.btn .btn-sm .btn-secondary}
+[± See the change to `justfile`](#step-09.2-justfile-424f0b-diff){.btn .btn-sm .btn-secondary}
 
 `docker-shell` runs `docker run --rm -it -v "$PWD":/work cheesecracker-dev`. `-v` mounts this folder at `/work`, and
 `-it` gives the shell a terminal. `docker-test` runs `just` in the image, with its words, or with `check`.
@@ -127,6 +129,8 @@ The eleven unit tests pass in Linux.
 
 - <a id="step-09.2-justfile-424f0b"></a>`justfile`: the recipes `docker-shell` and `docker-test`. 8 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/0701e9244ab2384538eda4d623e1d047ff3f8258/justfile){.btn .btn-sm .btn-secondary}
   - look at `docker run --rm -v "$PWD":/work cheesecracker-dev just "${@:-check}"`
+
+<a id="step-09.2-justfile-424f0b-diff"></a>
 
 <details><summary>The diff of <code>justfile</code></summary>
 

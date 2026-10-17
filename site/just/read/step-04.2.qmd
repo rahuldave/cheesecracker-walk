@@ -29,7 +29,7 @@ the lines that the tests run. Coverage gets a recipe.
 The recipe `cov` runs every test with coverage, and adds the column `Missing`, with the numbers of the lines that no
 test ran.
 
-[± See the change to `justfile`](#step-04.2-justfile-424f0b){.btn .btn-sm .btn-secondary}
+[± See the change to `justfile`](#step-04.2-justfile-424f0b-diff){.btn .btn-sm .btn-secondary}
 
 The recipe `cov`, at the end of the `justfile`, runs pytest with `--cov=api --cov-report=term-missing`, and passes
 on to pytest any words that you type after `just cov`.
@@ -44,6 +44,8 @@ The total is 95%. `service.py` misses line 31, the answer of `/health`, because 
 
 - <a id="step-04.2-justfile-424f0b"></a>`justfile`: the recipe `cov`. 4 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/bfb9c783c67c31254ce8136784738c0f2fc17fb5/justfile){.btn .btn-sm .btn-secondary}
   - look at `uv run pytest --cov=api --cov-report=term-missing "$@"`
+
+<a id="step-04.2-justfile-424f0b-diff"></a>
 
 <details><summary>The diff of <code>justfile</code></summary>
 

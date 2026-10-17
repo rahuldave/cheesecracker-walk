@@ -29,7 +29,7 @@ runs tests. It tells pytest where the tests are, and writes eleven unit tests. T
 The command `uv run pytest` is long, and every task of the project gets a recipe in the `justfile`, so that one
 short command runs it. The recipe `test` runs pytest through uv, and passes on to pytest any words that you type after `just test`.
 
-[± See the change to `justfile`](#step-01.5-justfile-424f0b){.btn .btn-sm .btn-secondary}
+[± See the change to `justfile`](#step-01.5-justfile-424f0b-diff){.btn .btn-sm .btn-secondary}
 
 The recipe `test`, at the end of the `justfile`, runs `uv run pytest "$@"`. `"$@"` stands for the words after
 `just test`, so `just test tests/unit` runs the unit tests alone.
@@ -44,6 +44,8 @@ just prints the command of the recipe, and pytest prints `11 passed`.
 
 - <a id="step-01.5-justfile-424f0b"></a>`justfile`: the recipe `test`. 4 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/e86e0c3d10bbe9409674f1c65ce4afdc38e7f76f/justfile){.btn .btn-sm .btn-secondary}
   - look at `uv run pytest "$@"`
+
+<a id="step-01.5-justfile-424f0b-diff"></a>
 
 <details><summary>The diff of <code>justfile</code></summary>
 

@@ -209,6 +209,8 @@ git fetch --quiet --tags --force origin; git rm -rq --cached --ignore-unmatch --
   - look at `default-groups = "all"`
 - <a id="step-00-uv.lock-8356d8"></a>`uv.lock`: the lockfile, with the project and no packages yet. New, 8 lines. [The file](https://github.com/rahuldave/cheesecracker/blob/cf50a6ef5045e08ca727aeaffdb710fad2cae096/uv.lock).
 
+<a id="step-00-.gitignore-a5cc29-diff"></a>
+
 <details><summary>The diff of <code>.gitignore</code></summary>
 
 ```diff
@@ -238,6 +240,8 @@ git fetch --quiet --tags --force origin; git rm -rq --cached --ignore-unmatch --
 
 </details>
 
+<a id="step-00-.python-version-7696e9-diff"></a>
+
 <details><summary>The diff of <code>.python-version</code></summary>
 
 ```diff
@@ -246,6 +250,8 @@ git fetch --quiet --tags --force origin; git rm -rq --cached --ignore-unmatch --
 ```
 
 </details>
+
+<a id="step-00-README.md-8ec9a0-diff"></a>
 
 <details><summary>The diff of <code>README.md</code></summary>
 
@@ -269,6 +275,8 @@ git fetch --quiet --tags --force origin; git rm -rq --cached --ignore-unmatch --
 
 </details>
 
+<a id="step-00-justfile-424f0b-diff"></a>
+
 <details><summary>The diff of <code>justfile</code></summary>
 
 ```diff
@@ -288,6 +296,8 @@ git fetch --quiet --tags --force origin; git rm -rq --cached --ignore-unmatch --
 ```
 
 </details>
+
+<a id="step-00-pyproject.toml-5d07e7-diff"></a>
 
 <details><summary>The diff of <code>pyproject.toml</code></summary>
 
@@ -375,6 +385,8 @@ git fetch --quiet --tags --force origin; git restore --source step-00 --staged -
 - <a id="step-01.1-src-api-service-api-utils.py-18f1f8"></a>`src/api-service/api/utils.py`: the function `power()`. New, 9 lines. [The file](https://github.com/rahuldave/cheesecracker/blob/bb1701fd54ba7c6aa9bd971c6651f34439f004d6/src/api-service/api/utils.py).
   - look at `return base**exponent`
 
+<a id="step-01.1-src-api-service-api-__init__.py-e2e18a-diff"></a>
+
 <details open><summary>The patch to <code>src/api-service/api/__init__.py</code></summary>
 
 ```diff
@@ -383,6 +395,8 @@ git fetch --quiet --tags --force origin; git restore --source step-00 --staged -
 ```
 
 </details>
+
+<a id="step-01.1-src-api-service-api-utils.py-18f1f8-diff"></a>
 
 <details open><summary>The patch to <code>src/api-service/api/utils.py</code></summary>
 
@@ -445,6 +459,8 @@ git restore --source bb1701fd54ba --staged -- :/ && git restore --source fc8c3bc
 - <a id="step-01.2-pyproject.toml-5d07e7"></a>`pyproject.toml`: pytest, in the group `test`. 5 lines added. It comes from `uv add --group test pytest`. [The file](https://github.com/rahuldave/cheesecracker/blob/fc8c3bce83604277393460c4eb243d176d51905c/pyproject.toml).
   - look at `"pytest>=9.1.1",`
 - <a id="step-01.2-uv.lock-8356d8"></a>`uv.lock`: the exact version of pytest, and of the packages that it needs. 71 lines added. It comes from `uv add --group test pytest`. [The file](https://github.com/rahuldave/cheesecracker/blob/fc8c3bce83604277393460c4eb243d176d51905c/uv.lock).
+
+<a id="step-01.2-pyproject.toml-5d07e7-diff"></a>
 
 <details><summary>The diff that <code>uv add --group test pytest</code> makes in <code>pyproject.toml</code></summary>
 
@@ -543,6 +559,8 @@ git restore --source fc8c3bce8360 --staged -- :/ && git restore --source ff82ac1
 - <a id="step-01.3-pyproject.toml-5d07e7"></a>`pyproject.toml`: the table `[tool.pytest.ini_options]`, with the folder of the tests and the folder of the package. 5 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/ff82ac1870a7e1937a6fb4d25ac171249378f299/pyproject.toml).
   - look at `pythonpath = ["src/api-service"]`
 
+<a id="step-01.3-pyproject.toml-5d07e7-diff"></a>
+
 <details open><summary>The patch to <code>pyproject.toml</code></summary>
 
 ```diff
@@ -599,6 +617,8 @@ git restore --source ff82ac1870a7 --staged -- :/ && git restore --source cbc98b1
 
 - <a id="step-01.4-tests-unit-test_utils.py-3d93fe"></a>`tests/unit/test_utils.py`: eleven unit tests of `power()`. New, 91 lines. [The file](https://github.com/rahuldave/cheesecracker/blob/cbc98b162671bce7a7ba82d7d18c7dc6d530b746/tests/unit/test_utils.py).
   - look at `assert power(2, 3) == 8`
+
+<a id="step-01.4-tests-unit-test_utils.py-3d93fe-diff"></a>
 
 <details open><summary>The patch to <code>tests/unit/test_utils.py</code></summary>
 
@@ -739,6 +759,8 @@ git fetch --quiet --tags --force origin; git restore --source cbc98b162671 --sta
 - <a id="step-01.5-justfile-424f0b"></a>`justfile`: the recipe `test`. 4 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/e86e0c3d10bbe9409674f1c65ce4afdc38e7f76f/justfile).
   - look at `uv run pytest "$@"`
 
+<a id="step-01.5-justfile-424f0b-diff"></a>
+
 <details open><summary>The patch to <code>justfile</code></summary>
 
 ```diff
@@ -817,6 +839,8 @@ git fetch --quiet --tags --force origin; git restore --source step-01 --staged -
   - look at `"fastapi>=0.143.2",`
 - <a id="step-02.1-uv.lock-8356d8"></a>`uv.lock`: the exact versions of FastAPI, uvicorn, and the packages that they need. 263 lines added. It comes from `uv add fastapi uvicorn`. [The file](https://github.com/rahuldave/cheesecracker/blob/18dd9dfb1c9597e50a8b404a6cb6379c1c149320/uv.lock).
 
+<a id="step-02.1-pyproject.toml-5d07e7-diff"></a>
+
 <details><summary>The diff that <code>uv add fastapi uvicorn</code> makes in <code>pyproject.toml</code></summary>
 
 ```diff
@@ -877,6 +901,8 @@ git restore --source 18dd9dfb1c95 --staged -- :/ && git restore --source acee14f
 
 - <a id="step-02.2-src-api-service-api-service.py-1e1e71"></a>`src/api-service/api/service.py`: the FastAPI app, its CORS middleware, and the routes `/` and `/health`. New, 29 lines. [The file](https://github.com/rahuldave/cheesecracker/blob/acee14f7dff43d6c5b76234b3a016985d74c60d2/src/api-service/api/service.py).
   - look at `return {"status": "healthy"}`
+
+<a id="step-02.2-src-api-service-api-service.py-1e1e71-diff"></a>
 
 <details open><summary>The patch to <code>src/api-service/api/service.py</code></summary>
 
@@ -984,6 +1010,8 @@ git fetch --quiet --tags --force origin; git restore --source acee14f7dff4 --sta
 - <a id="step-02.3-justfile-424f0b"></a>`justfile`: the recipes `serve` and `stop`. 26 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/69c3bf65c78cf8e96bf8f9ea1dde29279db1351a/justfile).
   - look at `uv run uvicorn api.service:app --app-dir src/api-service --host 0.0.0.0 --port 9000 --reload > .serve.log 2>&1 &`
 
+<a id="step-02.3-.gitignore-a5cc29-diff"></a>
+
 <details open><summary>The patch to <code>.gitignore</code></summary>
 
 ```diff
@@ -1001,6 +1029,8 @@ git fetch --quiet --tags --force origin; git restore --source acee14f7dff4 --sta
 ```
 
 </details>
+
+<a id="step-02.3-justfile-424f0b-diff"></a>
 
 <details open><summary>The patch to <code>justfile</code></summary>
 
@@ -1102,6 +1132,8 @@ git fetch --quiet --tags --force origin; git restore --source step-02 --staged -
 - <a id="step-03.1-src-api-service-api-service.py-1e1e71"></a>`src/api-service/api/service.py`: the imports of `math` and `power()`, and the endpoint `/euclidean_distance/`. 12 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/e576e7bb9e550b1a572a764b15f8d0bfde229d97/src/api-service/api/service.py).
   - look at `z = power(x, 2) + power(y, 2)`
 
+<a id="step-03.1-src-api-service-api-service.py-1e1e71-diff"></a>
+
 <details open><summary>The patch to <code>src/api-service/api/service.py</code></summary>
 
 ```diff
@@ -1173,6 +1205,8 @@ git restore --source e576e7bb9e55 --staged -- :/ && git restore --source 3c75ffb
   - look at `"httpx2>=2.13.1",`
 - <a id="step-03.2-uv.lock-8356d8"></a>`uv.lock`: the exact versions of httpx2, pytest-asyncio, and the packages that they need. 68 lines added, 1 removed. It comes from `uv add --group test httpx2 pytest-asyncio`. [The file](https://github.com/rahuldave/cheesecracker/blob/3c75ffb1a089431a2455a69e9bcb3ec0302224f0/uv.lock).
 
+<a id="step-03.2-pyproject.toml-5d07e7-diff"></a>
+
 <details><summary>The diff that <code>uv add --group test httpx2 pytest-asyncio</code> makes in <code>pyproject.toml</code></summary>
 
 ```diff
@@ -1236,6 +1270,8 @@ git fetch --quiet --tags --force origin; git restore --source 3c75ffb1a089 --sta
 
 - <a id="step-03.3-tests-integration-test_api.py-596674"></a>`tests/integration/test_api.py`: ten integration tests, through FastAPI's `TestClient`. New, 89 lines. [The file](https://github.com/rahuldave/cheesecracker/blob/5862780b44d2f4ec87088c971dec57f23c11139e/tests/integration/test_api.py).
   - look at `response = client.get("/euclidean_distance/?x=3&y=4")`
+
+<a id="step-03.3-tests-integration-test_api.py-596674-diff"></a>
 
 <details open><summary>The patch to <code>tests/integration/test_api.py</code></summary>
 
@@ -1391,6 +1427,8 @@ git fetch --quiet --tags --force origin; git restore --source step-03 --staged -
   - look at `"pytest-cov>=7.1.0",`
 - <a id="step-04.1-uv.lock-8356d8"></a>`uv.lock`: the exact versions of pytest-cov, and of coverage, which it uses. 115 lines added. It comes from `uv add --group test pytest-cov`. [The file](https://github.com/rahuldave/cheesecracker/blob/54de20e8055ec62726d8956cac3a944433dc404c/uv.lock).
 
+<a id="step-04.1-pyproject.toml-5d07e7-diff"></a>
+
 <details><summary>The diff that <code>uv add --group test pytest-cov</code> makes in <code>pyproject.toml</code></summary>
 
 ```diff
@@ -1445,6 +1483,8 @@ git fetch --quiet --tags --force origin; git restore --source 54de20e8055e --sta
 
 - <a id="step-04.2-justfile-424f0b"></a>`justfile`: the recipe `cov`. 4 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/bfb9c783c67c31254ce8136784738c0f2fc17fb5/justfile).
   - look at `uv run pytest --cov=api --cov-report=term-missing "$@"`
+
+<a id="step-04.2-justfile-424f0b-diff"></a>
 
 <details open><summary>The patch to <code>justfile</code></summary>
 
@@ -1536,6 +1576,8 @@ git fetch --quiet --tags --force origin; git restore --source step-06 --staged -
 - <a id="step-07.1-.dockerignore-05a721"></a>`.dockerignore`: what `docker build` never sends to Docker. New, 10 lines. [The file](https://github.com/rahuldave/cheesecracker/blob/2a28a5c704d6d9ed8200aeb8962aa01e5c2ac552/.dockerignore).
   - look at `.venv/`
 
+<a id="step-07.1-.dockerignore-05a721-diff"></a>
+
 <details open><summary>The patch to <code>.dockerignore</code></summary>
 
 ```diff
@@ -1601,6 +1643,8 @@ git restore --source 2a28a5c704d6 --staged -- :/ && git restore --source 0acb455
 
 - <a id="step-07.2-Dockerfile-6651dd"></a>`Dockerfile`: the stages `uv`, `build` and `run`. New, 34 lines. [The file](https://github.com/rahuldave/cheesecracker/blob/0acb4556f724cd94e4a71ab4fff739a974413fc0/Dockerfile).
   - look at `RUN uv sync --locked --no-default-groups`
+
+<a id="step-07.2-Dockerfile-6651dd-diff"></a>
 
 <details open><summary>The patch to <code>Dockerfile</code></summary>
 
@@ -1710,6 +1754,8 @@ git fetch --quiet --tags --force origin; git restore --source 0acb4556f724 --sta
 - <a id="step-07.3-justfile-424f0b"></a>`justfile`: the recipes `docker-build`, `docker-serve` and `docker-stop`. 20 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/d444e0387d256c62024581e98f59d670cbc93296/justfile).
   - look at `docker run --rm --detach --name cheesecracker-run --publish 9000:9000 cheesecracker-run > /dev/null || exit 1`
 
+<a id="step-07.3-justfile-424f0b-diff"></a>
+
 <details open><summary>The patch to <code>justfile</code></summary>
 
 ```diff
@@ -1797,6 +1843,8 @@ git fetch --quiet --tags --force origin; git restore --source step-07 --staged -
 - <a id="step-08.1-pyproject.toml-5d07e7"></a>`pyproject.toml`: requests, in the group `test`. 1 line added. It comes from `uv add --group test requests`. [The file](https://github.com/rahuldave/cheesecracker/blob/de0780b72a5cad4f0ed70e9c0cdcdee9d1028562/pyproject.toml).
   - look at `"requests>=2.34.2",`
 - <a id="step-08.1-uv.lock-8356d8"></a>`uv.lock`: the exact versions of requests, and of the packages that it needs. 166 lines added. It comes from `uv add --group test requests`. [The file](https://github.com/rahuldave/cheesecracker/blob/de0780b72a5cad4f0ed70e9c0cdcdee9d1028562/uv.lock).
+
+<a id="step-08.1-pyproject.toml-5d07e7-diff"></a>
 
 <details><summary>The diff that <code>uv add --group test requests</code> makes in <code>pyproject.toml</code></summary>
 
@@ -1894,6 +1942,8 @@ git restore --source de0780b72a5c --staged -- :/ && git restore --source c8302b4
 - <a id="step-08.2-pyproject.toml-5d07e7"></a>`pyproject.toml`: the two folders of tests that run by default. 1 line added, 1 removed. [The file](https://github.com/rahuldave/cheesecracker/blob/c8302b4cff8bd9fc480ba4f74a0c7d34c769fef6/pyproject.toml).
   - look at `testpaths = ["tests/unit", "tests/integration"]`
 
+<a id="step-08.2-pyproject.toml-5d07e7-diff"></a>
+
 <details open><summary>The patch to <code>pyproject.toml</code></summary>
 
 ```diff
@@ -1960,6 +2010,8 @@ git restore --source c8302b4cff8b --staged -- :/ && git restore --source 19813cf
 
 - <a id="step-08.3-tests-system-test_system_api.py-780a11"></a>`tests/system/test_system_api.py`: five system tests, through real HTTP requests to `localhost:9000`. New, 69 lines. [The file](https://github.com/rahuldave/cheesecracker/blob/19813cf32d0843eea486048243e1eaf62b16a0fe/tests/system/test_system_api.py).
   - look at `pytest.fail(f"no server at {API_BASE_URL}: start one with just docker-serve", pytrace=False)`
+
+<a id="step-08.3-tests-system-test_system_api.py-780a11-diff"></a>
 
 <details open><summary>The patch to <code>tests/system/test_system_api.py</code></summary>
 
@@ -2085,6 +2137,8 @@ git fetch --quiet --tags --force origin; git restore --source 19813cf32d08 --sta
 
 - <a id="step-08.4-justfile-424f0b"></a>`justfile`: the recipe `test-system`. 4 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/277d54eebce4a1727ed3d8a5c46570ca4a95f75d/justfile).
   - look at `uv run pytest tests/system "$@"`
+
+<a id="step-08.4-justfile-424f0b-diff"></a>
 
 <details open><summary>The patch to <code>justfile</code></summary>
 

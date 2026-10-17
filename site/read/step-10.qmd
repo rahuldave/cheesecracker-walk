@@ -25,9 +25,9 @@ The Cheese App needs to add two numbers. The endpoint `/add/` takes `x` and `y`,
 test calls it. Then every check of the project runs again, on this machine, in the dev image, and against a new run
 image.
 
-[± See the change to `src/api-service/api/service.py`](#step-10-src-api-service-api-service.py-1e1e71){.btn .btn-sm .btn-secondary}
+[± See the change to `src/api-service/api/service.py`](#step-10-src-api-service-api-service.py-1e1e71-diff){.btn .btn-sm .btn-secondary}
 
-[± See the change to `tests/integration/test_api.py`](#step-10-tests-integration-test_api.py-596674){.btn .btn-sm .btn-secondary}
+[± See the change to `tests/integration/test_api.py`](#step-10-tests-integration-test_api.py-596674-diff){.btn .btn-sm .btn-secondary}
 
 `add_numbers()`, at the end of `service.py`, answers `/add/` with `{"result": x + y}`. `test_add_endpoint()`, at the
 end of `test_api.py`, asks for `/add/?x=10&y=20`, and expects 30.
@@ -72,6 +72,8 @@ just docker-stop
 - <a id="step-10-tests-integration-test_api.py-596674"></a>`tests/integration/test_api.py`: the test of `/add/`. 6 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/e706255d9c0fee3b6fded40376e7ac8829d1654a/tests/integration/test_api.py){.btn .btn-sm .btn-secondary}
   - look at `response = client.get("/add/?x=10&y=20")`
 
+<a id="step-10-src-api-service-api-service.py-1e1e71-diff"></a>
+
 <details><summary>The diff of <code>src/api-service/api/service.py</code></summary>
 
 ```diff
@@ -88,6 +90,8 @@ just docker-stop
 ```
 
 </details>
+
+<a id="step-10-tests-integration-test_api.py-596674-diff"></a>
 
 <details><summary>The diff of <code>tests/integration/test_api.py</code></summary>
 

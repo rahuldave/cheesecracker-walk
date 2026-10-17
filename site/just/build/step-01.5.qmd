@@ -63,6 +63,8 @@ git fetch --quiet --tags --force origin; git restore --source cbc98b162671 --sta
 - <a id="step-01.5-justfile-424f0b"></a>`justfile`: the recipe `test`. 4 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/e86e0c3d10bbe9409674f1c65ce4afdc38e7f76f/justfile){.btn .btn-sm .btn-secondary}
   - look at `uv run pytest "$@"`
 
+<a id="step-01.5-justfile-424f0b-diff"></a>
+
 <details open><summary>The patch to <code>justfile</code></summary>
 
 ```diff

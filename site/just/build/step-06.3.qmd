@@ -63,6 +63,8 @@ git fetch --quiet --tags --force origin; git restore --source 009d77653ead --sta
 - <a id="step-06.3-justfile-424f0b"></a>`justfile`: the recipe `hook`. 4 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/57ec2e24ecd4946823edbfad27bc2296f80e3847/justfile){.btn .btn-sm .btn-secondary}
   - look at `uv run pre-commit install`
 
+<a id="step-06.3-justfile-424f0b-diff"></a>
+
 <details open><summary>The patch to <code>justfile</code></summary>
 
 ```diff

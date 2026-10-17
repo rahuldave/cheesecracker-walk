@@ -69,6 +69,8 @@ git fetch --quiet --tags --force origin; git restore --source step-00 --staged -
 - <a id="step-01.1-src-api-service-api-utils.py-18f1f8"></a>`src/api-service/api/utils.py`: the function `power()`. New, 9 lines. [The file](https://github.com/rahuldave/cheesecracker/blob/bb1701fd54ba7c6aa9bd971c6651f34439f004d6/src/api-service/api/utils.py){.btn .btn-sm .btn-secondary}
   - look at `return base**exponent`
 
+<a id="step-01.1-src-api-service-api-__init__.py-e2e18a-diff"></a>
+
 <details open><summary>The patch to <code>src/api-service/api/__init__.py</code></summary>
 
 ```diff
@@ -77,6 +79,8 @@ git fetch --quiet --tags --force origin; git restore --source step-00 --staged -
 ```
 
 </details>
+
+<a id="step-01.1-src-api-service-api-utils.py-18f1f8-diff"></a>
 
 <details open><summary>The patch to <code>src/api-service/api/utils.py</code></summary>
 
@@ -137,6 +141,8 @@ git restore --source bb1701fd54ba --staged -- :/ && git restore --source fc8c3bc
 - <a id="step-01.2-pyproject.toml-5d07e7"></a>`pyproject.toml`: pytest, in the group `test`. 5 lines added. It comes from `uv add --group test pytest`. [The file](https://github.com/rahuldave/cheesecracker/blob/fc8c3bce83604277393460c4eb243d176d51905c/pyproject.toml){.btn .btn-sm .btn-secondary}
   - look at `"pytest>=9.1.1",`
 - <a id="step-01.2-uv.lock-8356d8"></a>`uv.lock`: the exact version of pytest, and of the packages that it needs. 71 lines added. It comes from `uv add --group test pytest`. [The file](https://github.com/rahuldave/cheesecracker/blob/fc8c3bce83604277393460c4eb243d176d51905c/uv.lock){.btn .btn-sm .btn-secondary}
+
+<a id="step-01.2-pyproject.toml-5d07e7-diff"></a>
 
 <details><summary>The diff that <code>uv add --group test pytest</code> makes in <code>pyproject.toml</code></summary>
 
@@ -233,6 +239,8 @@ git restore --source fc8c3bce8360 --staged -- :/ && git restore --source ff82ac1
 - <a id="step-01.3-pyproject.toml-5d07e7"></a>`pyproject.toml`: the table `[tool.pytest.ini_options]`, with the folder of the tests and the folder of the package. 5 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/ff82ac1870a7e1937a6fb4d25ac171249378f299/pyproject.toml){.btn .btn-sm .btn-secondary}
   - look at `pythonpath = ["src/api-service"]`
 
+<a id="step-01.3-pyproject.toml-5d07e7-diff"></a>
+
 <details open><summary>The patch to <code>pyproject.toml</code></summary>
 
 ```diff
@@ -287,6 +295,8 @@ git restore --source ff82ac1870a7 --staged -- :/ && git restore --source cbc98b1
 
 - <a id="step-01.4-tests-unit-test_utils.py-3d93fe"></a>`tests/unit/test_utils.py`: eleven unit tests of `power()`. New, 91 lines. [The file](https://github.com/rahuldave/cheesecracker/blob/cbc98b162671bce7a7ba82d7d18c7dc6d530b746/tests/unit/test_utils.py){.btn .btn-sm .btn-secondary}
   - look at `assert power(2, 3) == 8`
+
+<a id="step-01.4-tests-unit-test_utils.py-3d93fe-diff"></a>
 
 <details open><summary>The patch to <code>tests/unit/test_utils.py</code></summary>
 
@@ -424,6 +434,8 @@ git fetch --quiet --tags --force origin; git restore --source cbc98b162671 --sta
 
 - <a id="step-01.5-justfile-424f0b"></a>`justfile`: the recipe `test`. 4 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/e86e0c3d10bbe9409674f1c65ce4afdc38e7f76f/justfile){.btn .btn-sm .btn-secondary}
   - look at `uv run pytest "$@"`
+
+<a id="step-01.5-justfile-424f0b-diff"></a>
 
 <details open><summary>The patch to <code>justfile</code></summary>
 

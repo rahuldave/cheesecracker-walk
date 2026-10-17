@@ -31,7 +31,7 @@ server. Three recipes build an image, start its server and stop it.
 Three recipes give the Docker commands short names. `docker-build` builds an image of the `Dockerfile`.
 `docker-serve` starts the server of the run image in the background, at port 9000, and `docker-stop` stops it.
 
-[± See the change to `justfile`](#step-07.3-justfile-424f0b){.btn .btn-sm .btn-secondary}
+[± See the change to `justfile`](#step-07.3-justfile-424f0b-diff){.btn .btn-sm .btn-secondary}
 
 The recipe `docker-build` takes the name of a stage, and runs `docker build --target` with it. `docker-serve` runs the
 image `cheesecracker-run` with `--detach`, so the container runs in the background, as in the original tutorial's
@@ -74,6 +74,8 @@ Docker prints the name of the container, `cheesecracker-run`, and the server sto
 
 - <a id="step-07.3-justfile-424f0b"></a>`justfile`: the recipes `docker-build`, `docker-serve` and `docker-stop`. 20 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/d444e0387d256c62024581e98f59d670cbc93296/justfile){.btn .btn-sm .btn-secondary}
   - look at `docker run --rm --detach --name cheesecracker-run --publish 9000:9000 cheesecracker-run > /dev/null || exit 1`
+
+<a id="step-07.3-justfile-424f0b-diff"></a>
 
 <details><summary>The diff of <code>justfile</code></summary>
 

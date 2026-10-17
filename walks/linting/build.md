@@ -201,6 +201,8 @@ git fetch --quiet --tags --force origin; git rm -rq --cached --ignore-unmatch --
   - look at `default-groups = "all"`
 - <a id="step-00-uv.lock-8356d8"></a>`uv.lock`: the lockfile, with the project and no packages yet. New, 8 lines. [The file](https://github.com/rahuldave/cheesecracker/blob/cf50a6ef5045e08ca727aeaffdb710fad2cae096/uv.lock).
 
+<a id="step-00-.gitignore-a5cc29-diff"></a>
+
 <details><summary>The diff of <code>.gitignore</code></summary>
 
 ```diff
@@ -230,6 +232,8 @@ git fetch --quiet --tags --force origin; git rm -rq --cached --ignore-unmatch --
 
 </details>
 
+<a id="step-00-.python-version-7696e9-diff"></a>
+
 <details><summary>The diff of <code>.python-version</code></summary>
 
 ```diff
@@ -238,6 +242,8 @@ git fetch --quiet --tags --force origin; git rm -rq --cached --ignore-unmatch --
 ```
 
 </details>
+
+<a id="step-00-README.md-8ec9a0-diff"></a>
 
 <details><summary>The diff of <code>README.md</code></summary>
 
@@ -261,6 +267,8 @@ git fetch --quiet --tags --force origin; git rm -rq --cached --ignore-unmatch --
 
 </details>
 
+<a id="step-00-justfile-424f0b-diff"></a>
+
 <details><summary>The diff of <code>justfile</code></summary>
 
 ```diff
@@ -280,6 +288,8 @@ git fetch --quiet --tags --force origin; git rm -rq --cached --ignore-unmatch --
 ```
 
 </details>
+
+<a id="step-00-pyproject.toml-5d07e7-diff"></a>
 
 <details><summary>The diff of <code>pyproject.toml</code></summary>
 
@@ -367,6 +377,8 @@ git fetch --quiet --tags --force origin; git restore --source step-00 --staged -
 - <a id="step-01.1-src-api-service-api-utils.py-18f1f8"></a>`src/api-service/api/utils.py`: the function `power()`. New, 9 lines. [The file](https://github.com/rahuldave/cheesecracker/blob/bb1701fd54ba7c6aa9bd971c6651f34439f004d6/src/api-service/api/utils.py).
   - look at `return base**exponent`
 
+<a id="step-01.1-src-api-service-api-__init__.py-e2e18a-diff"></a>
+
 <details open><summary>The patch to <code>src/api-service/api/__init__.py</code></summary>
 
 ```diff
@@ -375,6 +387,8 @@ git fetch --quiet --tags --force origin; git restore --source step-00 --staged -
 ```
 
 </details>
+
+<a id="step-01.1-src-api-service-api-utils.py-18f1f8-diff"></a>
 
 <details open><summary>The patch to <code>src/api-service/api/utils.py</code></summary>
 
@@ -437,6 +451,8 @@ git restore --source bb1701fd54ba --staged -- :/ && git restore --source fc8c3bc
 - <a id="step-01.2-pyproject.toml-5d07e7"></a>`pyproject.toml`: pytest, in the group `test`. 5 lines added. It comes from `uv add --group test pytest`. [The file](https://github.com/rahuldave/cheesecracker/blob/fc8c3bce83604277393460c4eb243d176d51905c/pyproject.toml).
   - look at `"pytest>=9.1.1",`
 - <a id="step-01.2-uv.lock-8356d8"></a>`uv.lock`: the exact version of pytest, and of the packages that it needs. 71 lines added. It comes from `uv add --group test pytest`. [The file](https://github.com/rahuldave/cheesecracker/blob/fc8c3bce83604277393460c4eb243d176d51905c/uv.lock).
+
+<a id="step-01.2-pyproject.toml-5d07e7-diff"></a>
 
 <details><summary>The diff that <code>uv add --group test pytest</code> makes in <code>pyproject.toml</code></summary>
 
@@ -535,6 +551,8 @@ git restore --source fc8c3bce8360 --staged -- :/ && git restore --source ff82ac1
 - <a id="step-01.3-pyproject.toml-5d07e7"></a>`pyproject.toml`: the table `[tool.pytest.ini_options]`, with the folder of the tests and the folder of the package. 5 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/ff82ac1870a7e1937a6fb4d25ac171249378f299/pyproject.toml).
   - look at `pythonpath = ["src/api-service"]`
 
+<a id="step-01.3-pyproject.toml-5d07e7-diff"></a>
+
 <details open><summary>The patch to <code>pyproject.toml</code></summary>
 
 ```diff
@@ -591,6 +609,8 @@ git restore --source ff82ac1870a7 --staged -- :/ && git restore --source cbc98b1
 
 - <a id="step-01.4-tests-unit-test_utils.py-3d93fe"></a>`tests/unit/test_utils.py`: eleven unit tests of `power()`. New, 91 lines. [The file](https://github.com/rahuldave/cheesecracker/blob/cbc98b162671bce7a7ba82d7d18c7dc6d530b746/tests/unit/test_utils.py).
   - look at `assert power(2, 3) == 8`
+
+<a id="step-01.4-tests-unit-test_utils.py-3d93fe-diff"></a>
 
 <details open><summary>The patch to <code>tests/unit/test_utils.py</code></summary>
 
@@ -731,6 +751,8 @@ git fetch --quiet --tags --force origin; git restore --source cbc98b162671 --sta
 - <a id="step-01.5-justfile-424f0b"></a>`justfile`: the recipe `test`. 4 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/e86e0c3d10bbe9409674f1c65ce4afdc38e7f76f/justfile).
   - look at `uv run pytest "$@"`
 
+<a id="step-01.5-justfile-424f0b-diff"></a>
+
 <details open><summary>The patch to <code>justfile</code></summary>
 
 ```diff
@@ -808,6 +830,8 @@ git fetch --quiet --tags --force origin; git restore --source step-01 --staged -
   - look at `"fastapi>=0.143.2",`
 - <a id="step-02.1-uv.lock-8356d8"></a>`uv.lock`: the exact versions of FastAPI, uvicorn, and the packages that they need. 263 lines added. It comes from `uv add fastapi uvicorn`. [The file](https://github.com/rahuldave/cheesecracker/blob/18dd9dfb1c9597e50a8b404a6cb6379c1c149320/uv.lock).
 
+<a id="step-02.1-pyproject.toml-5d07e7-diff"></a>
+
 <details><summary>The diff that <code>uv add fastapi uvicorn</code> makes in <code>pyproject.toml</code></summary>
 
 ```diff
@@ -868,6 +892,8 @@ git restore --source 18dd9dfb1c95 --staged -- :/ && git restore --source acee14f
 
 - <a id="step-02.2-src-api-service-api-service.py-1e1e71"></a>`src/api-service/api/service.py`: the FastAPI app, its CORS middleware, and the routes `/` and `/health`. New, 29 lines. [The file](https://github.com/rahuldave/cheesecracker/blob/acee14f7dff43d6c5b76234b3a016985d74c60d2/src/api-service/api/service.py).
   - look at `return {"status": "healthy"}`
+
+<a id="step-02.2-src-api-service-api-service.py-1e1e71-diff"></a>
 
 <details open><summary>The patch to <code>src/api-service/api/service.py</code></summary>
 
@@ -975,6 +1001,8 @@ git fetch --quiet --tags --force origin; git restore --source acee14f7dff4 --sta
 - <a id="step-02.3-justfile-424f0b"></a>`justfile`: the recipes `serve` and `stop`. 26 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/69c3bf65c78cf8e96bf8f9ea1dde29279db1351a/justfile).
   - look at `uv run uvicorn api.service:app --app-dir src/api-service --host 0.0.0.0 --port 9000 --reload > .serve.log 2>&1 &`
 
+<a id="step-02.3-.gitignore-a5cc29-diff"></a>
+
 <details open><summary>The patch to <code>.gitignore</code></summary>
 
 ```diff
@@ -992,6 +1020,8 @@ git fetch --quiet --tags --force origin; git restore --source acee14f7dff4 --sta
 ```
 
 </details>
+
+<a id="step-02.3-justfile-424f0b-diff"></a>
 
 <details open><summary>The patch to <code>justfile</code></summary>
 
@@ -1093,6 +1123,8 @@ git fetch --quiet --tags --force origin; git restore --source step-02 --staged -
 - <a id="step-03.1-src-api-service-api-service.py-1e1e71"></a>`src/api-service/api/service.py`: the imports of `math` and `power()`, and the endpoint `/euclidean_distance/`. 12 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/e576e7bb9e550b1a572a764b15f8d0bfde229d97/src/api-service/api/service.py).
   - look at `z = power(x, 2) + power(y, 2)`
 
+<a id="step-03.1-src-api-service-api-service.py-1e1e71-diff"></a>
+
 <details open><summary>The patch to <code>src/api-service/api/service.py</code></summary>
 
 ```diff
@@ -1164,6 +1196,8 @@ git restore --source e576e7bb9e55 --staged -- :/ && git restore --source 3c75ffb
   - look at `"httpx2>=2.13.1",`
 - <a id="step-03.2-uv.lock-8356d8"></a>`uv.lock`: the exact versions of httpx2, pytest-asyncio, and the packages that they need. 68 lines added, 1 removed. It comes from `uv add --group test httpx2 pytest-asyncio`. [The file](https://github.com/rahuldave/cheesecracker/blob/3c75ffb1a089431a2455a69e9bcb3ec0302224f0/uv.lock).
 
+<a id="step-03.2-pyproject.toml-5d07e7-diff"></a>
+
 <details><summary>The diff that <code>uv add --group test httpx2 pytest-asyncio</code> makes in <code>pyproject.toml</code></summary>
 
 ```diff
@@ -1227,6 +1261,8 @@ git fetch --quiet --tags --force origin; git restore --source 3c75ffb1a089 --sta
 
 - <a id="step-03.3-tests-integration-test_api.py-596674"></a>`tests/integration/test_api.py`: ten integration tests, through FastAPI's `TestClient`. New, 89 lines. [The file](https://github.com/rahuldave/cheesecracker/blob/5862780b44d2f4ec87088c971dec57f23c11139e/tests/integration/test_api.py).
   - look at `response = client.get("/euclidean_distance/?x=3&y=4")`
+
+<a id="step-03.3-tests-integration-test_api.py-596674-diff"></a>
 
 <details open><summary>The patch to <code>tests/integration/test_api.py</code></summary>
 
@@ -1395,6 +1431,8 @@ git fetch --quiet --tags --force origin; git restore --source step-04 --staged -
 - <a id="step-05.1-src-api-service-api-utils.py-18f1f8"></a>`src/api-service/api/utils.py`: a missing space, extra blank lines, and a function that nothing calls. 6 lines added, 1 removed. [The file](https://github.com/rahuldave/cheesecracker/blob/f77650600c1176caa9aaee86e6cddfccc43fc69c/src/api-service/api/utils.py).
   - look at `def unused_function():`
 
+<a id="step-05.1-src-api-service-api-service.py-1e1e71-diff"></a>
+
 <details open><summary>The patch to <code>src/api-service/api/service.py</code></summary>
 
 ```diff
@@ -1432,6 +1470,8 @@ git fetch --quiet --tags --force origin; git restore --source step-04 --staged -
 ```
 
 </details>
+
+<a id="step-05.1-src-api-service-api-utils.py-18f1f8-diff"></a>
 
 <details open><summary>The patch to <code>src/api-service/api/utils.py</code></summary>
 
@@ -1509,6 +1549,8 @@ git restore --source f77650600c11 --staged -- :/ && git restore --source 9662828
 - <a id="step-05.2-pyproject.toml-5d07e7"></a>`pyproject.toml`: ruff, in the group `lint`. 3 lines added. It comes from `uv add --group lint ruff`. [The file](https://github.com/rahuldave/cheesecracker/blob/9662828462ba2a21ca04a79c412e83ac070767f6/pyproject.toml).
   - look at `"ruff>=0.17.1",`
 - <a id="step-05.2-uv.lock-8356d8"></a>`uv.lock`: the exact version of ruff. 29 lines added. It comes from `uv add --group lint ruff`. [The file](https://github.com/rahuldave/cheesecracker/blob/9662828462ba2a21ca04a79c412e83ac070767f6/uv.lock).
+
+<a id="step-05.2-pyproject.toml-5d07e7-diff"></a>
 
 <details><summary>The diff that <code>uv add --group lint ruff</code> makes in <code>pyproject.toml</code></summary>
 
@@ -1614,6 +1656,8 @@ git restore --source 9662828462ba --staged -- :/ && git restore --source 7c1670f
 - <a id="step-05.3-pyproject.toml-5d07e7"></a>`pyproject.toml`: the settings of ruff, the length of a line and the rules of the linter. 8 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/7c1670fd52a0f62f414f31d415d10f2efb5a8405/pyproject.toml).
   - look at `select = ["E", "W", "F"]`
 
+<a id="step-05.3-pyproject.toml-5d07e7-diff"></a>
+
 <details open><summary>The patch to <code>pyproject.toml</code></summary>
 
 ```diff
@@ -1671,6 +1715,8 @@ git restore --source 7c1670fd52a0 --staged -- :/ && git restore --source b947593
 
 - <a id="step-05.4-justfile-424f0b"></a>`justfile`: the recipes `fmt` and `lint`. 8 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/b947593e84b71486902b3ff1c7f9e1458b70e3f7/justfile).
   - look at `uv run ruff check "$@"`
+
+<a id="step-05.4-justfile-424f0b-diff"></a>
 
 <details open><summary>The patch to <code>justfile</code></summary>
 
@@ -1745,6 +1791,8 @@ git restore --source b947593e84b7 --staged -- :/ && git restore --source 4264211
 - <a id="step-05.5-src-api-service-api-utils.py-18f1f8"></a>`src/api-service/api/utils.py`: the space after the comma, and two blank lines before `unused_function()`. 1 line added, 2 removed. It comes from `just fmt`. [The file](https://github.com/rahuldave/cheesecracker/blob/42642115394d8e19ead4c27bafaf4d90d991b0c9/src/api-service/api/utils.py).
   - look at `def power(base, exponent):`
 
+<a id="step-05.5-src-api-service-api-service.py-1e1e71-diff"></a>
+
 <details><summary>The diff that <code>just fmt</code> makes in <code>src/api-service/api/service.py</code></summary>
 
 ```diff
@@ -1779,6 +1827,8 @@ git restore --source b947593e84b7 --staged -- :/ && git restore --source 4264211
 ```
 
 </details>
+
+<a id="step-05.5-src-api-service-api-utils.py-18f1f8-diff"></a>
 
 <details><summary>The diff that <code>just fmt</code> makes in <code>src/api-service/api/utils.py</code></summary>
 
@@ -1837,6 +1887,8 @@ git restore --source 42642115394d --staged -- :/ && git restore --source cfd2ebb
 
 - <a id="step-05.6-src-api-service-api-service.py-1e1e71"></a>`src/api-service/api/service.py`: the import of `os`, removed. 0 lines added, 1 removed. It comes from `just lint --fix || true`. [The file](https://github.com/rahuldave/cheesecracker/blob/cfd2ebb050dda3ce951f0f28e84b9ae09fbe14d5/src/api-service/api/service.py).
 
+<a id="step-05.6-src-api-service-api-service.py-1e1e71-diff"></a>
+
 <details><summary>The diff that <code>just lint --fix || true</code> makes in <code>src/api-service/api/service.py</code></summary>
 
 ```diff
@@ -1891,6 +1943,8 @@ git restore --source cfd2ebb050dd --staged -- :/ && git restore --source 693a713
 
 - <a id="step-05.7-src-api-service-api-service.py-1e1e71"></a>`src/api-service/api/service.py`: a shorter message. 1 line added, 1 removed. [The file](https://github.com/rahuldave/cheesecracker/blob/693a713a458db01debdd7ebc3b084ed1b0350b08/src/api-service/api/service.py).
   - look at `"message": "This is a very long line that exceeds 120 characters blah",`
+
+<a id="step-05.7-src-api-service-api-service.py-1e1e71-diff"></a>
 
 <details open><summary>The patch to <code>src/api-service/api/service.py</code></summary>
 
@@ -1957,6 +2011,8 @@ git fetch --quiet --tags --force origin; git restore --source 693a713a458d --sta
 
 - <a id="step-05.8-justfile-424f0b"></a>`justfile`: the recipe `check`. 6 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/e89e0cfa991257757c887f687087a9c77c093e20/justfile).
   - look at `just fmt --check`
+
+<a id="step-05.8-justfile-424f0b-diff"></a>
 
 <details open><summary>The patch to <code>justfile</code></summary>
 
@@ -2036,6 +2092,8 @@ git fetch --quiet --tags --force origin; git restore --source step-05 --staged -
   - look at `"pre-commit>=4.7.0",`
 - <a id="step-06.1-uv.lock-8356d8"></a>`uv.lock`: the exact versions of pre-commit, and of the packages that it needs. 149 lines added, 1 removed. It comes from `uv add --group lint pre-commit`. [The file](https://github.com/rahuldave/cheesecracker/blob/f3ad230bf911e0c446eb6752ec2718b910d9e851/uv.lock).
 
+<a id="step-06.1-pyproject.toml-5d07e7-diff"></a>
+
 <details><summary>The diff that <code>uv add --group lint pre-commit</code> makes in <code>pyproject.toml</code></summary>
 
 ```diff
@@ -2103,6 +2161,8 @@ git restore --source f3ad230bf911 --staged -- :/ && git restore --source 009d776
 
 - <a id="step-06.2-.pre-commit-config.yaml-e7d14d"></a>`.pre-commit-config.yaml`: the checks that run before every commit. New, 22 lines. [The file](https://github.com/rahuldave/cheesecracker/blob/009d77653eadfde09e438656cde77b5eac489115/.pre-commit-config.yaml).
   - look at `- id: ruff-check`
+
+<a id="step-06.2-.pre-commit-config.yaml-e7d14d-diff"></a>
 
 <details open><summary>The patch to <code>.pre-commit-config.yaml</code></summary>
 
@@ -2173,6 +2233,8 @@ git fetch --quiet --tags --force origin; git restore --source 009d77653ead --sta
 
 - <a id="step-06.3-justfile-424f0b"></a>`justfile`: the recipe `hook`. 4 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/57ec2e24ecd4946823edbfad27bc2296f80e3847/justfile).
   - look at `uv run pre-commit install`
+
+<a id="step-06.3-justfile-424f0b-diff"></a>
 
 <details open><summary>The patch to <code>justfile</code></summary>
 

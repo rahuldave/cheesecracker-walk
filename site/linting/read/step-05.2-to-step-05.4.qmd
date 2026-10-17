@@ -48,6 +48,8 @@ uv prints the version of ruff, `ruff 0.17.1` on the day of the class.
   - look at `"ruff>=0.17.1",`
 - <a id="step-05.2-uv.lock-8356d8"></a>`uv.lock`: the exact version of ruff. 29 lines added. It comes from `uv add --group lint ruff`. [The file](https://github.com/rahuldave/cheesecracker/blob/9662828462ba2a21ca04a79c412e83ac070767f6/uv.lock){.btn .btn-sm .btn-secondary}
 
+<a id="step-05.2-pyproject.toml-5d07e7-diff"></a>
+
 <details><summary>The diff of <code>pyproject.toml</code></summary>
 
 ```diff
@@ -72,7 +74,7 @@ uv prints the version of ruff, `ruff 0.17.1` on the day of the class.
 By default, ruff allows lines of up to 88 characters, and this project allows 120. Its default rules also leave out
 some rules of flake8. Two tables in `pyproject.toml` set both.
 
-[± See the change to `pyproject.toml`](#step-05.3-pyproject.toml-5d07e7){.btn .btn-sm .btn-secondary}
+[± See the change to `pyproject.toml`](#step-05.3-pyproject.toml-5d07e7-diff){.btn .btn-sm .btn-secondary}
 
 `[tool.ruff]` sets `line-length = 120`, for the formatter and the linter. `[tool.ruff.lint]` selects the rules `E`, `W`
 and `F`. They are the errors and warnings of pycodestyle, and the rules of pyflakes, which flake8 checks.
@@ -94,6 +96,8 @@ ruff says `2 files would be reformatted`, and fails. `--check` changes no file.
 
 - <a id="step-05.3-pyproject.toml-5d07e7"></a>`pyproject.toml`: the settings of ruff, the length of a line and the rules of the linter. 8 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/7c1670fd52a0f62f414f31d415d10f2efb5a8405/pyproject.toml){.btn .btn-sm .btn-secondary}
   - look at `select = ["E", "W", "F"]`
+
+<a id="step-05.3-pyproject.toml-5d07e7-diff"></a>
 
 <details><summary>The diff of <code>pyproject.toml</code></summary>
 
@@ -120,7 +124,7 @@ ruff says `2 files would be reformatted`, and fails. `--check` changes no file.
 
 Two recipes give the formatter and the linter short names. Each passes on to ruff any words that you type after it.
 
-[± See the change to `justfile`](#step-05.4-justfile-424f0b){.btn .btn-sm .btn-secondary}
+[± See the change to `justfile`](#step-05.4-justfile-424f0b-diff){.btn .btn-sm .btn-secondary}
 
 The recipe `fmt` runs `uv run ruff format`, and `lint` runs `uv run ruff check`. So `just fmt --check` checks the
 layout, and `just lint --fix` fixes what ruff can fix.
@@ -135,6 +139,8 @@ The recipe fails as `ruff format --check` did, with `2 files would be reformatte
 
 - <a id="step-05.4-justfile-424f0b"></a>`justfile`: the recipes `fmt` and `lint`. 8 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/b947593e84b71486902b3ff1c7f9e1458b70e3f7/justfile){.btn .btn-sm .btn-secondary}
   - look at `uv run ruff check "$@"`
+
+<a id="step-05.4-justfile-424f0b-diff"></a>
 
 <details><summary>The diff of <code>justfile</code></summary>
 

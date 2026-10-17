@@ -30,9 +30,9 @@ rules of flake8.
 A change made in a hurry leaves code that works and reads badly. The change adds an import that nothing uses, and takes
 out spaces and blank lines. It also makes one line 187 characters long, and adds a function that nothing calls.
 
-[± See the change to `src/api-service/api/service.py`](#step-05.1-src-api-service-api-service.py-1e1e71){.btn .btn-sm .btn-secondary}
+[± See the change to `src/api-service/api/service.py`](#step-05.1-src-api-service-api-service.py-1e1e71-diff){.btn .btn-sm .btn-secondary}
 
-[± See the change to `src/api-service/api/utils.py`](#step-05.1-src-api-service-api-utils.py-18f1f8){.btn .btn-sm .btn-secondary}
+[± See the change to `src/api-service/api/utils.py`](#step-05.1-src-api-service-api-utils.py-18f1f8-diff){.btn .btn-sm .btn-secondary}
 
 `service.py` now imports `os`, which nothing uses. `/health` follows `/` with no blank line. The line
 `z=power(x,2)+power(y,2)` has no spaces, and the `return` at the end is 187 characters long. `utils.py` has a missing
@@ -50,6 +50,8 @@ pytest still prints `21 passed`. The tests check what the code does, not how it 
   - look at `z=power(x,2)+power(y,2)`
 - <a id="step-05.1-src-api-service-api-utils.py-18f1f8"></a>`src/api-service/api/utils.py`: a missing space, extra blank lines, and a function that nothing calls. 6 lines added, 1 removed. [The file](https://github.com/rahuldave/cheesecracker/blob/f77650600c1176caa9aaee86e6cddfccc43fc69c/src/api-service/api/utils.py){.btn .btn-sm .btn-secondary}
   - look at `def unused_function():`
+
+<a id="step-05.1-src-api-service-api-service.py-1e1e71-diff"></a>
 
 <details><summary>The diff of <code>src/api-service/api/service.py</code></summary>
 
@@ -88,6 +90,8 @@ pytest still prints `21 passed`. The tests check what the code does, not how it 
 ```
 
 </details>
+
+<a id="step-05.1-src-api-service-api-utils.py-18f1f8-diff"></a>
 
 <details><summary>The diff of <code>src/api-service/api/utils.py</code></summary>
 
@@ -134,6 +138,8 @@ uv prints the version of ruff, `ruff 0.17.1` on the day of the class.
   - look at `"ruff>=0.17.1",`
 - <a id="step-05.2-uv.lock-8356d8"></a>`uv.lock`: the exact version of ruff. 29 lines added. It comes from `uv add --group lint ruff`. [The file](https://github.com/rahuldave/cheesecracker/blob/9662828462ba2a21ca04a79c412e83ac070767f6/uv.lock){.btn .btn-sm .btn-secondary}
 
+<a id="step-05.2-pyproject.toml-5d07e7-diff"></a>
+
 <details><summary>The diff of <code>pyproject.toml</code></summary>
 
 ```diff
@@ -158,7 +164,7 @@ uv prints the version of ruff, `ruff 0.17.1` on the day of the class.
 By default, ruff allows lines of up to 88 characters, and this project allows 120. Its default rules also leave out
 some rules of flake8. Two tables in `pyproject.toml` set both.
 
-[± See the change to `pyproject.toml`](#step-05.3-pyproject.toml-5d07e7){.btn .btn-sm .btn-secondary}
+[± See the change to `pyproject.toml`](#step-05.3-pyproject.toml-5d07e7-diff){.btn .btn-sm .btn-secondary}
 
 `[tool.ruff]` sets `line-length = 120`, for the formatter and the linter. `[tool.ruff.lint]` selects the rules `E`, `W`
 and `F`. They are the errors and warnings of pycodestyle, and the rules of pyflakes, which flake8 checks.
@@ -180,6 +186,8 @@ ruff says `2 files would be reformatted`, and fails. `--check` changes no file.
 
 - <a id="step-05.3-pyproject.toml-5d07e7"></a>`pyproject.toml`: the settings of ruff, the length of a line and the rules of the linter. 8 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/7c1670fd52a0f62f414f31d415d10f2efb5a8405/pyproject.toml){.btn .btn-sm .btn-secondary}
   - look at `select = ["E", "W", "F"]`
+
+<a id="step-05.3-pyproject.toml-5d07e7-diff"></a>
 
 <details><summary>The diff of <code>pyproject.toml</code></summary>
 
@@ -206,7 +214,7 @@ ruff says `2 files would be reformatted`, and fails. `--check` changes no file.
 
 Two recipes give the formatter and the linter short names. Each passes on to ruff any words that you type after it.
 
-[± See the change to `justfile`](#step-05.4-justfile-424f0b){.btn .btn-sm .btn-secondary}
+[± See the change to `justfile`](#step-05.4-justfile-424f0b-diff){.btn .btn-sm .btn-secondary}
 
 The recipe `fmt` runs `uv run ruff format`, and `lint` runs `uv run ruff check`. So `just fmt --check` checks the
 layout, and `just lint --fix` fixes what ruff can fix.
@@ -221,6 +229,8 @@ The recipe fails as `ruff format --check` did, with `2 files would be reformatte
 
 - <a id="step-05.4-justfile-424f0b"></a>`justfile`: the recipes `fmt` and `lint`. 8 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/b947593e84b71486902b3ff1c7f9e1458b70e3f7/justfile){.btn .btn-sm .btn-secondary}
   - look at `uv run ruff check "$@"`
+
+<a id="step-05.4-justfile-424f0b-diff"></a>
 
 <details><summary>The diff of <code>justfile</code></summary>
 
@@ -265,6 +275,8 @@ ruff prints `6 files already formatted`.
 - <a id="step-05.5-src-api-service-api-utils.py-18f1f8"></a>`src/api-service/api/utils.py`: the space after the comma, and two blank lines before `unused_function()`. 1 line added, 2 removed. It comes from `just fmt`. [The file](https://github.com/rahuldave/cheesecracker/blob/42642115394d8e19ead4c27bafaf4d90d991b0c9/src/api-service/api/utils.py){.btn .btn-sm .btn-secondary}
   - look at `def power(base, exponent):`
 
+<a id="step-05.5-src-api-service-api-service.py-1e1e71-diff"></a>
+
 <details><summary>The diff of <code>src/api-service/api/service.py</code></summary>
 
 ```diff
@@ -299,6 +311,8 @@ ruff prints `6 files already formatted`.
 ```
 
 </details>
+
+<a id="step-05.5-src-api-service-api-utils.py-18f1f8-diff"></a>
 
 <details><summary>The diff of <code>src/api-service/api/utils.py</code></summary>
 
@@ -341,6 +355,8 @@ ruff finds 1 error, `E501`, and fails. The line of the message is 147 characters
 
 - <a id="step-05.6-src-api-service-api-service.py-1e1e71"></a>`src/api-service/api/service.py`: the import of `os`, removed. 0 lines added, 1 removed. It comes from `just lint --fix || true`. [The file](https://github.com/rahuldave/cheesecracker/blob/cfd2ebb050dda3ce951f0f28e84b9ae09fbe14d5/src/api-service/api/service.py){.btn .btn-sm .btn-secondary}
 
+<a id="step-05.6-src-api-service-api-service.py-1e1e71-diff"></a>
+
 <details><summary>The diff of <code>src/api-service/api/service.py</code></summary>
 
 ```diff
@@ -362,7 +378,7 @@ ruff finds 1 error, `E501`, and fails. The line of the message is 147 characters
 
 A long message is a choice of words, so a person has to shorten it. The new message is short enough for one line.
 
-[± See the change to `src/api-service/api/service.py`](#step-05.7-src-api-service-api-service.py-1e1e71){.btn .btn-sm .btn-secondary}
+[± See the change to `src/api-service/api/service.py`](#step-05.7-src-api-service-api-service.py-1e1e71-diff){.btn .btn-sm .btn-secondary}
 
 The value of `"message"` in the `return` of `calculate_euclidean_distance()` is now shorter than 120 characters.
 
@@ -377,6 +393,8 @@ a function that nothing calls.
 
 - <a id="step-05.7-src-api-service-api-service.py-1e1e71"></a>`src/api-service/api/service.py`: a shorter message. 1 line added, 1 removed. [The file](https://github.com/rahuldave/cheesecracker/blob/693a713a458db01debdd7ebc3b084ed1b0350b08/src/api-service/api/service.py){.btn .btn-sm .btn-secondary}
   - look at `"message": "This is a very long line that exceeds 120 characters blah",`
+
+<a id="step-05.7-src-api-service-api-service.py-1e1e71-diff"></a>
 
 <details><summary>The diff of <code>src/api-service/api/service.py</code></summary>
 
@@ -399,7 +417,7 @@ a function that nothing calls.
 The layout, the rules and the tests each have a recipe now. The recipe `check` runs all three, and stops at the
 first that fails.
 
-[± See the change to `justfile`](#step-05.8-justfile-424f0b){.btn .btn-sm .btn-secondary}
+[± See the change to `justfile`](#step-05.8-justfile-424f0b-diff){.btn .btn-sm .btn-secondary}
 
 The recipe `check`, at the end of the `justfile`, runs `just fmt --check`, `just lint` and `just test -q`, in that
 order.
@@ -414,6 +432,8 @@ just prints each command, and the last line is `21 passed`.
 
 - <a id="step-05.8-justfile-424f0b"></a>`justfile`: the recipe `check`. 6 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/e89e0cfa991257757c887f687087a9c77c093e20/justfile){.btn .btn-sm .btn-secondary}
   - look at `just fmt --check`
+
+<a id="step-05.8-justfile-424f0b-diff"></a>
 
 <details><summary>The diff of <code>justfile</code></summary>
 

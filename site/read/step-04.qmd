@@ -46,6 +46,8 @@ The table shows `utils.py` at 100% and `service.py` at 0%. The unit tests call `
   - look at `"pytest-cov>=7.1.0",`
 - <a id="step-04.1-uv.lock-8356d8"></a>`uv.lock`: the exact versions of pytest-cov, and of coverage, which it uses. 115 lines added. It comes from `uv add --group test pytest-cov`. [The file](https://github.com/rahuldave/cheesecracker/blob/54de20e8055ec62726d8956cac3a944433dc404c/uv.lock){.btn .btn-sm .btn-secondary}
 
+<a id="step-04.1-pyproject.toml-5d07e7-diff"></a>
+
 <details><summary>The diff of <code>pyproject.toml</code></summary>
 
 ```diff
@@ -68,7 +70,7 @@ The table shows `utils.py` at 100% and `service.py` at 0%. The unit tests call `
 The recipe `cov` runs every test with coverage, and adds the column `Missing`, with the numbers of the lines that no
 test ran.
 
-[± See the change to `justfile`](#step-04.2-justfile-424f0b){.btn .btn-sm .btn-secondary}
+[± See the change to `justfile`](#step-04.2-justfile-424f0b-diff){.btn .btn-sm .btn-secondary}
 
 The recipe `cov`, at the end of the `justfile`, runs pytest with `--cov=api --cov-report=term-missing`, and passes
 on to pytest any words that you type after `just cov`.
@@ -83,6 +85,8 @@ The total is 95%. `service.py` misses line 31, the answer of `/health`, because 
 
 - <a id="step-04.2-justfile-424f0b"></a>`justfile`: the recipe `cov`. 4 lines added. [The file](https://github.com/rahuldave/cheesecracker/blob/bfb9c783c67c31254ce8136784738c0f2fc17fb5/justfile){.btn .btn-sm .btn-secondary}
   - look at `uv run pytest --cov=api --cov-report=term-missing "$@"`
+
+<a id="step-04.2-justfile-424f0b-diff"></a>
 
 <details><summary>The diff of <code>justfile</code></summary>
 
