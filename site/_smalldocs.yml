@@ -14,15 +14,15 @@ website:
         menu:
           - text: "cheesecracker"
             href: index.qmd
-          - text: "The tests of cheesecracker"
+          - text: "The tests"
             href: testing/index.qmd
-          - text: "The formatter and the linter of cheesecracker"
+          - text: "Formatting and linting"
             href: linting/index.qmd
-          - text: "uv and the groups of dependencies of cheesecracker"
+          - text: "Dependency groups"
             href: uv/index.qmd
-          - text: "cheesecracker in Docker"
+          - text: "Docker"
             href: docker/index.qmd
-          - text: "just, the recipes of cheesecracker"
+          - text: "The recipes"
             href: just/index.qmd
   sidebar:
     - title: "cheesecracker"
@@ -227,7 +227,7 @@ website:
                   href: build/step-09.qmd#step-09.2
             - text: "10 A new endpoint"
               href: build/step-10.qmd
-    - title: "The tests of cheesecracker"
+    - title: "The tests"
       style: docked
       contents:
         - testing/index.qmd
@@ -355,7 +355,7 @@ website:
                   href: testing/build/step-08.qmd#step-08.3
                 - text: "8.4 just test-system runs the system tests"
                   href: testing/build/step-08.qmd#step-08.4
-    - title: "The formatter and the linter of cheesecracker"
+    - title: "Formatting and linting"
       style: docked
       contents:
         - linting/index.qmd
@@ -503,7 +503,7 @@ website:
                   href: linting/build/step-06.qmd#step-06.2
                 - text: "6.3 just hook installs the checks as a git hook"
                   href: linting/build/step-06.qmd#step-06.3
-    - title: "uv and the groups of dependencies of cheesecracker"
+    - title: "Dependency groups"
       style: docked
       contents:
         - uv/index.qmd
@@ -605,7 +605,7 @@ website:
               contents:
                 - text: "9.1 the dev image, to work on the project in Linux"
                   href: uv/build/step-09.1.qmd#step-09.1
-    - title: "cheesecracker in Docker"
+    - title: "Docker"
       style: docked
       contents:
         - docker/index.qmd
@@ -677,7 +677,7 @@ website:
                   href: docker/build/step-09.qmd#step-09.2
             - text: "10 A change, through both images"
               href: docker/build/step-10.qmd
-    - title: "just, the recipes of cheesecracker"
+    - title: "The recipes"
       style: docked
       contents:
         - just/index.qmd

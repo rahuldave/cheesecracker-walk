@@ -45,7 +45,13 @@ The project grows by moves. A move is one small change, made by one command, or 
 lines to remove. You make each move, and the
 page checks your files against it. Each move ends with a command that shows what the change did.
 
-Each page is one part. A part is one or more changes to the project, each a section of its page. The code where a part starts and where it ends has a tag on GitHub, such as `step-00`, or is a commit between two tags. The top of each page says where its part starts, and the bottom says where it ends, each with a link to that code.
+## How the walk is cut
+
+Each page is one part, a stage of the project. At the end of every part, the project works. It runs, and its checks pass. A tutorial cuts each part into moves, one small change each, and a move is a section of its page. Between two moves, the code can be broken on purpose. For example, a move adds a test that fails, and the next move makes it pass. A part never ends broken.
+
+Working is not the same as right. A part can end with code that runs and passes its checks. That code can still be wrong for the problem, such as a mask that leaves out the wrong rows. Such a mistake is part of the story, and a later part finds it and fixes it.
+
+The code where a part starts and where it ends has a tag on GitHub, such as `step-00`, or is a commit between two tags. The top of each page says where its part starts, and the bottom says where it ends, each with a link to that code.
 
 There are two ways to read this tutorial. Both have the same parts, in the same order.
 
@@ -202,11 +208,11 @@ git config alias.check '!f() { i="$(git rev-parse --git-path check-index)" && { 
 
 Each other walk through the project has pages of its own:
 
-- [The tests of cheesecracker](testing/index.html). Unit tests of a function, integration tests of the app, coverage, and system tests against the server in the run image, apart from the other tests.
-- [The formatter and the linter of cheesecracker](linting/index.html). Code that works and reads badly, then ruff as the formatter and the linter, their fixes, one recipe for every check, and pre-commit before each `git commit`.
-- [uv and the groups of dependencies of cheesecracker](uv/index.html). The project and its lockfile, the dependencies of the server, the groups `test` and `lint`, and the two Docker images, which install no group and every group.
-- [cheesecracker in Docker](docker/index.html). The run image as the deployment, system tests against it, the dev image for the checks in Linux, and a change through both images.
-- [just, the recipes of cheesecracker](just/index.html). The justfile of the project, one recipe at a time: setup, test, serve, cov, fmt, lint, check, hook, the Docker recipes and test-system.
+- [The tests](testing/index.html). Unit tests of a function, integration tests of the app, coverage, and system tests against the server in the run image, apart from the other tests.
+- [Formatting and linting](linting/index.html). Code that works and reads badly, then ruff as the formatter and the linter, their fixes, one recipe for every check, and pre-commit before each `git commit`.
+- [Dependency groups](uv/index.html). The project and its lockfile, the dependencies of the server, the groups `test` and `lint`, and the two Docker images, which install no group and every group.
+- [Docker](docker/index.html). The run image as the deployment, system tests against it, the dev image for the checks in Linux, and a change through both images.
+- [The recipes](just/index.html). The justfile of the project, one recipe at a time: setup, test, serve, cov, fmt, lint, check, hook, the Docker recipes and test-system.
 
 ## Follow the walks in timewalk
 
@@ -226,10 +232,10 @@ just present
 
 `just present` opens the first walk, *cheesecracker* (a tutorial). To open another, give its id:
 
-- `just present testing`: *The tests of cheesecracker* (a tutorial)
-- `just present linting`: *The formatter and the linter of cheesecracker* (a tutorial)
-- `just present uv`: *uv and the groups of dependencies of cheesecracker* (a tutorial)
-- `just present docker`: *cheesecracker in Docker* (a tutorial)
-- `just present just`: *just, the recipes of cheesecracker* (a tutorial)
+- `just present testing`: *The tests* (a tutorial)
+- `just present linting`: *Formatting and linting* (a tutorial)
+- `just present uv`: *Dependency groups* (a tutorial)
+- `just present docker`: *Docker* (a tutorial)
+- `just present just`: *The recipes* (a tutorial)
 
 ![Do mode: you make each change, and timewalk checks your files](https://rahuldave.com/timewalk/images/tutorial-do.png)

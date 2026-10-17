@@ -14,7 +14,7 @@ moves = "watch"                         # Show checks out the commit of each mov
 
 [[walk]]
 id = "do"
-title = "cheesecracker, built by hand"
+title = "Build cheesecracker"
 description = "Build the API server yourself, one change at a time, from the text. Each change ends with a command that shows what it did."
 kind = "tutorial"
 folder = "walks/tutorial"
@@ -27,7 +27,7 @@ moves = "do"                            # the learner makes each move from the t
 
 [[walk]]
 id = "testing"
-title = "The tests of cheesecracker"
+title = "The tests"
 description = "Unit tests of a function, integration tests of the app, coverage, and system tests against the server in the run image, apart from the other tests."
 kind = "tutorial"
 loose = ["pyproject.toml", "uv.lock"]
@@ -38,7 +38,7 @@ moves = "watch"
 
 [[walk]]
 id = "linting"
-title = "The formatter and the linter of cheesecracker"
+title = "Formatting and linting"
 description = "Code that works and reads badly, then ruff as the formatter and the linter, their fixes, one recipe for every check, and pre-commit before each `git commit`."
 kind = "tutorial"
 loose = ["pyproject.toml", "uv.lock"]
@@ -49,7 +49,7 @@ moves = "watch"
 
 [[walk]]
 id = "uv"
-title = "uv and the groups of dependencies of cheesecracker"
+title = "Dependency groups"
 description = "The project and its lockfile, the dependencies of the server, the groups `test` and `lint`, and the two Docker images, which install no group and every group."
 kind = "tutorial"
 loose = ["pyproject.toml", "uv.lock"]
@@ -60,7 +60,7 @@ moves = "watch"
 
 [[walk]]
 id = "docker"
-title = "cheesecracker in Docker"
+title = "Docker"
 description = "The run image as the deployment, system tests against it, the dev image for the checks in Linux, and a change through both images."
 kind = "tutorial"
 loose = ["pyproject.toml", "uv.lock"]
@@ -71,7 +71,7 @@ moves = "watch"
 
 [[walk]]
 id = "just"
-title = "just, the recipes of cheesecracker"
+title = "The recipes"
 description = "The justfile of the project, one recipe at a time: setup, test, serve, cov, fmt, lint, check, hook, the Docker recipes and test-system."
 kind = "tutorial"
 notes = "walks/just/notes.md"
