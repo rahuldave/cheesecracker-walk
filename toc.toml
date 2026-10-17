@@ -4,7 +4,7 @@
 
 [[walk]]
 id = "show"
-title = "cheesecracker, one change at a time"
+title = "cheesecracker"
 description = "Watch an API server and its project grow, one change at a time: unit, integration and system tests, coverage, ruff, pre-commit, and a run image and a dev image in Docker."
 kind = "tutorial"
 folder = "walks/tutorial"

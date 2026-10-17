@@ -4,7 +4,7 @@ title: "The tests of cheesecracker"
 
 <!-- Made by the walk skill's render.py from the facts of the walk. Do not edit it by hand: run just walk-update again. -->
 
-This walk is one of several through the project. The website of the first, [cheesecracker, one change at a time](../), lists them all.
+This walk is one of several through the project. The website of the first, [cheesecracker](../), lists them all.
 
 We build the tests of cheesecracker, the API server of the Cheese App. A test runs the code and checks what it gives
 back, so a later change cannot break the server without a failure. This tutorial takes the parts about tests out of

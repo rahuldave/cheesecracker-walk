@@ -4,7 +4,7 @@ title: "The formatter and the linter of cheesecracker"
 
 <!-- Made by the walk skill's render.py from the facts of the walk. Do not edit it by hand: run just walk-update again. -->
 
-This walk is one of several through the project. The website of the first, [cheesecracker, one change at a time](../), lists them all.
+This walk is one of several through the project. The website of the first, [cheesecracker](../), lists them all.
 
 We check the code of cheesecracker, the API server of the Cheese App. Code that works can still be hard to read, and
 a reader can miss a bug in it. A formatter writes the code in one layout, and a linter checks it against rules. ruff is

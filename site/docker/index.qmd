@@ -4,7 +4,7 @@ title: "cheesecracker in Docker"
 
 <!-- Made by the walk skill's render.py from the facts of the walk. Do not edit it by hand: run just walk-update again. -->
 
-This walk is one of several through the project. The website of the first, [cheesecracker, one change at a time](../), lists them all.
+This walk is one of several through the project. The website of the first, [cheesecracker](../), lists them all.
 
 We put cheesecracker, the API server of the Cheese App, into Docker. A Docker image holds a small Linux system with
 the server and everything it needs, so it runs the same on any machine with Docker. We build two images from one

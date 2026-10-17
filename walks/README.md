@@ -4,7 +4,7 @@
 
 Each walk is a set of pages. **Read the tutorial** explains each change, with the code to look at. **Build it yourself** gives every command to run and every change to make by hand. A narrative has the first alone.
 
-- **cheesecracker, one change at a time**. [Read the tutorial](show/read.md), [Build it yourself](show/build.md). [Its website](https://rahuldave.github.io/cheesecracker-walk/).
+- **cheesecracker**. [Read the tutorial](show/read.md), [Build it yourself](show/build.md). [Its website](https://rahuldave.github.io/cheesecracker-walk/).
 - **The tests of cheesecracker**. [Read the tutorial](testing/read.md), [Build it yourself](testing/build.md). [Its website](https://rahuldave.github.io/cheesecracker-walk/testing/).
 - **The formatter and the linter of cheesecracker**. [Read the tutorial](linting/read.md), [Build it yourself](linting/build.md). [Its website](https://rahuldave.github.io/cheesecracker-walk/linting/).
 - **uv and the groups of dependencies of cheesecracker**. [Read the tutorial](uv/read.md), [Build it yourself](uv/build.md). [Its website](https://rahuldave.github.io/cheesecracker-walk/uv/).

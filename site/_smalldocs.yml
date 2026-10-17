@@ -5,11 +5,11 @@ project:
   render: ["index.qmd", "read/*.qmd", "build/*.qmd", "testing/index.qmd", "testing/read/*.qmd", "testing/build/*.qmd", "linting/index.qmd", "linting/read/*.qmd", "linting/build/*.qmd", "uv/index.qmd", "uv/read/*.qmd", "uv/build/*.qmd", "docker/index.qmd", "docker/read/*.qmd", "docker/build/*.qmd", "just/index.qmd", "just/read/*.qmd", "just/build/*.qmd"]   # only these pages
 
 website:
-  title: "cheesecracker, one change at a time"
+  title: "cheesecracker"
   page-navigation: true
   search: true
   sidebar:
-    - title: "cheesecracker, one change at a time"
+    - title: "cheesecracker"
       style: docked
       contents:
         - index.qmd

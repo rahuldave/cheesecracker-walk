@@ -4,7 +4,7 @@ title: "just, the recipes of cheesecracker"
 
 <!-- Made by the walk skill's render.py from the facts of the walk. Do not edit it by hand: run just walk-update again. -->
 
-This walk is one of several through the project. The website of the first, [cheesecracker, one change at a time](../), lists them all.
+This walk is one of several through the project. The website of the first, [cheesecracker](../), lists them all.
 
 We follow the `justfile` of cheesecracker, the API server of the Cheese App. The program `just` reads this file. The
 file gives each task of the project a short name, and each named task is a recipe.
