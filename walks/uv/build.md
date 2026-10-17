@@ -174,7 +174,7 @@ git check cf50a6ef5045
 If you are stuck, this command puts the files of this part in place of yours. A file that you made yourself stays:
 
 ```bash
-git rm -rq --cached --ignore-unmatch -- :/ && git restore --source cf50a6ef5045 --staged --worktree -- :/
+git fetch --quiet --tags --force origin; git rm -rq --cached --ignore-unmatch -- :/ && git restore --source step-00 --staged --worktree -- :/
 ```
 
 ### What changed
@@ -289,8 +289,6 @@ git rm -rq --cached --ignore-unmatch -- :/ && git restore --source cf50a6ef5045 
 
 </details>
 
-This part ends at the code at `step-00`. [The code after this part](https://github.com/rahuldave/cheesecracker/tree/step-00)
-
 <a id="step-01.2"></a>
 
 ## 1.2 A group for the tests
@@ -300,7 +298,7 @@ This walk goes through [rahuldave/cheesecracker](https://github.com/rahuldave/ch
 This part does not start where the part before it ends, because the walk skips some changes. This command puts the files that this part starts from in place of yours. Run it, and then go on:
 
 ```bash
-git restore --source cf50a6ef5045 --staged -- :/ && git restore --source bb1701fd54ba --staged --worktree -- :/
+git fetch --quiet --tags --force origin; git restore --source step-00 --staged -- :/ && git restore --source bb1701fd54ba --staged --worktree -- :/
 ```
 
 ```bash
@@ -363,7 +361,7 @@ git restore --source bb1701fd54ba --staged -- :/ && git restore --source fc8c3bc
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/fc8c3bce83604277393460c4eb243d176d51905c). [The code after it](https://github.com/rahuldave/cheesecracker/tree/fc8c3bce83604277393460c4eb243d176d51905c).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/fc8c3bce83604277393460c4eb243d176d51905c).
 
 This part ends at the code at `fc8c3bce8360`, partway through `step-01`. [The code after this part](https://github.com/rahuldave/cheesecracker/tree/fc8c3bce83604277393460c4eb243d176d51905c)
 
@@ -376,7 +374,7 @@ This walk goes through [rahuldave/cheesecracker](https://github.com/rahuldave/ch
 This part does not start where the part before it ends, because the walk skips some changes. This command puts the files that this part starts from in place of yours. Run it, and then go on:
 
 ```bash
-git restore --source fc8c3bce8360 --staged -- :/ && git restore --source e86e0c3d10bb --staged --worktree -- :/
+git fetch --quiet --tags --force origin; git restore --source fc8c3bce8360 --staged -- :/ && git restore --source step-01 --staged --worktree -- :/
 ```
 
 ```bash
@@ -412,7 +410,7 @@ git check 18dd9dfb1c95
 If you are stuck, this command puts the files of this move in place of yours. A file that you made yourself stays:
 
 ```bash
-git restore --source e86e0c3d10bb --staged -- :/ && git restore --source 18dd9dfb1c95 --staged --worktree -- :/
+git fetch --quiet --tags --force origin; git restore --source step-01 --staged -- :/ && git restore --source 18dd9dfb1c95 --staged --worktree -- :/
 ```
 
 #### What changed
@@ -440,7 +438,7 @@ git restore --source e86e0c3d10bb --staged -- :/ && git restore --source 18dd9df
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/18dd9dfb1c9597e50a8b404a6cb6379c1c149320). [The code after it](https://github.com/rahuldave/cheesecracker/tree/18dd9dfb1c9597e50a8b404a6cb6379c1c149320).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/18dd9dfb1c9597e50a8b404a6cb6379c1c149320).
 
 This part ends at the code at `18dd9dfb1c95`, partway through `step-02`. [The code after this part](https://github.com/rahuldave/cheesecracker/tree/18dd9dfb1c9597e50a8b404a6cb6379c1c149320)
 
@@ -515,7 +513,7 @@ git restore --source e576e7bb9e55 --staged -- :/ && git restore --source 3c75ffb
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/3c75ffb1a089431a2455a69e9bcb3ec0302224f0). [The code after it](https://github.com/rahuldave/cheesecracker/tree/3c75ffb1a089431a2455a69e9bcb3ec0302224f0).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/3c75ffb1a089431a2455a69e9bcb3ec0302224f0).
 
 This part ends at the code at `3c75ffb1a089`, partway through `step-03`. [The code after this part](https://github.com/rahuldave/cheesecracker/tree/3c75ffb1a089431a2455a69e9bcb3ec0302224f0)
 
@@ -528,7 +526,7 @@ This walk goes through [rahuldave/cheesecracker](https://github.com/rahuldave/ch
 This part does not start where the part before it ends, because the walk skips some changes. This command puts the files that this part starts from in place of yours. Run it, and then go on:
 
 ```bash
-git restore --source 3c75ffb1a089 --staged -- :/ && git restore --source 5862780b44d2 --staged --worktree -- :/
+git fetch --quiet --tags --force origin; git restore --source 3c75ffb1a089 --staged -- :/ && git restore --source step-03 --staged --worktree -- :/
 ```
 
 ```bash
@@ -563,7 +561,7 @@ git check 54de20e8055e
 If you are stuck, this command puts the files of this move in place of yours. A file that you made yourself stays:
 
 ```bash
-git restore --source 5862780b44d2 --staged -- :/ && git restore --source 54de20e8055e --staged --worktree -- :/
+git fetch --quiet --tags --force origin; git restore --source step-03 --staged -- :/ && git restore --source 54de20e8055e --staged --worktree -- :/
 ```
 
 #### What changed
@@ -587,7 +585,7 @@ git restore --source 5862780b44d2 --staged -- :/ && git restore --source 54de20e
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/54de20e8055ec62726d8956cac3a944433dc404c). [The code after it](https://github.com/rahuldave/cheesecracker/tree/54de20e8055ec62726d8956cac3a944433dc404c).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/54de20e8055ec62726d8956cac3a944433dc404c).
 
 This part ends at the code at `54de20e8055e`, partway through `step-04`. [The code after this part](https://github.com/rahuldave/cheesecracker/tree/54de20e8055ec62726d8956cac3a944433dc404c)
 
@@ -659,7 +657,7 @@ git restore --source f77650600c11 --staged -- :/ && git restore --source 9662828
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/9662828462ba2a21ca04a79c412e83ac070767f6). [The code after it](https://github.com/rahuldave/cheesecracker/tree/9662828462ba2a21ca04a79c412e83ac070767f6).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/9662828462ba2a21ca04a79c412e83ac070767f6).
 
 This part ends at the code at `9662828462ba`, partway through `step-05`. [The code after this part](https://github.com/rahuldave/cheesecracker/tree/9662828462ba2a21ca04a79c412e83ac070767f6)
 
@@ -672,7 +670,7 @@ This walk goes through [rahuldave/cheesecracker](https://github.com/rahuldave/ch
 This part does not start where the part before it ends, because the walk skips some changes. This command puts the files that this part starts from in place of yours. Run it, and then go on:
 
 ```bash
-git restore --source 9662828462ba --staged -- :/ && git restore --source e89e0cfa9912 --staged --worktree -- :/
+git fetch --quiet --tags --force origin; git restore --source 9662828462ba --staged -- :/ && git restore --source step-05 --staged --worktree -- :/
 ```
 
 ```bash
@@ -705,7 +703,7 @@ git check f3ad230bf911
 If you are stuck, this command puts the files of this move in place of yours. A file that you made yourself stays:
 
 ```bash
-git restore --source e89e0cfa9912 --staged -- :/ && git restore --source f3ad230bf911 --staged --worktree -- :/
+git fetch --quiet --tags --force origin; git restore --source step-05 --staged -- :/ && git restore --source f3ad230bf911 --staged --worktree -- :/
 ```
 
 #### What changed
@@ -729,7 +727,7 @@ git restore --source e89e0cfa9912 --staged -- :/ && git restore --source f3ad230
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/f3ad230bf911e0c446eb6752ec2718b910d9e851). [The code after it](https://github.com/rahuldave/cheesecracker/tree/f3ad230bf911e0c446eb6752ec2718b910d9e851).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/f3ad230bf911e0c446eb6752ec2718b910d9e851).
 
 This part ends at the code at `f3ad230bf911`, partway through `step-06`. [The code after this part](https://github.com/rahuldave/cheesecracker/tree/f3ad230bf911e0c446eb6752ec2718b910d9e851)
 
@@ -838,7 +836,7 @@ git restore --source 2a28a5c704d6 --staged -- :/ && git restore --source 0acb455
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/0acb4556f724cd94e4a71ab4fff739a974413fc0). [The code after it](https://github.com/rahuldave/cheesecracker/tree/0acb4556f724cd94e4a71ab4fff739a974413fc0).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/0acb4556f724cd94e4a71ab4fff739a974413fc0).
 
 This part ends at the code at `0acb4556f724`, partway through `step-07`. [The code after this part](https://github.com/rahuldave/cheesecracker/tree/0acb4556f724cd94e4a71ab4fff739a974413fc0)
 
@@ -851,7 +849,7 @@ This walk goes through [rahuldave/cheesecracker](https://github.com/rahuldave/ch
 This part does not start where the part before it ends, because the walk skips some changes. This command puts the files that this part starts from in place of yours. Run it, and then go on:
 
 ```bash
-git restore --source 0acb4556f724 --staged -- :/ && git restore --source d444e0387d25 --staged --worktree -- :/
+git fetch --quiet --tags --force origin; git restore --source 0acb4556f724 --staged -- :/ && git restore --source step-07 --staged --worktree -- :/
 ```
 
 ```bash
@@ -885,7 +883,7 @@ git check de0780b72a5c
 If you are stuck, this command puts the files of this move in place of yours. A file that you made yourself stays:
 
 ```bash
-git restore --source d444e0387d25 --staged -- :/ && git restore --source de0780b72a5c --staged --worktree -- :/
+git fetch --quiet --tags --force origin; git restore --source step-07 --staged -- :/ && git restore --source de0780b72a5c --staged --worktree -- :/
 ```
 
 #### What changed
@@ -909,7 +907,7 @@ git restore --source d444e0387d25 --staged -- :/ && git restore --source de0780b
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/de0780b72a5cad4f0ed70e9c0cdcdee9d1028562). [The code after it](https://github.com/rahuldave/cheesecracker/tree/de0780b72a5cad4f0ed70e9c0cdcdee9d1028562).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/de0780b72a5cad4f0ed70e9c0cdcdee9d1028562).
 
 This part ends at the code at `de0780b72a5c`, partway through `step-08`. [The code after this part](https://github.com/rahuldave/cheesecracker/tree/de0780b72a5cad4f0ed70e9c0cdcdee9d1028562)
 
@@ -922,7 +920,7 @@ This walk goes through [rahuldave/cheesecracker](https://github.com/rahuldave/ch
 This part does not start where the part before it ends, because the walk skips some changes. This command puts the files that this part starts from in place of yours. Run it, and then go on:
 
 ```bash
-git restore --source de0780b72a5c --staged -- :/ && git restore --source 277d54eebce4 --staged --worktree -- :/
+git fetch --quiet --tags --force origin; git restore --source de0780b72a5c --staged -- :/ && git restore --source step-08 --staged --worktree -- :/
 ```
 
 ```bash
@@ -967,7 +965,7 @@ git check ccf62d330f28
 If you are stuck, this command puts the files of this move in place of yours. A file that you made yourself stays:
 
 ```bash
-git restore --source 277d54eebce4 --staged -- :/ && git restore --source ccf62d330f28 --staged --worktree -- :/
+git fetch --quiet --tags --force origin; git restore --source step-08 --staged -- :/ && git restore --source ccf62d330f28 --staged --worktree -- :/
 ```
 
 #### What changed
@@ -1019,6 +1017,6 @@ git restore --source 277d54eebce4 --staged -- :/ && git restore --source ccf62d3
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/ccf62d330f28c6eec4c0b993e1a71e2c11a8b5af). [The code after it](https://github.com/rahuldave/cheesecracker/tree/ccf62d330f28c6eec4c0b993e1a71e2c11a8b5af).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/ccf62d330f28c6eec4c0b993e1a71e2c11a8b5af).
 
 This part ends at the code at `ccf62d330f28`, partway through `step-09`. [The code after this part](https://github.com/rahuldave/cheesecracker/tree/ccf62d330f28c6eec4c0b993e1a71e2c11a8b5af)

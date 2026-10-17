@@ -99,6 +99,6 @@ The total is 95%. `service.py` misses line 31, the answer of `/health`, because 
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/bfb9c783c67c31254ce8136784738c0f2fc17fb5){.btn .btn-sm .btn-secondary} [The code after it](https://github.com/rahuldave/cheesecracker/tree/step-04){.btn .btn-sm .btn-primary}
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/bfb9c783c67c31254ce8136784738c0f2fc17fb5){.btn .btn-sm .btn-secondary}
 
 This part ends at the code at `step-04`. [The code after this part](https://github.com/rahuldave/cheesecracker/tree/step-04){.btn .btn-sm .btn-primary}

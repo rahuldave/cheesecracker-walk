@@ -11,7 +11,7 @@ This walk goes through [rahuldave/cheesecracker](https://github.com/rahuldave/ch
 This part does not start where the part before it ends, because the walk skips some changes. This command puts the files that this part starts from in place of yours. Run it, and then go on:
 
 ```bash
-git restore --source bfb9c783c67c --staged -- :/ && git restore --source 7c1670fd52a0 --staged --worktree -- :/
+git fetch --quiet --tags --force origin; git restore --source step-04 --staged -- :/ && git restore --source 7c1670fd52a0 --staged --worktree -- :/
 ```
 
 If you start at this part, make your clone as **Get the project** says, and then run this command. It puts in your clone the files that this part starts from. A file that the project deleted before this part stays, so delete it if `git check` lists it:
@@ -81,6 +81,6 @@ git restore --source 7c1670fd52a0 --staged -- :/ && git restore --source b947593
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/b947593e84b71486902b3ff1c7f9e1458b70e3f7){.btn .btn-sm .btn-secondary} [The code after it](https://github.com/rahuldave/cheesecracker/tree/b947593e84b71486902b3ff1c7f9e1458b70e3f7){.btn .btn-sm .btn-primary}
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/b947593e84b71486902b3ff1c7f9e1458b70e3f7){.btn .btn-sm .btn-secondary}
 
 This part ends at the code at `b947593e84b7`, partway through `step-05`. [The code after this part](https://github.com/rahuldave/cheesecracker/tree/b947593e84b71486902b3ff1c7f9e1458b70e3f7){.btn .btn-sm .btn-primary}

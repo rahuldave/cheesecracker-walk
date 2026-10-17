@@ -59,6 +59,6 @@ The table shows `utils.py` at 100% and `service.py` at 0%. The unit tests call `
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/54de20e8055ec62726d8956cac3a944433dc404c){.btn .btn-sm .btn-secondary} [The code after it](https://github.com/rahuldave/cheesecracker/tree/54de20e8055ec62726d8956cac3a944433dc404c){.btn .btn-sm .btn-primary}
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/54de20e8055ec62726d8956cac3a944433dc404c){.btn .btn-sm .btn-secondary}
 
 This part ends at the code at `54de20e8055e`, partway through `step-04`. [The code after this part](https://github.com/rahuldave/cheesecracker/tree/54de20e8055ec62726d8956cac3a944433dc404c){.btn .btn-sm .btn-primary}

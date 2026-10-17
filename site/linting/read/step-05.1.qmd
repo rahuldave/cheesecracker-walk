@@ -110,6 +110,6 @@ pytest still prints `21 passed`. The tests check what the code does, not how it 
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/f77650600c1176caa9aaee86e6cddfccc43fc69c){.btn .btn-sm .btn-secondary} [The code after it](https://github.com/rahuldave/cheesecracker/tree/f77650600c1176caa9aaee86e6cddfccc43fc69c){.btn .btn-sm .btn-primary}
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/f77650600c1176caa9aaee86e6cddfccc43fc69c){.btn .btn-sm .btn-secondary}
 
 This part ends at the code at `f77650600c11`, partway through `step-05`. [The code after this part](https://github.com/rahuldave/cheesecracker/tree/f77650600c1176caa9aaee86e6cddfccc43fc69c){.btn .btn-sm .btn-primary}

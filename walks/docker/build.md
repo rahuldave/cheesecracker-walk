@@ -177,7 +177,7 @@ git check 2a28a5c704d6
 If you are stuck, this command puts the files of this move in place of yours. A file that you made yourself stays:
 
 ```bash
-git restore --source 57ec2e24ecd4 --staged -- :/ && git restore --source 2a28a5c704d6 --staged --worktree -- :/
+git fetch --quiet --tags --force origin; git restore --source step-06 --staged -- :/ && git restore --source 2a28a5c704d6 --staged --worktree -- :/
 ```
 
 #### What changed
@@ -203,7 +203,7 @@ git restore --source 57ec2e24ecd4 --staged -- :/ && git restore --source 2a28a5c
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/2a28a5c704d6d9ed8200aeb8962aa01e5c2ac552). [The code after it](https://github.com/rahuldave/cheesecracker/tree/2a28a5c704d6d9ed8200aeb8962aa01e5c2ac552).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/2a28a5c704d6d9ed8200aeb8962aa01e5c2ac552).
 
 This part ends at the code at `2a28a5c704d6`, partway through `step-07`. [The code after this part](https://github.com/rahuldave/cheesecracker/tree/2a28a5c704d6d9ed8200aeb8962aa01e5c2ac552)
 
@@ -366,7 +366,7 @@ git check d444e0387d25
 If you are stuck, this command puts the files of this move in place of yours. A file that you made yourself stays:
 
 ```bash
-git restore --source 0acb4556f724 --staged -- :/ && git restore --source d444e0387d25 --staged --worktree -- :/
+git fetch --quiet --tags --force origin; git restore --source 0acb4556f724 --staged -- :/ && git restore --source step-07 --staged --worktree -- :/
 ```
 
 #### What changed
@@ -405,7 +405,7 @@ git restore --source 0acb4556f724 --staged -- :/ && git restore --source d444e03
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/d444e0387d256c62024581e98f59d670cbc93296). [The code after it](https://github.com/rahuldave/cheesecracker/tree/step-07).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/d444e0387d256c62024581e98f59d670cbc93296).
 
 This part ends at the code at `step-07`. [The code after this part](https://github.com/rahuldave/cheesecracker/tree/step-07)
 
@@ -452,7 +452,7 @@ git check de0780b72a5c
 If you are stuck, this command puts the files of this move in place of yours. A file that you made yourself stays:
 
 ```bash
-git restore --source d444e0387d25 --staged -- :/ && git restore --source de0780b72a5c --staged --worktree -- :/
+git fetch --quiet --tags --force origin; git restore --source step-07 --staged -- :/ && git restore --source de0780b72a5c --staged --worktree -- :/
 ```
 
 #### What changed
@@ -724,7 +724,7 @@ git check 277d54eebce4
 If you are stuck, this command puts the files of this move in place of yours. A file that you made yourself stays:
 
 ```bash
-git restore --source 19813cf32d08 --staged -- :/ && git restore --source 277d54eebce4 --staged --worktree -- :/
+git fetch --quiet --tags --force origin; git restore --source 19813cf32d08 --staged -- :/ && git restore --source step-08 --staged --worktree -- :/
 ```
 
 #### What changed
@@ -747,7 +747,7 @@ git restore --source 19813cf32d08 --staged -- :/ && git restore --source 277d54e
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/277d54eebce4a1727ed3d8a5c46570ca4a95f75d). [The code after it](https://github.com/rahuldave/cheesecracker/tree/step-08).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/277d54eebce4a1727ed3d8a5c46570ca4a95f75d).
 
 This part ends at the code at `step-08`. [The code after this part](https://github.com/rahuldave/cheesecracker/tree/step-08)
 
@@ -804,7 +804,7 @@ git check ccf62d330f28
 If you are stuck, this command puts the files of this move in place of yours. A file that you made yourself stays:
 
 ```bash
-git restore --source 277d54eebce4 --staged -- :/ && git restore --source ccf62d330f28 --staged --worktree -- :/
+git fetch --quiet --tags --force origin; git restore --source step-08 --staged -- :/ && git restore --source ccf62d330f28 --staged --worktree -- :/
 ```
 
 #### What changed
@@ -896,7 +896,7 @@ git check 0701e9244ab2
 If you are stuck, this command puts the files of this move in place of yours. A file that you made yourself stays:
 
 ```bash
-git restore --source ccf62d330f28 --staged -- :/ && git restore --source 0701e9244ab2 --staged --worktree -- :/
+git fetch --quiet --tags --force origin; git restore --source ccf62d330f28 --staged -- :/ && git restore --source step-09 --staged --worktree -- :/
 ```
 
 #### What changed
@@ -923,7 +923,7 @@ git restore --source ccf62d330f28 --staged -- :/ && git restore --source 0701e92
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/0701e9244ab2384538eda4d623e1d047ff3f8258). [The code after it](https://github.com/rahuldave/cheesecracker/tree/step-09).
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/0701e9244ab2384538eda4d623e1d047ff3f8258).
 
 This part ends at the code at `step-09`. [The code after this part](https://github.com/rahuldave/cheesecracker/tree/step-09)
 
@@ -1000,7 +1000,7 @@ git check e706255d9c0f
 If you are stuck, this command puts the files of this part in place of yours. A file that you made yourself stays:
 
 ```bash
-git restore --source 0701e9244ab2 --staged -- :/ && git restore --source e706255d9c0f --staged --worktree -- :/
+git fetch --quiet --tags --force origin; git restore --source step-09 --staged -- :/ && git restore --source step-10 --staged --worktree -- :/
 ```
 
 ### What changed

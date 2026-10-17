@@ -157,5 +157,3 @@ just --list
 ```
 
 </details>
-
-This part ends at the code at `step-00`. [The code after this part](https://github.com/rahuldave/cheesecracker/tree/step-00){.btn .btn-sm .btn-primary}

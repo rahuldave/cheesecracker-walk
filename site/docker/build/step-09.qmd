@@ -11,7 +11,7 @@ This walk goes through [rahuldave/cheesecracker](https://github.com/rahuldave/ch
 If you start at this part, make your clone as **Get the project** says, and then run this command. It puts in your clone the files that this part starts from. A file that the project deleted before this part stays, so delete it if `git check` lists it:
 
 ```bash
-git rm -rq --cached --ignore-unmatch -- :/ && git restore --source 277d54eebce4 --staged --worktree -- :/
+git fetch --quiet --tags --force origin; git rm -rq --cached --ignore-unmatch -- :/ && git restore --source step-08 --staged --worktree -- :/
 ```
 
 The dev image runs the checks in Linux, anywhere Docker runs.
@@ -59,7 +59,7 @@ git check ccf62d330f28
 If you are stuck, this command puts the files of this move in place of yours. A file that you made yourself stays:
 
 ```bash
-git restore --source 277d54eebce4 --staged -- :/ && git restore --source ccf62d330f28 --staged --worktree -- :/
+git fetch --quiet --tags --force origin; git restore --source step-08 --staged -- :/ && git restore --source ccf62d330f28 --staged --worktree -- :/
 ```
 
 ### What changed {#step-09.1-what-changed-182c57}
@@ -149,7 +149,7 @@ git check 0701e9244ab2
 If you are stuck, this command puts the files of this move in place of yours. A file that you made yourself stays:
 
 ```bash
-git restore --source ccf62d330f28 --staged -- :/ && git restore --source 0701e9244ab2 --staged --worktree -- :/
+git fetch --quiet --tags --force origin; git restore --source ccf62d330f28 --staged -- :/ && git restore --source step-09 --staged --worktree -- :/
 ```
 
 ### What changed {#step-09.2-what-changed-182c57}
@@ -176,6 +176,6 @@ git restore --source ccf62d330f28 --staged -- :/ && git restore --source 0701e92
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/0701e9244ab2384538eda4d623e1d047ff3f8258){.btn .btn-sm .btn-secondary} [The code after it](https://github.com/rahuldave/cheesecracker/tree/step-09){.btn .btn-sm .btn-primary}
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/0701e9244ab2384538eda4d623e1d047ff3f8258){.btn .btn-sm .btn-secondary}
 
 This part ends at the code at `step-09`. [The code after this part](https://github.com/rahuldave/cheesecracker/tree/step-09){.btn .btn-sm .btn-primary}

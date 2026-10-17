@@ -11,7 +11,7 @@ This walk goes through [rahuldave/cheesecracker](https://github.com/rahuldave/ch
 If you start at this part, make your clone as **Get the project** says, and then run this command. It puts in your clone the files that this part starts from. A file that the project deleted before this part stays, so delete it if `git check` lists it:
 
 ```bash
-git rm -rq --cached --ignore-unmatch -- :/ && git restore --source 0701e9244ab2 --staged --worktree -- :/
+git fetch --quiet --tags --force origin; git rm -rq --cached --ignore-unmatch -- :/ && git restore --source step-09 --staged --worktree -- :/
 ```
 
 ```bash
@@ -79,7 +79,7 @@ git check e706255d9c0f
 If you are stuck, this command puts the files of this part in place of yours. A file that you made yourself stays:
 
 ```bash
-git restore --source 0701e9244ab2 --staged -- :/ && git restore --source e706255d9c0f --staged --worktree -- :/
+git fetch --quiet --tags --force origin; git restore --source step-09 --staged -- :/ && git restore --source step-10 --staged --worktree -- :/
 ```
 
 ## What changed {#step-10-what-changed-182c57}

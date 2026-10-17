@@ -11,7 +11,7 @@ This walk goes through [rahuldave/cheesecracker](https://github.com/rahuldave/ch
 If you start at this part, make your clone as **Get the project** says, and then run this command. It puts in your clone the files that this part starts from. A file that the project deleted before this part stays, so delete it if `git check` lists it:
 
 ```bash
-git rm -rq --cached --ignore-unmatch -- :/ && git restore --source 57ec2e24ecd4 --staged --worktree -- :/
+git fetch --quiet --tags --force origin; git rm -rq --cached --ignore-unmatch -- :/ && git restore --source step-06 --staged --worktree -- :/
 ```
 
 ```bash
@@ -48,7 +48,7 @@ git check 2a28a5c704d6
 If you are stuck, this command puts the files of this move in place of yours. A file that you made yourself stays:
 
 ```bash
-git restore --source 57ec2e24ecd4 --staged -- :/ && git restore --source 2a28a5c704d6 --staged --worktree -- :/
+git fetch --quiet --tags --force origin; git restore --source step-06 --staged -- :/ && git restore --source 2a28a5c704d6 --staged --worktree -- :/
 ```
 
 ### What changed {#step-07.1-what-changed-182c57}
@@ -74,6 +74,6 @@ git restore --source 57ec2e24ecd4 --staged -- :/ && git restore --source 2a28a5c
 
 </details>
 
-[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/2a28a5c704d6d9ed8200aeb8962aa01e5c2ac552){.btn .btn-sm .btn-secondary} [The code after it](https://github.com/rahuldave/cheesecracker/tree/2a28a5c704d6d9ed8200aeb8962aa01e5c2ac552){.btn .btn-sm .btn-primary}
+[This change on GitHub](https://github.com/rahuldave/cheesecracker/commit/2a28a5c704d6d9ed8200aeb8962aa01e5c2ac552){.btn .btn-sm .btn-secondary}
 
 This part ends at the code at `2a28a5c704d6`, partway through `step-07`. [The code after this part](https://github.com/rahuldave/cheesecracker/tree/2a28a5c704d6d9ed8200aeb8962aa01e5c2ac552){.btn .btn-sm .btn-primary}
