@@ -34,6 +34,17 @@ and the libraries of the project. The tool [just](https://just.systems/) runs ea
 terminal. Install [uv](https://docs.astral.sh/uv/), [just](https://just.systems/) and `curl`, and
 [Docker](https://docs.docker.com/get-started/get-docker/) for the last parts.
 
+The code is in the repository [rahuldave/cheesecracker](https://github.com/rahuldave/cheesecracker) on GitHub. When the
+project is done, the server's code is in `src/api-service/api/`, and its tests are in `tests/unit/`, `tests/integration/` and
+`tests/system/`. `pyproject.toml` and `uv.lock` list the Python packages that the project needs. `justfile` holds its
+recipes, short names for the commands of the project. `Dockerfile` holds the instructions that build its two Docker images,
+the run image of the server and the dev image with every tool.
+
+The repository keeps every saved version of the project, one change at a time, in the order that this tutorial builds it.
+
+Each page covers one part of the tutorial. The top of the page links to the code as it is when the
+part starts. The bottom links to the code as it is when the part ends.
+
 The project grows by moves. A move is one small change, made by one command, or by one patch. A patch lists the lines to add to a file and the
 lines to remove. You make each move, and the
 page checks your files against it. Each move ends with a command that shows what the change did.
