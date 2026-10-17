@@ -200,10 +200,36 @@ git config alias.check '!f() { i="$(git rev-parse --git-path check-index)" && { 
 
 ## The other walks
 
-Each other walk through the project has a website of its own:
+Each other walk through the project has pages of its own:
 
 - [The tests of cheesecracker](testing/index.html). Unit tests of a function, integration tests of the app, coverage, and system tests against the server in the run image, apart from the other tests.
 - [The formatter and the linter of cheesecracker](linting/index.html). Code that works and reads badly, then ruff as the formatter and the linter, their fixes, one recipe for every check, and pre-commit before each `git commit`.
 - [uv and the groups of dependencies of cheesecracker](uv/index.html). The project and its lockfile, the dependencies of the server, the groups `test` and `lint`, and the two Docker images, which install no group and every group.
 - [cheesecracker in Docker](docker/index.html). The run image as the deployment, system tests against it, the dev image for the checks in Linux, and a change through both images.
 - [just, the recipes of cheesecracker](just/index.html). The justfile of the project, one recipe at a time: setup, test, serve, cov, fmt, lint, check, hook, the Docker recipes and test-system.
+
+## Follow the walks in timewalk
+
+[timewalk](https://rahuldave.com/timewalk/) replays these walks in your browser. At each part, it shows the files of cheesecracker as they were, and what the part changed. It also shows the notes, and terminals in the project as it was then.
+
+A narrative goes from part to part. A tutorial has two modes. In watch mode, timewalk shows each change. In do mode, you make each change yourself, and timewalk tells you when your files match.
+
+![A part in timewalk: a slide, the files, a file, a terminal and the notes](https://rahuldave.com/timewalk/images/page.png)
+
+You need [uv](https://docs.astral.sh/uv/), [git](https://git-scm.com/), [just](https://just.systems/) and a recent browser. Fork [rahuldave/cheesecracker-walk](https://github.com/rahuldave/cheesecracker-walk) on GitHub, so that you can keep your own notes, and clone your fork. In its folder, run `just present`, and open the address that timewalk prints. The first time, it clones cheesecracker into the folder `repo/`.
+
+```bash
+git clone https://github.com/YOU/cheesecracker-walk
+cd cheesecracker-walk
+just present
+```
+
+`just present` opens the first walk, *cheesecracker* (a tutorial). To open another, give its id:
+
+- `just present testing`: *The tests of cheesecracker* (a tutorial)
+- `just present linting`: *The formatter and the linter of cheesecracker* (a tutorial)
+- `just present uv`: *uv and the groups of dependencies of cheesecracker* (a tutorial)
+- `just present docker`: *cheesecracker in Docker* (a tutorial)
+- `just present just`: *just, the recipes of cheesecracker* (a tutorial)
+
+![Do mode: you make each change, and timewalk checks your files](https://rahuldave.com/timewalk/images/tutorial-do.png)
